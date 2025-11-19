@@ -1,0 +1,31 @@
+:root{
+    --dark-bleu : #1B293D;
+    --blue-grey : #475569;
+    --grey : #60758D;
+    --violet    : #8B5CF6
+}
+body{
+    height: 100vh;
+    width: 100vw;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    font-family: Inter, sans-serif;
+}
+h1{
+    color: var(--dark-bleu);
+    text-align: center;
+
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 36px; /* 120% */
+}
+
+
+p{
+    color: var(--dark-bleu);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px; /* 100% */
+}
