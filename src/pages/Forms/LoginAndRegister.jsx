@@ -1,6 +1,7 @@
 import "./style.css";
 import "../../assets/form.css";
 
+import {ErrorMessage} from "@hookform/error-message";
 import {useForm, useWatch} from "react-hook-form";
 import {Link} from "react-router";
 import {useEffect, useState} from "react";
@@ -8,40 +9,39 @@ import {useNavigate} from "react-router";
 
 import {useUserProvider} from "../../context/UserProvider.jsx";
 import SubNavigationBar from "../../components/SubNavigationBar/SubNavigationBar.jsx";
+import {useTranslation} from "react-i18next";
 
 export default function LoginAndRegisterPage() {
-
     const {
         register,
         handleSubmit,
+        formState: {errors},
     } = useForm({
         defaultValues: {}
     })
     const [error, setError] = useState(null);
+    const [subPage, setSubPage] = useState("navLogin");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+
     const {token, setToken, deleteToken} = useUserProvider()
     let navigate = useNavigate();
-    const [subPage, setSubPage] = useState("Connexion");
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (token) {
             navigate("/")
         }
-    },[token]);
+    }, [token]);
 
 
     const onSubmit = async (data) => {
-
+        console.log(data)
         //check inputs
-
-        if (!data.username) {
-            setError("Please enter your username");
+        if (subPage === "navRegister" &&  data.password !== data.passwordConfirm){
+            setError(t("passwordNotMatch"))
             return
         }
-        if (!data.password) {
-            setError("Please enter your password");
-            return
-        }
-
 
         // send request
         let jsonResponse = await fetch(import.meta.env.VITE_URL_BASE + "api/login_check", {
@@ -71,70 +71,101 @@ export default function LoginAndRegisterPage() {
 
     }
 
-    return <form className={"loginRegisterForm form"} onSubmit={handleSubmit(onSubmit)}>
+    return <div className={" formPage"}>
 
-        <div>
+
+        {/* HEADER WITH LOGO */}
+        <div className={"titleContainer"}>
             <img src="./src/assets/CARDStudioLogo.svg" alt=""/>
-            <h1>CARD Studio</h1>
+            <h1>{t("appName")}</h1>
             <p>Creation Assistant for Rendering & Design</p>
-            <p>Créez, éditez et jouez à vos jeux de cartes</p>
+            <p>{t("appTagline")}</p>
         </div>
 
-        <div className={"formContainer"}>
-             <div>
-                 <h3>Bienvenue</h3>
-                 <p>Connectez-vous ou créez un compte pour continuer</p>
-             </div>
+
+        <form className={"formContainer"} onSubmit={handleSubmit(onSubmit)}>
+
+            {/* Header with title form */}
+            <div className={"titleContainer"}>
+                <h3>{t("welcomeTitle")}</h3>
+                <p>{t("welcomeSubtitle")}</p>
+            </div>
 
 
+            {/* To navigate between login and register */}
             <SubNavigationBar buttons={{
-                "Connexion": () => setSubPage("Connexion"),
-                "Inscription": () => setSubPage("Inscription"),
+                "navLogin": () => setSubPage("navLogin"),
+                "navRegister": () => setSubPage("navRegister"),
             }} page={subPage}></SubNavigationBar>
 
 
-            {error && <span style={{color: 'red'}}>{error}</span>}
-
-
-
-
+            {/* Email input */}
             <div className={"inputdiv"}>
-                <h3>Email</h3>
+                <h3>{t("emailLabel")}</h3>
+                <span style={{color: 'red'}}>  <ErrorMessage errors={errors} name="email"/></span>
                 <img src="./src/assets/icon/mail.svg" alt=""/>
-                <input {...register("username")} type="text" placeholder="votre@email.com"/>
+                <input {...register("email", {
+                    required: t("errorEnterUsername"),
+                    minLength: {
+                        value: 8,
+                        message: t("errorLength", {"length": 8})
+                    }
+                })} type="text" placeholder={t("emailPlaceholder")}/>
             </div>
 
+
+            {/* Password input */}
             <div className={"inputdiv"}>
-                <h3>Mot de passe</h3>
+                <h3>{t("passwordLabel")}</h3>
                 <img src="./src/assets/icon/lock.svg" alt=""/>
-                <img className={"eye"}  src="./src/assets/icon/eye.svg" alt=""/>
-                <input {...register("password")} type="password" placeholder="votre mot de passe"/>
+                <img onClick={()=>setShowPassword(!showPassword)} className={"eye"} src="./src/assets/icon/eye.svg" alt=""/>
+                <span style={{color: 'red'}}>  <ErrorMessage errors={errors} name="password"/></span>
+                <input {...register("password", {
+                    required:t("errorEnterPassword"),
+                    minLength: {
+                        value: 8,
+                        message: t("errorLength", {"length": 8})
+                    }
+                })} type={showPassword? "text":"password"} placeholder={t("passwordPlaceholder")}/>
             </div>
-            {subPage === "Inscription" && (
+
+
+            {/* Password Confirmation input */}
+            {subPage === "navRegister" && (
                 <>
                     <div className={"inputdiv"}>
-                        <h3>Confirmer le mot de passe</h3>
+                        <h3>{t("passwordConfirmLabel")}</h3>
                         <img src="./src/assets/icon/lock.svg" alt=""/>
-                        <input {...register("username")} type="text" placeholder="*******"/>
+                        <img onClick={()=>setShowPasswordConfirmation(!showPasswordConfirmation)} className={"eye"} src="./src/assets/icon/eye.svg" alt=""/>
+                        <span style={{color: 'red'}}>  <ErrorMessage errors={errors} name="passwordConfirm"/></span>
+                        <input {...register("passwordConfirm", {
+                            required:t("errorEnterPassword"),
+                            minLength: {
+                                value: 8,
+                                message: t("errorLength", {"length": 8})
+                            }
+                        })} type={showPasswordConfirmation?"text":"password"} placeholder={t("passwordConfirmPlaceholder")}/>
                     </div>
                 </>
             )}
-            {subPage === "Inscription" && (
-                <input type="submit" className={"button"} value={"Créer un compte"}/>
-            )}
-            {subPage === "Connexion" && (
-                <div className={"buttonContainer"}>
-                       <Link to={"/passwordrecovery"}>Mot de passe oublié ?</Link>
-                    <input type="submit" className={"button"} value={"Se connecter"}/>
+            {error &&  <span style={{color: 'red'}}>{error}</span>  }
 
-                </div>
-          )}
-
-         </div>
-        <p>En vous connectant, vous acceptez nos <b>Conditions d'utilisation</b> et notre <b>Politique de confidentialité</b></p>
-
+            {/* Submit button */}
+            <div className={"buttonContainer"}>
+                {subPage === "navLogin" && (
+                    <Link to={"/passwordrecovery"}>{t("forgotPassword")}</Link>
+                )}
+                {subPage === "navRegister" ?
+                    <input type="submit" className={"button"} value={t("registerButton")}/>
+                    : <input type="submit" className={"button"} value={t("loginButton")}/>
+                }
+            </div>
 
 
-    </form>
+        </form>
+        <p>{t("legalNotice")} <b>{t("termsOfUse")}</b>, <b>{t('privacyPolicy')}</b></p>
+
+
+    </div>
         ;
 }

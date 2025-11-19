@@ -2,12 +2,11 @@ import "./style.css";
 import "../../assets/form.css";
 
 import {useForm, useWatch} from "react-hook-form";
-import {Link} from "react-router";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router";
-
 import {useUserProvider} from "../../context/UserProvider.jsx";
-import SubNavigationBar from "../../components/SubNavigationBar/SubNavigationBar.jsx";
+import {useTranslation} from "react-i18next";
+import Button from "../../components/Button/Button.jsx";
 
 export default function PasswordRecovery() {
 
@@ -21,12 +20,13 @@ export default function PasswordRecovery() {
     const {token, setToken, deleteToken} = useUserProvider()
     let navigate = useNavigate();
     const [subPage, setSubPage] = useState("Connexion");
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (token) {
             navigate("/")
         }
-    },[token]);
+    }, [token]);
 
 
     const onSubmit = async (data) => {
@@ -71,38 +71,49 @@ export default function PasswordRecovery() {
 
     }
 
-    return <form className={"passwordRecoveryForm form"} onSubmit={handleSubmit(onSubmit)}>
+    return <div className={"formPage"}>
 
-        <div>
+        <div className={"titleContainer"}>
             <img src="./src/assets/CARDStudioLogo.svg" alt=""/>
-            <h1>CARD Studio</h1>
+            <h1>{t("appName")}</h1>
             <p>Creation Assistant for Rendering & Design</p>
-            <p>Créez, éditez et jouez à vos jeux de cartes</p>
+            <p>{t("appTagline")}</p>
         </div>
 
-        <div className={"formContainer"}>
-            <div>
-                <h3>Vous avez oublié votre mot de pass ? </h3>
-            <p>Vous allez recevoir un code de récupération dans votre boite mail une fois le formulaire validé.</p>
+        <form className={"formContainer"} onSubmit={handleSubmit(onSubmit)}>
+
+            <div className={"backContainer"}>
+                <Button
+                    to={`/login`}
+                    text={"back"}
+                    type={"withoutBorder"}
+                    icon={"back.svg"}
+                ></Button>
             </div>
 
+            <div className={"titleContainer"}>
+                <h3>{t("forgotPassword")}</h3>
+                <p>Vous allez recevoir un code de récupération dans votre boite mail une fois le formulaire validé.</p>
+            </div>
 
 
             {error && <span style={{color: 'red'}}>{error}</span>}
 
 
             <div className={"inputdiv"}>
-                <h3>Email</h3>
+                <h3>{t("emailLabel")}</h3>
                 <img src="./src/assets/icon/mail.svg" alt=""/>
-                <input {...register("username")} type="text" placeholder="votre@email.com"/>
+                <input {...register("username")} type="text" placeholder={t("emailPlaceholder")}/>
             </div>
-            <input type="submit" className={"button"} value={"Envoyer le code"}/>
 
 
-        </div>
+            <div className={"buttonContainer"}>
+                <input type="submit" className={"button"} value={"Envoyer le code"}/>
+            </div>
+
+        </form>
 
 
-
-    </form>
+    </div>
         ;
 }

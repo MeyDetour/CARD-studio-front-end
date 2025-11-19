@@ -1,0 +1,39 @@
+{
+  "appName": "CARD Studio",
+  "appSubtitle": "Creation Assistant for Rendering & Design",
+  "appTagline": "Créez, éditez et jouez à vos jeux de cartes",
+
+  "welcomeTitle": "Bienvenue",
+  "welcomeSubtitle": "Connectez-vous ou créez un compte pour continuer",
+
+  "navLogin": "Connexion",
+  "navRegister": "Inscription",
+
+  "emailLabel": "Email",
+  "emailPlaceholder": "votre@email.com",
+
+  "passwordLabel": "Mot de passe",
+  "passwordPlaceholder": "votre mot de passe",
+
+  "passwordConfirmLabel": "Confirmer le mot de passe",
+  "passwordConfirmPlaceholder": "Entrez votre mot de passe",
+
+  "forgotPassword": "Mot de passe oublié ?",
+
+  "loginButton": "Se connecter",
+  "registerButton": "Créer un compte",
+
+  "legalNotice": "En vous connectant, vous acceptez nos",
+  "termsOfUse": "Conditions d'utilisation",
+  "privacyPolicy": "Politique de confidentialité",
+
+  "errorEnterUsername": "Veuillez entrer votre email.",
+  "errorEnterPassword": "Veuillez entrer votre mot de passe.",
+
+
+  "password_recovery_info": "Vous allez recevoir un code de récupération dans votre boîte mail une fois le formulaire validé.",
+  "send_code": "Envoyer le code",
+  "back": "Retour",
+  "errorLengthPassword": "Vous devez écrire au moins {{length}} caractères",
+  "passwordNotMatch" : "Les mots de passe doivent correspondre"
+}
