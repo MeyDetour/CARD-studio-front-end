@@ -1,0 +1,27 @@
+.gameCreationEnvironnementPage {
+  position: relative;
+  .content {
+    padding-top: 64px;
+  }
+  .statSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .quickActionSection {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    .wrapper {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      flex-wrap: wrap;
+      gap: 24px;
+      > div {
+        width: calc(50% - 12px);
+      }
+    }
+  }
+}

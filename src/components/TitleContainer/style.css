@@ -1,0 +1,12 @@
+.titleContainer{
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 4px;
+    height: fit-content;
+    >*{
+      margin: 0;
+    }
+}

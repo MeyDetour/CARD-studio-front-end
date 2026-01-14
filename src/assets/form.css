@@ -1,0 +1,173 @@
+.formPage {
+  /* Full page of form like login and register */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 39px;
+  text-align: start;
+  padding-top: 5vh;
+  justify-content: start;
+  background: linear-gradient(135deg, #f8fafc 0%, #fbf5ff 50%, #f0f5f9 100%),
+    #fff;
+
+  /* All content of page */
+  p {
+    color: var(--grey);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+    line-height: 24px;
+  }
+
+  /* All group of texts */
+  > div.titleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+    position: relative;
+    h1 {
+      margin-block: 3px;
+    }
+
+    > img {
+      position: absolute;
+      left: -34%;
+      top: 70%;
+      width: 105px;
+      height: 129px;
+      transform: translateY(-50%);
+    }
+  }
+
+  /* Form title*/
+  h3 {
+    color: var(--dark-bleu);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 100% */
+    margin: 0;
+  }
+
+  /* Form with With background*/
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 25px;
+    gap: 30px;
+    box-sizing: border-box;
+    width: 41%;
+    border-radius: 12px;
+    border: 0.8px solid #e1e8f1;
+    background: #fff;
+    background: color(display-p3 1 1 1);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+    > div.titleContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 10px;
+    }
+
+    /* All input fields*/
+    .inputdiv {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      width: 100%;
+      gap: 5px;
+      position: relative;
+
+      /* Left icon */
+      > img {
+        position: absolute;
+        width: 18px;
+        height: 17px;
+        bottom: 23px;
+        left: 14px;
+      }
+
+      /* Eye for password*/
+      .eye {
+        position: absolute;
+        left: calc(100% - 30px);
+        cursor: pointer;
+      }
+    }
+
+    /* All input */
+    input[type="text"],
+    input[type="password"] {
+      display: flex;
+      width: 100%;
+      font-size: 18px;
+      height: fit-content;
+      padding: 16px 12px 16px 40px;
+      box-sizing: border-box;
+      align-items: center;
+      flex-shrink: 0;
+      border-radius: 6px;
+      border: 0.8px solid rgba(0, 0, 0, 0);
+      background: #f8fafc;
+      background: color(display-p3 0.9725 0.9804 0.9882);
+      color: var(--grey);
+    }
+
+    /* Color all placeholders */
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder {
+      color: var(--blue-grey);
+    }
+
+    /* Button at bottom*/
+    .buttonContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      width: 100%;
+      gap: 16px;
+
+      /* Link like "forgot password" */
+      > button {
+        color: #43566b;
+        text-decoration: none;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        cursor: pointer;
+        background: none;
+        border: 0;
+      }
+
+      /* Violet Submit button at bottom */
+      input[type="submit"] {
+        background: var(--violet);
+        width: 100%;
+        border-radius: 6px;
+        padding: 12px 0px;
+        outline: none;
+        color: white;
+        font-weight: bold;
+        border: none;
+      }
+    }
+  }
+
+  /* Legal notice at bottom of page */
+  > p {
+    position: absolute;
+    bottom: 10px;
+    width: 38%;
+    font-size: 14px;
+    text-align: center;
+  }
+}

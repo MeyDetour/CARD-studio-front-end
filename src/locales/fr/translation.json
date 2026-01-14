@@ -1,0 +1,102 @@
+{
+  "appName": "CARD Studio",
+  "appSubtitle": "Creation Assistant for Rendering & Design",
+  "appTagline": "Créez, éditez et jouez à vos jeux de cartes",
+
+  "SECTION": "===================LOGIN/REGISTER FORM===============================",
+  "welcomeTitle": "Bienvenue",
+  "welcomeSubtitle": "Connectez-vous ou créez un compte pour continuer",
+
+  "forgotPasswordFromTitle": "Mot de passe oublié ?",
+  "ForgotPasswordFormSubtitle": "Vous allez recevoir un code de récupération dans votre boite mail une fois le formulaire validé.",
+
+  "navLogin": "Connexion",
+  "navRegister": "Inscription",
+
+  "usernameLabel": "Nom",
+  "usernamePlaceholder": "Votre nom",
+
+  "emailLabel": "Email",
+  "emailPlaceholder": "votre@email.com",
+
+  "passwordLabel": "Mot de passe",
+  "passwordPlaceholder": "votre mot de passe",
+
+  "passwordConfirmLabel": "Confirmer le mot de passe",
+  "passwordConfirmPlaceholder": "Entrez votre mot de passe",
+
+  "forgotPassword": "Mot de passe oublié ?",
+
+  "loginButton": "Se connecter",
+  "registerButton": "Créer un compte",
+
+  "legalNotice": "En vous connectant, vous acceptez nos",
+  "termsOfUse": "Conditions d'utilisation",
+  "privacyPolicy": "Politique de confidentialité",
+
+  "errorEnterUsername": "Veuillez entrer votre email.",
+  "errorEnterPassword": "Veuillez entrer votre mot de passe.",
+
+  "password_recovery_info": "Vous allez recevoir un code de récupération dans votre boîte mail une fois le formulaire validé.",
+  "send_code": "Envoyer le code",
+  "back": "Retour",
+  "errorLengthPassword": "Vous devez écrire au moins {{length}} caractères",
+  "passwordNotMatch": "Les mots de passe doivent correspondre",
+
+  "SECTION2": "========================SEARCH BAR=======================",
+  "searchGame": "Rechercher un jeu par nom, description ou type...",
+
+  "SECTION3": "========================STATS=======================",
+  "statCreatedGames": "Jeux crées",
+  "statActivePlayers": "Joueurs actifs",
+  "statWhoAsPlayed": "Joueurs accuellis",
+  "statGamesPlayed": "Parties jouées",
+
+  "SECTION4": "========================BUTTONS=======================",
+  "changeSelectedGame": "Changer de jeu",
+  "help": "Aide",
+  "account": "Compte",
+
+  "SECTION5": "========================NAVBAR=======================",
+
+  "dashboard": "Tableau de bord",
+  "gameEdition": "Édition du jeu",
+  "assetLibrary": "Bibliothèque d'assets",
+  "elementManagement": "GESTION DES ELEMENTS",
+  "cardManagement": "Gestion des cartes",
+  "prizesManagement": "Gestion des gains",
+  "roleCreation": "Création de rôle",
+  "others": "AUTRES",
+  "manageDisplays": "Gérer les affichages",
+  "gameFlow": "Déroulement de la partie",
+  "turnAndRoundManagement": "Gestion tours et manches",
+  "events": "Événements",
+
+  "SECTION6": "========================SELECT GAME PAGE=======================",
+
+  "selectGameTitle": "Sélectionnez un jeu",
+  "selectGameSubtitle": "Choisissez le jeu que vous souhaitez configurer et gérer. Vous pourrez modifier ses paramètres, créer des cartes et lancer des parties.",
+
+  "SECTION7": "========================DASHBOARD =======================",
+ 
+  "dashboard-subpage-welcome": "Bienvenue à CARD Studio",
+  "cardsCreated": "Cartes créées",
+  "rolesCreated": "Rôles créés",
+  "prizesCreated": "Gains créés",
+  "quickaction-title": "Actions rapides",
+  "quickaction-main-features": "Accédez rapidement aux fonctionnalités principales",
+  "createCard": "Créer une carte",
+  "editGame": "Éditer le jeu",
+  "modifyDisplay": "Modifier l'affichage",
+  "browseAssets": "Parcourir les assets",
+  "recentactivity": "Activité récente",
+  "yourLastEdits": "Vos dernières modifications",
+  "cardCreated": "Carte créée",
+  "gameModified": "Jeu modifié",
+  "gameFinished": "Partie terminée",
+  "timePrefix": "Il y a",
+  "hours": "heures",
+  "yesterday": "Hier",
+  "comments": "Commentaires",
+      "commentAreCollectOnGame": "Les commentaires sont recueillis directement depuis la plateforme de jeu"
+}

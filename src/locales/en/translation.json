@@ -1,0 +1,102 @@
+{
+  "appName": "CARD Studio",
+  "appSubtitle": "Creation Assistant for Rendering & Design",
+  "appTagline": "Create, edit and play your card games",
+  "SECTION": "===================LOGIN/REGISTER FORM===============================",
+
+  "welcomeTitle": "Welcome",
+  "welcomeSubtitle": "Log in or create an account to continue",
+
+  "forgotPasswordFromTitle": "Forgot password?",
+  "ForgotPasswordFormSubtitle": "You will receive a recovery code in your mailbox once the form is submitted.",
+
+  "navLogin": "Login",
+  "navRegister": "Register",
+
+  "usernameLabel": "Username",
+  "usernamePlaceholder": "Your username",
+
+  "emailLabel": "Email",
+  "emailPlaceholder": "your@email.com",
+
+  "passwordLabel": "Password",
+  "passwordPlaceholder": "your password",
+
+  "passwordConfirmLabel": "Confirm password",
+  "passwordConfirmPlaceholder": "Enter your password",
+
+  "forgotPassword": "Forgot your password?",
+
+  "loginButton": "Log in",
+  "registerButton": "Create an account",
+
+  "legalNotice": "By logging in, you accept our",
+  "termsOfUse": "Terms of Use",
+  "privacyPolicy": "Privacy Policy",
+
+  "errorEnterUsername": "Please enter your email.",
+  "errorEnterPassword": "Please enter your password.",
+
+  "password_recovery_info": "You will receive a recovery code in your inbox once the form is submitted.",
+  "send_code": "send code",
+  "back": "Back",
+  "errorLength": "You must enter at least {{length}} characters",
+  "passwordNotMatch": "Passwords must match",
+
+  "SECTION2": "========================SEARCH BAR=======================",
+  "searchGame": "Find game with name, description or type...",
+
+  "SECTION3": "========================STATS=======================",
+
+  "statCreatedGames": "Games created",
+  "statActivePlayers": "Active players",
+  "statWhoAsPlayed": "Players hosted",
+  "statGamesPlayed": "Games played",
+
+  "SECTION4": "========================BUTTONS=======================",
+  "changeSelectedGame": "Change games",
+  "help": "Help",
+  "account": "Account",
+
+  "SECTION5": "========================NAVBAR=======================",
+  "dashboard": "Dashboard",
+  "gameEdition": "Game edition",
+  "assetLibrary": "Asset library",
+  "elementManagement": "ELEMENT MANAGEMENT",
+  "cardManagement": "Card management",
+  "prizesManagement": "Prizes management",
+  "roleCreation": "Role creation",
+  "others": "OTHERS",
+  "manageDisplays": "Manage displays",
+  "gameFlow": "Game flow",
+  "turnAndRoundManagement": "Turn and round management",
+  "events": "Events",
+
+  "SECTION6": "========================SELECT GAME PAGE=======================",
+
+  "selectGameTitle": "Select a game",
+  "selectGameSubtitle": "Choose the game you want to configure and manage. You will be able to modify its settings, create cards, and start games.",
+  
+  "SECTION7": "======================== DASHBOARD =======================",
+  "dashboard": "Dashboard",
+  "dashboard-subpage-welcome": "Welcome to CardCraft Studio",
+  "cardsCreated": "Cards created",
+  "rolesCreated": "Roles created",
+  "prizesCreated": "Prizes created",
+  "quickaction-title": "Quick actions",
+  "quickaction-main-features": "Quickly access the main features",
+  "createCard": "Create a card",
+  "editGame": "Edit the game",
+  "modifyDisplay": "Modify display",
+  "browseAssets": "Browse assets",
+  "recentactivity": "Recent activity",
+  "yourLastEdits": "Your latest modifications",
+  "cardCreated": "Card created",
+  "gameModified": "Game modified",
+  "gameFinished": "Game finished",
+  "timePrefix": "",
+  "hours": "hours ago",
+  "yesterday": "Yesterday",
+  "comments": "Comments",
+  "commentAreCollectOnGame": "Comments are collected directly from the gaming platform"
+}

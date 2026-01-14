@@ -1,0 +1,70 @@
+.button {
+  display: flex;
+  flex-direction: row;
+  background: white;
+  border: none;
+  outline: none;
+  gap: 5px;
+  align-items: center;
+  box-sizing: border-box;
+  color: var(--dark-bleu);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px;
+  white-space: nowrap;
+
+  width: fit-content;
+  padding: 9px 17px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+
+  .iconHover {
+    display: none;
+  }
+  span {
+    white-space: nowrap;
+  }
+
+  :hover {
+    .icon {
+      display: none;
+    }
+    .iconHover {
+      display: flex;
+    }
+  }
+}
+
+.button.withoutBorder:hover {
+  color: black;
+}
+
+.button.violetButton {
+  color: white;
+  background: var(--violet);
+}
+.button.navbar {
+  gap: 12px;
+  font-size: 20px;
+  font-size: 20px;
+  width: 100%;
+    padding: 14px 19px;
+  gap: 16px;
+  background: transparent;
+  img {
+    width: 21px;
+  }
+}
+
+.button.navbar.active {   
+  color:white;
+    background: var(--blue-grey);
+}
+.button.whiteWithBordure {
+  color: black;
+  background: white;
+  border: 0.8px solid #e1e8f1;
+  gap: 8px;
+}

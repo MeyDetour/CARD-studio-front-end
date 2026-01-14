@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+:root {
+  --dark-bleu: #1b293d;
+  --blue-grey: #475569;
+  --grey: #60758d;
+  --ligh-grey-text : #64748B;
+  --violet: #8b5cf6;
+}
+body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  font-family: Inter, sans-serif;
+  color: var(--dark-bleu);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px; /* 100% */
+}
+h1 {
+  color: var(--dark-bleu);
+  text-align: center;
+
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36px; /* 120% */
+}
+
+p {
+  color: var(--grey);
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+}
