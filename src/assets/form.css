@@ -12,6 +12,9 @@
   background: linear-gradient(135deg, #f8fafc 0%, #fbf5ff 50%, #f0f5f9 100%),
     #fff;
 
+    .titleContainer{
+      width: fit-content;
+    }
   /* All content of page */
   p {
     color: var(--grey);

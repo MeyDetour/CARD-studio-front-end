@@ -20,6 +20,12 @@
   cursor: pointer;
   text-decoration: none;
 
+  img{
+
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+  }
   .iconHover {
     display: none;
   }
@@ -62,9 +68,14 @@
   color:white;
     background: var(--blue-grey);
 }
-.button.whiteWithBordure {
+.button.whiteWithBordure , 
+.button.whiteWithBordure-Disabled {
   color: black;
   background: white;
   border: 0.8px solid #e1e8f1;
   gap: 8px;
+}
+
+.button.whiteWithBordure-Disabled{
+    opacity: 0.5;
 }

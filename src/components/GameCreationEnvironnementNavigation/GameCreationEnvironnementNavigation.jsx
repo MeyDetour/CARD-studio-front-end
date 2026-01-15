@@ -1,9 +1,20 @@
 import "./style.css";
 import Button from "../Button/Button";
 import { useTranslation } from "react-i18next";
-export default function GameCreationEnvironnementNavigation({ currentPage }) {
- 
-   const { t } = useTranslation();
+import { useNotificationContext } from "../../context/NotificationContext";
+import { useNavigate } from "react-router";
+export default function GameCreationEnvironnementNavigation({
+  playerHasEdit,
+  currentPage,
+}) {
+  const { setWarning, setActionOnYes } = useNotificationContext();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  function showSaveWarning(text, actionOnYes) {
+    setActionOnYes(actionOnYes);
+    setWarning(text);
+  }
+
   return (
     <nav className="gameCreationEnvironnementNavigationSideBar">
       <div className="sidebar-section">
@@ -11,25 +22,47 @@ export default function GameCreationEnvironnementNavigation({ currentPage }) {
           <li>
             <Button
               text={t("dashboard")}
-              
-              to="/newgame/dashboard"
-              type={currentPage=="dashboard"?"navbar active":"navbar"}
-              icon={currentPage === "dashboard" ? "dashboard-white" : "dashboard"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/dashboard")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/dashboard")
+                    )
+              }
+              type={currentPage == "dashboard" ? "navbar active" : "navbar"}
+              icon={
+                currentPage === "dashboard" ? "dashboard-white" : "dashboard"
+              }
             />
           </li>
           <li>
             <Button
               text={t("gameEdition")}
-              to="/newgame/edit"
-              type={currentPage=="edit"?"navbar active":"navbar"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/edit")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/edit")
+                    )
+              }
+              type={currentPage == "edit" ? "navbar active" : "navbar"}
               icon={currentPage === "edit" ? "pen-white" : "pen"}
             />
           </li>
           <li>
             <Button
               text={t("assetLibrary")}
-              to="/newgame/assets"
-              type={currentPage=="assets"?"navbar active":"navbar"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/assets")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/assets")
+                    )
+              }
+              type={currentPage == "assets" ? "navbar active" : "navbar"}
               icon={currentPage === "assets" ? "bookshelf-white" : "bookshelf"}
             />
           </li>
@@ -44,25 +77,50 @@ export default function GameCreationEnvironnementNavigation({ currentPage }) {
           <li>
             <Button
               text={t("cardManagement")}
-              to="/newgame/cards"
-              type={currentPage=="cards"?"navbar active":"navbar"}
-                icon={currentPage === "cards" ? "layer-white" : "layer"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/cards")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/cards")
+                    )
+              }
+              type={currentPage == "cards" ? "navbar active" : "navbar"}
+              icon={currentPage === "cards" ? "layer-white" : "layer"}
             />
           </li>
           <li>
             <Button
               text={t("prizesManagement")}
-              to="/newgame/prizes"
-              type={currentPage=="prizes"?"navbar active":"navbar"}
-             icon={currentPage === "prizes" ? "success-white" : "success"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/prizes")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/prizes")
+                    )
+              }
+              type={currentPage == "prizes" ? "navbar active" : "navbar"}
+              icon={currentPage === "prizes" ? "success-white" : "success"}
             />
           </li>
           <li>
             <Button
               text={t("roleCreation")}
-              to="/newgame/roles"
-              type={currentPage=="roles"?"navbar active":"navbar"}
-              icon={currentPage === "roles" ? "profile-settings-white" : "profile-settings"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/roles")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/roles")
+                    )
+              }
+              type={currentPage == "roles" ? "navbar active" : "navbar"}
+              icon={
+                currentPage === "roles"
+                  ? "profile-settings-white"
+                  : "profile-settings"
+              }
             />
           </li>
         </ul>
@@ -76,37 +134,74 @@ export default function GameCreationEnvironnementNavigation({ currentPage }) {
           <li>
             <Button
               text={t("manageDisplays")}
-              to="/newgame/displays"
-              type={currentPage=="displays"?"navbar active":"navbar"}
-                icon={currentPage === "displays" ? "screen-white" : "screen"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/displays")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/displays")
+                    )
+              }
+              type={currentPage == "displays" ? "navbar active" : "navbar"}
+              icon={currentPage === "displays" ? "screen-white" : "screen"}
             />
           </li>
           <li>
             <Button
               text={t("gameFlow")}
-              to="/newgame/flow"
-              type={currentPage=="flow"?"navbar active":"navbar"}
-             icon={currentPage === "flow" ? "play-white" : "play"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/flow")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/flow")
+                    )
+              }
+              type={currentPage == "flow" ? "navbar active" : "navbar"}
+              icon={currentPage === "flow" ? "play-white" : "play"}
             />
           </li>
           <li>
             <Button
               text={t("turnAndRoundManagement")}
-              to="/newgame/rounds"
-              type={currentPage=="rounds"?"navbar active":"navbar"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/rounds")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/rounds")
+                    )
+              }
+              type={currentPage == "rounds" ? "navbar active" : "navbar"}
               icon={currentPage === "rounds" ? "clock-white" : "clock"}
             />
           </li>
           <li>
             <Button
               text={t("events")}
-              to="/newgame/events"
-              type={currentPage=="events"?"navbar active":"navbar"}
-             icon={currentPage === "events" ? "energy-white" : "energy"}
+              action={() =>
+                playerHasEdit
+                  ? navigate("/newgame/events")
+                  : showSaveWarning(
+                      "unsavedChangesWarning",
+                      navigate("/newgame/events")
+                    )
+              }
+              type={currentPage == "events" ? "navbar active" : "navbar"}
+              icon={currentPage === "events" ? "energy-white" : "energy"}
             />
           </li>
         </ul>
       </div>
+        <Button
+                  icon="save"
+                  text="save"
+                  clickable={!playerHasEdit}
+                  type={
+                    playerHasEdit ? "whiteWithBordure" : "whiteWithBordure-Disabled"
+                  }
+                  action={() => {}}
+                ></Button>
     </nav>
   );
 }

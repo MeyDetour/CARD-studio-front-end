@@ -57,6 +57,9 @@
   "changeSelectedGame": "Change games",
   "help": "Help",
   "account": "Account",
+  "save": "Save",
+  "testGame": "Test game",
+  "uploadImage": "Upload image",
 
   "SECTION5": "========================NAVBAR=======================",
   "dashboard": "Dashboard",
@@ -98,5 +101,27 @@
   "hours": "hours ago",
   "yesterday": "Yesterday",
   "comments": "Comments",
-  "commentAreCollectOnGame": "Comments are collected directly from the gaming platform"
+  "commentAreCollectOnGame": "Comments are collected directly from the gaming platform",
+  "generalInformation": "General information",
+  "instanceConfiguration": "Game instance configuration",
+  "gameName": "Game name",
+  "gameType": "Game type",
+  "gameDescription": "Describe this game instance...",
+  "visibility": "Visibility",
+  "publicVisibility": "Visible on CARD Games (Public)",
+  "playerSettings": "Player settings",
+  "minPlayers": "Min players",
+  "maxPlayers": "Max players",
+  "soloMode": "Solo Mode",
+  "playerParticipation": "Player Participation",
+  "allowSpectators": "Allow Spectators",
+  "rewardManagement": "Rewards and Gains Management",
+  "activateRewards": "Activate rewards and gains management",
+  "dangerZone": "Danger zone",
+  "irreversibleActions": "Irreversible actions",
+  "reset": "Reset",
+  "resetGame": "Reset game",
+  "recentActivity": "Recent activity",
+  "unsavedChangesWarning": "You have unsaved changes. Are you sure you want to leave this page?"
 }
+

@@ -6,7 +6,7 @@ export default function TitleSecondContainer({
 }) {
   const { t } = useTranslation();
   return (
-    <div className="titleContainer">
+    <div className="titleSecondContainer">
       <h2>{t(title)}</h2>
       <p>{t(description)}</p>
     </div>

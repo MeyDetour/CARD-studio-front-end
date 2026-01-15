@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { useUserProvider } from "../../context/UserProvider.jsx";
+import { useUserContext } from "../../context/UserContext.jsx";
 import { useEffect, useRef, useState } from "react";
 import "./style.css";
 import Button from "../../components/Button/Button.jsx";
@@ -8,7 +8,7 @@ import StatElement from "../../components/StatElement/StatElement.jsx";
 import { useApi } from "../../hooks/useApi.js";
 import { useTranslation } from "react-i18next";
 export default function SelectGame() {
-  let { token } = useUserProvider();
+  let { token } = useUserContext();
   const { result, loading, error, fetchData } = useApi();
   const [personalGames, setPersonalGames] = useState([]);
   const [otherStat, setOtherStat] = useState({
@@ -52,7 +52,7 @@ export default function SelectGame() {
     <div className="selectGamePage">
       <div className="headerSection">
         <h1>{t("selectGameTitle")}</h1>
-        <p>{t(selectGameSubtitle)} </p>
+        <p>{t("selectGameSubtitle")} </p>
       </div>
       <div className="formSection">
         <SearchBar className="searchBar" placeholder="searchGame" />

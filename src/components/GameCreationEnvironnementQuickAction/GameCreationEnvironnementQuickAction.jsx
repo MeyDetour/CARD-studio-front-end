@@ -9,7 +9,7 @@ export default function GameCreationEnvironnementQuickAction({
   return (
     <div action="" className={"lightContainer gameCreationEnvironnementQuickActionElement " }>
         <img src={"/src/assets/icon/"+icon+".svg"}  alt="" />
-       <span>{t(text)}</span>
+       <span className="littleTitle">{t(text)}</span>
       
     </div>
   );

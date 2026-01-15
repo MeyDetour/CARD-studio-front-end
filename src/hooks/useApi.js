@@ -1,6 +1,6 @@
 import { useState, useEffect , useCallback } from "react";
 import { apiClient } from "../api/api";
-import { useUserProvider } from "../context/UserProvider";
+import { useUserContext } from "../context/UserContext";
 import { useNavigate } from "react-router";
 
 export const useApi = () => {
@@ -8,7 +8,7 @@ export const useApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-const {deleteToken} = useUserProvider()
+const {deleteToken} = useUserContext()
 
 const fetchData = useCallback(async (path, body = null, params = {}) => {
     setLoading(true);

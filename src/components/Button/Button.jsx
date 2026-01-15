@@ -6,9 +6,10 @@ export default function Button({
   text,
   to = null,
   action = null,
-  type = "",
+  type = "", //whiteWithBordure ,  navbar ,  violetButton , withoutBorder
   icon,
   iconHover,
+  clickable=true
 }) {
   const { t } = useTranslation();
   return (
@@ -33,7 +34,7 @@ export default function Button({
         </Link>
       )}
       {action && (
-        <button onClick={action} className={"button " + type}>
+        <button onClick={clickable?  action : null} className={"button " + type}>
           {icon && (
             <img
               className={"icon"}

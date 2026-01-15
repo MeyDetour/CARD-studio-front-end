@@ -1,48 +1,12 @@
-import "./style.css";
-import { useEffect, useState } from "react";
-import { useUserProvider } from "../../../context/UserProvider";
-import { useNavigate, useParams } from "react-router";
-import { useApi } from "../../../hooks/useApi";
+import "./style.css"; 
 import TitleContainer from "../../../components/TitleContainer/TitleContainer";
 import GameCreationEnvironnementQuickAction from "../../../components/GameCreationEnvironnementQuickAction/GameCreationEnvironnementQuickAction";
 import TitleSecondContainer from "../../../components/TitleSecondContainer/TitleSecondContainer";
 import GameCreationEnvironnementStatDashboard from "../../../components/GameCreationEnvironnementStatDashboard/GameCreationEnvironnementStatDashboard";
-export default function Dashboard() {
-  const { token } = useUserProvider();
-  const { result, loading, error, fetchData } = useApi();
-  const [game, setGame] = useState({
-    id: 2,
-    notes: [
-      {
-        note: 2,
-        commentaire: "anfnezgkfzf",
-      },
-    ],
-    editionHistory: [],
-    demonsCount: 23,
-    eventsCount: 10,
-    cardsCount: 10,
-    gainsCount: 3,
-    rolesCount: 2,
-  });
-  const navigate = useNavigate();
-  const { subpage } = useParams();
-
-  useEffect(() => {
-    async function getData() {
-      const resultGames = await fetchData("api/game/{id}/dashboard", null, {
-        token: token,
-      });
-    }
-    if (token) {
-      //   getData();
-    } else {
-      navigate("/login");
-    }
-  }, [token]);
-
-  if (loading) return <p>Chargement...</p>;
-  if (error) return <p>Erreur : {error}</p>;
+import Separator from "../../../components/Separator/Separator";
+export default function Dashboard({gameData}) { 
+ 
+ if (!gameData)return
 
   return (
     <div className={" dahsboardSubpage"}>
@@ -52,17 +16,17 @@ export default function Dashboard() {
       ></TitleContainer>
       <div className="statSection">
         <GameCreationEnvironnementStatDashboard
-          number={game.cardsCount}
+          number={gameData.cardsCount}
           text={"cardsCreated"}
           icon={"layer-violet-background"}
         />
         <GameCreationEnvironnementStatDashboard
-          number={game.rolesCount}
+          number={gameData.rolesCount}
           text={"rolesCount"}
           icon={"stat-grey-background"}
         />{" "}
         <GameCreationEnvironnementStatDashboard
-          number={game.gainsCount}
+          number={gameData.gainsCount}
           text={"prizesCreated"}
           icon={"profile-grey-background"}
         />
@@ -75,10 +39,58 @@ export default function Dashboard() {
         <div className="wrapper">
           <GameCreationEnvironnementQuickAction text="createCard" icon="add" />
           <GameCreationEnvironnementQuickAction text="editGame" icon="stat" />
-          <GameCreationEnvironnementQuickAction text="modifyDisplay" icon="screen" />
-          <GameCreationEnvironnementQuickAction text="browseAssets" icon="layer" />
-        </div> 
-      
+          <GameCreationEnvironnementQuickAction
+            text="modifyDisplay"
+            icon="screen"
+          />
+          <GameCreationEnvironnementQuickAction
+            text="browseAssets"
+            icon="layer"
+          />
+        </div>
+      </div>
+      <div className="activityAndCommentSection">
+        <div className="basicContainer activitySection">
+          <TitleSecondContainer
+            title={"recentactivity"}
+            description={"yourLastEdits"}
+          />
+          <div className="wrapper">
+            {gameData.editionHistory &&
+              gameData.editionHistory.map((e, index) => (
+                <>
+                  {index != 0 && <Separator></Separator>}
+                  <div className="activityElement" key={e.id}>
+                    <div className="left">
+                      <span className="littleTitle">{e.evenement}</span>
+                      <span className="littleMention">{e.action}</span>
+                    </div>
+                    <span className="littleMention">{e.date_relative}</span>
+                  </div>
+                </>
+              ))}
+          </div>
+        </div>
+        <div className="basicContainer commentSection">
+          <TitleSecondContainer
+            title={"comments"}
+            description={"commentAreCollectOnGame"}
+          />
+           <div className="wrapper">
+            {gameData.notes &&
+              gameData.notes.map((n, index) => (
+                <>
+                  {index != 0 && <Separator></Separator>}
+                  <div className="commentElement" key={index}>
+                   
+                      <span className="normalText">{n.commentaire}</span>
+                    
+                    <span className="littleMention">{n.date}</span>
+                  </div>
+                </>
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );

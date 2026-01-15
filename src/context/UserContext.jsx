@@ -56,6 +56,6 @@ export function UserProvider({children}) {
         {children}
     </UserContext.Provider>)
 }
-export function useUserProvider() {
+export function useUserContext() {
     return useContext(UserContext)
 }

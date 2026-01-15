@@ -56,6 +56,9 @@
   "changeSelectedGame": "Changer de jeu",
   "help": "Aide",
   "account": "Compte",
+  "save": "Enregistrer",
+  "testGame": "Tester le jeu",
+  "uploadImage": "Téléversez une image",
 
   "SECTION5": "========================NAVBAR=======================",
 
@@ -78,7 +81,7 @@
   "selectGameSubtitle": "Choisissez le jeu que vous souhaitez configurer et gérer. Vous pourrez modifier ses paramètres, créer des cartes et lancer des parties.",
 
   "SECTION7": "========================DASHBOARD =======================",
- 
+
   "dashboard-subpage-welcome": "Bienvenue à CARD Studio",
   "cardsCreated": "Cartes créées",
   "rolesCreated": "Rôles créés",
@@ -98,5 +101,26 @@
   "hours": "heures",
   "yesterday": "Hier",
   "comments": "Commentaires",
-      "commentAreCollectOnGame": "Les commentaires sont recueillis directement depuis la plateforme de jeu"
+  "commentAreCollectOnGame": "Les commentaires sont recueillis directement depuis la plateforme de jeu",
+  "generalInformation": "Informations générales",
+  "gameName": "Nom du jeu",
+  "gameType": "Type de jeu",
+  "instanceConfiguration": "Configuration de l'instance de jeu",
+  "gameDescription": "Décrivez cette instance de jeu...",
+  "visibility": "Visibilité",
+  "publicVisibility": "Visible sur CARD Games (Public)",
+  "playerSettings": "Paramètres des joueurs",
+  "minPlayers": "Joueurs min",
+  "maxPlayers": "Joueurs max",
+  "soloMode": "Mode Solo",
+  "playerParticipation": "Participation des Joueurs",
+  "allowSpectators": "Autoriser les Spectateurs",
+  "rewardManagement": "Gestion des Récompenses et Gains",
+  "activateRewards": "Activer la gestion des Récompenses et Gains",
+  "dangerZone": "Zone de danger",
+  "irreversibleActions": "Actions irréversibles",
+  "reset": "Réinitialisation",
+  "resetGame": "Réinitialiser la partie",
+  "recentActivity": "Activité récente",
+  "unsavedChangesWarning": "Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page ?"
 }

@@ -1,36 +1,37 @@
-import {useState} from 'react'
-import './App.css'
-import {GameProvider} from "./context/GameProvider.jsx";
+ 
+import "./App.css";
+import { GameProvider } from "./context/GameContext.jsx";
 
-import {BrowserRouter, Route, Router, Routes} from "react-router";
-import {UserProvider} from "./context/UserProvider.jsx";
-import LoginAndRegisterPage from "./pages/Forms/LoginAndRegister.jsx"; 
-import Header from "./components/Header/Header"
-import SelectGame from './pages/SelectGame/SelectGame.jsx';
-import GameCreationEnvironnement from './pages/GameCreationEnvironnement/GameCreationEnvironnement.jsx';
+import { BrowserRouter, Route, Router, Routes } from "react-router";
+import { UserProvider } from "./context/UserContext.jsx";
+import LoginAndRegisterPage from "./pages/Forms/LoginAndRegister.jsx";
+import Header from "./components/Header/Header";
+import SelectGame from "./pages/SelectGame/SelectGame.jsx";
+import GameCreationEnvironnement from "./pages/GameCreationEnvironnement/GameCreationEnvironnement.jsx";
+import { NotificationProvider } from "./context/NotificationContext.jsx";
 function App() {
+  return (
+    <>
+      <NotificationProvider>
+        <GameProvider>
+          <UserProvider>
+            <BrowserRouter>
+              <Header></Header>
+              <Routes>
+                <Route index element={<SelectGame />} />
 
-    return (
-        <>
-            <GameProvider>
-                <UserProvider>
-                    <BrowserRouter>
-                    <Header></Header>
-                        <Routes>
-                            <Route index element={<SelectGame/>}/>
-
-                            <Route path={"login"} element={<LoginAndRegisterPage/>}/> 
-                            <Route path={"newGame/:subpage"} element={<GameCreationEnvironnement/>}/> 
-
-
-                        </Routes>
-                    </BrowserRouter>
-
-
-                </UserProvider>
-            </GameProvider>
-        </>
-    )
+                <Route path={"login"} element={<LoginAndRegisterPage />} />
+                <Route
+                  path={"newGame/:subpage"}
+                  element={<GameCreationEnvironnement />}
+                />
+              </Routes>
+            </BrowserRouter>
+          </UserProvider>
+        </GameProvider>
+      </NotificationProvider>
+    </>
+  );
 }
 
-export default App
+export default App;

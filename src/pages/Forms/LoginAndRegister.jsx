@@ -7,7 +7,7 @@ import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { useUserProvider } from "../../context/UserProvider.jsx";
+import { useUserContext } from "../../context/UserContext.jsx";
 import SubNavigationBar from "../../components/SubNavigationBar/SubNavigationBar.jsx";
 import { useTranslation } from "react-i18next";
 import Button from "../../components/Button/Button.jsx";
@@ -27,7 +27,7 @@ export default function LoginAndRegisterPage() {
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
 
-  const { token, setToken, deleteToken } = useUserProvider();
+  const { token, setToken, deleteToken } = useUserContext();
   let navigate = useNavigate();
   const { t } = useTranslation();
 
