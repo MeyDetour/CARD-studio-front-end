@@ -3,16 +3,17 @@ import Button from "../Button/Button";
 import { useTranslation } from "react-i18next";
 import { useNotificationContext } from "../../context/NotificationContext";
 import { useNavigate } from "react-router";
+import { useGameContext } from "../../context/GameContext";
 export default function GameCreationEnvironnementNavigation({
   playerHasEdit,
   currentPage,
-}) {
-  const { setWarning, setActionOnYes } = useNotificationContext();
+  saveGame
+}) {  
   const { t } = useTranslation();
   const navigate = useNavigate();
-  function showSaveWarning(text, actionOnYes) {
-    setActionOnYes(actionOnYes);
-    setWarning(text);
+  function saveBeforeChangePage( nextAction) { 
+    saveGame;
+    nextAction
   }
 
   return (
@@ -25,8 +26,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/dashboard")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/dashboard")
                     )
               }
@@ -42,8 +43,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/edit")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/edit")
                     )
               }
@@ -57,8 +58,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/assets")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/assets")
                     )
               }
@@ -80,8 +81,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/cards")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/cards")
                     )
               }
@@ -95,8 +96,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/prizes")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/prizes")
                     )
               }
@@ -110,8 +111,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/roles")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/roles")
                     )
               }
@@ -137,8 +138,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/displays")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/displays")
                     )
               }
@@ -152,8 +153,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/flow")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/flow")
                     )
               }
@@ -167,8 +168,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/rounds")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/rounds")
                     )
               }
@@ -182,8 +183,8 @@ export default function GameCreationEnvironnementNavigation({
               action={() =>
                 playerHasEdit
                   ? navigate("/newgame/events")
-                  : showSaveWarning(
-                      "unsavedChangesWarning",
+                  : saveBeforeChangePage(
+                      
                       navigate("/newgame/events")
                     )
               }

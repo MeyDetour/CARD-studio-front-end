@@ -1,4 +1,3 @@
- 
 import "./App.css";
 import { GameProvider } from "./context/GameContext.jsx";
 
@@ -12,10 +11,10 @@ import { NotificationProvider } from "./context/NotificationContext.jsx";
 function App() {
   return (
     <>
-      <NotificationProvider>
-        <GameProvider>
-          <UserProvider>
-            <BrowserRouter>
+      <BrowserRouter>
+        <NotificationProvider>
+            <UserProvider>
+          <GameProvider>
               <Header></Header>
               <Routes>
                 <Route index element={<SelectGame />} />
@@ -26,10 +25,10 @@ function App() {
                   element={<GameCreationEnvironnement />}
                 />
               </Routes>
-            </BrowserRouter>
-          </UserProvider>
-        </GameProvider>
-      </NotificationProvider>
+          </GameProvider>
+            </UserProvider>
+        </NotificationProvider>
+      </BrowserRouter>
     </>
   );
 }

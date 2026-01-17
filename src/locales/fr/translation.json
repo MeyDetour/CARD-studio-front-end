@@ -84,6 +84,7 @@
 
   "dashboard-subpage-welcome": "Bienvenue à CARD Studio",
   "cardsCreated": "Cartes créées",
+  "description": "Description",
   "rolesCreated": "Rôles créés",
   "prizesCreated": "Gains créés",
   "quickaction-title": "Actions rapides",
@@ -105,6 +106,8 @@
   "generalInformation": "Informations générales",
   "gameName": "Nom du jeu",
   "gameType": "Type de jeu",
+  "wantToSwitchGameToVisible": "Souhaitez-vous rendre ce jeu publiquement visible sur l'interface CARD Games ?",
+  "publicVisibilityHelperText": "Le jeu apparaîtra dans la liste des jeux disponibles pour tous les utilisateurs. Sinon, le jeu ne sera pas listé dans l'interface publique. Il ne sera accessible qu'aux utilisateurs qui possèdent et entrent un code d'accès unique.",
   "instanceConfiguration": "Configuration de l'instance de jeu",
   "gameDescription": "Décrivez cette instance de jeu...",
   "visibility": "Visibilité",

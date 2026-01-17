@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { useUserContext } from "./UserContext";
+import { useApi } from "../../src/hooks/useApi";
 
 const GameContext = createContext();
 

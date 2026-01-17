@@ -8,17 +8,20 @@ import { useNavigate, useParams } from "react-router";
 import Dashboard from "../subpages/Dashboard/Dashboard";
 import EditGame from "../subpages/EditGame/EditGame";
 import { useApi } from "../../hooks/useApi";
+import { useGameContext } from "../../context/GameContext";
 
-export default function LoginAndRegisterPage() {
+export default function GameCreationEnvironnementqswGameCreationEnvironnement() {
   const { token } = useUserContext();
   const navigate = useNavigate();
   const { subpage, id } = useParams();
   const { result, loading, error, fetchData } = useApi();
   const [playerHasEdit, setPlayerHasEdit] = useState(false);
+  const {saveNewGameInStorage} = useGameContext()
+  const [gameImageUploaded,setGameImageUploaded]=useState();
+  const [gameImageUploadedUrl,setGameImageUploadedUrl]=useState();
   const [game, setGame] = useState({
     id: 2,
-    name: "poker",
-    image: "/src/assets/images/poker-image.png",
+    name: "poker", 
     description: null,
     notes: [
       {
@@ -457,6 +460,9 @@ export default function LoginAndRegisterPage() {
     },
   });
 
+  function saveGame(){
+
+  }
   useEffect(() => {
     async function getData() {
       const resultGames = await fetchData(
@@ -478,13 +484,13 @@ export default function LoginAndRegisterPage() {
 
   if (loading) return <p>Chargement...</p>;
   if (error) return <p>Erreur : {error}</p>;
-  return (
-    <div className={" gameCreationEnvironnementPage"}>
+  return   <div className={" gameCreationEnvironnementPage"}>
       <GameCreationEnvironnementHeader name="Skyjo" />
       <div className="content">
         <GameCreationEnvironnementNavigation
           playerHasEdit={playerHasEdit}
           currentPage={subpage}
+          saveGame={saveNewGameInStorage}
         />
         {(() => {
           switch (subpage) {
@@ -508,8 +514,11 @@ export default function LoginAndRegisterPage() {
                   playerHasEdit={playerHasEdit}
                   gameData={{
                     name: game.name,
-                    image: game.image,
+                    image: gameImageUploadedUrl ? gameImageUploadedUrl : game.image  ? game.image : "/src/assets/images/template-game.png"
                   }}
+                  setGame={setGame}
+                  setGameImageUploaded={setGameImageUploaded}
+                  setGameImageUploadedUrl={setGameImageUploadedUrl}
                 />
               );
             case "won":
@@ -522,5 +531,5 @@ export default function LoginAndRegisterPage() {
         })()}
       </div>
     </div>
-  );
+  
 }
