@@ -1,0 +1,11 @@
+.assetsBookshelfSubpage {
+  .searchBarForm {
+    height: fit-content;
+    background: #f8fafc;
+> * {
+   background: #f8fafc;
+
+}
+    padding: 13px 20px;
+  }
+}

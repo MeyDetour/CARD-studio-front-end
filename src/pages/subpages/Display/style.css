@@ -1,0 +1,34 @@
+.displaySubpage {
+  .menu-rendering {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    > * {
+      width: 32%;
+    }
+    > .basicContainer {
+      position: relative;
+      cursor: pointer;
+      .selectRound {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        border: 1px solid #80808091;
+        box-shadow: 0 0 5px 0 #80808036;
+        position: relative;
+      }
+      .selected::before {
+        content: "";
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background-color: var(--violet);
+      }
+    }
+  }
+}

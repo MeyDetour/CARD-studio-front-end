@@ -1,0 +1,38 @@
+.eventCard {
+  width: 100%;
+  background: white;
+  padding: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 7px;
+  box-sizing: border-box;
+position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0;
+  }
+  .Give,
+  .Interaction,
+  .Action {
+    width: fit-content;
+    padding: 5px 15px;
+    font-size: 15px;
+    border-radius: 6px;
+  }
+  .Give {
+    background: #bdffff;
+  }
+  .Interaction {
+    background: #bdffff;
+  }
+  .Action {
+    background: #c6bdff;
+  }
+}
+.eventCard.Selected {
+  border: 0.8px solid #9359ff;
+}

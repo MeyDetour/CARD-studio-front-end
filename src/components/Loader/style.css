@@ -1,0 +1,61 @@
+.loader {
+  position: relative;
+
+    height: 389px;
+  width: 100%;
+  user-select: none;
+  cursor: default;
+}
+
+.loader > img {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  width: 70px;
+  /* On enlève le transform ici, l'animation s'en occupe */
+  animation: loader-bounce-rotate 1.5s ease-in-out infinite;
+}
+
+@keyframes loader-bounce-rotate {
+  0%, 100% {
+    bottom: 0%;
+    /* On garde le -50% horizontal, et on joue sur le scale pour le "boing" */
+    transform: translateX(-50%) scale(1.2, 0.8);
+  }
+  10%, 90% {
+    transform: translateX(-50%) scale(1, 1);
+  }
+  45% {
+    transform: translateX(-50%) translateY(0) rotateY(0deg);
+  }
+  50% {
+    bottom: 50%; /* Hauteur max du rebond */
+    /* Rotation Y au sommet + étirement vertical */
+    transform: translateX(-50%) scale(0.9, 1.1) rotateY(180deg);
+  }
+  55% {
+    transform: translateX(-50%) translateY(0) rotateY(360deg);
+  }
+}
+
+.loader-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -50px; /* Positionnée juste sous l'image */
+  width: 100px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.15);
+  filter: blur(4px);
+  border-radius: 50%;
+  z-index: 1;
+  animation: loader-shadow-pulse 1.2s ease-in-out infinite;
+}@keyframes loader-shadow-pulse {
+  0%, 100% {
+    transform: translateX(-50%) scale(1.4); /* Ombre large et sombre au sol */
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(-50%) scale(0.4); /* Ombre petite et diffuse au sommet */
+    opacity: 0.1;
+  }
+}

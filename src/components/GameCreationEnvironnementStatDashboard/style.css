@@ -1,0 +1,34 @@
+.gameCreationEnvironnementStatDashboard {
+  border-radius: 12px; display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+  aspect-ratio: 1 / 0.35;
+  width: 33%;
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    height: 100%;
+    > span:first-child {
+      color: var(--grey);
+
+      font-size: 19px;
+      font-style: normal;
+      font-weight: 500;
+    }
+    > span:last-child {
+      color: var(--DarkBleu);
+      font-size: 48px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 36px;
+    }
+  
+  }
+  img{
+
+    width: 50px;
+  }
+}

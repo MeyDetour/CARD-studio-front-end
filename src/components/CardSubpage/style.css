@@ -1,0 +1,7 @@
+.cardSubpage{
+
+}
+.cardSubpage:hover{
+  scale: 1.03;
+  cursor: pointer;
+}

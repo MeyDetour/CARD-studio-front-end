@@ -1,0 +1,45 @@
+.globalValuesubPageOfdemonsAndDeclencheurSubpage {
+  padding: var(--padding-content-page);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .globalValueElement {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+    h3 {
+      margin-block: 8px;
+    }
+    >button{
+
+    align-self: end;
+    }
+    .elementHeader {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      padding: 0;
+      margin: 0;
+      font-size: 21px;
+      > img {
+        cursor: pointer;
+      }
+    }
+    .row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      > * {
+        width: 49%;
+      }
+    }
+  }
+}

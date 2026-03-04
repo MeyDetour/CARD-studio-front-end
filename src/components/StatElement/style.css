@@ -1,0 +1,32 @@
+.statElement {
+  display: flex;
+  flex-direction: row;
+  background: white;
+  border-radius: 12px;
+  border: 0.8px solid #e1e8f1;
+  padding: 24px;
+  box-sizing: border-box;
+  padding: 24px;
+  box-sizing: border-box;
+  align-items: center;
+    gap: 15px;
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    height: 100%;
+    justify-content: space-around;
+    > span:first-child {
+      color: var(--DarkBleu);
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 600;
+    }
+    > span:last-child {
+      color: var(--grey);
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+    }
+  }
+}

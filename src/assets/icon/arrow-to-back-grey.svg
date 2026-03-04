@@ -1,0 +1,18 @@
+<svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g opacity="0.5">
+            <path
+              d="M4 6L8 10L12 6"
+              stroke="#64748B"
+              style="stroke:#64748B;stroke:color(display-p3 0.3922 0.4549 0.5451);stroke-opacity:1;"
+              stroke-width="1.33333"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </g>
+        </svg>
