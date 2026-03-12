@@ -1,7 +1,7 @@
 init :
 	npm run dev
 
-reset-git : 
+git-reset : 
 	sudo rm -R .git
 	git init
 	git remote add origin https://github.com/MeyDetour/CARD-studio-front-end.git

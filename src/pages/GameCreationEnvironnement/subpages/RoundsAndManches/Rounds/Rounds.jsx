@@ -1,15 +1,16 @@
  
 import { useTranslation } from "react-i18next";
-import { splitText } from "../../../../helpers/text";
-import Button from "../../../../components/Button/Button"; 
-import Icon from "../../../../components/Icon/Icon";
+import {splitText} from "../../../../../helpers/text";
+import Button from "../../../../../components/Button/Button"; 
+import Icon from "../../../../../components/Icon/Icon";
 import { useState,useEffect } from "react";
-import Input from "../../../../components/input/Input";
-import InputRange from "../../../../components/inputRange/inputRange";
-import InputSelect from "../../../../components/inputSelect/InputSelect";
-import Alert from "../../../../components/Alert/Alert";
-import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
-import { useNotificationContext } from "../../../../context/NotificationContext";
+import Input from "../../../../../components/input/Input";
+import InputRange from "../../../../../components/inputRange/inputRange";
+import InputSelect from "../../../../../components/inputSelect/InputSelect";
+import Alert from "../../../../../components/Alert/Alert";
+import { updateElementValue, updateValueArray } from "../../../../../helpers/objectManagement";
+import EventCard from "../../../../../components/Cards/EventCard/EventCard"; 
+import { useNotificationContext } from "../../../../../context/NotificationContext";
 export default function RoundsPage({
   gameData,
   updateGameValueArray,

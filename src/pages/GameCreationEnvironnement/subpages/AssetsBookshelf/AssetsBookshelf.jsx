@@ -1,17 +1,26 @@
 import "./style.css";
+
+// External libraries
 import { useEffect, useState } from "react";
-import { useUserContext } from "../../../context/UserContext";
 import { useNavigate, useParams } from "react-router";
-import { useApi } from "../../../hooks/useApi";
-import TitleContainer from "../../../components/TitleContainer/TitleContainer";
-import GameCreationEnvironnementQuickAction from "../../../components/GameCreationEnvironnementQuickAction/GameCreationEnvironnementQuickAction";
-import GameCreationEnvironnementStatDashboard from "../../../components/GameCreationEnvironnementStatDashboard/GameCreationEnvironnementStatDashboard";
-import Separator from "../../../components/Separator/Separator";
-import Button from "../../../components/Button/Button";
-import Input from "../../../components/input/Input";
-import InputSelect from "../../../components/inputSelect/InputSelect";
-import SearchBar from "../../../components/SearchBar/SearchBar";
-import SubNavigationBar from "../../../components/SubNavigationBar/SubNavigationBar";
+
+// Contexts
+
+
+// Hooks
+
+
+
+// Components
+import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
+import GameCreationEnvironnementQuickAction from "../../../../components/GameCreationEnvironnementQuickAction/GameCreationEnvironnementQuickAction";
+import GameCreationEnvironnementStatDashboard from "../../../../components/GameCreationEnvironnementStatDashboard/GameCreationEnvironnementStatDashboard";
+import Separator from "../../../../components/Separator/Separator";
+import Button from "../../../../components/Button/Button";
+import Input from "../../../../components/input/Input";
+import InputSelect from "../../../../components/inputSelect/InputSelect";
+import SearchBar from "../../../../components/SearchBar/SearchBar";
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 
 export default function AssetsBookshelf({
   gameData,
@@ -19,9 +28,7 @@ export default function AssetsBookshelf({
   updateGameValue,
   setGameImageUploaded,
   setGameImageUploadedUrl,
-}) {
-  const { token } = useUserContext();
-  const { result, loading, error, fetchData } = useApi();
+}) {  
   const [subPage, setSubpage] = useState("cardsTab");
   const [selectedType, setSelectedType] = useState([]);
   const navigate = useNavigate();

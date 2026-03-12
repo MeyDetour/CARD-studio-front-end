@@ -218,6 +218,17 @@ export default function GameCreationEnvironnementNavigation({
               icon={currentPage === "events" ? "energy-white" : "energy"}
             />
           </li>
+             <li> 
+            <Button
+              text={t("helpAndSettings")}
+              action={() => {
+                navigate("/game/help-and-settings/" + id);
+                setCurrentSubpageOfEvents(null);
+              }}
+              type={currentPage == "help-and-settings" ? "navbar active" : "navbar"}
+              icon={currentPage === "help-and-settings" ? "help-white" : "help"}
+            />
+          </li>
         </ul>
       </div>
 

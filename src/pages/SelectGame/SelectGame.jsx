@@ -1,6 +1,5 @@
 import Loader from "../../components/Loader/Loader.jsx";
-import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../../context/UserContext.jsx";
+import { useNavigate } from "react-router-dom"; 
 import { useEffect, useRef, useState } from "react";
 import "./style.css";
 import Button from "../../components/Button/Button.jsx";
@@ -10,8 +9,7 @@ import { useApi } from "../../hooks/useApi.js";
 import GameCard from "../../components/GameCard/GameCard.jsx";
 import { useTranslation } from "react-i18next";
 import { useGameContext } from "../../context/GameContext.jsx";
-export default function SelectGame() {
-  let { token } = useUserContext();
+export default function SelectGame() { 
   const {createNewGame , getGames} = useGameContext();
   const { result, loading, error, fetchData } = useApi();
   const [personalGames, setPersonalGames] = useState([]);

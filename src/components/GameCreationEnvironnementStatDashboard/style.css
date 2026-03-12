@@ -1,16 +1,17 @@
 .gameCreationEnvironnementStatDashboard {
   border-radius: 12px; display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: start;
-  aspect-ratio: 1 / 0.35;
-  width: 33%;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  height: fit-content;
+  align-items: start; 
+  width: 33% !important;
   > div {
     display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: space-between;
     height: 100%;
+        gap: 29px;
     > span:first-child {
       color: var(--grey);
 
@@ -29,6 +30,8 @@
   }
   img{
 
+    aspect-ratio: 1 / 1;
+    height: 39px;
     width: 50px;
   }
 }

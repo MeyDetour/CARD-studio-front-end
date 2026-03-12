@@ -1,25 +1,33 @@
 import "./style.css";
+
+// External libraries
 import { useEffect, useState } from "react";
-import { useUserContext } from "../../../context/UserContext";
 import { useNavigate, useParams } from "react-router";
-import { useApi } from "../../../hooks/useApi";
-import CardSubpage from "../../../components/CardSubpage/CardSubpage";
-import TitleContainer from "../../../components/TitleContainer/TitleContainer";
 import { useTranslation } from "react-i18next";
+
+// Contexts
+import { useGameContext } from "../../../../context/GameContext.jsx";
+import { useNotificationContext } from "../../../../context/NotificationContext.jsx";
+
+// Hooks
+import { useApi } from "../../../../hooks/useApi";
+
+// Components
+import CardSubpage from "../../../../components/CardSubpage/CardSubpage";
+import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
+import Alert from "../../../../components/Alert/Alert.jsx";
+
+// Subpages
 import DemonSubpage from "./subPage/DemonSubpage/DemonSubpage.jsx";
 import EventSubpage from "./subPage/EventSubpage/EventSubpage.jsx";
 import CurrentWithValueEventubpage from "./subPage/EventWithValueSubpage/EventWithValueSubpage.jsx";
-import { useGameContext } from "../../../context/GameContext.jsx";
 import VariableSubpage from "./subPage/VariableSubpage/VariableSubpage.jsx";
-import { useNotificationContext } from "../../../context/NotificationContext.jsx";
-import Alert from "../../../components/Alert/Alert.jsx";
 
 export default function Events({
   gameData,
   updateGameValueArray,
   updateGameValue,
-}) {
-  const { token } = useUserContext();
+}) { 
   const { result, loading, error, fetchData } = useApi();
   const { currentSubpageOfEvents, setCurrentSubpageOfEvents } =
     useGameContext();

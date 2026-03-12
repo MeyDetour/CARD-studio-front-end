@@ -11,7 +11,7 @@ export default function Alert({
 }) {
   const { t } = useTranslation();
   const [alertMessages, setAlertMessage] = useState([]);
-  const { getAlerts, getAlertOfType } = useNotificationContext();
+  const { getAlerts, getAlertOfType, canDisplayError } = useNotificationContext();
   const [alertTypesToDisplay, setAlertTypesToDisplay] = useState({});
   useEffect(() => {
     let alerts = [];
@@ -42,6 +42,9 @@ export default function Alert({
 
     setAlertMessage(alerts || []);
   }, [message, alertList, displayAlertOfType, getAlerts]);
+
+
+  if (!canDisplayError) return null;
 
   // Si pas d'alertes, on ne rend rien
   if (displayAlertOfType && (alertTypesToDisplay.alert || alertTypesToDisplay.warning)) {

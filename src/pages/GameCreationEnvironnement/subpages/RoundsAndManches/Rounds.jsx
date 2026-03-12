@@ -1,8 +1,14 @@
  
 import "./style.css";
-import TitleContainer from "../../../components/TitleContainer/TitleContainer";
-import SubNavigationBar from "../../../components/SubNavigationBar/SubNavigationBar";
-import { useState, useEffect } from "react"; 
+
+// External libraries
+import { useEffect, useState } from "react";
+
+// Components
+import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
+
+// Subpages
 import RoundsPage from "./Rounds/Rounds";
 import ManchesPage from "./Manches/Manches";
 

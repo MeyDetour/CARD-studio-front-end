@@ -1,43 +1,62 @@
 import "./style.css";
 import "../../assets/text.css";
-import GameCreationEnvironnementHeader from "../../components/GameCreationEnvironnementHeader/GameCreationEnvironnementHeader";
-import GameCreationEnvironnementNavigation from "../../components/GameCreationEnvironnementNavigation/GameCreationEnvironnementNavigation";
-import { useUserContext } from "../../context/UserContext";
+
+// External libraries
 import { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import Dashboard from "../subpages/Dashboard/Dashboard";
-import EditGame from "../subpages/EditGame/EditGame";
-import { useApi } from "../../hooks/useApi";
+import { useTranslation } from "react-i18next";
+
+// Contexts
+import { useUserContext } from "../../context/UserContext.jsx";
 import { useGameContext } from "../../context/GameContext";
-import AssetsBookshelf from "../subpages/AssetsBookshelf/AssetsBookshelf";
-import Events from "../subpages/Events/Events";
-import CardManagement from "../subpages/CarManagement/CardManagement";
-import DisplayPage from "../subpages/Display/Display";
+import { useNotificationContext } from "../../context/NotificationContext";
+
+// Helpers
+import { loadAlertListFormGame } from "../../helpers/alertOfGame";
 import {
   updateElementValue,
   updateValueArray,
 } from "../../helpers/objectManagement";
-import RoundsPage from "../subpages/RoundsAndManches/Rounds";
+
+// Components
 import Loader from "../../components/Loader/Loader";
-import { useTranslation } from "react-i18next";
-import { loadAlertListFormGame } from "../../helpers/alertOfGame";
-import { useNotificationContext } from "../../context/NotificationContext";
+import GameCreationEnvironnementHeader from "../../components/GameCreationEnvironnementHeader/GameCreationEnvironnementHeader";
+import GameCreationEnvironnementNavigation from "../../components/GameCreationEnvironnementNavigation/GameCreationEnvironnementNavigation";
 
+// Subpages
+import AssetsBookshelf from "./subpages/AssetsBookshelf/AssetsBookshelf";
+import CardManagement from "./subpages/CarManagement/CardManagement";
+import Dashboard from "./subpages/Dashboard/Dashboard";
+import DisplayPage from "./subpages/Display/Display";
+import EditGame from "./subpages/EditGame/EditGame";
+import Events from "./subpages/Events/Events";
+import HelpAndSettings from "./subpages/HelpAndSettings/HelpAndSettings";
+import RoundsPage from "./subpages/RoundsAndManches/Rounds";
 
+// Hooks
+import { useApi } from "../../hooks/useApi";
+import i18next from "i18next";
 
 export default function GameCreationEnvironnement() {
   const navigate = useNavigate();
   const { subpage, id } = useParams();
   const [game, setGame] = useState(null);
+  const [user, setUser] = useState(null);
   const { result, loading, error, fetchData } = useApi();
   const [playerHasEdit, setPlayerHasEdit] = useState(false);
-  const { saveNewGameInStorage, pushModification, getGameInStorage, getGame , uploadFileForGameEdition } =
-    useGameContext();
+  const {
+    saveNewGameInStorage,
+    pushModification,
+    getGameInStorage,
+    getGame,
+    uploadFileForGameEdition,
+  } = useGameContext();
+  const { fetchUser, editUser } = useUserContext();
   const [gameImageUploaded, setGameImageUploaded] = useState();
   const [gameImageUploadedUrl, setGameImageUploadedUrl] = useState();
   const { t } = useTranslation();
-  const { setAlerts, alertList } = useNotificationContext();
-  const page = "rounds";
+  const { setAlerts, alertList, setCanDisplayError } = useNotificationContext();
+
   useEffect(() => {
     const initGame = async () => {
       console.log(id);
@@ -45,49 +64,61 @@ export default function GameCreationEnvironnement() {
       const stored = getGameInStorage(id);
 
       if (stored && String(stored.id) === String(id)) {
-        console.log("Jeu trouvé localement, mise à jour du state...");
         if (stored && stored.id == id) {
-          console.log("set game");
-
-          console.log(stored);
           setGame(stored);
           setAlerts(loadAlertListFormGame(stored));
         }
       } else {
-        console.log("Rien en local, appel API pour l'id:", id);
         const result = await getGame(id);
         if (result) {
           setAlerts(loadAlertListFormGame(result));
           setGame(result);
+          setCanDisplayError(result.displayErrors);
         }
+      }
+    };
+    const initUser = async () => {
+      const res = await fetchUser();
+      if (res) {
+        setUser(res);
+        i18next.changeLanguage(res.lang);
+        setCanDisplayError(res.displayErrors);
       }
     };
 
     if (id && !game) {
       initGame();
-    } else {
     }
-  }, [id, game]);
+    if (!user) {
+      initUser();
+    }
+  }, []);
 
   console.log("game :", game);
+  console.log("user :", user);
+
+  // DETECTION DE MODIFICATION ET SAUVEGARDE AUTOMATIQUE
   useEffect(() => {
-    console.log(game, playerHasEdit);
     if (!game || !playerHasEdit) return;
     const delayDebounceFn = setTimeout(() => {
       console.log("Sauvegarde automatique sur le serveur...");
-    
+
       saveNewGameInStorage(game);
       setPlayerHasEdit(false);
     }, 2000);
 
-          setAlerts(loadAlertListFormGame(game));
+    setAlerts(loadAlertListFormGame(game));
     return () => clearTimeout(delayDebounceFn);
   }, [game, playerHasEdit]);
 
+  // GESTION DES ERREURS
   if (loading) return <Loader />;
   if (error) return <p>Erreur : {error}</p>;
   if (!game) return <p>{t("GameNotFound")}</p>;
+  if (!user) return <p>{t("UserNotFound")}</p>;
 
+
+  // HANDLERS
   const updateGameValueHandler = (path, value) => {
     setGame((prev) => updateElementValue(path, prev, value));
     setPlayerHasEdit(true);
@@ -99,13 +130,21 @@ export default function GameCreationEnvironnement() {
   };
 
   const saveGame = () => {
-    pushModification(game); 
-  }
+    pushModification(game);
+  };
 
-  const uploadFileForGameEditionHandler = (file) => { 
+  const uploadFileForGameEditionHandler = (file) => {
     uploadFileForGameEdition(file, game.id);
-  }
-  console.log(alertList);
+  };
+  const editUserHandler = async (userEdited) => {
+    const result = await editUser(userEdited);
+
+    if (result && result.message === "ok") {
+
+      i18next.changeLanguage(userEdited.lang);
+      setUser((prev) => ({ ...prev, ...userEdited }));
+    }
+  }; 
   return (
     <div className={" gameCreationEnvironnementPage"}>
       <GameCreationEnvironnementHeader name={game.name} />
@@ -168,7 +207,9 @@ export default function GameCreationEnvironnement() {
                         ? game.image
                         : "/src/assets/images/template-game.png",
                   }}
-                  uploadFileForGameEditionHandler={uploadFileForGameEditionHandler}
+                  uploadFileForGameEditionHandler={
+                    uploadFileForGameEditionHandler
+                  }
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
                   setGameImageUploaded={setGameImageUploaded}
@@ -209,8 +250,11 @@ export default function GameCreationEnvironnement() {
                     tours: game.params.tours,
                     manches: game.params.manches,
                     globalGame: game.params.globalGame,
-                    withValueEvents: game.events.withValueEvent,    events: game.events && game.events.events ? game.events.events : [],
-                
+                    withValueEvents: game.events.withValueEvent,
+                    events:
+                      game.events && game.events.events
+                        ? game.events.events
+                        : [],
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
@@ -233,9 +277,11 @@ export default function GameCreationEnvironnement() {
                           })
                         : [],
                     gains:
-                      game.events && game.events.gains ? game.assets.gains.sort((a, b) => {
+                      game.events && game.events.gains
+                        ? game.assets.gains.sort((a, b) => {
                             return Number(a.id) - Number(b.id);
-                          }) : [],
+                          })
+                        : [],
                     withValueEvents:
                       game.events && game.events.withValueEvent
                         ? game.events.withValueEvent.sort((a, b) => {
@@ -278,6 +324,16 @@ export default function GameCreationEnvironnement() {
                   updateGameValueArray={updateGameValueArrayHandler}
                   setGameImageUploaded={setGameImageUploaded}
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
+                />
+              );
+            case "help-and-settings":
+              return (
+                <HelpAndSettings
+                  gameData={{}}
+                  user={user}
+                  editUserHandler={editUserHandler}
+                  updateGameValue={updateGameValueHandler}
+                  updateGameValueArray={updateGameValueArrayHandler}
                 />
               );
             default:

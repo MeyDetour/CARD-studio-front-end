@@ -1,10 +1,13 @@
 import "./style.css";
-import TitleContainer from "../../../components/TitleContainer/TitleContainer";
-import GameCreationEnvironnementQuickAction from "../../../components/GameCreationEnvironnementQuickAction/GameCreationEnvironnementQuickAction";
-import Icon from "../../../components/Icon/Icon";
-import GameCreationEnvironnementStatDashboard from "../../../components/GameCreationEnvironnementStatDashboard/GameCreationEnvironnementStatDashboard";
-import Separator from "../../../components/Separator/Separator";
+
+// External libraries
 import { useNavigate } from "react-router";
+
+// Components
+import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
+import GameCreationEnvironnementQuickAction from "../../../../components/GameCreationEnvironnementQuickAction/GameCreationEnvironnementQuickAction";
+import GameCreationEnvironnementStatDashboard from "../../../../components/GameCreationEnvironnementStatDashboard/GameCreationEnvironnementStatDashboard";
+import Separator from "../../../../components/Separator/Separator";
 export default function Dashboard({ gameData }) {
 const navigate = useNavigate();
   if (!gameData) return;

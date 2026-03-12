@@ -14,15 +14,15 @@ export default function InputSelect({
 }) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  if (Array.isArray( selected) ){
-    console.warn("Selected is not array")
+  if (Array.isArray(selected)) {
+    console.warn("Selected is not array");
   }
   return (
     <div className={"inputSelect " + customClass}>
       <span className="normalText">{t(title)}</span>
       <div className="itemSelected" onClick={() => setIsOpen(!isOpen)}>
         <p>
-          {(!selected || selected.length === 0)
+          {!selected || selected.length === 0
             ? t(placeholder)
             : selected.map((e, index) => (
                 <>
@@ -45,7 +45,7 @@ export default function InputSelect({
                 key={index}
                 className={isSelected ? "select" : ""}
                 onClick={() => {
-                  updateValueArray(pathObject, item);
+                  pathObject ? updateValueArray(pathObject, item) : updateValueArray(item); 
                   if (closeAfterSelect) setIsOpen(false);
                 }}
               >

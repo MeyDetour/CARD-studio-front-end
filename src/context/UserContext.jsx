@@ -1,30 +1,44 @@
-
-import {createContext, useContext, useEffect, useState} from "react";
+import { createContext, use, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-const UserContext = createContext()
+import { useApi } from "../hooks/useApi";
+import { useTokenContext } from "./TokenContext";
+import { useNotificationContext } from "./NotificationContext";
 
-export function UserProvider({children}) {
-    const [user, setUser] = useState(null)
-    const navigate = useNavigate();
-    const getToken = () => {
-        let token = localStorage.getItem("token");
-        if (!token) {
-            navigate("/login");
-        }
-        return token
+const UserContext = createContext();
+
+export function UserProvider({ children }) {
+  const { fetchData } = useApi();
+  const { getToken } = useTokenContext();
+  const {displayError} = useNotificationContext();
+  const navigate = useNavigate();
+
+  const fetchUser = async () => {
+   let res = await fetchData("api/me", null , {
+      token: getToken(),
+    });
+    if (!res){
+      displayError("FailedToRetrieveUserData");
     }
-    const deleteToken = () => {
-        localStorage.removeItem("token") 
+    return res;
+  };
+  const editUser = async (user) => {
+   let res = await fetchData("api/edit/me", user , {
+      token: getToken(),
+      methode:"PUT"
+    });
+    if (!res){
+      displayError("FailedToModifyUserData");
     }
-    const setToken = (newToken) => {
-        localStorage.setItem("token", newToken); 
-    };
-    
- 
-    return (<UserContext.Provider value={{ user, setUser ,getToken, setToken , deleteToken}}>
-        {children}
-    </UserContext.Provider>)
+
+    return res;
+  };
+
+  return (
+    <UserContext.Provider value={{ fetchUser , editUser}}>
+      {children}
+    </UserContext.Provider>
+  );
 }
 export function useUserContext() {
-    return useContext(UserContext)
+  return useContext(UserContext);
 }

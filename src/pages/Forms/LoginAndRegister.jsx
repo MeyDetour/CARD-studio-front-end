@@ -7,6 +7,7 @@ import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
+import { useTokenContext } from "../../context/TokenContext.jsx";
 import { useUserContext } from "../../context/UserContext.jsx";
 import SubNavigationBar from "../../components/SubNavigationBar/SubNavigationBar.jsx";
 import { useTranslation } from "react-i18next";
@@ -21,13 +22,14 @@ export default function LoginAndRegisterPage() {
     defaultValues: {},
   });
 
+  const { setUser } = useUserContext();
   const { result, loading, error, fetchData, resetError } = useApi();
   const [subPage, setSubPage] = useState("navLogin");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
 
-  const { setToken, getToken, deleteToken } = useUserContext();
+  const { setToken, getToken, deleteToken } = useTokenContext();
   let navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -57,11 +59,7 @@ export default function LoginAndRegisterPage() {
       console.warn("Login/register failed:", err.message);
       return;
     }
-
-    if (res && res.token) {
-      setToken(res.token);
-      navigate("/");
-    }
+ 
   };
 
   if (loading) return <p>Chargement...</p>;

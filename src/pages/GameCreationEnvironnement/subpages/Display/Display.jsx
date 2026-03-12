@@ -1,8 +1,12 @@
 import "./style.css";
-import TitleContainer from "../../../components/TitleContainer/TitleContainer";
-import SubNavigationBar from "../../../components/SubNavigationBar/SubNavigationBar";
+
+// External libraries
 import { useState } from "react";
-import Input from "../../../components/input/Input";
+
+// Components
+import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
+import Input from "../../../../components/input/Input";
 
 export default function DisplayPage({
   gameData,

@@ -1,6 +1,6 @@
 import { useNotificationContext } from "./NotificationContext";
 import { createContext, use, useContext, useEffect, useState } from "react";
-import { useUserContext } from "./UserContext";
+import { useTokenContext } from "./TokenContext";
 import { useApi } from "../../src/hooks/useApi";
 import { useTranslation } from "react-i18next";
 const GameContext = createContext();
@@ -11,7 +11,7 @@ export function GameProvider({ children }) {
   const [currentDemon, setCurrentDemon] = useState(null);
   const [currentWithValueEvent, setCurrentWithValueEvent] = useState(null);
   const [currentSubpageOfEvents, setCurrentSubpageOfEvents] = useState(null);
-  const { getToken } = useUserContext();
+  const { getToken } = useTokenContext();
   const { displayError } = useNotificationContext();
   const { t } = useTranslation();
 

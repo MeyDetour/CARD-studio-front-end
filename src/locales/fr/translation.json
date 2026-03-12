@@ -346,7 +346,18 @@
 "numberOfTheFirstManche": "Numéro de la manche de départ",
  "FailedToUploadImage": "Une erreur est survenue lors du téléversement de l'image"
 ,"rounds": "Tours",
-"manches": "Manches"
-
+"manches": "Manches",
+"helpAndSettings": "Aide et paramètres",
+"onThisPageYouWillFindAllSettingsToConfigureRoundsAndManches": "Sur cette page, vous trouverez tous les paramètres pour configurer les tours et les manches de votre jeu. Vous pourrez définir le nombre maximum de tours et de manches, l'ordre dans lequel ils se déroulent, et d'autres paramètres avancés pour personnaliser le déroulement de votre partie."
+,"settings": "Paramètres",
+"errorVisibility":"Affichage des erreurs et warnings",
+"displayErrorsAndWarnings":"Afficher les erreurs et warnings",
+"displayErrorsAndWarningsToggle":"Si cette option est activée, les erreurs et les warnings seront affichés pendant la partie. Cela peut être utile pour identifier les problèmes de configuration ou de gameplay, mais cela peut également être distrayant pour les joueurs. Il est recommandé d'activer cette option uniquement pendant la phase de développement et de test du jeu."
+,"generalSettings": "Paramètres généraux",
+"language": "Langue",
+"UserNotFound": "Utilisateur non trouvé",
+"FailedToRetrieveUserData": "Une erreur est survenue lors de la récupération des données utilisateur",
+"FailedToModifyUserData": "Une erreur est survenue lors de la modification des données utilisateur"
 }
+
 

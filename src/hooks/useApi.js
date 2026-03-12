@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { apiClient } from "../api/api";
-import { useUserContext } from "../context/UserContext";
+import { useTokenContext } from "../context/TokenContext";
 import { useNavigate } from "react-router";
 import { useNotificationContext } from "../context/NotificationContext";
 
@@ -9,7 +9,7 @@ export const useApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { deleteToken } = useUserContext();
+  const { deleteToken } = useTokenContext();
   const { displayError } = useNotificationContext();
  
   function resetError() {

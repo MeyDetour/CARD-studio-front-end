@@ -6,7 +6,7 @@ const NotificationContext = createContext();
 export function NotificationProvider({ children }) {
   const [errorList, setErrorList] = useState([]);
   const [alertList, setAlertList] = useState([]);
-
+  const [canDisplayError, setCanDisplayError] = useState(true);
   function displayError(message) {
     setErrorList((prev) => [...prev, message]);
     setTimeout(() => {
@@ -31,12 +31,14 @@ export function NotificationProvider({ children }) {
     let result = alertList.filter((alert) => alert.split("|")[1] === type);
     return result;
   }
+ 
   return (
     <NotificationContext.Provider
       value={{
         displayError,
         setAlert,
         setAlerts,
+        canDisplayError,setCanDisplayError,
         removeAlert,
         getAlerts,
         getAlertOfType,

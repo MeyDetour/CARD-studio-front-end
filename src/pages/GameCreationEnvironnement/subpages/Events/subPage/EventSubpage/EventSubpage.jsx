@@ -1,20 +1,20 @@
 import "./style.css";
 import { useState, useEffect } from "react";
-import Button from "../../../../../components/Button/Button";
-import EventCard from "../../../../../components/Cards/EventCard/EventCard.jsx";
+import Button from "../../../../../../components/Button/Button";
+import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
 import { useTranslation } from "react-i18next";
-import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
-import Input from "../../../../../components/input/Input.jsx";
-import { useGameContext } from "../../../../../context/GameContext.jsx";
-import InputSelect from "../../../../../components/inputSelect/InputSelect.jsx";
+import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer";
+import Input from "../../../../../../components/input/Input.jsx";
+import { useGameContext } from "../../../../../../context/GameContext.jsx";
+import InputSelect from "../../../../../../components/inputSelect/InputSelect.jsx";
 import {
   updateElementValue,
   updateValueArray,
-} from "../../../../../helpers/objectManagement.js";
+} from "../../../../../../helpers/objectManagement.js";
 import { actions } from "../elements.js";
-import { useNotificationContext } from "../../../../../context/NotificationContext.jsx";
-import Alert from "../../../../../components/Alert/Alert.jsx";
-import DemonCard from "../../../../../components/Cards/DemonCard/DemonCard.jsx";
+import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
+import Alert from "../../../../../../components/Alert/Alert.jsx";
+import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
 
 
 export default function EventSubpage({

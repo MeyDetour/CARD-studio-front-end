@@ -1,14 +1,27 @@
 import "./style.css";
-import TitleContainer from "../../../components/TitleContainer/TitleContainer";
-import Button from "../../../components/Button/Button";
-import Input from "../../../components/input/Input";
-import InputSelect from "../../../components/inputSelect/InputSelect";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
-import { useGameContext } from "../../../context/GameContext";
-import Alert from "../../../components/Alert/Alert";
-import { useNotificationContext } from "../../../context/NotificationContext";
 
+// External libraries
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import { useTranslation } from "react-i18next";
+
+// Contexts
+import { useGameContext } from "../../../../context/GameContext.jsx";
+import { useNotificationContext } from "../../../../context/NotificationContext.jsx";
+
+// Hooks
+import { useApi } from "../../../../hooks/useApi";
+
+// Components
+import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
+import GameCreationEnvironnementQuickAction from "../../../../components/GameCreationEnvironnementQuickAction/GameCreationEnvironnementQuickAction";
+import GameCreationEnvironnementStatDashboard from "../../../../components/GameCreationEnvironnementStatDashboard/GameCreationEnvironnementStatDashboard";
+import Separator from "../../../../components/Separator/Separator";
+import Button from "../../../../components/Button/Button";
+import Input from "../../../../components/input/Input";
+import InputSelect from "../../../../components/inputSelect/InputSelect";
+import SearchBar from "../../../../components/SearchBar/SearchBar";
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 export default function EditGame({
   gameData,
   updateGameValueArray,

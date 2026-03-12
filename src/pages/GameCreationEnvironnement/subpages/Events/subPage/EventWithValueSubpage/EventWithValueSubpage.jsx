@@ -1,16 +1,16 @@
 import "./style.css";
 import { useState, useEffect } from "react";
-import Button from "../../../../../components/Button/Button.jsx";
-import EventCard from "../../../../../components/Cards/EventCard/EventCard.jsx";
+import Button from "../../../../../../components/Button/Button.jsx";
+import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
 import { useTranslation } from "react-i18next";
-import TitleContainer from "../../../../../components/TitleContainer/TitleContainer.jsx";
-import Input from "../../../../../components/input/Input.jsx";
-import { useGameContext } from "../../../../../context/GameContext.jsx";
-import InputSelect from "../../../../../components/inputSelect/InputSelect.jsx";
+import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
+import Input from "../../../../../../components/input/Input.jsx";
+import { useGameContext } from "../../../../../../context/GameContext.jsx";
+import InputSelect from "../../../../../../components/inputSelect/InputSelect.jsx";
 import {
   updateElementValue,
   updateValueArray,
-} from "../../../../../helpers/objectManagement.js";
+} from "../../../../../../helpers/objectManagement.js";
 
 export default function CurrentWithValueEventubpage({
   withValueEvents,
