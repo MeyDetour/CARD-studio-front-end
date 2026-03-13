@@ -1,4 +1,12 @@
 .eventSubPageOfEventsAndDeclencheurSubpage {
+  .left { 
+    
+      overflow-y: scroll;
+    
+
+      height: 93.7vh;
+      max-height: 93.7vh;
+  }
   .right {
     overflow-y: scroll;
     height: 93.7vh;

@@ -1,7 +1,7 @@
 import { t } from "i18next";
 
 export function updateValueArray(path, object, value, type = "multiple") {
- console.log(path);
+ 
   const keys = path.split(".");
   const newObj = { ...object };
   let current = newObj;
@@ -12,7 +12,9 @@ export function updateValueArray(path, object, value, type = "multiple") {
     current = current[key];
   }
   const lastKey = keys[keys.length - 1];
-  const targetArray = current[lastKey];
+  const targetArray = current[lastKey]; 
+  
+
   if (type === "delete") {
     if (typeof value === "object" && value.id !== null) {
       const existingElt = targetArray.find((elt) => elt.id === value.id);
@@ -25,11 +27,13 @@ export function updateValueArray(path, object, value, type = "multiple") {
       }
     }
     return newObj;
-  }if (type === "new") {
+  }
+  if (type === "new") {
      targetArray.push(value);
     
     return newObj;
   }
+
 
   if (!targetArray) {
     current[lastKey] = [value];
@@ -48,7 +52,7 @@ export function updateValueArray(path, object, value, type = "multiple") {
       current[lastKey] = [...filteredArray, value];
     } else {
       // if not object we add it if not present, else we remove it
-      if (!targetArray.includes(value)) {
+      if (!targetArray.includes(value) ){
         if (type === "multiple") {
           current[lastKey] = [...targetArray, value];
         } else {

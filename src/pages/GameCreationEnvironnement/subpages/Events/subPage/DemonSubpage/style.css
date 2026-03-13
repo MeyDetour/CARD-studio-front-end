@@ -10,10 +10,17 @@
     padding: 24px 18px 0 18px;
     flex-direction: column;
     min-height: 100%;
-    align-items: flex-start;
+    align-items: flex-start; 
+    
+      overflow-y: scroll;
+     
+  
+      height: 93.7vh;
+      max-height: 93.7vh;
     gap: 16px;
     border-right: 0.8px solid #e1e8f1;
     background: #fcfcfc;
+    
     .headerEvent {
       display: flex;
       flex-direction: row;

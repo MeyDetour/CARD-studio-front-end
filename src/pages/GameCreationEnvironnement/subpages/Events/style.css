@@ -41,17 +41,39 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: stretch;
+    overflow: hidden;
     min-height: 100%;
     .left {
       display: flex;
       width: 20%;
-      padding: 24px 18px 0 18px;
-      flex-direction: column;
-      min-height: 100%;
+      padding: 24px 18px 61px 18px;
+      overflow-y: scroll;
+      flex-direction: column; 
       align-items: flex-start;
       gap: 16px;
       border-right: 0.8px solid #e1e8f1;
+      box-sizing:   border-box;
       background: #fcfcfc;
+      overflow-x: hidden;
+
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: transparent;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: transparent;
+      }
       .headerEvent {
         display: flex;
         flex-direction: row;

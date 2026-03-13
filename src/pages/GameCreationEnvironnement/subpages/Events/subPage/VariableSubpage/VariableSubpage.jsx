@@ -39,8 +39,7 @@ export default function VariableSubpage({
   useEffect(() => {
     setEditedObject(null);
   }, [subPage]);
-
-  console.log("editObject :>> ", editedObject);
+ 
 
   return (
     <div className={" globalValuesubPageOfdemonsAndDeclencheurSubpage"}>

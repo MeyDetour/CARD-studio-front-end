@@ -47,7 +47,7 @@ export default function EventSubpage({
   // update game context when we update current event
   useEffect(() => {
     if (currentEvent) updateGameValueArray("events.events", currentEvent);
-  }, [currentEvent]);
+  }, [currentEvent]); 
 
   return (
     <div className={" eventSubPageOfEventsAndDeclencheurSubpage"}>
@@ -63,7 +63,7 @@ export default function EventSubpage({
                 "events.events",
                 {
                   id: Date.now(),
-                  name: "Dafault name",
+                  name: "Default name",
                   condition: "",
                   event: {
                     for: "",
@@ -152,9 +152,9 @@ export default function EventSubpage({
                 items={["{allPlayersInGame}"]}
                 closeAfterSelect={true}
                 selected={currentEvent.boucle ? [currentEvent.boucle] : []}
-                updateValueArray={(path, value) => {
-                  setCurrentEvent(
-                    updateValueArray(path, currentEvent, value, "unique"),
+                updateValueArray={(path, value) => { 
+                  setCurrentEvent( 
+                    updateElementValue(path, currentEvent, value===currentEvent.boucle ? null : value),
                   );
                 }}
               ></InputSelect>

@@ -15,8 +15,7 @@ export async function apiClient(path, body, customConfig = {},formData=null ) {
   if (formData) {
     config.body = formData;
     delete config.headers["Content-Type"];
-  }
-console.log(config);
+  } 
   const response = await fetch(`${BASE_URL}${path}`, config);
 
   if (!response.ok) {
@@ -30,7 +29,7 @@ console.log(config);
 
     if (response.status === 401) {
        if (path && path.toLowerCase().includes("api/login_check")) {
-       console.log("throw event");
+        
         throw new Error("Email ou mot de passe invalide");
       }
       throw new Error("UNAUTHORIZED");

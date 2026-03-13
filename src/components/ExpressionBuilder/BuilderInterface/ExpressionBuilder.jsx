@@ -41,9 +41,7 @@ export default function ExpressionBuilder({
       ]);
     }
   
-  }, []);
-  
-  console.log("globalStructure :>> ", globalstructure);
+  }, []); 
   return (
     <div className="expressionBuilderContainer">
       <div className="expressionBuilder basicContainer">

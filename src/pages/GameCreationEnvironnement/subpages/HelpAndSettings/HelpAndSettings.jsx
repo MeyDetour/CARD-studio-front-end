@@ -8,9 +8,9 @@ import { useApi } from "../../../../hooks/useApi";
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
-import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
-import Input from "../../../../components/input/Input";
-import InputSelect from "../../../../components/inputSelect/InputSelect";
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar"; 
+import Settings from "./Settings/Settings.jsx";
+import Help from "./Help copy/Help.jsx";
 
 export default function HelpAndSettings({
   gameData,
@@ -19,11 +19,8 @@ export default function HelpAndSettings({
   updateGameValueArray,
   updateGameValue,
 }) {
-  const { canDisplayError, setCanDisplayError } = useNotificationContext();
-  const [subPage, setSubpage] = useState("settings");
-  const { result, fetchData } = useApi();
-  const { editUser } = useUserContext();
- 
+   const [subPage, setSubpage] = useState("settings");
+
 
   return (
     <div className="helpAndSettingsSubpage">
@@ -39,27 +36,11 @@ export default function HelpAndSettings({
         }}
         page={subPage}
       />
-      <div className="basicContainer visibilitySection">
-        <TitleContainer title={"generalSettings"} type="h2"></TitleContainer>
-        <InputSelect
-          title={"language"}
-          updateValueArray={(value) => editUserHandler({ ...user, lang: value })}
-          closeAfterSelect={true}
-          selected={user?.lang ? [user.lang] : ["fr"]}
-          items={["en", "fr"]}
-        />
-      </div>
 
-      <div className="basicContainer visibilitySection">
-        <TitleContainer title={"errorVisibility"} type="h2"></TitleContainer>
-        <Input
-          title="displayErrorsAndWarnings"
-          description="displayErrorsAndWarningsToggle"
-          inputType="toggle"
-          onChangeFunction={(value) => editUserHandler({ ...user, displayErrors: value })}
-          defaultValue={canDisplayError}
-        />
-      </div>
+      {subPage === "settings" && <Settings user={user} editUserHandler={editUserHandler} />}
+      {subPage === "help" && <Help/>}
+
+      
     </div>
   );
 }

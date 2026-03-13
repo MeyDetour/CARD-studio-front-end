@@ -2,7 +2,7 @@
 import "./style.css"; 
 
 export default function Icon({
- name, 
+ name,  
  callback,
  className="",
 }) {

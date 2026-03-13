@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 export function formatSmartDate(dateString) {
-  const { t } = useTranslation();
-  console.log(dateString);
-  const date = new Date(dateString);
-  console.log(date);
+  const { t } = useTranslation(); 
+  const date = new Date(dateString); 
   // Sécurité absolue
   if (isNaN(date.getTime())) {
     return "DATE INVALID"; // ou "Date invalide"

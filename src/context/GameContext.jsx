@@ -18,19 +18,15 @@ export function GameProvider({ children }) {
   const deleteGameSaved = (id) => {
     localStorage.removeItem("gamesSaved" + id);
   };
-  const saveNewGameInStorage = (newGame) => {
-    console.log("save game in storage");
+  const saveNewGameInStorage = (newGame) => { 
     localStorage.setItem("gamesSaved" + newGame.id, JSON.stringify(newGame));
   };
-  const getGameInStorage = (id) => {
-    console.log("get game in storage");
-    console.log(id);
+  const getGameInStorage = (id) => { 
     try {
       let raw = localStorage.getItem("gamesSaved" + id);
 
       if (!raw) return null;
-      raw = JSON.parse(raw);
-      console.log(raw);
+      raw = JSON.parse(raw); 
       return raw;
     } catch (e) {
       console.error("Failed to parse gamesSaved from localStorage", e);
@@ -75,11 +71,9 @@ export function GameProvider({ children }) {
     return result;
   };
 
-  const pushModification = async (game) => {
-    console.log("Send request to save :");
+  const pushModification = async (game) => { 
 
-    let newObj = JSON.parse(JSON.stringify(game));
-    console.log(newObj);
+    let newObj = JSON.parse(JSON.stringify(game)); 
     newObj.EventDemons = newObj.events.demons;
 
     delete newObj.events.demons;
@@ -109,6 +103,7 @@ export function GameProvider({ children }) {
     } else {
       deleteGameSaved(newObj.id);
     }
+    return game
   };
   const deleteGame = async () => {
     const result = await fetchData("api/game/remove/" + game.id, null, {
@@ -120,8 +115,7 @@ export function GameProvider({ children }) {
     }
     return result;
   };
-  const getGame = async (id) => {
-    console.log("fetch game");
+  const getGame = async (id) => { 
     const resultGames = await fetchData("api/game/" + id, null, {
       token: getToken(),
     });

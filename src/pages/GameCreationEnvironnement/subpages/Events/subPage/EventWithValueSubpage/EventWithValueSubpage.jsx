@@ -35,8 +35,7 @@ export default function CurrentWithValueEventubpage({
       setCurrentWithValueEvent(withValueEvents[0]);
     }
   }, [withValueEvents]);
-
-  console.log(currentWithValueEvent);
+ 
   return (
     <div
       className={
@@ -55,7 +54,7 @@ export default function CurrentWithValueEventubpage({
                 "events.withValueEvent",
                 {
                   id: Date.now(),
-                  name: "Dafault name",
+                  name: "Default name",
                   condition: "",
                   event: {
                     for: "",

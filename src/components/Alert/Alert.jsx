@@ -67,9 +67,7 @@ export default function Alert({
       {alertMessages.map((alertString, index) => {
         const parts = alertString.split("|");
         const severity = parts[3] || "alert";
-        const translationKey = parts[2];
-        console.log("alert string :");
-        console.log(alertString);
+        const translationKey = parts[2]; 
         return (
           <div key={index} className={`alertItem ${severity}Case`}>
             <img

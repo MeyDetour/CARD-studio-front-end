@@ -28,8 +28,7 @@ export default function DemonSubpage({
     setCurrentSubpageOfEvents,
   } = useGameContext();
   const { alertList } = useNotificationContext();
-   const { t } = useTranslation();
-  console.log(currentDemon);
+   const { t } = useTranslation(); 
 
   if (!demons) return;
 

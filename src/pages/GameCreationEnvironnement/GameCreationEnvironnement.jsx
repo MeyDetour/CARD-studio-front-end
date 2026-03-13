@@ -36,6 +36,7 @@ import RoundsPage from "./subpages/RoundsAndManches/Rounds";
 // Hooks
 import { useApi } from "../../hooks/useApi";
 import i18next from "i18next";
+import { set } from "react-hook-form";
 
 export default function GameCreationEnvironnement() {
   const navigate = useNavigate();
@@ -58,9 +59,7 @@ export default function GameCreationEnvironnement() {
   const { setAlerts, alertList, setCanDisplayError } = useNotificationContext();
 
   useEffect(() => {
-    const initGame = async () => {
-      console.log(id);
-      console.log(game);
+    const initGame = async () => { 
       const stored = getGameInStorage(id);
 
       if (stored && String(stored.id) === String(id)) {
@@ -129,8 +128,9 @@ export default function GameCreationEnvironnement() {
     setPlayerHasEdit(true);
   };
 
-  const saveGame = () => {
-    pushModification(game);
+  const saveGame = async () => {
+    let newGame = await pushModification(game); 
+    setGame(newGame);
   };
 
   const uploadFileForGameEditionHandler = (file) => {

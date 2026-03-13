@@ -1,6 +1,4 @@
-export function loadAlertListFormGame(gameData) {
-  console.log("loads alerts");
-  console.log(gameData);
+export function loadAlertListFormGame(gameData) { 
   if (
     !gameData ||
     !gameData.params.tours ||
@@ -58,8 +56,6 @@ export function loadAlertListFormGame(gameData) {
         event.id + "|eventWithValue|eventWithValueNameCannotBeEmpty|alert",
       );
     }
-  });
-  console.log("alertList");
-  console.log(alertList);
+  }); 
   return alertList;
 }

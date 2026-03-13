@@ -22,6 +22,8 @@ import Input from "../../../../components/input/Input";
 import InputSelect from "../../../../components/inputSelect/InputSelect";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
+import Alert from "../../../../components/Alert/Alert.jsx";
+
 export default function EditGame({
   gameData,
   updateGameValueArray,
@@ -129,8 +131,7 @@ export default function EditGame({
               <input
                 type="file"
                 onChange={(e) => {
-                  const selectedFile = e.target.files[0];
-                  console.log(selectedFile);
+                  const selectedFile = e.target.files[0]; 
                   if (selectedFile.type == "image/jpeg" || selectedFile.type === "image/png") {
                     setGameImageUploaded(selectedFile);
                     setGameImageUploadedUrl(URL.createObjectURL(selectedFile));
@@ -170,13 +171,8 @@ export default function EditGame({
             title="minPlayers"
             defaultValue={gameData.minPlayer}
             onChangeFunction={(path, value) => {
-              const minVal = parseInt(value) || 0;
-              console.log(minVal);
-              console.log(minVal + 1);
-              console.log(gameData.maxPlayer);
-              console.log(minVal >= gameData.maxPlayer);
-              if (minVal >= gameData.maxPlayer) {
-                console.log("updateMaxPlayer");
+              const minVal = parseInt(value) || 0; 
+              if (minVal >= gameData.maxPlayer) { 
                 updateGameValue("params.globalGame.maxPlayer", minVal + 1);
               }
               updateGameValue(path, minVal);
@@ -282,8 +278,7 @@ export default function EditGame({
           text={"delete"}
           action={async () => {
             if (confirm(t("doYouRealyWantToDeleteGame"))) {
-              let result = await deleteGame();
-              console.log(result);
+              let result = await deleteGame(); 
               if (result && result.message === "ok") {
                 navigate("/");
               }

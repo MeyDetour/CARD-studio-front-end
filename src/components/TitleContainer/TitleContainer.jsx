@@ -7,6 +7,7 @@ export default function TitleContainer({
   description,
   icon,
   type = "h1",
+  number =null
 }) {
   const { t } = useTranslation();
 
@@ -15,7 +16,7 @@ export default function TitleContainer({
       <div className="titleContainer titleContainer-h1"> 
         <Icon name={icon}></Icon>
         <div>
-          <h1>{t(title)}</h1>
+          <h1>{ number ? `${number}. ${t(title)}` : t(title)}</h1>
 
           <p>{t(description)}</p>
         </div>
@@ -31,13 +32,13 @@ export default function TitleContainer({
         {(() => {
           switch (type) {
             case "h1":
-              return <h1>{t(title)}</h1>;
+              return <h1>{ number ? `${number}. ${t(title)}` : t(title)}</h1>;
             case "h2":
-              return <h2>{t(title)}</h2>;
+              return <h2>{ number ? `${number}. ${t(title)}` : t(title)}</h2>;
             case "h3":
-              return <h3>{t(title)}</h3>;
+              return <h3>{ number ? `${number}. ${t(title)}` : t(title)}</h3>;
             case "normalText":
-              return <span className="normalText">{t(title)}</span>;
+              return <span className="normalText">{ number ? `${number}. ${t(title)}` : t(title)}</span>;
           }
         })()}
       </div>

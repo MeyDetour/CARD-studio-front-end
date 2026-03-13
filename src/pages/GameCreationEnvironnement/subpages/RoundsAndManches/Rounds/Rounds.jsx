@@ -8,6 +8,7 @@ import Input from "../../../../../components/input/Input";
 import InputRange from "../../../../../components/inputRange/inputRange";
 import InputSelect from "../../../../../components/inputSelect/InputSelect";
 import Alert from "../../../../../components/Alert/Alert";
+import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import { updateElementValue, updateValueArray } from "../../../../../helpers/objectManagement";
 import EventCard from "../../../../../components/Cards/EventCard/EventCard"; 
 import { useNotificationContext } from "../../../../../context/NotificationContext";

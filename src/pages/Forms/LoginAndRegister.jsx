@@ -23,7 +23,7 @@ export default function LoginAndRegisterPage() {
   });
 
   const { setUser } = useUserContext();
-  const { result, loading, error, fetchData, resetError } = useApi();
+  const { result, loading, error, fetchData, setError } = useApi();
   const [subPage, setSubPage] = useState("navLogin");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
@@ -49,6 +49,10 @@ export default function LoginAndRegisterPage() {
     try {
       if (subPage == "navLogin") {
         res = await fetchData("api/login_check", data);
+        if (res && res.token) {
+          setToken(res.token);
+          navigate("/");
+        }
       } else {
         res = await fetchData("register", data);
         if (res.message === "ok") {

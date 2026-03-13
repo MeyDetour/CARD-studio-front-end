@@ -1,4 +1,5 @@
-import "./style.css";
+import "./style.css"; 
+import { useState } from "react";
 import Button from "../Button/Button";
 import { useTranslation } from "react-i18next";
 import { useNotificationContext } from "../../context/NotificationContext";
@@ -18,6 +19,7 @@ export default function GameCreationEnvironnementNavigation({
     useGameContext();
   const { alertList, getAlertOfType } = useNotificationContext();
 
+  const [gameInStorage, setGameInStorage] = useState(getGameInStorage(id));
   return (
     <nav className="gameCreationEnvironnementNavigationSideBar">
       <div className="sidebar-section">
@@ -235,9 +237,10 @@ export default function GameCreationEnvironnementNavigation({
       <Button
         icon="save"
         text="save"
-        clickable={getGameInStorage != ""}
+
+        clickable={gameInStorage ? true : false}
         type={
-          getGameInStorage != ""
+          gameInStorage
             ? "whiteWithBordure"
             : "whiteWithBordure-Disabled"
         }

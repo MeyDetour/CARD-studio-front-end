@@ -48,15 +48,13 @@ export default function SelectGame() {
   }, []);
 
   async function newGame() {
-    setIsNewGameLoading(true);
-    console.log("create new");
+    setIsNewGameLoading(true); 
     const resultGames = await createNewGame();
     if (resultGames) {
       navigate("/game/dashboard/" + resultGames.id);
     }else{}
   }
-
-  console.log("personalGames :>> ", personalGames);
+ 
   // return <Loader></Loader>
 
   if (error) return <p>Erreur : {error}</p>;
@@ -88,7 +86,7 @@ export default function SelectGame() {
           number={otherStat.activPlayers}
         />
         <StatElement
-          text={"statWhoAsPlayed"}
+          text={"playerWichHasPlayed"}
           icon={"game-players"}
           number={otherStat.playersPlayed}
         />

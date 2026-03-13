@@ -20,8 +20,7 @@ export function NotificationProvider({ children }) {
     if (get(alertList, message)) return;
     setAlertList((prev) => [...prev, message]);
   }
-  function removeAlert(message) {
-    console.log("remove alert " + message);
+  function removeAlert(message) { 
     setAlertList((prev) => prev.filter((alert) => alert !== message));
   }
   function getAlerts(message) {
