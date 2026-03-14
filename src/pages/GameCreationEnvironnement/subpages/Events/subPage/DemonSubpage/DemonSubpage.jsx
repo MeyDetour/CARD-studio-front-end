@@ -19,6 +19,7 @@ export default function DemonSubpage({
   events,
   updateGameValue,
   updateGameValueArray,
+                suggestions,
 }) {
   const [playerHasEdit, setPlayerHasEdit] = useState(false);
   const {

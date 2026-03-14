@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import "./style.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router";
 import TitleContainer from "../TitleContainer/TitleContainer";
 export default function Input({
@@ -13,9 +13,11 @@ export default function Input({
   disabled = false,
   pathInObject = "",
   onChangeFunction,
+  suggestions = [],
 }) {
   const { t } = useTranslation();
   let inputNumber = useRef(null);
+  const [focused, setFocused] = useState(false);
 
   if (inputType === "toggle") {
     return (
@@ -51,18 +53,59 @@ export default function Input({
         switch (inputType) {
           case "input":
             return (
-              <input
-                disabled={disabled}
-                onChange={(e) =>
-                  !disabled &&
-                  (pathInObject
-                    ? onChangeFunction(pathInObject, e.target.value)
-                    : onChangeFunction(e.target.value))
-                }
-                value={defaultValue ?? ""}
-                type="text"
-                placeholder={t(placeholder)}
-              />
+              <>
+                <input
+                  disabled={disabled}
+                  onChange={(e) =>
+                    !disabled &&
+                    (pathInObject
+                      ? onChangeFunction(pathInObject, e.target.value)
+                      : onChangeFunction(e.target.value))
+                  }
+                  onFocus={() => setFocused(true)}
+                  onBlur={() => setFocused(false)}
+                  value={defaultValue ?? ""}
+                  type="text"
+                  placeholder={t(placeholder)}
+                />
+                {(() => {
+                  let newSuggestions = suggestions.filter(
+                    (suggestion) =>
+                      (defaultValue == "" ||
+                        suggestion.label
+                          .toLowerCase()
+                          .includes(defaultValue ? defaultValue.toString().toLowerCase() : "")) &&
+                      suggestion.label != defaultValue,
+                  );
+
+                  if (newSuggestions.length === 0) return null;
+                  return (
+                    <div
+                      className="suggestion"
+                      style={{ display: focused ? "flex" : "none" }}
+                    >
+                      {newSuggestions.map((suggestion, index) => {
+                        return (
+                          <span
+                            onMouseDown={() => {
+                              console.log(suggestion);
+                              pathInObject
+                                ? onChangeFunction(
+                                    pathInObject,
+                                    suggestion.label,
+                                  )
+                                : onChangeFunction(suggestion.label);
+                            }}
+                            key={index}
+                          >
+                            {suggestion.label}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
+              </>
             );
           case "number":
             return (

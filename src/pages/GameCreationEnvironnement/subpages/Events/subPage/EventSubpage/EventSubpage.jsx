@@ -16,11 +16,13 @@ import { useNotificationContext } from "../../../../../../context/NotificationCo
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
 
-
 export default function EventSubpage({
   events,
   demons,
   gains,
+  globalPlayerValue,
+  suggestions,
+  globalValue,
   withValueEvents,
   updateGameValue,
   updateGameValueArray,
@@ -35,7 +37,7 @@ export default function EventSubpage({
     useState(false);
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
- 
+
   if (!events) return;
 
   useEffect(() => {
@@ -47,8 +49,9 @@ export default function EventSubpage({
   // update game context when we update current event
   useEffect(() => {
     if (currentEvent) updateGameValueArray("events.events", currentEvent);
-  }, [currentEvent]); 
+  }, [currentEvent]);
 
+  console.log(currentEvent);
   return (
     <div className={" eventSubPageOfEventsAndDeclencheurSubpage"}>
       <div className="left">
@@ -113,7 +116,7 @@ export default function EventSubpage({
               />
               <Input
                 title="eventNameLabel"
-                defaultValue={currentEvent.name}
+                defaultValue={currentEvent.name ?? ""}
                 pathInObject="name"
                 onChangeFunction={(path, value) => {
                   setCurrentEvent(
@@ -124,7 +127,7 @@ export default function EventSubpage({
               <Input
                 title="activationCondition"
                 description="activationConditionDescription"
-                defaultValue={currentEvent.condition}
+                defaultValue={currentEvent.condition ?? ""}
                 pathInObject="condition"
                 onChangeFunction={(path, value) => {
                   setCurrentEvent(
@@ -135,7 +138,7 @@ export default function EventSubpage({
               <Input
                 title="loadMessage"
                 description="loadMessageDescription"
-                defaultValue={currentEvent.loadMessage}
+                defaultValue={currentEvent.loadMessage ?? ""}
                 pathInObject="loadMessage"
                 onChangeFunction={(path, value) => {
                   setCurrentEvent(
@@ -152,16 +155,20 @@ export default function EventSubpage({
                 items={["{allPlayersInGame}"]}
                 closeAfterSelect={true}
                 selected={currentEvent.boucle ? [currentEvent.boucle] : []}
-                updateValueArray={(path, value) => { 
-                  setCurrentEvent( 
-                    updateElementValue(path, currentEvent, value===currentEvent.boucle ? null : value),
+                updateValueArray={(path, value) => {
+                  setCurrentEvent(
+                    updateElementValue(
+                      path,
+                      currentEvent,
+                      value === currentEvent.boucle ? null : value,
+                    ),
                   );
                 }}
               ></InputSelect>
               <Input
                 title="condition"
                 description="condition-in-boucle-description"
-                defaultValue={currentEvent.event.condition}
+                defaultValue={currentEvent.event.condition ?? ""}
                 pathInObject="event.condition"
                 onChangeFunction={(path, value) => {
                   setCurrentEvent(
@@ -173,10 +180,17 @@ export default function EventSubpage({
 
             <div className="basicContainer">
               <Input
-                title="player-concerned"
-                description="player-concerned-description"
-                defaultValue={currentEvent.event.for}
-                pathInObject="event.for"
+                title="entity-concerned"
+                description="entity-concerned-description"
+                defaultValue={currentEvent.event.from ?? ""}
+                pathInObject="event.from"
+                suggestions={
+                  currentEvent.boucle
+                    ? suggestions
+                    : suggestions.filter(
+                        (s) => !s.label.includes("{playerBoucle"),
+                      )
+                }
                 onChangeFunction={(path, value) => {
                   setCurrentEvent(
                     updateElementValue(path, currentEvent, value),
@@ -185,10 +199,28 @@ export default function EventSubpage({
               />
 
               <Input
-                title="player-target"
-                description="player-target-description"
-                defaultValue={currentEvent.event.from}
-                pathInObject="event.from"
+                title="entity-target"
+                description="entity-target-description"
+                defaultValue={currentEvent.event.for ?? ""}
+                suggestions={(() => {
+                  const selectedFrom = suggestions.find(
+                    (s) => s.label === currentEvent.event.from,
+                  );
+                  const typeOfFrom = selectedFrom?.type;
+
+                  let filtered = typeOfFrom
+                    ? suggestions.filter((s) => s.type === typeOfFrom)
+                    : suggestions;
+
+                  if (!currentEvent.boucle) {
+                    filtered = filtered.filter(
+                      (s) => !s.label.includes("{playerBoucle"),
+                    );
+                  }
+
+                  return filtered;
+                })()}
+                pathInObject="event.for"
                 onChangeFunction={(path, value) => {
                   setCurrentEvent(
                     updateElementValue(path, currentEvent, value),
@@ -214,8 +246,17 @@ export default function EventSubpage({
                         currentEvent.event.give
                           ? currentEvent.event.give["{gain#" + gain.id + "}"]
                             ? currentEvent.event.give["{gain#" + gain.id + "}"]
-                            : 0
-                          : 0
+                            : ""
+                          : ""
+                      }
+                      suggestions={
+                        currentEvent.boucle
+                          ? suggestions.filter((s) => s.type === "number")
+                          : suggestions.filter(
+                              (s) =>
+                                !s.label.includes("{playerBoucle") &&
+                                s.type === "number",
+                            )
                       }
                       inputType="input"
                       pathInObject={"event.give.{gain#" + gain.id + "}"}
@@ -234,10 +275,19 @@ export default function EventSubpage({
                     currentEvent.event.give
                       ? currentEvent.event.give["{cards}"]
                         ? currentEvent.event.give["{cards}"]
-                        : 0
-                      : 0
+                        : ""
+                      : ""
                   }
                   inputType="number"
+                  suggestions={
+                    currentEvent.boucle
+                      ? suggestions.filter((s) => s.type === "number")
+                      : suggestions.filter(
+                          (s) =>
+                            !s.label.includes("{playerBoucle") &&
+                            s.type === "number",
+                        )
+                  }
                   pathInObject={"event.give.{cards}"}
                   onChangeFunction={(path, value) => {
                     setCurrentEvent(
@@ -268,7 +318,7 @@ export default function EventSubpage({
                 <Input
                   title="eventValue"
                   description="eventValueDescription"
-                  defaultValue={currentEvent.event.value}
+                  defaultValue={currentEvent.event.value ?? ""}
                   pathInObject="event.value"
                   onChangeFunction={(path, value) => {
                     setCurrentEvent(
@@ -283,34 +333,31 @@ export default function EventSubpage({
                 title="demonsWichExecuteThisEvent"
                 description="hereIsAllDemonWichCallThisEvent"
               />
-             
-                  <div className="wrapperSelection">
-                    {demons &&
-                      demons.map((demon, index) => (
-                        <DemonCard
-                          alertMessage={demon.id + "|demon|"}
-                          key={index}
-                          action={() => {
-                            updateGameValueArray(
-                              "events.demons",
-                              updateValueArray(
-                                "events",
-                                demon,
-                                currentEvent.id,
-                              )
-                            );
-                            setOpenPanelToAddDemon(false);
-                          }}
-                          demon={demon}
-                          displayIcons={true}
-                          isSelected={demon.events && demon.events.includes(currentEvent.id)}
-                        />
-                      ))}
-                  </div>
-                   {demons && demons.length === 0 && (
-                          <span className="normalText">{t("noDemonInGame")}</span>
-                        )}
-                 
+
+              <div className="wrapperSelection">
+                {demons &&
+                  demons.map((demon, index) => (
+                    <DemonCard
+                      alertMessage={demon.id + "|demon|"}
+                      key={index}
+                      action={() => {
+                        updateGameValueArray(
+                          "events.demons",
+                          updateValueArray("events", demon, currentEvent.id),
+                        );
+                        setOpenPanelToAddDemon(false);
+                      }}
+                      demon={demon}
+                      displayIcons={true}
+                      isSelected={
+                        demon.events && demon.events.includes(currentEvent.id)
+                      }
+                    />
+                  ))}
+              </div>
+              {demons && demons.length === 0 && (
+                <span className="normalText">{t("noDemonInGame")}</span>
+              )}
             </div>
             <div className="basicContainer basicRedContainer rewardsManagementSection">
               <TitleContainer

@@ -16,6 +16,7 @@ export default function CurrentWithValueEventubpage({
   withValueEvents,
   demons,
   events,
+  suggestions,
   gains,
   updateGameValue,
   updateGameValueArray,
@@ -35,7 +36,7 @@ export default function CurrentWithValueEventubpage({
       setCurrentWithValueEvent(withValueEvents[0]);
     }
   }, [withValueEvents]);
- 
+
   return (
     <div
       className={
@@ -143,7 +144,11 @@ export default function CurrentWithValueEventubpage({
                 pathObject="boucle"
                 items={["{allPlayersInGame}"]}
                 closeAfterSelect={true}
-                selected={currentWithValueEvent.boucle ? [currentWithValueEvent.boucle] : []}
+                selected={
+                  currentWithValueEvent.boucle
+                    ? [currentWithValueEvent.boucle]
+                    : []
+                }
                 updateValueArray={(path, value) => {
                   setCurrentWithValueEvent(
                     updateValueArray(
@@ -169,10 +174,17 @@ export default function CurrentWithValueEventubpage({
             </div>
             <div className="basicContainer">
               <Input
-                title="player-concerned"
-                description="player-concerned-description"
-                defaultValue={currentWithValueEvent.event.for}
-                pathInObject="event.for"
+                title="entity-concerned"
+                description="entity-concerned-description"
+                suggestions={
+                  currentWithValueEvent.boucle
+                    ? suggestions
+                    : suggestions.filter(
+                        (s) => !s.label.includes("{playerBoucle"),
+                      )
+                }
+                defaultValue={currentWithValueEvent.event.from}
+                pathInObject="event.from"
                 onChangeFunction={(path, value) => {
                   setCurrentWithValueEvent(
                     updateElementValue(path, currentWithValueEvent, value),
@@ -180,10 +192,29 @@ export default function CurrentWithValueEventubpage({
                 }}
               />
               <Input
-                title="player-target"
-                description="player-target-description"
-                defaultValue={currentWithValueEvent.event.from}
-                pathInObject="event.from"
+                title="entity-target"
+                description="entity-target-description"
+                defaultValue={currentWithValueEvent.event.for}
+                pathInObject="event.for"
+                // verifier que le recepteur soit du meme type que l'emetteur
+                suggestions={(() => {
+                  const selectedFrom = suggestions.find(
+                    (s) => s.label === currentWithValueEvent.event.from,
+                  );
+                  const typeOfFrom = selectedFrom?.type;
+
+                  let filtered = typeOfFrom
+                    ? suggestions.filter((s) => s.type === typeOfFrom)
+                    : suggestions;
+
+                  if (!currentWithValueEvent.boucle) {
+                    filtered = filtered.filter(
+                      (s) => !s.label.includes("{playerBoucle"),
+                    );
+                  }
+
+                  return filtered;
+                })()}
                 onChangeFunction={(path, value) => {
                   setCurrentWithValueEvent(
                     updateElementValue(path, currentWithValueEvent, value),
@@ -210,8 +241,17 @@ export default function CurrentWithValueEventubpage({
                             ? currentWithValueEvent.event.give[
                                 "{gain#" + gain.id + "}"
                               ]
-                            : 0
-                          : 0
+                            : ""
+                          : ""
+                      }
+                      suggestions={
+                        currentWithValueEvent.boucle
+                          ? suggestions.filter((s) => s.type === "number")
+                          : suggestions.filter(
+                              (s) =>
+                                !s.label.includes("{playerBoucle") &&
+                                s.type === "number",
+                            )
                       }
                       inputType="input"
                       pathInObject={"event.give.{gain#" + gain.id + "}"}
@@ -234,10 +274,19 @@ export default function CurrentWithValueEventubpage({
                     currentWithValueEvent.event.give
                       ? currentWithValueEvent.event.give["{cards}"]
                         ? currentWithValueEvent.event.give["{cards}"]
-                        : 0
-                      : 0
+                        : ""
+                      : ""
                   }
-                  inputType="number"
+                  suggestions={
+                    currentWithValueEvent.boucle
+                      ? suggestions.filter((s) => s.type === "number")
+                      : suggestions.filter(
+                          (s) =>
+                            !s.label.includes("{playerBoucle") &&
+                            s.type === "number",
+                        )
+                  }
+                  inputType="input"
                   pathInObject={"event.give.{cards}"}
                   onChangeFunction={(path, value) => {
                     setCurrentWithValueEvent(

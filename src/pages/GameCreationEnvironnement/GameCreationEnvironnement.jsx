@@ -6,6 +6,10 @@ import { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
+// hooks
+import { useDynamicEntitySuggestions } from "../../hooks/useDynamicSuggestions.js";
+
+
 // Contexts
 import { useUserContext } from "../../context/UserContext.jsx";
 import { useGameContext } from "../../context/GameContext";
@@ -95,7 +99,12 @@ export default function GameCreationEnvironnement() {
 
   console.log("game :", game);
   console.log("user :", user);
-
+const suggestions = useDynamicEntitySuggestions(
+    game?.globalValue, 
+    game?.playerGlobalValue,  
+  );
+  console.log("suggestions : ");
+  console.log(suggestions);
   // DETECTION DE MODIFICATION ET SAUVEGARDE AUTOMATIQUE
   useEffect(() => {
     if (!game || !playerHasEdit) return;
@@ -264,6 +273,7 @@ export default function GameCreationEnvironnement() {
               return (
                 <Events
                   gameData={{
+                    suggestions:suggestions,
                     events:
                       game.events && game.events.events
                         ? game.events.events.sort((a, b) => {
@@ -277,7 +287,7 @@ export default function GameCreationEnvironnement() {
                           })
                         : [],
                     gains:
-                      game.events && game.events.gains
+                      game.assets && game.assets.gains
                         ? game.assets.gains.sort((a, b) => {
                             return Number(a.id) - Number(b.id);
                           })
@@ -288,6 +298,7 @@ export default function GameCreationEnvironnement() {
                             return Number(a.id) - Number(b.id);
                           })
                         : [],
+                        
                     globalValue: game.globalValue,
                     playerGlobalValue: game.playerGlobalValue,
                   }}

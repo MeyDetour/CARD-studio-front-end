@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
   gap: 8px;
   input,
   textarea {
@@ -23,6 +24,34 @@
     font-weight: 400;
     line-height: normal;
     font-family: "Inter";
+  }
+  .suggestion {
+    display: flex;
+    flex-direction: column; 
+    justify-content: start;
+
+    display: flex;
+    border: 1px solid grey;
+    border-top: 0;
+
+    background: #ffffff0d;
+    backdrop-filter: blur(10px);
+    border-radius: 6px;
+    position: absolute;
+    bottom: 0;
+    transform: translateY(100%);
+    height: fit-content;
+    width: 100%;
+    max-height: 100px;
+    overflow-y: auto;
+    z-index: 5;
+    span { 
+      padding: 15px 10px 15px 10px;
+      cursor: pointer;
+    }
+    span:hover {
+      background: #e4e4e4;
+    }
   }
 }
 .input.disabled {

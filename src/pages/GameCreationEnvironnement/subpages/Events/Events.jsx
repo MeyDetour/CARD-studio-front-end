@@ -51,7 +51,10 @@ export default function Events({
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 events={gameData.events}
+                suggestions={gameData.suggestions}
                 demons={gameData.demons}
+                globalValue={gameData.globalValue}
+                globalPlayerValue={gameData.playerGlobalValue}
                 withValueEvents={gameData.withValueEvents}
                 gains={gameData.gains}
               />
@@ -64,6 +67,7 @@ export default function Events({
                 demons={gameData.demons}
                 withValueEvents={gameData.withValueEvents}
                 events={gameData.events}
+                suggestions={gameData.suggestions}
               />
             );
           case "withValueEvent":
@@ -73,6 +77,7 @@ export default function Events({
                 updateGameValue={updateGameValue}
                 demons={gameData.demons}
                 events={gameData.events}
+                suggestions={gameData.suggestions}
                 withValueEvents={gameData.withValueEvents}
               />
             );
