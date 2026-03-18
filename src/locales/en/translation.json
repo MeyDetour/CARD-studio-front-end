@@ -374,7 +374,9 @@
   "none": "None",
   "thisElementWillBeVisibleInGame": "This element will be visible during the game if this option is enabled. Otherwise, it will not be displayed during the game, but it can still be used in the game's rules and events.",
   "calledInTheseWithValueEvent": "Called in these dynamic value events",
-  "callTheseWithValueEvent": "Call in these dynamic value events",
+  "callTheseWithValueEvent": "Call these dynamic value events",
   "calledInTheseActions": "Called in these actions",
-  "calledInTheseEvents": "Called in these events"
+  "calledInTheseEvents": "Called in these events",
+  "useWithValueEvent": "Use a dynamic value event",
+  "selectWithValueEvent": "Select a dynamic value event"
 }

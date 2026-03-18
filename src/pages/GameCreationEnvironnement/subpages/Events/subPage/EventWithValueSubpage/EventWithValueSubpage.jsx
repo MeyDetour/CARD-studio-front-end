@@ -448,7 +448,7 @@ export default function CurrentWithValueEventubpage({
               title={"calledInThisWithValueEventt"}
               description="hereIsAllWithValueWichCallThisEvent"
             >
- <div className="wrapperSelection">
+              <div className="wrapperSelection">
                 {withValueEvents &&
                   withValueEvents.map(
                     (withValue, index) =>
@@ -479,79 +479,77 @@ export default function CurrentWithValueEventubpage({
                       ),
                   )}
               </div>
-
             </DetailContainer>
-          
 
-              <div class="basicContainer">
-                <TitleContainer title={"metadata"}></TitleContainer>
-
-                <span>
-                  {t("uniqueId")} : {currentWithValueEvent.id}
-                </span>
-                <span>
-                  {t("calledInTheseEvents")} :{" "}
-                  {
-                    events.filter((event) =>
-                      event.event.withValue
-                        ? event.event.withValue.filter(
-                            (e) => e.id == currentWithValueEvent.id,
-                          ).length > 0
-                        : 0,
-                    ).length
-                  }
-                </span> <span>
-                  {t("calledInTheseWithValueEvent")} :{" "}
-                  {
-                    withValueEvents.filter((event) =>
-                      event.event.withValue
-                        ? event.event.withValue.filter(
-                            (e) => e.id == currentWithValueEvent.id,
-                          ).length > 0
-                        : 0,
-                    ).length
-                  }
-                </span><span>
-                  {t("calledInTheseActions")} : 
-                  {
-                    actions.filter((a) => 
+            <div class="basicContainer">
+              <TitleContainer title={"metadata"}></TitleContainer>
+              <span>
+                {t("uniqueId")} : {currentWithValueEvent.id}
+              </span>
+              <span>
+                {t("calledInTheseEvents")} :{" "}
+                {
+                  events.filter((event) =>
+                    event.event.withValue
+                      ? event.event.withValue.filter(
+                          (e) => e.id == currentWithValueEvent.id,
+                        ).length > 0
+                      : 0,
+                  ).length
+                }
+              </span>{" "}
+              <span>
+                {t("calledInTheseWithValueEvent")} :{" "}
+                {
+                  withValueEvents.filter((event) =>
+                    event.event.withValue
+                      ? event.event.withValue.filter(
+                          (e) => e.id == currentWithValueEvent.id,
+                        ).length > 0
+                      : 0,
+                  ).length
+                }
+              </span>
+              <span>
+                {t("calledInTheseActions")} :
+                {
+                  actions.filter(
+                    (a) =>
                       a.withValue.filter(
-                            (e) => e.id == currentWithValueEvent.id,
-                          ).length > 0
-                        
-                    ).length
-                  }
-                </span>
-                <span>
-                  {t("callTheseWithValueEvent")} : 
-                  {currentWithValueEvent.event.withValue
-                    ? currentWithValueEvent.event.withValue.length
-                    : 0}
-                </span>
-              </div>
-              <div className="basicContainer basicRedContainer rewardsManagementSection">
-                <TitleContainer
-                  title={"deleteEvent"}
-                  type="h2"
-                  description={"youDeleteEventWithoutSave"}
-                />
+                        (e) => e.id == currentWithValueEvent.id,
+                      ).length > 0,
+                  ).length
+                }
+              </span>
+              <span>
+                {t("callTheseWithValueEvent")} :
+                {currentWithValueEvent.event.withValue
+                  ? currentWithValueEvent.event.withValue.length
+                  : 0}
+              </span>
+            </div>
+            <div className="basicContainer basicRedContainer rewardsManagementSection">
+              <TitleContainer
+                title={"deleteEvent"}
+                type="h2"
+                description={"youDeleteEventWithoutSave"}
+              />
 
-                <Button
-                  text={"delete"}
-                  type="redButton"
-                  action={async () => {
-                    if (confirm(t("doYouRealyWantToDeleteEvent"))) {
-                      updateGameValueArray(
-                        "events.withValueEvent",
-                        currentWithValueEvent,
-                        "delete",
-                      );
-                      setCurrentWithValueEvent(null);
-                    }
-                  }}
-                ></Button>
-              </div>
-            
+              <Button
+                text={"delete"}
+                type="redButton"
+                action={async () => {
+                  if (confirm(t("doYouRealyWantToDeleteEvent"))) {
+                    updateGameValueArray(
+                      "events.withValueEvent",
+                      currentWithValueEvent,
+                      "delete",
+                    );
+                    setCurrentWithValueEvent(null);
+                  }
+                }}
+              ></Button>
+            </div>
           </>
         ) : (
           <span>{t("noEventSelected")}</span>

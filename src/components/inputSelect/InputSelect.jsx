@@ -11,6 +11,7 @@ export default function InputSelect({
   selected,
   closeAfterSelect = false,
   updateValueArray,
+  itemsDisplayFields=[]
 }) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +50,11 @@ export default function InputSelect({
                   if (closeAfterSelect) setIsOpen(false);
                 }}
               >
-                {t(item)}
+                {
+                itemsDisplayFields.length > 0
+                  ? item[itemsDisplayFields[0]] + (itemsDisplayFields[1] ? " - " + item[itemsDisplayFields[1]] : "") + (itemsDisplayFields[2] ? " - " + item[itemsDisplayFields[2]] : "") + (itemsDisplayFields[3] ? " - " + item[itemsDisplayFields[3]] : "")
+                  : t(item)
+                } 
               </span>
             );
           })}

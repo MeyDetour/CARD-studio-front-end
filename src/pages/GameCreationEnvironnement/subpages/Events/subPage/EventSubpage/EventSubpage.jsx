@@ -15,7 +15,7 @@ import { actions } from "../elements.js";
 import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
-
+import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
 export default function EventSubpage({
   events,
   demons,
@@ -328,12 +328,12 @@ export default function EventSubpage({
                 />
               )}
             </div>
-            <div className="basicContainer demonsAssociatedContainer">
-              <TitleContainer
-                title="demonsWichExecuteThisEvent"
-                description="hereIsAllDemonWichCallThisEvent"
-              />
 
+            <DetailContainer
+              title={"demonsWichExecuteThisEvent"}
+              className="demonsAssociatedContainer"
+              description="hereIsAllDemonWichCallThisEvent"
+            >
               <div className="wrapperSelection">
                 {demons &&
                   demons.map((demon, index) => (
@@ -358,14 +358,43 @@ export default function EventSubpage({
               {demons && demons.length === 0 && (
                 <span className="normalText">{t("noDemonInGame")}</span>
               )}
-            </div>
+            </DetailContainer>
+            <DetailContainer
+              title={"withValueEventWichBeExecutedWhenThisEventIsTriggered"}
+              className="demonsAssociatedContainer"
+            >
+                 <InputSelect
+                                   title={"useWithValueEvent"}
+                                   updateValueArray={(value)=>{}}
+                                   closeAfterSelect={true}
+
+                                   selected={ [t("selectWithValueEvent")] }
+                                   items={withValueEvents}
+                                   itemsDisplayFields={["id","name"]}                                 />
+                              
+                                    
+            </DetailContainer>
+
             <div class="basicContainer">
               <TitleContainer title={"metadata"}></TitleContainer>
 
-              <span>{t('uniqueId')} : {currentEvent.id}</span>
-              <span>{t('demonsWichExecuteThisEvent')} : {demons.filter(demon=>demon.events.includes(currentEvent.id)).length}</span>
-              <span>{t('callTheseWithValueEvent')} : {currentEvent.event.withValue? currentEvent.event.withValue.length : 0}</span>
-              
+              <span>
+                {t("uniqueId")} : {currentEvent.id}
+              </span>
+              <span>
+                {t("demonsWichExecuteThisEvent")} :{" "}
+                {
+                  demons.filter((demon) =>
+                    demon.events.includes(currentEvent.id),
+                  ).length
+                }
+              </span>
+              <span>
+                {t("callTheseWithValueEvent")} :{" "}
+                {currentEvent.event.withValue
+                  ? currentEvent.event.withValue.length
+                  : 0}
+              </span>
             </div>
             <div className="basicContainer basicRedContainer rewardsManagementSection">
               <TitleContainer

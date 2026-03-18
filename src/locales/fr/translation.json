@@ -133,6 +133,8 @@
   "globalValueDescription": "Variable permettant de gérer les calcules ou de stocker des etats du jeu.",
   "playerGlobalValue": "Variable d'un joueur",
   "withValueEventTitle": "Événement avec Valeur",
+  "selectWithValueEvent": "Sélectionnez un événement avec valeur dynamique",
+  "useWithValueEvent":"Utiliser un événement avec valeur dynamique",
   "eventsAndTriggersManagementTitle": "Gestion des événements et déclencheurs",
   "eventsAndTriggersManagementDescription": "Cette partie permet de gérer tout ce qui est relatif aux actions d'un jeu, que ce soit pour distribuer des cartes, changer des variables ou incrémenter des tours ; c'est le cœur du fonctionnement du jeu.",
   "eventConfigurationTitle": "Configuration de l'événement",
@@ -376,6 +378,7 @@
   "thisElementWillBeVisibleInGame": "Cet élément sera visible pendant la partie si cette option est activée. Sinon, il ne sera pas affiché pendant la partie, mais il pourra toujours être utilisé dans les règles et les événements du jeu.",
   "calledInTheseWithValueEvent": "Appelé dans ces événements avec valeur dynamique",
   "calledInTheseActions":"Appelé dans ces actions",
-"callTheseWithValueEvent":"Appelé par ces événements avec valeur dynamique",
-"calledInTheseEvents":"Appelé par ces événements"
+"callTheseWithValueEvent":"Appel ces événements avec valeur dynamique",
+"calledInTheseEvents":"Appelé par ces événements",
+"withValueEventWichBeExecutedWhenThisEventIsTriggered":"Événements avec valeur dynamique qui seront exécutés lorsque cet événement est déclenché"
 }
