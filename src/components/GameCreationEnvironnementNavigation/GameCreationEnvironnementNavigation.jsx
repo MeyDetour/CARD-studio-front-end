@@ -1,5 +1,5 @@
-import "./style.css"; 
-import { useState } from "react";
+import "./style.css";
+import { use, useEffect, useState } from "react";
 import Button from "../Button/Button";
 import { useTranslation } from "react-i18next";
 import { useNotificationContext } from "../../context/NotificationContext";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import { useGameContext } from "../../context/GameContext";
 import Alert from "../Alert/Alert";
 
-export default function GameCreationEnvironnementNavigation({ 
+export default function GameCreationEnvironnementNavigation({
   saveGame,
   currentPage,
   game,
@@ -20,12 +20,16 @@ export default function GameCreationEnvironnementNavigation({
   const { alertList, getAlertOfType } = useNotificationContext();
 
   const [gameInStorage, setGameInStorage] = useState(getGameInStorage(id));
-  return (
+  useEffect(() => {
+    setGameInStorage(getGameInStorage(id));
+  }, [game,id,saveGame]);
+ 
+   return (
     <nav className="gameCreationEnvironnementNavigationSideBar">
       <div className="sidebar-section">
         <ul>
           <li>
-            <Alert alertList={alertList} ></Alert>
+            <Alert alertList={alertList}></Alert>
             <Button
               text={t("dashboard")}
               action={() => navigate("/game/dashboard/" + id)}
@@ -36,10 +40,7 @@ export default function GameCreationEnvironnementNavigation({
             />
           </li>
           <li>
-           <Alert
-              alertList={alertList}   
-              displayAlertOfType={"data"}
-            ></Alert>
+            <Alert alertList={alertList} displayAlertOfType={"data"}></Alert>
             <Button
               text={t("gameEdition")}
               action={() => navigate("/game/edit/" + id)}
@@ -48,7 +49,7 @@ export default function GameCreationEnvironnementNavigation({
             />
           </li>
           <li>
-            <Alert alertList={alertList} ></Alert>
+            <Alert alertList={alertList}></Alert>
             <Button
               text={t("assetLibrary")}
               action={() => navigate("/game/assets/" + id)}
@@ -65,7 +66,7 @@ export default function GameCreationEnvironnementNavigation({
         <h4 className="section-title">{t("elementManagement")}</h4>
         <ul>
           <li>
-            <Alert alertList={alertList} ></Alert>
+            <Alert alertList={alertList}></Alert>
             <Button
               text={t("cardManagement")}
               action={() => navigate("/game/cards/" + id)}
@@ -75,7 +76,7 @@ export default function GameCreationEnvironnementNavigation({
           </li>
 
           <li>
-            <Alert alertList={alertList} ></Alert>
+            <Alert alertList={alertList}></Alert>
             <Button
               clickable={
                 game &&
@@ -109,7 +110,7 @@ export default function GameCreationEnvironnementNavigation({
             />
           </li>
           <li>
-            <Alert alertList={alertList} ></Alert>
+            <Alert alertList={alertList}></Alert>
             <Button
               clickable={
                 game &&
@@ -151,7 +152,7 @@ export default function GameCreationEnvironnementNavigation({
         <h4 className="section-title">{t("others")}</h4>
         <ul>
           <li>
-            <Alert alertList={alertList} ></Alert>
+            <Alert alertList={alertList}></Alert>
             <Button
               text={t("manageDisplays")}
               action={() => navigate("/game/displays/" + id)}
@@ -160,7 +161,7 @@ export default function GameCreationEnvironnementNavigation({
             />
           </li>
           <li>
-            <Alert alertList={alertList} ></Alert>
+            <Alert alertList={alertList}></Alert>
             <Button
               text={t("gameFlow")}
               action={() => navigate("/game/flow/" + id)}
@@ -169,10 +170,7 @@ export default function GameCreationEnvironnementNavigation({
             />
           </li>
           <li>
-            <Alert
-              alertList={alertList}   
-              displayAlertOfType={"action"}
-            ></Alert>
+            <Alert alertList={alertList} displayAlertOfType={"action"}></Alert>
             <Button
               clickable={
                 game &&
@@ -206,8 +204,8 @@ export default function GameCreationEnvironnementNavigation({
             />
           </li>
           <li>
-             <Alert
-              alertList={alertList}   
+            <Alert
+              alertList={alertList}
               displayAlertOfType={"event|withValueEvent|demon"}
             ></Alert>
             <Button
@@ -220,14 +218,16 @@ export default function GameCreationEnvironnementNavigation({
               icon={currentPage === "events" ? "energy-white" : "energy"}
             />
           </li>
-             <li> 
+          <li>
             <Button
               text={t("helpAndSettings")}
               action={() => {
                 navigate("/game/help-and-settings/" + id);
                 setCurrentSubpageOfEvents(null);
               }}
-              type={currentPage == "help-and-settings" ? "navbar active" : "navbar"}
+              type={
+                currentPage == "help-and-settings" ? "navbar active" : "navbar"
+              }
               icon={currentPage === "help-and-settings" ? "help-white" : "help"}
             />
           </li>
@@ -237,13 +237,8 @@ export default function GameCreationEnvironnementNavigation({
       <Button
         icon="save"
         text="save"
-
         clickable={gameInStorage ? true : false}
-        type={
-          gameInStorage
-            ? "whiteWithBordure"
-            : "whiteWithBordure-Disabled"
-        }
+        type={gameInStorage ? "whiteWithBordure" : "whiteWithBordure-Disabled"}
         action={() => saveGame()}
       ></Button>
     </nav>

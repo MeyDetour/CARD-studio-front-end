@@ -10,6 +10,9 @@
   border-right: 0.8px solid #e1e8f1;
 
   padding: 46px 16px 16px 16px;
+  >div{
+    width: 100%;
+  }
   ul {
     list-style-type: none;
     padding: 0;

@@ -185,6 +185,7 @@ export default function DemonSubpage({
 
               <Button
                 text={"delete"}
+                type="redButton"
                 action={async () => {
                   if (confirm(t("doYouRealyWantToDeleteDemon"))) {
                     updateGameValueArray(

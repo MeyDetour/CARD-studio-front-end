@@ -1,0 +1,17 @@
+.detailBasicContainer summary {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+  .titleContainer {
+    cursor: pointer;
+    width: 97%;
+  }
+}
+.detailBasicContainer summary::marker {
+  display: none;
+}
+.detailBasicContainer::-webkit-details-marker {
+  display: none;
+}

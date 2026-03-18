@@ -66,12 +66,7 @@
       h2 {
         color: black;
       }
-      button {
-        background: red;
-        span {
-          color: white;
-        }
-      }
+     
     }
     .lightContainer {
       border-radius: 12px;

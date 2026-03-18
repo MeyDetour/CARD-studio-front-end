@@ -11,7 +11,7 @@ import Button from "../../../../../../components/Button/Button.jsx";
 export default function VariableSubpage({
   globalValue,
   playerGlobalValue,
-  updateGameValue,
+  updateGameValue, 
   updateGameValueArray,
 }) {
   const { t } = useTranslation();
@@ -21,25 +21,34 @@ export default function VariableSubpage({
 
   const currentData =
     subPage === "globalValue" ? globalValue : playerGlobalValue;
-  const currentKey =
-    subPage === "globalValue" ? "globalValue" : "playerGlobalValue";
 
   function save() {
     let newCurrentData = { ...currentData };
-    let currentElement = { ...newCurrentData[editedObject.oldName] };
 
     if (editedObject.name !== editedObject.oldName) {
       delete newCurrentData[editedObject.oldName];
     }
+    delete editedObject.oldName;
+    let name = editedObject.name;
+    delete editedObject.name;
 
-    newCurrentData[editedObject.name] = currentElement;
+    newCurrentData[name] = editedObject;
     setEditedObject(null);
-    updateGameValue(currentKey, newCurrentData);
+    updateGameValue(subPage, newCurrentData);
+  }
+  function removeVariable(name) {
+    let newCurrentData = { ...currentData };
+
+    delete newCurrentData[name];
+
+    setEditedObject(null);
+    updateGameValue(subPage, newCurrentData);
   }
   useEffect(() => {
     setEditedObject(null);
   }, [subPage]);
- 
+
+  console.log(editedObject);
 
   return (
     <div className={" globalValuesubPageOfdemonsAndDeclencheurSubpage"}>
@@ -54,11 +63,80 @@ export default function VariableSubpage({
         }}
         page={subPage}
       />
-
-      <TitleContainer
-        title={"globalValue"}
-        description={"globalValueDescription"}
-      ></TitleContainer>
+      <div className="titleRow">
+        <TitleContainer
+          title={"globalValue"}
+          description={"globalValueDescription"}
+        ></TitleContainer>
+        <Button
+          text={"new"}
+          icon={"add-white"}
+          type="grey"
+          action={() => {
+            let newName = "newVariable_" + new Date().getTime();
+            updateGameValue(
+              subPage + "." + newName,
+              {
+                name: newName,
+                type: "number",
+                defaultValue: 0,
+                display: false,
+              },
+              "new",
+            );
+          }}
+        />
+      </div>
+      <div className="informationContainer basicContainer">
+        
+        {subPage == "globalValue" ? (
+          <>
+            <p>
+              Note importante : Certaines variables ne doivent pas être créées
+              manuellement. Pour y accéder et les configurer, rendez-vous sur la
+              page concernée ; ne les recréez pas ici. Vous pouvez utiliser ces
+              variables directement dans vos formules.
+              <br/>
+              Voici les variables concernées :
+            </p>
+            <ul>
+             <li><strong>players :</strong> Liste des joueurs.</li>
+  <li><strong>messages :</strong> Messages traités et envoyés.</li>
+  <li><strong>logs :</strong> Historique des logs du jeu.</li>
+  <li><strong>state :</strong> État actuel de la partie.</li>
+  <li><strong>boardCard :</strong> Cartes posées sur le plateau.</li>
+  <li><strong>allPlayersHasPlayed :</strong> État de jeu de l'ensemble des joueurs.</li>
+  <li><strong>winners :</strong> Liste des vainqueurs (la victoire est gérée dans l'onglet "Déroulement").</li>
+  <li><strong>currentPlayerPosition :</strong> Position du joueur dont c'est le tour.</li>
+  <li><strong>tour :</strong> Numéro du tour actuel.</li>
+  <li><strong>manche :</strong> Numéro de la manche actuelle.</li>
+  <li><strong>gain (global) :</strong> Pot commun des gains.</li>
+            </ul>
+          </>
+        ) : (
+          <>
+            <p>
+              Note importante : Certaines variables ne doivent pas être créées
+              manuellement. Pour y accéder et les configurer, rendez-vous sur la
+              page concernée ; ne les recréez pas ici. Vous pouvez utiliser ces
+              variables directement dans vos formules.
+              <br></br>
+              Voici les variables concernées :
+            </p>
+            <ul>
+             <li><strong>gain (joueur) :</strong> Gains accumulés par le joueur.</li>
+  <li><strong>handDeck :</strong> Cartes actuellement en main.</li>
+  <li><strong>personalHandDeck :</strong> Deck personnel du joueur (si applicable).</li>
+  <li><strong>personalHandDiscard :</strong> Défausse personnelle du joueur (si applicable).</li>
+  <li><strong>hasPlayed :</strong> Indique si le joueur a déjà effectué son action.</li>
+  <li><strong>hasWin :</strong> Indique si le joueur a gagné.</li>
+  <li><strong>actions :</strong> Actions disponibles ou effectuées par le joueur ce tour-ci.</li>
+  <li><strong>roles :</strong> Rôles attribués au joueur.</li>
+  <li><strong>attachedEventForTour :</strong> Événement temporaire associé au joueur (ex : "Passer son tour").</li>
+            </ul>
+          </>
+        )}
+      </div>
       {currentData &&
         Object.keys(currentData)
           .sort((a, b) => a.localeCompare(b))
@@ -66,52 +144,86 @@ export default function VariableSubpage({
             const isEditing = editedObject && key === editedObject.oldName;
             const item = currentData[key];
             return isEditing ? (
-              <div key={key} className="basicContainer globalValueElement">
-           
+              <div key={key} className="basicContainer globalValueElementForm">
                 <Input
-                title="name"
+                  title="name"
                   inputType="input"
                   placeholder="enterName"
                   defaultValue={editedObject.name}
                   onChangeFunction={(value) => {
+                    let existing;
+                    let newValue = value;
+                    if (subPage === "globalValue") {
+                      existing = globalValue.find((elt) => elt.name === value);
+                    }
+                    if (subPage === "playerGlobalValue") {
+                      existing = playerGlobalValue.find(
+                        (elt) => elt.name === value,
+                      );
+                    }
+                    if (existing) {
+                      newValue =
+                        value + "(copy" + Math.floor(Math.random() * 100) + ")";
+                    }
                     setEditedObject((prev) => ({ ...prev, name: value }));
                   }}
                 />
                 <div className="row">
-                 
-                <InputSelect
-                  title="typeOfVariable"
-                  items={[
-                    "cardList",
-                    "list",
-                    "number",
-                    "string",
-                    "gainObject",
-                    "object",
-                  ]}
-                  selected={editedObject?.type ? [editedObject.type] : []}
-                  closeAfterSelect={true}
-                  updateValueArray={(value) => {
-                    setEditedObject((prev) => ({ ...prev, type: value }));
-                  }}
-                />
+                  <InputSelect
+                    title="typeOfVariable"
+                    items={[
+                      "cardList",
+                      "list",
+                      "number",
+                      "string",
+                      "gainObject",
+                      "object",
+                    ]}
+                    selected={editedObject?.type ? [editedObject.type] : []}
+                    closeAfterSelect={true}
+                    updateValueArray={(value) => {
+                      setEditedObject((prev) => ({ ...prev, type: value }));
+                    }}
+                  />
 
-                <Input
-                  title="defaultValue"
-                  inputType="input"
-                  placeholder="enterValue"
-                  defaultValue={editedObject.defaultValue}
-                  onChangeFunction={(value) => {
-                    setEditedObject((prev) => ({
-                      ...prev,
-                      defaultValue: value,
-                    }));
-                  }}
-                />
+                  <Input
+                    title="defaultValue"
+                    inputType="input"
+                    placeholder="enterValue"
+                    defaultValue={editedObject.defaultValue}
+                    onChangeFunction={(value) => {
+                      setEditedObject((prev) => ({
+                        ...prev,
+                        defaultValue: value,
+                      }));
+                    }}
+                  />
                 </div>
 
-                <Button text={"save"} type="violetButton" action={save}> 
-                </Button>
+                <Input
+                  title="visibility"
+                  description="thisElementWillBeVisibleInGame"
+                  defaultValue={editedObject.display}
+                  inputType="toggle"
+                  onChangeFunction={(value) => {
+                    setEditedObject((prev) => ({ ...prev, display: value }));
+                  }}
+                />
+
+                <Button
+                  text={"save"}
+                  type="violetButton"
+                  action={save}
+                ></Button>
+                <Button
+                  text={"delete"}
+                  type="redButton"
+                  action={() => {
+                    if (confirm(t("doYouRealyWantToDelete"))) {
+                      removeVariable(key);
+                    }
+                  }}
+                ></Button>
               </div>
             ) : (
               <div key={key} className="basicContainer globalValueElement">
@@ -125,13 +237,15 @@ export default function VariableSubpage({
                         oldName: key,
                         type: item.type,
                         defaultValue: item.defaultValue,
+                        display: item.display ? item.display : false,
                       });
                     }}
                   />
                 </div>
 
                 <p>Type : {item.type}</p>
-                <p>default value : {item.defaultValue ?? "Aucune"}</p>
+                <p>Visible : {t(item.display ? "yes" : "no")}</p>
+                <p>default value : {item.defaultValue ?? t("none")}</p>
               </div>
             );
           })}

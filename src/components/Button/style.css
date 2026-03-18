@@ -50,6 +50,18 @@
   color: white;
   background: var(--violet);
 }
+.button.redButton{
+   
+        background: red;
+        color : white;
+        span {
+          color: white !important;
+        }
+      
+}
+.button.greyButton{
+      background: #e0e0e0;
+}
 .button.navbar {
   gap: 12px;
   font-size: 20px;

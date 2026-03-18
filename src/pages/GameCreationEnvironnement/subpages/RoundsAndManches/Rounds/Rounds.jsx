@@ -112,7 +112,7 @@ export default function RoundsPage({
           inputType="number"
           pathInObject={"params.tours.startNumber"}
         />
-        <InputSelect
+        {/* <InputSelect
           title="conditionToChangeTour"
           updateValueArray={(path, value) => {
             updateGameValueArray(
@@ -130,7 +130,7 @@ export default function RoundsPage({
           pathObject="params.tours.endOfTour"
           selected={gameData.tours.endOfTour}
           items={["allPlayersHasPlayed/endOfTour", "atEndOfTime"]}
-        />
+        />*/}
       </div>
       <div className="basicContainer">
         <TitleContainer
@@ -267,7 +267,7 @@ export default function RoundsPage({
                                   updateValueArray(
                                     "withValue",
                                     currentElementToEdit,
-                                    value,
+                                    event.id,
                                     "multiple",
                                   ),
                                 );

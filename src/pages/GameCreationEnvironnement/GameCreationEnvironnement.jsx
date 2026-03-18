@@ -9,7 +9,6 @@ import { useTranslation } from "react-i18next";
 // hooks
 import { useDynamicEntitySuggestions } from "../../hooks/useDynamicSuggestions.js";
 
-
 // Contexts
 import { useUserContext } from "../../context/UserContext.jsx";
 import { useGameContext } from "../../context/GameContext";
@@ -52,6 +51,7 @@ export default function GameCreationEnvironnement() {
   const {
     saveNewGameInStorage,
     pushModification,
+    deleteGameSaved,
     getGameInStorage,
     getGame,
     uploadFileForGameEdition,
@@ -63,7 +63,7 @@ export default function GameCreationEnvironnement() {
   const { setAlerts, alertList, setCanDisplayError } = useNotificationContext();
 
   useEffect(() => {
-    const initGame = async () => { 
+    const initGame = async () => {
       const stored = getGameInStorage(id);
 
       if (stored && String(stored.id) === String(id)) {
@@ -99,12 +99,10 @@ export default function GameCreationEnvironnement() {
 
   console.log("game :", game);
   console.log("user :", user);
-const suggestions = useDynamicEntitySuggestions(
-    game?.globalValue, 
-    game?.playerGlobalValue,  
-  );
-  console.log("suggestions : ");
-  console.log(suggestions);
+  const suggestions = useDynamicEntitySuggestions(
+    game?.globalValue,
+    game?.playerGlobalValue,
+  ); 
   // DETECTION DE MODIFICATION ET SAUVEGARDE AUTOMATIQUE
   useEffect(() => {
     if (!game || !playerHasEdit) return;
@@ -122,9 +120,8 @@ const suggestions = useDynamicEntitySuggestions(
   // GESTION DES ERREURS
   if (loading) return <Loader />;
   if (error) return <p>Erreur : {error}</p>;
-  if (!game) return <p>{t("GameNotFound")}</p>;
-  if (!user) return <p>{t("UserNotFound")}</p>;
-
+  if (!game) return <Loader />;
+  if (!user) return <Loader />;
 
   // HANDLERS
   const updateGameValueHandler = (path, value) => {
@@ -138,9 +135,18 @@ const suggestions = useDynamicEntitySuggestions(
   };
 
   const saveGame = async () => {
-    let newGame = await pushModification(game); 
+    let newGame = await pushModification(game);
     setGame(newGame);
   };
+  const restoreGameFromDb = async () => {
+    const result = await getGame(id);
+    if (result) {
+      setGame(result);
+      setAlerts(loadAlertListFormGame(result));
+      setCanDisplayError(result.displayErrors);
+      deleteGameSaved(id);
+    }
+  }
 
   const uploadFileForGameEditionHandler = (file) => {
     uploadFileForGameEdition(file, game.id);
@@ -149,11 +155,10 @@ const suggestions = useDynamicEntitySuggestions(
     const result = await editUser(userEdited);
 
     if (result && result.message === "ok") {
-
       i18next.changeLanguage(userEdited.lang);
       setUser((prev) => ({ ...prev, ...userEdited }));
     }
-  }; 
+  };
   return (
     <div className={" gameCreationEnvironnementPage"}>
       <GameCreationEnvironnementHeader name={game.name} />
@@ -215,6 +220,7 @@ const suggestions = useDynamicEntitySuggestions(
                       : game.image
                         ? game.image
                         : "/src/assets/images/template-game.png",
+                    isPublic: game.isPublic,
                   }}
                   uploadFileForGameEditionHandler={
                     uploadFileForGameEditionHandler
@@ -223,6 +229,7 @@ const suggestions = useDynamicEntitySuggestions(
                   updateGameValueArray={updateGameValueArrayHandler}
                   setGameImageUploaded={setGameImageUploaded}
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
+                  restoreGameFromDb={restoreGameFromDb}
                 />
               );
             case "assets":
@@ -273,7 +280,7 @@ const suggestions = useDynamicEntitySuggestions(
               return (
                 <Events
                   gameData={{
-                    suggestions:suggestions,
+                    suggestions: suggestions,
                     events:
                       game.events && game.events.events
                         ? game.events.events.sort((a, b) => {
@@ -298,7 +305,7 @@ const suggestions = useDynamicEntitySuggestions(
                             return Number(a.id) - Number(b.id);
                           })
                         : [],
-                        
+                    actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions : [],
                     globalValue: game.globalValue,
                     playerGlobalValue: game.playerGlobalValue,
                   }}

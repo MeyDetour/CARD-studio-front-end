@@ -8,3 +8,6 @@
     width: 45px;
     height: 45px;
 }
+.iconRotate{
+    transform: rotate(180deg);
+}

@@ -359,6 +359,14 @@ export default function EventSubpage({
                 <span className="normalText">{t("noDemonInGame")}</span>
               )}
             </div>
+            <div class="basicContainer">
+              <TitleContainer title={"metadata"}></TitleContainer>
+
+              <span>{t('uniqueId')} : {currentEvent.id}</span>
+              <span>{t('demonsWichExecuteThisEvent')} : {demons.filter(demon=>demon.events.includes(currentEvent.id)).length}</span>
+              <span>{t('callTheseWithValueEvent')} : {currentEvent.event.withValue? currentEvent.event.withValue.length : 0}</span>
+              
+            </div>
             <div className="basicContainer basicRedContainer rewardsManagementSection">
               <TitleContainer
                 title={"deleteEvent"}
@@ -368,6 +376,7 @@ export default function EventSubpage({
 
               <Button
                 text={"delete"}
+                type="redButton"
                 action={async () => {
                   if (confirm(t("doYouRealyWantToDeleteEvent"))) {
                     updateGameValueArray(

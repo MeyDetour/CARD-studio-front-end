@@ -33,6 +33,14 @@ h1 {
   font-weight: 600;
   line-height: 36px; /* 120% */
 }
+h2{
+
+    line-height: 20px;
+}
+h3{
+            line-height: 20px;
+        }
+
 
 p {
   color: var(--grey);

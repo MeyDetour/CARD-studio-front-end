@@ -47,6 +47,7 @@
           right: 23px;
           top: 21px;
           cursor: pointer;
+          z-index: 4;
         }
       }
 

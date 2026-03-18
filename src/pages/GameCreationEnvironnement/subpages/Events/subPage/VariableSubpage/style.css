@@ -3,21 +3,42 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-
-  .globalValueElement {
+  .titleRow {
     display: flex;
-    flex-direction: column;
-    align-items: start;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .informationContainer {
+    color: #4c4c4c;
+   
+    background: #f0f8a242;
+    border: 1px solid #edd29d;
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-block: 0;
 
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+      color: #4c4c4c;
+    }
+     p {
+      color: #4c4c4c !important;
+    }
+  }
+  .globalValueElement {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: start !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0px !important;
     h3 {
       margin-block: 8px;
     }
-    >button{
-
-    align-self: end;
+    > button {
+      align-self: end;
     }
     .elementHeader {
       width: 100%;

@@ -30,7 +30,8 @@ export default function EditGame({
   updateGameValue,
   setGameImageUploaded,
   setGameImageUploadedUrl,
-  uploadFileForGameEditionHandler
+  uploadFileForGameEditionHandler,
+  restoreGameFromDb,
 }) {
   const { t } = useTranslation();
   const { deleteGame } = useGameContext();
@@ -131,11 +132,14 @@ export default function EditGame({
               <input
                 type="file"
                 onChange={(e) => {
-                  const selectedFile = e.target.files[0]; 
-                  if (selectedFile.type == "image/jpeg" || selectedFile.type === "image/png") {
+                  const selectedFile = e.target.files[0];
+                  if (
+                    selectedFile.type == "image/jpeg" ||
+                    selectedFile.type === "image/png"
+                  ) {
                     setGameImageUploaded(selectedFile);
                     setGameImageUploadedUrl(URL.createObjectURL(selectedFile));
-                    uploadFileForGameEditionHandler(selectedFile)
+                    uploadFileForGameEditionHandler(selectedFile);
                   }
                 }}
               />
@@ -156,7 +160,7 @@ export default function EditGame({
           inputType="toggle"
           pathInObject="isPublic"
           onChangeFunction={updateGameValue}
-          defaultValue="false"
+          defaultValue={gameData.isPublic}
         />
       </div>
       <div className="basicContainer playerConfigurationSection">
@@ -171,8 +175,8 @@ export default function EditGame({
             title="minPlayers"
             defaultValue={gameData.minPlayer}
             onChangeFunction={(path, value) => {
-              const minVal = parseInt(value) || 0; 
-              if (minVal >= gameData.maxPlayer) { 
+              const minVal = parseInt(value) || 0;
+              if (minVal >= gameData.maxPlayer) {
                 updateGameValue("params.globalGame.maxPlayer", minVal + 1);
               }
               updateGameValue(path, minVal);
@@ -266,6 +270,23 @@ export default function EditGame({
           pathInObject="params.gains.activation"
           onChangeFunction={updateGameValue}
         />
+      </div>{" "}
+      <div className="basicContainer rewardsManagementSection">
+        <TitleContainer
+          title={"revertToTheLastSavedVersion"}
+          type="h2"
+          description={"AtEachChangeAutoSaveWillBeDone"}
+        />
+
+        <Button
+          text={"restore"}
+          type={"greyButton"}
+          action={() => {
+            if (confirm(t("doYouRealyWantToRestore"))) {
+              restoreGameFromDb();
+            }
+          }}
+        ></Button>
       </div>
       <div className="basicContainer basicRedContainer deleteManagementSection">
         <TitleContainer
@@ -276,9 +297,10 @@ export default function EditGame({
 
         <Button
           text={"delete"}
+          type={"redButton"}
           action={async () => {
             if (confirm(t("doYouRealyWantToDeleteGame"))) {
-              let result = await deleteGame(); 
+              let result = await deleteGame();
               if (result && result.message === "ok") {
                 navigate("/");
               }

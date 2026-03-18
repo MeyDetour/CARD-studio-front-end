@@ -30,6 +30,7 @@ export default function Input({
 
         <label className="switch">
           <input
+          readOnly={disabled}
             disabled={disabled} // Ajout ici
             onChange={(e) =>
               !disabled &&
@@ -56,6 +57,7 @@ export default function Input({
               <>
                 <input
                   disabled={disabled}
+          readOnly={disabled}
                   onChange={(e) =>
                     !disabled &&
                     (pathInObject
@@ -112,6 +114,7 @@ export default function Input({
               <input
                 ref={inputNumber}
                 disabled={disabled}
+          readOnly={disabled}
                 onChange={(e) => {
                   if (disabled) return;
                   let myString = e.target.value;
@@ -119,7 +122,7 @@ export default function Input({
                   let cleanedValue = myString.replace(/\D/g, "");
                   cleanedValue = parseInt(cleanedValue)
                     ? parseInt(cleanedValue)
-                    : 0;
+                    : 0 ;
                   pathInObject
                     ? onChangeFunction(pathInObject, cleanedValue)
                     : onChangeFunction(cleanedValue);
@@ -134,6 +137,7 @@ export default function Input({
             return (
               <textarea
                 disabled={disabled}
+          readOnly={disabled}
                 onChange={(e) =>
                   !disabled &&
                   (pathInObject

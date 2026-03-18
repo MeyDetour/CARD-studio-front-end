@@ -27,6 +27,7 @@ export default function Events({
   gameData,
   updateGameValueArray,
   updateGameValue,
+  
 }) { 
   const { result, loading, error, fetchData } = useApi();
   const { currentSubpageOfEvents, setCurrentSubpageOfEvents } =
@@ -77,6 +78,7 @@ export default function Events({
                 updateGameValue={updateGameValue}
                 demons={gameData.demons}
                 events={gameData.events}
+                actions={gameData.actions}
                 suggestions={gameData.suggestions}
                 withValueEvents={gameData.withValueEvents}
               />
