@@ -472,7 +472,7 @@ export default function EventSubpage({
             </DetailContainer>
 
             {/* ========== METADATA ============== */}
-            <div class="basicContainer">
+            <div className="basicContainer">
               <TitleContainer title={"metadata"}></TitleContainer>
 
               <span>

@@ -179,7 +179,7 @@ export default function DemonSubpage({
               </div>
             </div>
             {/* ========== METADATA ============== */}
-            <div class="basicContainer">
+            <div className="basicContainer">
               <TitleContainer title={"metadata"}></TitleContainer>
 
               <span>

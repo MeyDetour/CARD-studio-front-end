@@ -28,31 +28,42 @@ export default function Events({
   gameData,
   updateGameValueArray,
   updateGameValue,
-  
-}) { 
+}) {
   const { result, loading, error, fetchData } = useApi();
-  const { currentSubpageOfEvents, setCurrentSubpageOfEvents , currentEvent, setCurrentEvent, currentDemon, setCurrentDemon, currentWithValueEvent, setCurrentWithValueEvent } =
-    useGameContext();
+  const {
+    currentSubpageOfEvents,
+    setCurrentSubpageOfEvents,
+    currentEvent,
+    setCurrentEvent,
+    currentDemon,
+    setCurrentDemon,
+    currentWithValueEvent,
+    setCurrentWithValueEvent,
+  } = useGameContext();
   const [selectedType, setSelectedType] = useState([]);
   const [isOpenExpressionBuilder, setIsOpenExpressionBuilder] = useState(false);
   const navigate = useNavigate();
   const t = useTranslation();
   const { alertList } = useNotificationContext();
-  
-  const getEventFromIdAndType = (id,type) => {
+
+  const getEventFromIdAndType = (id, type) => {
     switch (type) {
       case "event":
         return gameData.events.find((event) => event.id === id);
       case "demon":
         return gameData.demons.find((demon) => demon.id === id);
       case "withValueEvent":
-        return gameData.withValueEvents.find((withValueEvent) => withValueEvent.id === id);
+        return gameData.withValueEvents.find(
+          (withValueEvent) => withValueEvent.id === id,
+        );
       case "globalValue":
-        return gameData.globalValue.find((globalValue) => globalValue.id === id);
+        return gameData.globalValue.find(
+          (globalValue) => globalValue.id === id,
+        );
       default:
         return null;
     }
-  } 
+  };
   return (
     <div className="eventsAndDeclencheurSubpage">
       {(() => {
@@ -94,9 +105,8 @@ export default function Events({
                 actions={gameData.actions}
                 suggestions={gameData.suggestions}
                 withValueEvents={gameData.withValueEvents}
-             
                 getEventFromIdAndType={getEventFromIdAndType}
-                />
+              />
             );
           case "globalValue":
             return (
@@ -105,14 +115,15 @@ export default function Events({
                 updateGameValue={updateGameValue}
                 globalValue={gameData.globalValue}
                 playerGlobalValue={gameData.playerGlobalValue}
-              
                 getEventFromIdAndType={getEventFromIdAndType}
               />
-            ); case "visualisation":
+            );
+          case "visualisation":
             return (
               <VisualisationSubPage
-               demons={gameData.demons}
-                events={gameData.events}  
+                demons={gameData.demons}
+                actions={gameData.actions}
+                events={gameData.events}
                 withValueEvents={gameData.withValueEvents}
                 getEventFromIdAndType={getEventFromIdAndType}
               />
@@ -148,7 +159,8 @@ export default function Events({
                       description: "globalValueDescription",
                       onclickEvent: () =>
                         setCurrentSubpageOfEvents("globalValue"),
-                    },{
+                    },
+                    {
                       name: "visualisation",
                       description: "visualiseYourGameSchema",
                       onclickEvent: () =>
@@ -156,24 +168,29 @@ export default function Events({
                     },
                   ].map((section) => (
                     <>
-                   
-                 
                       <CardSubpage
-                       displayAlertOfType={section.name === "eventTitle" ? "event" : section.name === "demonTitle" ? "demon" : section.name === "withValueEventTitle" ? "withValueEvent" : "globalValue"}
-                  
+                        displayAlertOfType={
+                          section.name === "eventTitle"
+                            ? "event"
+                            : section.name === "demonTitle"
+                              ? "demon"
+                              : section.name === "withValueEventTitle"
+                                ? "withValueEvent"
+                                : "globalValue"
+                        }
                         title={section.name}
                         icon={section.icon}
-                        action={()=>{
-                            if (currentEvent){
-                                      setCurrentEvent(null)
-                                    }
-                                    if (currentDemon){
-                                      setCurrentDemon(null)
-                                    }
-                                    if(currentWithValueEvent){
-                                      setCurrentWithValueEvent(null)
-                                    }
-                          section.onclickEvent()
+                        action={() => {
+                          if (currentEvent) {
+                            setCurrentEvent(null);
+                          }
+                          if (currentDemon) {
+                            setCurrentDemon(null);
+                          }
+                          if (currentWithValueEvent) {
+                            setCurrentWithValueEvent(null);
+                          }
+                          section.onclickEvent();
                         }}
                         description={section.description}
                       />

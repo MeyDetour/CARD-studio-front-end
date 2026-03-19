@@ -494,7 +494,7 @@ export default function CurrentWithValueEventubpage({
               </div>
             </DetailContainer>
 
-            <div class="basicContainer">
+            <div className="basicContainer">
               {/* ========== METADONNEES ============== */}
               <TitleContainer title={"metadata"}></TitleContainer>
               <span>

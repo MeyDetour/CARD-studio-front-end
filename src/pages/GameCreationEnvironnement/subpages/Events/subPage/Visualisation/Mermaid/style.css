@@ -14,7 +14,7 @@ height: 95px;
       width: 100%;
     }
   }
-  .demonLabel , .eventLabel{  
+  .demonLabel , .eventLabel, .actionLabel,.withValueEventLabel{  
         white-space: normal;
         text-align: left;
         line-height: 1.2;
