@@ -6,18 +6,19 @@
     gap: 24px;
     padding: var(--padding-content-page);
     .wrapper {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: stretch;
-      justify-content: space-between;
-      gap: 24px;
+    
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: stretch;
+            justify-content: start;
+            gap: 24px;
+            height: fit-content;
       > .titleContainer {
         width: 50%;
       }
       > div {
-        width: 30%;
-        height: 100%;
+        width: 30%; 
       }
     }
   }

@@ -1,6 +1,12 @@
-import { t } from "i18next";
-
 export function updateValueArray(path, object, value, type = "multiple") {
+  const log = false;
+  if (log) {
+    console.log("Updating value array at path:", path);
+    console.log("Current object:", JSON.stringify(object, null, 2));
+    console.log("Value to update:", JSON.stringify(value, null, 2));
+    console.log("Update type:", type);
+  }
+
   const keys = path.split(".");
   const newObj = { ...object };
   let current = newObj;
@@ -11,7 +17,16 @@ export function updateValueArray(path, object, value, type = "multiple") {
     current = current[key];
   }
   const lastKey = keys[keys.length - 1];
-  const targetArray = current[lastKey];
+  let targetArray = current[lastKey];
+ if ((type === "multiple" || type==="new") && !targetArray) {
+    current[lastKey] = [];
+    targetArray = current[lastKey];
+ }
+  if (type === "unique" && !targetArray) {
+    current[lastKey] = null;
+    targetArray = current[lastKey];
+ }
+ 
 
   if (type === "delete") {
     if (typeof value === "object" && value.id !== null) {
@@ -28,7 +43,6 @@ export function updateValueArray(path, object, value, type = "multiple") {
   }
   if (type === "new") {
     targetArray.push(value);
-
     return newObj;
   }
 
@@ -100,3 +114,4 @@ export function updateElementValue(path, obj, value, type = "replace") {
 
   return newObj;
 }
+ 

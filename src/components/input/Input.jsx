@@ -12,6 +12,7 @@ export default function Input({
   defaultValue,
   disabled = false,
   pathInObject = "",
+  hint,
   onChangeFunction,
   suggestions = [],
 }) {
@@ -48,7 +49,7 @@ export default function Input({
   }
 
   return (
-    <div className={`input ${type} ${disabled ? "disabled" : ""}`}>
+    <div style={type=="input" && hint ?{marginBottom: "20px"} :null} className={`input ${type} ${disabled ? "disabled" : ""}`}>
       <span className="normalText">{t(title)}</span>
       {(() => {
         switch (inputType) {
@@ -70,6 +71,7 @@ export default function Input({
                   type="text"
                   placeholder={t(placeholder)}
                 />
+                {hint && <span className="hint">{t(hint)}</span>}
                 {(() => {
                   let newSuggestions = suggestions.filter(
                     (suggestion) =>

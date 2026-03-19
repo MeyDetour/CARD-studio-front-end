@@ -25,6 +25,7 @@ import {
 import Loader from "../../components/Loader/Loader";
 import GameCreationEnvironnementHeader from "../../components/GameCreationEnvironnementHeader/GameCreationEnvironnementHeader";
 import GameCreationEnvironnementNavigation from "../../components/GameCreationEnvironnementNavigation/GameCreationEnvironnementNavigation";
+import LoadingRestorGame from "../../components/LoadingRestorGame/LoadingRestorGame.jsx";
 
 // Subpages
 import AssetsBookshelf from "./subpages/AssetsBookshelf/AssetsBookshelf";
@@ -55,13 +56,14 @@ export default function GameCreationEnvironnement() {
     getGameInStorage,
     getGame,
     uploadFileForGameEdition,
+    currentEvent,currentDemon,currentWithValueEvent,setCurrentEvent,setCurrentWithvalueEvent,setCurrentDemon
   } = useGameContext();
   const { fetchUser, editUser } = useUserContext();
   const [gameImageUploaded, setGameImageUploaded] = useState();
   const [gameImageUploadedUrl, setGameImageUploadedUrl] = useState();
   const { t } = useTranslation();
   const { setAlerts, alertList, setCanDisplayError } = useNotificationContext();
-
+  const [restaurationLoading, setRestaurationLoading] = useState(false);
   useEffect(() => {
     const initGame = async () => {
       const stored = getGameInStorage(id);
@@ -97,13 +99,22 @@ export default function GameCreationEnvironnement() {
     }
   }, []);
 
+  if (false){
+
   console.log("game :", game);
   console.log("user :", user);
+  }
+ 
+
+   // =========== SUGGESTION DYNAMIQUE FOR ALL APP ============
+
+
+  
   const suggestions = useDynamicEntitySuggestions(
     game?.globalValue,
     game?.playerGlobalValue,
   ); 
-  // DETECTION DE MODIFICATION ET SAUVEGARDE AUTOMATIQUE
+  // =========== DETECTION DE MODIFICATION ET SAUVEGARDE AUTOMATIQUE============
   useEffect(() => {
     if (!game || !playerHasEdit) return;
     const delayDebounceFn = setTimeout(() => {
@@ -117,13 +128,13 @@ export default function GameCreationEnvironnement() {
     return () => clearTimeout(delayDebounceFn);
   }, [game, playerHasEdit]);
 
-  // GESTION DES ERREURS
+  // ============ GESTION DES ERREURS
   if (loading) return <Loader />;
   if (error) return <p>Erreur : {error}</p>;
   if (!game) return <Loader />;
   if (!user) return <Loader />;
 
-  // HANDLERS
+   // =========== UPDATE GAME OBJECT ============
   const updateGameValueHandler = (path, value) => {
     setGame((prev) => updateElementValue(path, prev, value));
     setPlayerHasEdit(true);
@@ -134,20 +145,29 @@ export default function GameCreationEnvironnement() {
     setPlayerHasEdit(true);
   };
 
+   // =========== GAME SAVES ============
   const saveGame = async () => {
     let newGame = await pushModification(game);
     setGame(newGame);
   };
   const restoreGameFromDb = async () => {
     const result = await getGame(id);
-    if (result) {
+    if (result) { 
+
       setGame(result);
+      setRestaurationLoading(true);
+      setTimeout(() => {
+        setRestaurationLoading(false);
+        window.location.href = "/game/dashboard/"+result.id;
+      }, 3000);
+      setPlayerHasEdit(true);
       setAlerts(loadAlertListFormGame(result));
       setCanDisplayError(result.displayErrors);
       deleteGameSaved(id);
     }
   }
 
+   // =========== UPDLOAD IMAGE GAME OBJECT ============
   const uploadFileForGameEditionHandler = (file) => {
     uploadFileForGameEdition(file, game.id);
   };
@@ -159,6 +179,10 @@ export default function GameCreationEnvironnement() {
       setUser((prev) => ({ ...prev, ...userEdited }));
     }
   };
+   
+  if (restaurationLoading){
+    return <LoadingRestorGame/>
+  }
   return (
     <div className={" gameCreationEnvironnementPage"}>
       <GameCreationEnvironnementHeader name={game.name} />

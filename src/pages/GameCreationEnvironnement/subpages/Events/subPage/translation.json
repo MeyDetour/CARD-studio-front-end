@@ -387,5 +387,4 @@
 "restoringGame":"Restauration du jeu...",
 "callTheseEvents":"Appel ces événements",
 "visualiseYourGameSchema":"Visualisez le schéma de votre jeu avec l'outil de diagramme. Cet outil vous permet de créer une représentation visuelle des mécaniques de votre jeu, y compris le flux des événements, les actions des joueurs et les états du jeu. Vous pouvez utiliser cette visualisation pour mieux comprendre et optimiser la conception de votre jeu."
-,"caractereMax75":"Le champ ne peut pas dépasser 75 caractères"
 }

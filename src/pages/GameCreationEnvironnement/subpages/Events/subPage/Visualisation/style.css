@@ -1,0 +1,32 @@
+.visualisationsubPageOfdemonsAndDeclencheurSubpage {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
+
+  .visualisationLegend {
+    
+    
+        padding: var(--padding-content-page);
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        gap: 34px;
+        padding-block: 29px 17px;
+        background: #fdfdfd;
+        box-shadow: 1px 0 12px 1px #8080805b;
+        position: relative;
+        z-index: 2;
+    > div {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 8px;
+
+      > div {
+        width: 33px;
+        height: 100%;
+        border-radius: 4px;
+      }
+    }
+  }
+}

@@ -11,7 +11,9 @@ export default function DetailContainer({ children, title ,description,className
         <TitleContainer title={title} description={description}> </TitleContainer>
     <Icon name="bottom_arrow" className={isOpen? "iconRotate":""}></Icon>  
       </summary>
+      <div className="detailContent">
       {children}
+      </div>
     </details>
   );
 }

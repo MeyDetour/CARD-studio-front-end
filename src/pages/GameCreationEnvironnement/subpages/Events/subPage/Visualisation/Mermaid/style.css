@@ -1,0 +1,29 @@
+.mermaid {
+  .label-container {
+
+height: 95px;
+    max-height: 139px;
+    stroke-width: 1.5px;
+  }
+  foreignObject {
+    max-height: 139px;
+    overflow: visible !important;
+    display: block;
+    span {
+      word-break: break-word;
+      width: 100%;
+    }
+  }
+  .demonLabel , .eventLabel{  
+        white-space: normal;
+        text-align: left;
+        line-height: 1.2;
+        display: block;
+    
+  }
+}
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon {
+  fill: #ffffff; /* Optionnel : fond blanc pour plus de lisibilité */
+}

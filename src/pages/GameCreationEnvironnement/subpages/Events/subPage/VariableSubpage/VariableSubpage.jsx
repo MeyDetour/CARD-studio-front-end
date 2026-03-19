@@ -12,7 +12,7 @@ export default function VariableSubpage({
   globalValue,
   playerGlobalValue,
   updateGameValue, 
-  updateGameValueArray,
+  updateGameValueArray,getEventFromIdAndType
 }) {
   const { t } = useTranslation();
 
@@ -51,9 +51,12 @@ export default function VariableSubpage({
   console.log(editedObject);
 
   return (
-    <div className={" globalValuesubPageOfdemonsAndDeclencheurSubpage"}>
+  
+  <div className={" globalValuesubPageOfdemonsAndDeclencheurSubpage"}>
+        {/* ========== NAVIGATION ENTRE TYPES DE VARIABLES ============== */}
+      
       <SubNavigationBar
-        buttons={{
+       buttons={{
           globalValue: () => {
             setSubpage("globalValue");
           },
@@ -64,6 +67,7 @@ export default function VariableSubpage({
         page={subPage}
       />
       <div className="titleRow">
+        {/* ========== TITRE ET BOUTON NOUVELLE VARIABLE ============== */}
         <TitleContainer
           title={"globalValue"}
           description={"globalValueDescription"}
@@ -88,6 +92,7 @@ export default function VariableSubpage({
         />
       </div>
       <div className="informationContainer basicContainer">
+        {/* ========== INFORMATIONS IMPORTANTES ============== */}
         
         {subPage == "globalValue" ? (
           <>
@@ -137,6 +142,8 @@ export default function VariableSubpage({
           </>
         )}
       </div>
+
+        {/* ========== LISTE DES VARIABLES ============== */}
       {currentData &&
         Object.keys(currentData)
           .sort((a, b) => a.localeCompare(b))
@@ -145,6 +152,8 @@ export default function VariableSubpage({
             const item = currentData[key];
             return isEditing ? (
               <div key={key} className="basicContainer globalValueElementForm">
+               
+               {/* ========== NOM============== */}
                 <Input
                   title="name"
                   inputType="input"
@@ -168,6 +177,7 @@ export default function VariableSubpage({
                     setEditedObject((prev) => ({ ...prev, name: value }));
                   }}
                 />
+                {/* ========== TYPE ============== */}
                 <div className="row">
                   <InputSelect
                     title="typeOfVariable"
@@ -185,7 +195,7 @@ export default function VariableSubpage({
                       setEditedObject((prev) => ({ ...prev, type: value }));
                     }}
                   />
-
+                {/* ========== DEFAULT VALUE ============== */}
                   <Input
                     title="defaultValue"
                     inputType="input"
@@ -199,7 +209,7 @@ export default function VariableSubpage({
                     }}
                   />
                 </div>
-
+              {/* ========== VISIBILITY ============== */}
                 <Input
                   title="visibility"
                   description="thisElementWillBeVisibleInGame"
@@ -209,12 +219,13 @@ export default function VariableSubpage({
                     setEditedObject((prev) => ({ ...prev, display: value }));
                   }}
                 />
-
+              {/* ========== SAVE ============== */}
                 <Button
                   text={"save"}
                   type="violetButton"
                   action={save}
                 ></Button>
+                {/* ========== DELETE============== */}
                 <Button
                   text={"delete"}
                   type="redButton"
@@ -226,6 +237,8 @@ export default function VariableSubpage({
                 ></Button>
               </div>
             ) : (
+
+              
               <div key={key} className="basicContainer globalValueElement">
                 <div className="elementHeader">
                   <h3>{key}</h3>

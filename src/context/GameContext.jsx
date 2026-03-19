@@ -18,10 +18,11 @@ export function GameProvider({ children }) {
   const deleteGameSaved = (id) => {
     localStorage.removeItem("gamesSaved" + id);
   };
-  const saveNewGameInStorage = (newGame) => { 
+  const saveNewGameInStorage = (newGame) => {  
     localStorage.setItem("gamesSaved" + newGame.id, JSON.stringify(newGame));
+ 
   };
-  const getGameInStorage = (id) => { 
+  const getGameInStorage = (id) => {  
     try {
       let raw = localStorage.getItem("gamesSaved" + id);
 

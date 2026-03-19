@@ -15,3 +15,8 @@ export function breakText(text, maxLength) {
  
   return text.substring(0, maxLength) +".."
 }
+
+export function findTextInElt(text, elt) {
+  let textSTRING = JSON.stringify(text);
+  return textSTRING.includes(elt)
+}

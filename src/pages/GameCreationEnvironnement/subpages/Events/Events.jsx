@@ -22,6 +22,7 @@ import DemonSubpage from "./subPage/DemonSubpage/DemonSubpage.jsx";
 import EventSubpage from "./subPage/EventSubpage/EventSubpage.jsx";
 import CurrentWithValueEventubpage from "./subPage/EventWithValueSubpage/EventWithValueSubpage.jsx";
 import VariableSubpage from "./subPage/VariableSubpage/VariableSubpage.jsx";
+import VisualisationSubPage from "./subPage/Visualisation/Visualisation.jsx";
 
 export default function Events({
   gameData,
@@ -30,21 +31,31 @@ export default function Events({
   
 }) { 
   const { result, loading, error, fetchData } = useApi();
-  const { currentSubpageOfEvents, setCurrentSubpageOfEvents } =
+  const { currentSubpageOfEvents, setCurrentSubpageOfEvents , currentEvent, setCurrentEvent, currentDemon, setCurrentDemon, currentWithValueEvent, setCurrentWithValueEvent } =
     useGameContext();
   const [selectedType, setSelectedType] = useState([]);
   const [isOpenExpressionBuilder, setIsOpenExpressionBuilder] = useState(false);
   const navigate = useNavigate();
   const t = useTranslation();
   const { alertList } = useNotificationContext();
-
-  if (!gameData) return;
+  
+  const getEventFromIdAndType = (id,type) => {
+    switch (type) {
+      case "event":
+        return gameData.events.find((event) => event.id === id);
+      case "demon":
+        return gameData.demons.find((demon) => demon.id === id);
+      case "withValueEvent":
+        return gameData.withValueEvents.find((withValueEvent) => withValueEvent.id === id);
+      case "globalValue":
+        return gameData.globalValue.find((globalValue) => globalValue.id === id);
+      default:
+        return null;
+    }
+  } 
   return (
     <div className="eventsAndDeclencheurSubpage">
       {(() => {
-
-       
-
         switch (currentSubpageOfEvents) {
           case "event":
             return (
@@ -58,6 +69,7 @@ export default function Events({
                 globalPlayerValue={gameData.playerGlobalValue}
                 withValueEvents={gameData.withValueEvents}
                 gains={gameData.gains}
+                getEventFromIdAndType={getEventFromIdAndType}
               />
             );
           case "demon":
@@ -69,6 +81,7 @@ export default function Events({
                 withValueEvents={gameData.withValueEvents}
                 events={gameData.events}
                 suggestions={gameData.suggestions}
+                getEventFromIdAndType={getEventFromIdAndType}
               />
             );
           case "withValueEvent":
@@ -81,7 +94,9 @@ export default function Events({
                 actions={gameData.actions}
                 suggestions={gameData.suggestions}
                 withValueEvents={gameData.withValueEvents}
-              />
+             
+                getEventFromIdAndType={getEventFromIdAndType}
+                />
             );
           case "globalValue":
             return (
@@ -90,6 +105,16 @@ export default function Events({
                 updateGameValue={updateGameValue}
                 globalValue={gameData.globalValue}
                 playerGlobalValue={gameData.playerGlobalValue}
+              
+                getEventFromIdAndType={getEventFromIdAndType}
+              />
+            ); case "visualisation":
+            return (
+              <VisualisationSubPage
+               demons={gameData.demons}
+                events={gameData.events}  
+                withValueEvents={gameData.withValueEvents}
+                getEventFromIdAndType={getEventFromIdAndType}
               />
             );
           default:
@@ -123,6 +148,11 @@ export default function Events({
                       description: "globalValueDescription",
                       onclickEvent: () =>
                         setCurrentSubpageOfEvents("globalValue"),
+                    },{
+                      name: "visualisation",
+                      description: "visualiseYourGameSchema",
+                      onclickEvent: () =>
+                        setCurrentSubpageOfEvents("visualisation"),
                     },
                   ].map((section) => (
                     <>
@@ -133,7 +163,18 @@ export default function Events({
                   
                         title={section.name}
                         icon={section.icon}
-                        action={section.onclickEvent}
+                        action={()=>{
+                            if (currentEvent){
+                                      setCurrentEvent(null)
+                                    }
+                                    if (currentDemon){
+                                      setCurrentDemon(null)
+                                    }
+                                    if(currentWithValueEvent){
+                                      setCurrentWithValueEvent(null)
+                                    }
+                          section.onclickEvent()
+                        }}
                         description={section.description}
                       />
                     </>

@@ -16,6 +16,15 @@
     box-sizing: border-box;
     font-size: 17px;
   }
+  .hint{
+
+    font-size: 12px;
+    position: absolute;
+    bottom: -7px;
+    left: 5px;
+    transform: translateY(100%);
+    color: gray;
+  }
   textarea {
     height: 153px;
     color: var(--grey);

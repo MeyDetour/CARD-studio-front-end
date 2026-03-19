@@ -19,7 +19,8 @@ export default function DemonSubpage({
   events,
   updateGameValue,
   updateGameValueArray,
-                suggestions,
+  suggestions,
+  getEventFromIdAndType,
 }) {
   const [playerHasEdit, setPlayerHasEdit] = useState(false);
   const {
@@ -29,7 +30,7 @@ export default function DemonSubpage({
     setCurrentSubpageOfEvents,
   } = useGameContext();
   const { alertList } = useNotificationContext();
-   const { t } = useTranslation(); 
+  const { t } = useTranslation();
 
   if (!demons) return;
 
@@ -91,9 +92,10 @@ export default function DemonSubpage({
             />
           )}
         </div>
- 
+
         {currentDemon ? (
           <>
+            {/* ========== NOM ============== */}
             <div className="basicContainer">
               <Alert
                 alertList={alertList}
@@ -108,14 +110,21 @@ export default function DemonSubpage({
               <Input
                 title="demonNameLabel"
                 defaultValue={currentDemon.name}
+                hint={"caractereMax75"}
                 pathInObject="name"
-                onChangeFunction={(path, value) =>
-                  setCurrentDemon(updateElementValue(path, currentDemon, value))
-                }
+                onChangeFunction={(path, value) => {
+                  if (value.length > 75) {
+                    value = value.slice(0, 75);
+                  }
+                  setCurrentDemon(
+                    updateElementValue(path, currentDemon, value),
+                  );
+                }}
               />
             </div>
 
             <div className="basicContainer">
+              {/* ========== CONDITION ============== */}
               <Alert
                 alertList={alertList}
                 message={
@@ -135,6 +144,7 @@ export default function DemonSubpage({
             </div>
 
             <div className="basicContainer eventAssociatedSection">
+              {/* ========== EVENTS ASSOCIÉS ============== */}
               <Alert
                 alertList={alertList}
                 message={
@@ -146,37 +156,43 @@ export default function DemonSubpage({
                 title="events"
                 description="demon-event-description"
               />
-                 {events && events.length === 0 && (
-                          <span className="normalText">{t("noEventInGame")}</span>
-                        )}
+              {events && events.length === 0 && (
+                <span className="normalText">{t("noEventInGame")}</span>
+              )}
               <div className="wrapperSelection">
-              
-                  
-                    {events &&
-                      events.map((event, index) => (
-                        <EventCard
-                          alertMessage={event.id + "|event|"}
-                          key={index}
-                          action={() => {
-                            setCurrentDemon(
-                              updateValueArray(
-                                "events",
-                                currentDemon,
-                                event.id,
-                              ),
-                            );
-                            setOpenPanelToAddEvent(false);
-                          }}
-                          event={event}
-                          isSelected={event.id && currentDemon.events.includes(event.id)}
-                        />
-                    ))}
-
-                  
-           
+                {events &&
+                  events.map((event, index) => (
+                    <EventCard
+                      alertMessage={event.id + "|event|"}
+                      key={index}
+                      action={() => {
+                        setCurrentDemon(
+                          updateValueArray("events", currentDemon, event.id),
+                        ); 
+                      }}
+                      event={event}
+                      isSelected={
+                        event.id && currentDemon.events.includes(event.id)
+                      }
+                    />
+                  ))}
               </div>
             </div>
+            {/* ========== METADATA ============== */}
+            <div class="basicContainer">
+              <TitleContainer title={"metadata"}></TitleContainer>
+
+              <span>
+                {t("uniqueId")} : {currentDemon.id}
+              </span>
+
+              <span>
+                {t("callTheseEvents")} :{" "}
+                {currentDemon.events ? currentDemon.events.length : 0}
+              </span>
+            </div>
             <div className="basicContainer basicRedContainer rewardsManagementSection">
+              {/* ========== SUPPRESSION ============== */}
               <TitleContainer
                 title={"deleteDemon"}
                 type="h2"

@@ -23,6 +23,7 @@ export default function CurrentWithValueEventubpage({
   actions,
   updateGameValue,
   updateGameValueArray,
+  getEventFromIdAndType
 }) {
   const {
     currentWithValueEvent,
@@ -39,7 +40,10 @@ export default function CurrentWithValueEventubpage({
       setCurrentWithValueEvent(withValueEvents[0]);
     }
   }, [withValueEvents]);
-
+  useEffect(() => {
+    if (currentWithValueEvent) updateGameValueArray("events.withValueEvent", currentWithValueEvent);
+  }, [currentWithValueEvent]);
+   console.log(currentWithValueEvent);
   return (
     <div
       className={
@@ -99,6 +103,7 @@ export default function CurrentWithValueEventubpage({
         {currentWithValueEvent ? (
           <>
             <div className="basicContainer">
+              {/* ========== NOM ============== */}
               <TitleContainer
                 title="eventConfigurationTitle"
                 description="eventConfigurationDescription"
@@ -115,6 +120,7 @@ export default function CurrentWithValueEventubpage({
               />
             </div>
             <div className="basicContainer">
+              {/* ========== CONDITION ============== */}
               <Input
                 title="activationCondition"
                 description="activationConditionDescription"
@@ -128,6 +134,7 @@ export default function CurrentWithValueEventubpage({
               />
             </div>
             <div className="basicContainer">
+              {/* ========== MESSAGE DE CHARGEMENT  ============== */}
               <Input
                 title="loadMessage"
                 description="loadMessageDescription"
@@ -142,6 +149,7 @@ export default function CurrentWithValueEventubpage({
             </div>
 
             <div className="basicContainer">
+              {/* ========== BOUCLE ============== */}
               <InputSelect
                 title="loop"
                 pathObject="boucle"
@@ -176,6 +184,7 @@ export default function CurrentWithValueEventubpage({
               />
             </div>
             <div className="basicContainer">
+              {/* ========== FROM ET FOR ============== */}
               <Input
                 title="entity-concerned"
                 description="entity-concerned-description"
@@ -226,6 +235,7 @@ export default function CurrentWithValueEventubpage({
               />
             </div>
             <div className="basicContainer">
+              {/* ========== GIVE ELEMENT ============== */}
               <TitleContainer
                 title="give-ressources-to-players"
                 description="give-ressources-to-players-description"
@@ -300,6 +310,7 @@ export default function CurrentWithValueEventubpage({
               </div>
             </div>
             <div className="basicContainer">
+              {/* ========== ACTION ============== */}
               <Input
                 title="eventAction"
                 description="eventActionDescription"
@@ -325,6 +336,7 @@ export default function CurrentWithValueEventubpage({
             </div>
 
             <div className="basicContainer">
+              {/* ========== REQUIRE INPUT ============== */}
               <TitleContainer
                 title="require-input"
                 description="hereIsAllDemonWichCallThisEvent"
@@ -411,6 +423,7 @@ export default function CurrentWithValueEventubpage({
               </div>
             </div>
             <div className="basicContainer">
+              {/* ========== EVENTS QUI APPELLENT CETTE WITH VALUE EVENT ============== */}
               <TitleContainer
                 title="events-wich-execute-this-event"
                 description="hereIsAllEventWichCallThisEvent"
@@ -428,8 +441,7 @@ export default function CurrentWithValueEventubpage({
                             currentWithValueEvent,
                             event.id,
                           ),
-                        );
-                        setOpenPanelToAddEvent(false);
+                        ); 
                       }}
                       event={event}
                       isSelected={
@@ -444,7 +456,9 @@ export default function CurrentWithValueEventubpage({
                   ))}
               </div>
             </div>
+              {/* ========== WITH VALUE EVENTS QUI APPELLENT CETTE WITH VALUE EVENT ============== */}
             <DetailContainer
+            
               title={"calledInThisWithValueEventt"}
               description="hereIsAllWithValueWichCallThisEvent"
             >
@@ -463,8 +477,7 @@ export default function CurrentWithValueEventubpage({
                                 currentWithValueEvent,
                                 withValue.id,
                               ),
-                            );
-                            setOpenPanelToAddEvent(false);
+                            ); 
                           }}
                           event={withValue}
                           isSelected={
@@ -482,6 +495,7 @@ export default function CurrentWithValueEventubpage({
             </DetailContainer>
 
             <div class="basicContainer">
+              {/* ========== METADONNEES ============== */}
               <TitleContainer title={"metadata"}></TitleContainer>
               <span>
                 {t("uniqueId")} : {currentWithValueEvent.id}
@@ -499,7 +513,7 @@ export default function CurrentWithValueEventubpage({
                 }
               </span>{" "}
               <span>
-                {t("calledInTheseWithValueEvent")} :{" "}
+                {t("calledInTheseWithValueEvent")} :
                 {
                   withValueEvents.filter((event) =>
                     event.event.withValue
@@ -529,6 +543,7 @@ export default function CurrentWithValueEventubpage({
               </span>
             </div>
             <div className="basicContainer basicRedContainer rewardsManagementSection">
+              {/* ========== SUPPRESSION ============== */}
               <TitleContainer
                 title={"deleteEvent"}
                 type="h2"

@@ -2,6 +2,7 @@ import "./style.css";
 import { useState, useEffect } from "react";
 import Button from "../../../../../../components/Button/Button";
 import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
+import WithValueEventCard from "../../../../../../components/Cards/WithValueEventCard/WithValueEventCard.jsx";
 import { useTranslation } from "react-i18next";
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer";
 import Input from "../../../../../../components/input/Input.jsx";
@@ -11,11 +12,13 @@ import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../../helpers/objectManagement.js";
+import { findTextInElt } from "../../../../../../helpers/text.js";
 import { actions } from "../elements.js";
 import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
+import { set } from "react-hook-form";
 export default function EventSubpage({
   events,
   demons,
@@ -26,6 +29,7 @@ export default function EventSubpage({
   withValueEvents,
   updateGameValue,
   updateGameValueArray,
+  getEventFromIdAndType,
 }) {
   const {
     currentEvent,
@@ -50,8 +54,7 @@ export default function EventSubpage({
   useEffect(() => {
     if (currentEvent) updateGameValueArray("events.events", currentEvent);
   }, [currentEvent]);
-
-  console.log(currentEvent);
+ 
   return (
     <div className={" eventSubPageOfEventsAndDeclencheurSubpage"}>
       <div className="left">
@@ -114,6 +117,7 @@ export default function EventSubpage({
                 title="eventConfigurationTitle"
                 description="eventConfigurationDescription"
               />
+              {/* ========== NOM ============== */}
               <Input
                 title="eventNameLabel"
                 defaultValue={currentEvent.name ?? ""}
@@ -124,6 +128,7 @@ export default function EventSubpage({
                   );
                 }}
               />
+              {/* ========== CONDITION ============== */}
               <Input
                 title="activationCondition"
                 description="activationConditionDescription"
@@ -135,6 +140,7 @@ export default function EventSubpage({
                   );
                 }}
               />
+              {/* ========== MESSAGE DE CHARGEMENT  ============== */}
               <Input
                 title="loadMessage"
                 description="loadMessageDescription"
@@ -147,6 +153,8 @@ export default function EventSubpage({
                 }}
               />
             </div>
+
+            {/* ========== BOUCLE ============== */}
 
             <div className="basicContainer">
               <InputSelect
@@ -177,6 +185,8 @@ export default function EventSubpage({
                 }}
               />
             </div>
+
+            {/* ========== FROM ET FOR ============== */}
 
             <div className="basicContainer">
               <Input
@@ -228,6 +238,8 @@ export default function EventSubpage({
                 }}
               />
             </div>
+
+            {/* ========== GIVE ELEMENT ============== */}
             <div className="basicContainer">
               <TitleContainer
                 title="give-ressources-to-players"
@@ -298,6 +310,7 @@ export default function EventSubpage({
               </div>
             </div>
 
+            {/* ========== ACTION ============== */}
             <div className="basicContainer">
               <InputSelect
                 title="eventAction"
@@ -328,7 +341,7 @@ export default function EventSubpage({
                 />
               )}
             </div>
-
+            {/* ========== DEMONS ============== */}
             <DetailContainer
               title={"demonsWichExecuteThisEvent"}
               className="demonsAssociatedContainer"
@@ -344,8 +357,7 @@ export default function EventSubpage({
                         updateGameValueArray(
                           "events.demons",
                           updateValueArray("events", demon, currentEvent.id),
-                        );
-                        setOpenPanelToAddDemon(false);
+                        ); 
                       }}
                       demon={demon}
                       displayIcons={true}
@@ -359,22 +371,107 @@ export default function EventSubpage({
                 <span className="normalText">{t("noDemonInGame")}</span>
               )}
             </DetailContainer>
+            {/* ========== WithValueEvents ============== */}
             <DetailContainer
-              title={"withValueEventWichBeExecutedWhenThisEventIsTriggered"}
+              title={"withValueEvent"}
+              description={
+                "withValueEventWichBeExecutedWhenThisEventIsTriggered"
+              }
               className="demonsAssociatedContainer"
             >
-                 <InputSelect
-                                   title={"useWithValueEvent"}
-                                   updateValueArray={(value)=>{}}
-                                   closeAfterSelect={true}
-
-                                   selected={ [t("selectWithValueEvent")] }
-                                   items={withValueEvents}
-                                   itemsDisplayFields={["id","name"]}                                 />
-                              
-                                    
+              <InputSelect
+                title={"useWithValueEvent"}
+                updateValueArray={(value) => {
+                  setCurrentEvent(
+                    updateValueArray(
+                      "event.withValue",
+                      currentEvent,
+                      { id: value.id },
+                      "new",
+                    ),
+                  );
+                }}
+                closeAfterSelect={true}
+                selected={[t("selectWithValueEvent")]}
+                items={withValueEvents}
+                itemsDisplayFields={["id", "name"]}
+              />
+              {currentEvent.event.withValue &&
+              currentEvent.event.withValue.length > 0 ? (
+                currentEvent.event.withValue.map(
+                  (withValueEventInputs, index) => {
+                    let withValueEvent = getEventFromIdAndType(
+                      withValueEventInputs.id,
+                      "withValueEvent",
+                    );
+                    let keyInputInwithValueEvent = [];
+                    if (withValueEvent) {
+                      const keysInput = [
+                        "inputBool",
+                        "inputNumber",
+                        "inputString",
+                      ];
+                      keyInputInwithValueEvent = keysInput.filter((key) =>
+                        findTextInElt(withValueEvent, key),
+                      );
+                    }
+                    function remove() {
+                      setCurrentEvent(
+                        updateValueArray(
+                          "event.withValue",
+                          currentEvent,
+                          { id: withValueEventInputs.id },
+                          "delete",
+                        ),
+                      );
+                    }
+                    return (
+                      <WithValueEventCard
+                        actionOnRemove={remove}
+                        action={() => {
+                          if (!withValueEvent) {
+                            remove();
+                          }
+                        }}
+                        withValueEvent={
+                          withValueEvent
+                            ? withValueEvent
+                            : { name: t("withValueEventDoesnotExist") }
+                        }
+                        alertMessage={
+                          withValueEvent
+                            ? ""
+                            : withValueEventInputs.id +
+                              "|withValueEvent|" +
+                              "withValueEventDoesnotExist|alert"
+                        }
+                        className="withValueEventEdition"
+                        withValueEventInputs={withValueEventInputs}
+                        withValueEventKeys={keyInputInwithValueEvent}
+                        modifyKeyValue={(path, value) => {
+                          setCurrentEvent(
+                            updateValueArray(
+                              "event.withValue",
+                              currentEvent,
+                              updateElementValue(
+                                path,
+                                withValueEventInputs,
+                                value,
+                              ),
+                            ),
+                          );
+                        }}
+                        suggestions={suggestions}
+                      ></WithValueEventCard>
+                    );
+                  },
+                )
+              ) : (
+                <span className="normalText">{t("noWithValueEvent")}</span>
+              )}
             </DetailContainer>
 
+            {/* ========== METADATA ============== */}
             <div class="basicContainer">
               <TitleContainer title={"metadata"}></TitleContainer>
 
@@ -396,6 +493,8 @@ export default function EventSubpage({
                   : 0}
               </span>
             </div>
+
+            {/* ========== DELETE ============== */}
             <div className="basicContainer basicRedContainer rewardsManagementSection">
               <TitleContainer
                 title={"deleteEvent"}

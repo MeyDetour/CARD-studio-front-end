@@ -371,6 +371,7 @@
   "en": "English",
   "yes": "Yes",
   "no": "No",
+  "remove":"Remove",
   "none": "None",
   "thisElementWillBeVisibleInGame": "This element will be visible during the game if this option is enabled. Otherwise, it will not be displayed during the game, but it can still be used in the game's rules and events.",
   "calledInTheseWithValueEvent": "Called in these dynamic value events",
@@ -378,5 +379,11 @@
   "calledInTheseActions": "Called in these actions",
   "calledInTheseEvents": "Called in these events",
   "useWithValueEvent": "Use a dynamic value event",
-  "selectWithValueEvent": "Select a dynamic value event"
+  "selectWithValueEvent": "Select a dynamic value event",
+  "noWithValueEvent": "No dynamic value events called by this event"
+,"withValueEventDoesnotExist": "The selected dynamic value event does not exist",
+"restoringGame": "Restoring game...",
+"callTheseEvents": "Call these events",
+"visualiseYourGameSchema": "Visualize your game schema with the flowchart tool. This tool allows you to create a visual representation of your game's mechanics, including the flow of events, player actions, and game states. You can use this visualization to better understand and optimize your game design."
+,"caractereMax75": "The name must be less than 75 characters"
 }
