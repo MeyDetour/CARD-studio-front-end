@@ -2,7 +2,7 @@ import "./style.css";
 import { Mermaid } from "./Mermaid/Mermaid";
 import { Legend } from "./Legend/Legend";
 import { useState } from "react";
-import SubNavigationBar from "../../../../../../components/SubNavigationBar/SubNavigationBar";
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 
 // Composant Mermaid corrigé
 
@@ -26,23 +26,25 @@ const colors = {
 };
 
 // Page principale
-export default function VisualisationSubPage({
-  demons,
-  events,
-  actions,
-  withValueEvents,
+export default function VisualisationPage({
+ gameData,
   getEventFromIdAndType,
 }) {
   const [subpage, setSubpage] = useState("demons");
-  if (!demons) {
+  if (!gameData.demons) {
     return <p>Démons manquants</p>;
   }
-  if (!events) {
+  if (!gameData.events) {
     return <p>Événements manquants</p>;
   }
-  if (!withValueEvents) {
+  if (!gameData.withValueEvents) {
     return <p>Événements avec valeur manquants</p>;
   }
+  let demons = gameData.demons
+  let events = gameData.events
+  let actions = gameData.actions
+  let withValueEvents = gameData.withValueEvents
+
   const chartDefinition = `
     graph TD
       %% Section Entrées (Démons)
@@ -65,6 +67,7 @@ export default function VisualisationSubPage({
         buttons={{
           demons: () => setSubpage("demons"),
           actions: () => setSubpage("actions"),
+          variables: () => setSubpage("variables"),
         }}
         page={subpage}
       />

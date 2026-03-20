@@ -395,7 +395,7 @@
   "defaultValue": "Default value",
   "globalValue": "Global variable of a game",
   "globalValueDescription": "Variable used to manage calculations or store game states.",
-
+"variables":"Variables",
   "playerGlobalValueDescription": "Variable used to manage calculations or store game states for a specific player.",
   "globalValueStatic": "Static value",
   "globalValueStaticDescription": "Variable used to manage calculations or store game states with a caclulated value.",

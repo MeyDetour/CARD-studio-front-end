@@ -22,9 +22,9 @@ export default function GameCreationEnvironnementNavigation({
   const [gameInStorage, setGameInStorage] = useState(getGameInStorage(id));
   useEffect(() => {
     setGameInStorage(getGameInStorage(id));
-  }, [game,id,saveGame]);
- 
-   return (
+  }, [game, id, saveGame]);
+
+  return (
     <nav className="gameCreationEnvironnementNavigationSideBar">
       <div className="sidebar-section">
         <ul>
@@ -74,7 +74,6 @@ export default function GameCreationEnvironnementNavigation({
               icon={currentPage === "cards" ? "layer-white" : "layer"}
             />
           </li>
-
           <li>
             <Alert alertList={alertList}></Alert>
             <Button
@@ -143,14 +142,6 @@ export default function GameCreationEnvironnementNavigation({
               }
             />
           </li>
-        </ul>
-      </div>
-
-      <div className="sidebar-separator"></div>
-
-      <div className="sidebar-section">
-        <h4 className="section-title">{t("others")}</h4>
-        <ul>
           <li>
             <Alert alertList={alertList}></Alert>
             <Button
@@ -159,7 +150,30 @@ export default function GameCreationEnvironnementNavigation({
               type={currentPage == "displays" ? "navbar active" : "navbar"}
               icon={currentPage === "displays" ? "screen-white" : "screen"}
             />
+          </li>{" "}
+          <li>
+            <Alert
+              alertList={alertList}
+              displayAlertOfType={"event|withValueEvent|demon"}
+            ></Alert>
+            <Button
+              text={t("events")}
+              action={() => {
+                navigate("/game/events/" + id);
+                setCurrentSubpageOfEvents(null);
+              }}
+              type={currentPage == "events" ? "navbar active" : "navbar"}
+              icon={currentPage === "events" ? "energy-white" : "energy"}
+            />
           </li>
+        </ul>
+      </div>
+
+      <div className="sidebar-separator"></div>
+
+      <div className="sidebar-section">
+        <h4 className="section-title">{t("others")}</h4>
+        <ul>
           <li>
             <Alert alertList={alertList}></Alert>
             <Button
@@ -204,20 +218,20 @@ export default function GameCreationEnvironnementNavigation({
             />
           </li>
           <li>
-            <Alert
-              alertList={alertList}
-              displayAlertOfType={"event|withValueEvent|demon"}
-            ></Alert>
             <Button
-              text={t("events")}
+              text={t("visualisation")}
               action={() => {
-                navigate("/game/events/" + id);
+                navigate("/game/visualisation/" + id);
                 setCurrentSubpageOfEvents(null);
               }}
-              type={currentPage == "events" ? "navbar active" : "navbar"}
-              icon={currentPage === "events" ? "energy-white" : "energy"}
+              type={currentPage == "visualisation" ? "navbar active" : "navbar"}
+              icon={
+                currentPage === "visualisation"
+                  ? "visualisation-white"
+                  : "visualisation"
+              }
             />
-          </li>
+          </li>{" "}
           <li>
             <Button
               text={t("helpAndSettings")}

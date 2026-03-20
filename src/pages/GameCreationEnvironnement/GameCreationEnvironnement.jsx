@@ -36,6 +36,7 @@ import EditGame from "./subpages/EditGame/EditGame";
 import Events from "./subpages/Events/Events";
 import HelpAndSettings from "./subpages/HelpAndSettings/HelpAndSettings";
 import RoundsPage from "./subpages/RoundsAndManches/Rounds";
+import VisualisationPage from "./subpages/Visualisation/Visualisation";
 
 // Hooks
 import { useApi } from "../../hooks/useApi";
@@ -323,6 +324,35 @@ export default function GameCreationEnvironnement() {
                   getEventFromIdAndType={getEventFromIdAndType}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
+                />
+              );   case "visualisation":
+              return (
+                <VisualisationPage
+                  gameData={{
+                    events:
+                      game.events && game.events.events
+                        ? game.events.events.sort((a, b) => {
+                            return Number(a.id) - Number(b.id);
+                          })
+                        : [],
+                    demons:
+                      game.events && game.events.demons
+                        ? game.events.demons.sort((a, b) => {
+                            return Number(a.id) - Number(b.id);
+                          })
+                        : []
+                        ,
+                             withValueEvents:
+                      game.events && game.events.withValueEvent
+                        ? game.events.withValueEvent.sort((a, b) => {
+                            return Number(a.id) - Number(b.id);
+                          })
+                        : [],
+                     actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions.sort((a, b) => {
+                      return Number(a.id) - Number(b.id);
+                     }) : []
+                    }} 
+                  getEventFromIdAndType={getEventFromIdAndType} 
                 />
               );
             case "events":

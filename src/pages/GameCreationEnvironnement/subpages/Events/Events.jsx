@@ -22,8 +22,7 @@ import DemonSubpage from "./subPage/DemonSubpage/DemonSubpage.jsx";
 import EventSubpage from "./subPage/EventSubpage/EventSubpage.jsx";
 import CurrentWithValueEventubpage from "./subPage/EventWithValueSubpage/EventWithValueSubpage.jsx";
 import VariableSubpage from "./subPage/VariableSubpage/VariableSubpage.jsx";
-import VisualisationSubPage from "./subPage/Visualisation/Visualisation.jsx";
-
+ 
 export default function Events({
   gameData,
   updateGameValueArray,
@@ -105,16 +104,7 @@ export default function Events({
                 getEventFromIdAndType={getEventFromIdAndType}
               />
             );
-          case "visualisation":
-            return (
-              <VisualisationSubPage
-                demons={gameData.demons}
-                actions={gameData.actions}
-                events={gameData.events}
-                withValueEvents={gameData.withValueEvents}
-                getEventFromIdAndType={getEventFromIdAndType}
-              />
-            );
+       
           default:
             return (
               <div className="selectMode">
@@ -146,13 +136,7 @@ export default function Events({
                       description: "globalValueDescription",
                       onclickEvent: () =>
                         setCurrentSubpageOfEvents("globalValue"),
-                    },
-                    {
-                      name: "visualisation",
-                      description: "visualiseYourGameSchema",
-                      onclickEvent: () =>
-                        setCurrentSubpageOfEvents("visualisation"),
-                    },
+                    }
                   ].map((section) => (
                     <>
                       <CardSubpage

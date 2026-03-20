@@ -12,21 +12,27 @@ import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../helpers/objectManagement";
+import { useGameContext } from "../../../../../context/GameContext";
 import DetailContainer from "../../../../../components/DetailContainer/DetailContainer";
-import WithValueEventCard from "../../../../../components/Cards/WithValueEventCard/WithValueEventCard"; 
-import { findTextInElt } from "../../../../../helpers/text"; 
+import WithValueEventCard from "../../../../../components/Cards/WithValueEventCard/WithValueEventCard";
+import { findTextInElt } from "../../../../../helpers/text";
 import EventCard from "../../../../../components/Cards/EventCard/EventCard";
 import { useNotificationContext } from "../../../../../context/NotificationContext";
+
+import { useNavigate } from "react-router";
+
 export default function RoundsPage({
   gameData,
   updateGameValueArray,
-  updateGameValue,getEventFromIdAndType
+  updateGameValue,
+  getEventFromIdAndType,
 }) {
   const { t } = useTranslation();
   const [currentElementToEdit, setCurrentElementToEdit] = useState(null);
   const { removeAlert, setAlert, alertList, getAlert } =
     useNotificationContext();
-
+    const {setCurrentSubpageOfEvents} = useGameContext();
+const navigate = useNavigate();
   useEffect(() => {
     if (currentElementToEdit !== null && gameData) {
       updateGameValueArray("params.tours.actions", currentElementToEdit);
@@ -250,76 +256,87 @@ export default function RoundsPage({
                         );
                       }}
                     />
-                  <DetailContainer
+                    <DetailContainer title="advancedSettings">
+                      {/*===========APPARITION DE L ACTION=========== */}
 
-                   title="advancedSettings">
+                      <Input
+                        title="actionAppearAtPlayerTurn"
+                        description="ifTrueActionWillAppearAtPlayerTurn"
+                        defaultValue={currentElementToEdit.appearAtPlayerTurn}
+                        inputType="toggle"
+                        onChangeFunction={(value) =>
+                          setCurrentElementToEdit(
+                            updateElementValue(
+                              "appearAtPlayerTurn",
+                              currentElementToEdit,
+                              value,
+                            ),
+                          )
+                        }
+                      />
 
-
-                    {/*===========APPARITION DE L ACTION=========== */}
-
-                    <Input
-                      title="actionAppearAtPlayerTurn"
-                      description="ifTrueActionWillAppearAtPlayerTurn"
-                      defaultValue={currentElementToEdit.appearAtPlayerTurn}
-                      inputType="toggle"
-                      onChangeFunction={(value) =>
-                        setCurrentElementToEdit(
-                          updateElementValue(
-                            "appearAtPlayerTurn",
-                            currentElementToEdit,
-                            value,
-                          ),
-                        )
-                      }
-                    />
-
-                    
                       {/*===========APPLY ACTION ON  DECK =========== */}
                       {/* appear if discard deck is activated */}
                       {/* could be add in max one action */}
 
-                    <Input
-                      title="attachThisActionOnDeck"
-                      description="attachThisActionOnDeckDescription"
-                      defaultValue={currentElementToEdit.actionOnDeck??false}
-                      inputType="toggle"
-                      disabled={(!gameData.cardParams?.deck?.activation??true ) || (gameData.actions.some(action=>action.actionOnDeck && action.id!=currentElementToEdit.id))}
-                      onChangeFunction={(value) =>
-                        setCurrentElementToEdit(
-                          updateElementValue(
-                            "actionOnDeck",
-                            currentElementToEdit,
-                            value,
-                          ),
-                        )
-                      }
-                    />
+                      <Input
+                        title="attachThisActionOnDeck"
+                        description="attachThisActionOnDeckDescription"
+                        defaultValue={
+                          currentElementToEdit.actionOnDeck ?? false
+                        }
+                        inputType="toggle"
+                        disabled={
+                          (!gameData.cardParams?.deck?.activation ?? true) ||
+                          gameData.actions.some(
+                            (action) =>
+                              action.actionOnDeck &&
+                              action.id != currentElementToEdit.id,
+                          )
+                        }
+                        onChangeFunction={(value) =>
+                          setCurrentElementToEdit(
+                            updateElementValue(
+                              "actionOnDeck",
+                              currentElementToEdit,
+                              value,
+                            ),
+                          )
+                        }
+                      />
 
                       {/*===========APPLY ACTION ON DISCARD DECK =========== */}
                       {/* appear if discard deck is activated */}
                       {/* could be add in max one action */}
 
-                    <Input
-                      title="attachThisActionOnDiscardDeck"
-                      description="attachThisActionOnDiscardDeckDescription"
-                      defaultValue={currentElementToEdit.actionOnDiscardDeck??false}
-                      inputType="toggle"
-                      disabled={(!gameData.cardParams?.discard?.activation??true ) || (gameData.actions.some(action=>action.actionOnDiscardDeck && action.id!=currentElementToEdit.id))}
-                      onChangeFunction={(value) =>
-                        setCurrentElementToEdit(
-                          updateElementValue(
-                            "actionOnDiscardDeck",
-                            currentElementToEdit,
-                            value,
-                          ),
-                        )
-                      }
-                    />
-
-                  </DetailContainer>
+                      <Input
+                        title="attachThisActionOnDiscardDeck"
+                        description="attachThisActionOnDiscardDeckDescription"
+                        defaultValue={
+                          currentElementToEdit.actionOnDiscardDeck ?? false
+                        }
+                        inputType="toggle"
+                        disabled={
+                          (!gameData.cardParams?.discard?.activation ?? true) ||
+                          gameData.actions.some(
+                            (action) =>
+                              action.actionOnDiscardDeck &&
+                              action.id != currentElementToEdit.id,
+                          )
+                        }
+                        onChangeFunction={(value) =>
+                          setCurrentElementToEdit(
+                            updateElementValue(
+                              "actionOnDiscardDeck",
+                              currentElementToEdit,
+                              value,
+                            ),
+                          )
+                        }
+                      />
+                    </DetailContainer>
                     {/*===========WITH VALUE EVENT ASSOCIEES=========== */}
 
-                     
                     <DetailContainer
                       title={"withValueEvent"}
                       description={
@@ -420,6 +437,14 @@ export default function RoundsPage({
                       ) : (
                         <span className="normalText">
                           {t("noWithValueEvent")}
+                          <Button
+                          type="grey"
+                            action={() => {
+                              navigate("/game/events/" + gameData.gameId);
+                              setCurrentSubpageOfEvents("withValueEvent");
+                            }}
+                            text="createWithValueEvent"
+                          ></Button>
                         </span>
                       )}
                     </DetailContainer>
@@ -458,8 +483,8 @@ export default function RoundsPage({
                 <div
                   className={`action ${currentElementToEdit && currentElementToEdit.id == action.id ? "selected" : ""}`}
                   key={index}
-                  onClick={() => { 
-                    setCurrentElementToEdit(action); 
+                  onClick={() => {
+                    setCurrentElementToEdit(action);
                   }}
                 >
                   <Alert message={alertMessage} alertList={alertList}></Alert>

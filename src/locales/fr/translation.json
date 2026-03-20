@@ -397,7 +397,7 @@
   "createWithValueEvent": "Créer un événement avec valeur dynamique",
   "typeOfVariable": "Type de variable",
   "defaultValue": "Valeur par défaut",
-
+"variables":"Variables",
   "playerGlobalValueDescription": "Variable utilisée pour gérer les calculs ou stocker les états du jeu pour un joueur spécifique.",
   "globalValueStatic": "Valeur statique",
   "globalValueStaticDescription": "Variable utilisée pour gérer les calculs ou stocker les états du jeu avec une valeur calculée.",
