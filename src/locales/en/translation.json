@@ -216,7 +216,7 @@
   "attachedEventForTour": "Associate an item with the player",
   "require-input": "Elements requested from the player",
   "{allPlayersInGame}": "All players in the game",
- "playerGlobalValue": "Player variable",
+  "playerGlobalValue": "Player variable",
   "quickStart": "Quick Start",
   "basicsToGetStarted": "The basics to get started",
   "createYourFirstGame": "Create your first game",
@@ -369,7 +369,7 @@
   "en": "English",
   "yes": "Yes",
   "no": "No",
-  "remove":"Remove",
+  "remove": "Remove",
   "none": "None",
   "thisElementWillBeVisibleInGame": "This element will be visible during the game if this option is enabled. Otherwise, it will not be displayed during the game, but it can still be used in the game's rules and events.",
   "calledInTheseWithValueEvent": "Called in these dynamic value events",
@@ -378,27 +378,39 @@
   "calledInTheseEvents": "Called in these events",
   "useWithValueEvent": "Use a dynamic value event",
   "selectWithValueEvent": "Select a dynamic value event",
-  "noWithValueEvent": "No dynamic value events called by this event"
-,"withValueEventDoesnotExist": "The selected dynamic value event does not exist",
-"restoringGame": "Restoring game...",
-"callTheseEvents": "Call these events",
-"visualiseYourGameSchema": "Visualize your game schema with the flowchart tool. This tool allows you to create a visual representation of your game's mechanics, including the flow of events, player actions, and game states. You can use this visualization to better understand and optimize your game design."
-,"caractereMax75": "The name must be less than 75 characters",
-"visualisation":"Visualization",
-"ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault":"If there is no card configuration, all cards will be in the deck by default."
-,"tutoriels":"Tutorials",
-"configurationDistributionOfCard":"Card Distribution Configuration",
-"howToConfigureDistributionOfCard":"To set up card distribution, start by navigating to the Events section, select the appropriate category, and create a new entry with the name of your choice. In the Concerned Entity section, select the source deck—typically {deck}, or any other location where your cards are held at the start of the game. If the action should apply to all participants, be sure to select the 'All players in the game' option. For the Targeted Entity, define the cards' destination by using the {playerBoucle#handDeck} variable. Simply enter the number of cards to be dealt in the 'Give an element' field before saving your configuration. Finally, remember to link this event to a specific Demon to ensure it executes automatically at the desired moment during the match."
-,
-"noEventInGame":"There is no event in this game yet. Create your first event with value event to start configuring your game mechanics!",
-"createWithValueEvent":"Create a dynamic value event"
-,"typeOfVariable":"Type of variable",
-"defaultValue":"Default value",
- "globalValue": "Global variable of a game",
+  "noWithValueEvent": "No dynamic value events called by this event",
+  "withValueEventDoesnotExist": "The selected dynamic value event does not exist",
+  "restoringGame": "Restoring game...",
+  "callTheseEvents": "Call these events",
+  "visualiseYourGameSchema": "Visualize your game schema with the flowchart tool. This tool allows you to create a visual representation of your game's mechanics, including the flow of events, player actions, and game states. You can use this visualization to better understand and optimize your game design.",
+  "caractereMax75": "The name must be less than 75 characters",
+  "visualisation": "Visualization",
+  "ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault": "If there is no card configuration, all cards will be in the deck by default.",
+  "tutoriels": "Tutorials",
+  "configurationDistributionOfCard": "Card Distribution Configuration",
+  "howToConfigureDistributionOfCard": "To set up card distribution, start by navigating to the Events section, select the appropriate category, and create a new entry with the name of your choice. In the Concerned Entity section, select the source deck—typically {deck}, or any other location where your cards are held at the start of the game. If the action should apply to all participants, be sure to select the 'All players in the game' option. For the Targeted Entity, define the cards' destination by using the {playerBoucle#handDeck} variable. Simply enter the number of cards to be dealt in the 'Give an element' field before saving your configuration. Finally, remember to link this event to a specific Demon to ensure it executes automatically at the desired moment during the match.",
+  "noEventInGame": "There is no event in this game yet. Create your first event with value event to start configuring your game mechanics!",
+  "createWithValueEvent": "Create a dynamic value event",
+  "typeOfVariable": "Type of variable",
+  "defaultValue": "Default value",
+  "globalValue": "Global variable of a game",
   "globalValueDescription": "Variable used to manage calculations or store game states.",
- 
-  "playerGlobalValueDescription": "Variable used to manage calculations or store game states for a specific player."
-,"globalValueStatic":"Static value"
-,"globalValueStaticDescription":"Variable used to manage calculations or store game states with a caclulated value."
-,"caclulatedValue":"Calculated value"
+
+  "playerGlobalValueDescription": "Variable used to manage calculations or store game states for a specific player.",
+  "globalValueStatic": "Static value",
+  "globalValueStaticDescription": "Variable used to manage calculations or store game states with a caclulated value.",
+  "caclulatedValue": "Calculated value",
+  "attachThisActionOnDiscardDeck": "Attach this action to the discard pile",
+  "attachThisActionOnDiscardDeckDescription": "If enabled, this action will not appear in the standard action bar. Instead, the user must click directly on the discard pile to trigger the effect. This allows for specific interactions with discarded cards, adding a layer of strategy to the game's discard management. Setting available event if this option is enable in card management and if no action use this settings.",
+  "attachThisActionOnDeck": "Attach this action to the deck",
+  "attachThisActionOnDeckDescription": "If enabled, this action will not appear in the standard action bar. Instead, the user must click directly on the deck (draw pile) to trigger the effect. This is ideal for creating custom mechanics related to drawing cards or inspecting the deck. Setting available event if this option is enable in card management and if no action use this settings."
+  ,"discardDeck":"Discard Pile",
+  "discardDeckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings": "If this setting is enabled, you can access multiple settings related to the deck or discard pile in the card management section. This allows you to create specific interactions and mechanics for these elements, such as triggering events when a card is drawn from the deck or discarded into the discard pile.",
+  "deck":"Deck",
+  "deckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings": "If this setting is enabled, you can access multiple settings related to the deck or discard pile in the card management section. This allows you to create specific interactions and mechanics for these elements, such as triggering events when a card is drawn from the deck or discarded into the discard pile."
+,"hereYouCanManageAllSettingsConcernedCardAndDecks": "Here you can manage all settings related to cards, decks, and discard piles. This includes configuring specific interactions, such as triggering events when a card is drawn from the deck or discarded into the discard pile. You can also set up custom mechanics for these elements to create a unique gaming experience."
+,"renderTheLastDiscardedCard": "Render the last discarded card",
+  "renderTheLastDiscardedCardDescription": "If enabled, the last card sent to the discard pile will be displayed face-up on top. Otherwise, only the card back or the discard pile icon will be visible.",
+  "renderTheNextDeckCard": "Render the next deck card",
+  "renderTheNextDeckCardDescription": "Makes the card on top of the draw pile visible (face-up). This is useful for gameplay mechanics where players can anticipate the next draw."
 }

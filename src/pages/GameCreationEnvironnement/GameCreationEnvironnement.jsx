@@ -307,6 +307,9 @@ export default function GameCreationEnvironnement() {
                   gameData={{suggestions: suggestions,
                     gameId : game.id,
                     tours: game.params.tours,
+                    actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions.sort((a, b) => {
+                      return Number(a.id) - Number(b.id);
+                    }) : [],
                     manches: game.params.manches,
                     globalGame: game.params.globalGame,
                     withValueEvents: game.events.withValueEvent,
@@ -314,6 +317,8 @@ export default function GameCreationEnvironnement() {
                       game.events && game.events.events
                         ? game.events.events
                         : [],
+                           cardParams : game.params.cards ? game.params.cards : {}
+            
                   }}
                   getEventFromIdAndType={getEventFromIdAndType}
                   updateGameValue={updateGameValueHandler}
@@ -349,8 +354,10 @@ export default function GameCreationEnvironnement() {
                             return Number(a.id) - Number(b.id);
                           })
                         : [],
-                    actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions : [],
-                    globalValue: game.globalValue,
+                     actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions.sort((a, b) => {
+                      return Number(a.id) - Number(b.id);
+                    }) : [],
+                        globalValue: game.globalValue,
                     playerGlobalValue: game.playerGlobalValue,
                     globalValueStatic: game.globalValueStatic ?? {}
                   }}
@@ -365,6 +372,9 @@ export default function GameCreationEnvironnement() {
               return (
                 <CardManagement
                   gameData={{
+                    actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions.sort((a, b) => {
+                      return Number(a.id) - Number(b.id);
+                    }) : [],
                     events:
                       game.events && game.events.events
                         ? game.events.events.sort((a, b) => {
@@ -383,6 +393,7 @@ export default function GameCreationEnvironnement() {
                             a.name.localeCompare(b.name),
                           )
                         : [],
+                      cardParams : game.params.cards ? game.params.cards : {}
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}

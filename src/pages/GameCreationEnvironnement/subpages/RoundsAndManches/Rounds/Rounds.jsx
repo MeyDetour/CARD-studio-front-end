@@ -12,9 +12,9 @@ import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../helpers/objectManagement";
-import WithValueEventCard from "../../../../../components/Cards/WithValueEventCard/WithValueEventCard"; 
-import { findTextInElt } from "../../../../../helpers/text";
 import DetailContainer from "../../../../../components/DetailContainer/DetailContainer";
+import WithValueEventCard from "../../../../../components/Cards/WithValueEventCard/WithValueEventCard"; 
+import { findTextInElt } from "../../../../../helpers/text"; 
 import EventCard from "../../../../../components/Cards/EventCard/EventCard";
 import { useNotificationContext } from "../../../../../context/NotificationContext";
 export default function RoundsPage({
@@ -250,6 +250,11 @@ export default function RoundsPage({
                         );
                       }}
                     />
+                  <DetailContainer
+
+                   title="advancedSettings">
+
+
                     {/*===========APPARITION DE L ACTION=========== */}
 
                     <Input
@@ -268,6 +273,50 @@ export default function RoundsPage({
                       }
                     />
 
+                    
+                      {/*===========APPLY ACTION ON  DECK =========== */}
+                      {/* appear if discard deck is activated */}
+                      {/* could be add in max one action */}
+
+                    <Input
+                      title="attachThisActionOnDeck"
+                      description="attachThisActionOnDeckDescription"
+                      defaultValue={currentElementToEdit.actionOnDeck??false}
+                      inputType="toggle"
+                      disabled={(!gameData.cardParams?.deck?.activation??true ) || (gameData.actions.some(action=>action.actionOnDeck && action.id!=currentElementToEdit.id))}
+                      onChangeFunction={(value) =>
+                        setCurrentElementToEdit(
+                          updateElementValue(
+                            "actionOnDeck",
+                            currentElementToEdit,
+                            value,
+                          ),
+                        )
+                      }
+                    />
+
+                      {/*===========APPLY ACTION ON DISCARD DECK =========== */}
+                      {/* appear if discard deck is activated */}
+                      {/* could be add in max one action */}
+
+                    <Input
+                      title="attachThisActionOnDiscardDeck"
+                      description="attachThisActionOnDiscardDeckDescription"
+                      defaultValue={currentElementToEdit.actionOnDiscardDeck??false}
+                      inputType="toggle"
+                      disabled={(!gameData.cardParams?.discard?.activation??true ) || (gameData.actions.some(action=>action.actionOnDiscardDeck && action.id!=currentElementToEdit.id))}
+                      onChangeFunction={(value) =>
+                        setCurrentElementToEdit(
+                          updateElementValue(
+                            "actionOnDiscardDeck",
+                            currentElementToEdit,
+                            value,
+                          ),
+                        )
+                      }
+                    />
+
+                  </DetailContainer>
                     {/*===========WITH VALUE EVENT ASSOCIEES=========== */}
 
                      
@@ -403,14 +452,14 @@ export default function RoundsPage({
               })()}
             {/*===========LIST ACTIONS=========== */}
 
-            {gameData.tours.actions.map((action, index) => {
+            {gameData.actions.map((action, index) => {
               let alertMessage = action.id + "|action";
               return (
                 <div
                   className={`action ${currentElementToEdit && currentElementToEdit.id == action.id ? "selected" : ""}`}
                   key={index}
-                  onClick={() => {
-                    setCurrentElementToEdit(action);
+                  onClick={() => { 
+                    setCurrentElementToEdit(action); 
                   }}
                 >
                   <Alert message={alertMessage} alertList={alertList}></Alert>
@@ -423,7 +472,7 @@ export default function RoundsPage({
               className="action"
               onClick={() => {
                 let name = "Name of action";
-                for (let i = 0; i < gameData.tours.actions.length; i++) {
+                for (let i = 0; i < gameData.actions.length; i++) {
                   if (gameData.tours.actions[i].name === name) {
                     name = `Name of action (${i + 1})`;
                   }

@@ -35,7 +35,7 @@ export default function Input({
         <label className="switch">
           <input
           readOnly={disabled}
-            disabled={disabled} // Ajout ici
+            disabled={disabled} // Ajout ici 
             onChange={(e) =>
               !disabled &&
               (pathInObject

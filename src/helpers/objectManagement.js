@@ -86,6 +86,10 @@ export function updateElementValue(path, obj, value, type = "replace") {
     const key = keys[i];
     current[key] = current[key] ? { ...current[key] } : {};
     current = current[key];
+    if(current === undefined){
+      current[key] = {};
+      current = current[key];
+    }
   }
   const lastKey = keys[keys.length - 1];
 

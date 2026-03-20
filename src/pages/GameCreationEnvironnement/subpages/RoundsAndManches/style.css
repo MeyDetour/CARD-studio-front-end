@@ -78,6 +78,10 @@
           font-weight: 500;
         }
       }
+      .action.selected{
+
+    border: 1px solid var(--violet);
+      }
     }
   }
 }

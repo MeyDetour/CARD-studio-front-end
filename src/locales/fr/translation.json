@@ -134,7 +134,7 @@
   "playerGlobalValue": "Variable d'un joueur",
   "withValueEventTitle": "Événement avec Valeur",
   "selectWithValueEvent": "Sélectionnez un événement avec valeur dynamique",
-  "useWithValueEvent":"Utiliser un événement avec valeur dynamique",
+  "useWithValueEvent": "Utiliser un événement avec valeur dynamique",
   "eventsAndTriggersManagementTitle": "Gestion des événements et déclencheurs",
   "eventsAndTriggersManagementDescription": "Cette partie permet de gérer tout ce qui est relatif aux actions d'un jeu, que ce soit pour distribuer des cartes, changer des variables ou incrémenter des tours ; c'est le cœur du fonctionnement du jeu.",
   "eventConfigurationTitle": "Configuration de l'événement",
@@ -378,28 +378,42 @@
   "none": "Aucun",
   "thisElementWillBeVisibleInGame": "Cet élément sera visible pendant la partie si cette option est activée. Sinon, il ne sera pas affiché pendant la partie, mais il pourra toujours être utilisé dans les règles et les événements du jeu.",
   "calledInTheseWithValueEvent": "Appelé dans ces événements avec valeur dynamique",
-  "calledInTheseActions":"Appelé dans ces actions",
-"callTheseWithValueEvent":"Appel ces événements avec valeur dynamique",
-"calledInTheseEvents":"Appelé par ces événements",
-"withValueEventWichBeExecutedWhenThisEventIsTriggered":"Événements avec valeur dynamique qui seront exécutés lorsque cet événement est déclenché"
-,"noWithValueEvent":"Aucun événement avec valeur dynamique appelé par cet événement"
-,"withValueEventDoesnotExist":"Cet événement avec valeur dynamique n'existe pas",
-"restoringGame":"Restauration du jeu...",
-"callTheseEvents":"Appel ces événements",
-"visualisation":"Visualisation",
-"visualiseYourGameSchema":"Visualisez le schéma de votre jeu avec l'outil de diagramme. Cet outil vous permet de créer une représentation visuelle des mécaniques de votre jeu, y compris le flux des événements, les actions des joueurs et les états du jeu. Vous pouvez utiliser cette visualisation pour mieux comprendre et optimiser la conception de votre jeu."
-,"caractereMax75":"Le champ ne peut pas dépasser 75 caractères",
-"ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault":"S'il n'y a aucune configuration de carte, toutes les cartes seront dans le deck par défaut"
-,"tutoriels":"Tutoriels",
-"configurationDistributionOfCard":"Configuration de la distribution de cartes",
-"howToConfigureDistributionOfCard":"Pour mettre en place la distribution de cartes, commencez par vous rendre dans la section Événements afin de choisir la catégorie correspondante et de créer un nouvel élément avec le nom de votre choix. Dans la partie Entité concernée, sélectionnez le deck source, par exemple {deck}, ou tout autre emplacement où se trouvent vos cartes au lancement du jeu. Si l'action doit s'appliquer à l'ensemble des participants, veillez à cocher l'option 'Tous les joueurs de la partie'. Pour l'Entité ciblée, définissez la destination des cartes en utilisant la variable {playerBoucle#handDeck}. Il vous suffit ensuite d'indiquer le nombre de cartes à distribuer dans le champ 'Donner un élément' avant d'enregistrer votre configuration. Enfin, n'oubliez pas de lier cet événement à un Démon spécifique pour qu'il s'exécute automatiquement au moment voulu durant la partie."
-,"noEventInGame":"Il n'y a aucun événement dans ce jeu. Veuillez ajouter des événements avec valeur dynamique pour que votre jeu puisse fonctionner correctement. "
-,"createWithValueEvent":"Créer un événement avec valeur dynamique"
-,"typeOfVariable":"Type de variable",
-"defaultValue":"Valeur par défaut",
+  "calledInTheseActions": "Appelé dans ces actions",
+  "callTheseWithValueEvent": "Appel ces événements avec valeur dynamique",
+  "calledInTheseEvents": "Appelé par ces événements",
+  "withValueEventWichBeExecutedWhenThisEventIsTriggered": "Événements avec valeur dynamique qui seront exécutés lorsque cet événement est déclenché",
+  "noWithValueEvent": "Aucun événement avec valeur dynamique appelé par cet événement",
+  "withValueEventDoesnotExist": "Cet événement avec valeur dynamique n'existe pas",
+  "restoringGame": "Restauration du jeu...",
+  "callTheseEvents": "Appel ces événements",
+  "visualisation": "Visualisation",
+  "visualiseYourGameSchema": "Visualisez le schéma de votre jeu avec l'outil de diagramme. Cet outil vous permet de créer une représentation visuelle des mécaniques de votre jeu, y compris le flux des événements, les actions des joueurs et les états du jeu. Vous pouvez utiliser cette visualisation pour mieux comprendre et optimiser la conception de votre jeu.",
+  "caractereMax75": "Le champ ne peut pas dépasser 75 caractères",
+  "ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault": "S'il n'y a aucune configuration de carte, toutes les cartes seront dans le deck par défaut",
+  "tutoriels": "Tutoriels",
+  "configurationDistributionOfCard": "Configuration de la distribution de cartes",
+  "howToConfigureDistributionOfCard": "Pour mettre en place la distribution de cartes, commencez par vous rendre dans la section Événements afin de choisir la catégorie correspondante et de créer un nouvel élément avec le nom de votre choix. Dans la partie Entité concernée, sélectionnez le deck source, par exemple {deck}, ou tout autre emplacement où se trouvent vos cartes au lancement du jeu. Si l'action doit s'appliquer à l'ensemble des participants, veillez à cocher l'option 'Tous les joueurs de la partie'. Pour l'Entité ciblée, définissez la destination des cartes en utilisant la variable {playerBoucle#handDeck}. Il vous suffit ensuite d'indiquer le nombre de cartes à distribuer dans le champ 'Donner un élément' avant d'enregistrer votre configuration. Enfin, n'oubliez pas de lier cet événement à un Démon spécifique pour qu'il s'exécute automatiquement au moment voulu durant la partie.",
+  "noEventInGame": "Il n'y a aucun événement dans ce jeu. Veuillez ajouter des événements avec valeur dynamique pour que votre jeu puisse fonctionner correctement. ",
+  "createWithValueEvent": "Créer un événement avec valeur dynamique",
+  "typeOfVariable": "Type de variable",
+  "defaultValue": "Valeur par défaut",
 
-  "playerGlobalValueDescription": "Variable utilisée pour gérer les calculs ou stocker les états du jeu pour un joueur spécifique."
-,"globalValueStatic":"Valeur statique"
-,"globalValueStaticDescription":"Variable utilisée pour gérer les calculs ou stocker les états du jeu avec une valeur calculée."
-, "caclulatedValue":"Valeur calculée"
+  "playerGlobalValueDescription": "Variable utilisée pour gérer les calculs ou stocker les états du jeu pour un joueur spécifique.",
+  "globalValueStatic": "Valeur statique",
+  "globalValueStaticDescription": "Variable utilisée pour gérer les calculs ou stocker les états du jeu avec une valeur calculée.",
+  "caclulatedValue": "Valeur calculée",
+  "attachThisActionOnDiscardDeck": "Attacher cette action à la défausse",
+  "attachThisActionOnDiscardDeckDescription": "Si cette option est activée, l'action ne s'affichera pas dans la barre d'actions habituelle. L'utilisateur devra cliquer directement sur la défausse pour déclencher l'effet configuré. Cela permet de créer des interactions spécifiques liées à la gestion des cartes défaussées. Paramètre disponible uniquement si la défausse est activé dans la gestion des cartes et qu'aucune action n'a activé ce paramètre.",
+  "attachThisActionOnDeck": "Attacher cette action à la pioche",
+  "attachThisActionOnDeckDescription": "Si cette option est activée, l'action ne s'affichera pas dans la barre d'actions habituelle. L'utilisateur devra cliquer directement sur la pioche pour déclencher l'effet configuré. C'est idéal pour ajouter des mécaniques de jeu liées au piochage ou à l'examen du paquet. Paramètre disponible uniquement si la picohe est activé dans la gestion des cartes et qu'aucune action n'a activé ce paramètre.",
+  "advancedSettings":"Paramètres avancés",
+  "discardDeck":"Défausse",
+  "discardDeckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings":"Si cette option est activée, vous pourrez accéder à plusieurs paramètres liés à la défausse, tels que la possibilité de configurer des actions spécifiques lorsque les joueurs interagissent avec la défausse, ou de créer des événements qui se déclenchent lorsque des cartes sont défaussées. Cela permet d'ajouter une dimension stratégique supplémentaire à votre jeu, en offrant aux joueurs des options pour gérer leur défausse de manière plus dynamique.",
+  "deck":"Pioche",
+  "deckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings": "Si cette option est activée, vous pourrez accéder à plusieurs paramètres liés à la pioche, tels que la possibilité de configurer des actions spécifiques lorsque les joueurs interagissent avec la pioche, ou de créer des événements qui se déclenchent lorsque des cartes sont piochées. Cela permet d'ajouter une dimension stratégique supplémentaire à votre jeu, en offrant aux joueurs des options pour gérer leur pioche de manière plus dynamique.",
+ "hereYouCanManageAllSettingsConcernedCardAndDecks":"Ici, vous pouvez gérer tous les paramètres liés aux cartes et aux decks de votre jeu. Vous pourrez configurer la pioche, la défausse, les mains des joueurs, et d'autres éléments essentiels pour la gestion des cartes dans votre jeu. Cela vous permettra de créer des mécaniques de jeu plus complexes et personnalisées en fonction de vos besoins.",
+"renderTheLastDiscardedCard": "Afficher la dernière carte défaussée",
+  "renderTheLastDiscardedCardDescription": "Si cette option est activée, la dernière carte envoyée dans la défausse sera visible face visible sur le dessus de la pile. Sinon, seul le dos de la carte ou l'icône de la défausse sera affiché.",
+  "renderTheNextDeckCard": "Afficher la prochaine carte de la pioche",
+  "renderTheNextDeckCardDescription": "Permet de rendre visible la carte située sur le dessus de la pioche (face visible). Utile pour les mécaniques de jeu où les joueurs peuvent anticiper le prochain tirage."
 }
