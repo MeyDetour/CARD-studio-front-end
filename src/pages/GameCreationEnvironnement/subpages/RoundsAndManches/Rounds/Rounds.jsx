@@ -5,7 +5,7 @@ import Icon from "../../../../../components/Icon/Icon";
 import { useState, useEffect } from "react";
 import Input from "../../../../../components/input/Input";
 import InputRange from "../../../../../components/inputRange/inputRange";
-import InputSelect from "../../../../../components/inputSelect/InputSelect";
+import InputSelect from "../../../../../components/InputSelect/InputSelect";
 import Alert from "../../../../../components/Alert/Alert";
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import {

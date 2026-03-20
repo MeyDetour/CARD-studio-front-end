@@ -416,4 +416,6 @@
   "renderTheLastDiscardedCardDescription": "Si cette option est activée, la dernière carte envoyée dans la défausse sera visible face visible sur le dessus de la pile. Sinon, seul le dos de la carte ou l'icône de la défausse sera affiché.",
   "renderTheNextDeckCard": "Afficher la prochaine carte de la pioche",
   "renderTheNextDeckCardDescription": "Permet de rendre visible la carte située sur le dessus de la pioche (face visible). Utile pour les mécaniques de jeu où les joueurs peuvent anticiper le prochain tirage."
+,"cardImported":"Cartes importées",
+"searchExpression":"Recherchez une expression"
 }

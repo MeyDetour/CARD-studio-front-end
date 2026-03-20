@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
 import Icon from "../../../../../../components/Icon/Icon.jsx";
 import { useGameContext } from "../../../../../../context/GameContext.jsx";
-import InputSelect from "../../../../../../components/inputSelect/InputSelect.jsx";
+import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import SubNavigationBar from "../../../../../../components/SubNavigationBar/SubNavigationBar.jsx";
 import Button from "../../../../../../components/Button/Button.jsx";
 export default function VariableSubpage({

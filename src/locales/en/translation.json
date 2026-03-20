@@ -413,4 +413,6 @@
   "renderTheLastDiscardedCardDescription": "If enabled, the last card sent to the discard pile will be displayed face-up on top. Otherwise, only the card back or the discard pile icon will be visible.",
   "renderTheNextDeckCard": "Render the next deck card",
   "renderTheNextDeckCardDescription": "Makes the card on top of the draw pile visible (face-up). This is useful for gameplay mechanics where players can anticipate the next draw."
+  ,"cardImported":"card imported",
+  "searchExpression":"Search for an expression"
 }

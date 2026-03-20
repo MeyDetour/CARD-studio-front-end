@@ -22,7 +22,16 @@ export const useDynamicEntitySuggestions = (
     suggestions.push({
       label: "*",
       tooltip: "all",
-      types:  ["number"],
+      types: ["number"],
+    });   suggestions.push({
+      label: "startOfGame", 
+      types: ["event"],
+    });  suggestions.push({
+      label: "onChangeTour" ,
+      types: ["event"],
+    });  suggestions.push({
+      label: "eachStartOfManche" ,
+      types: ["event"],
     });
     suggestions.push({
       label: "calc(a+b)",
@@ -30,9 +39,40 @@ export const useDynamicEntitySuggestions = (
       types: ["number"],
     });
     suggestions.push({
+      label: "comp(a;isEqualNumber;b)",
+      types: ["boolean"],
+    });   suggestions.push({
+      label: "comp(a;isNotEqualNumber;b)",
+      types: ["boolean"],
+    }); suggestions.push({
+      label: "comp(a;isInferiorOrEqual;b)",
+      types: ["boolean"],
+    }); suggestions.push({
+      label: "comp(a;isSuperiorNumber;b)",
+      types: ["boolean"],
+    }); suggestions.push({
+      label: "comp(a;isInferiorNumber;b)",
+      types: ["boolean"],
+    });suggestions.push({
+      label: "comp(a;isEqualString;b)",
+      types: ["boolean"],
+    });suggestions.push({
+      label: "comp(a;notContain;b)",
+      types: ["boolean"],
+    });suggestions.push({
+      label: "comp(a;contain;b)",
+      types: ["boolean"],
+    });suggestions.push({
+      label: "comp(a;differentPlayer;b)",
+      types: ["boolean"],
+    });suggestions.push({
+      label: "comp(a;samePlayer;b)",
+      types: ["boolean"],
+    });
+    suggestions.push({
       label: "exp(a;operation;b)",
       tooltip: "compareTwoValue",
-      types:[ "boolean"],
+      types: ["boolean"],
     });
     suggestions.push({
       label: "<<(a;operation;b)>>",
@@ -40,18 +80,23 @@ export const useDynamicEntitySuggestions = (
       types: ["other"],
     });
     suggestions.push({
-      label: "<<;operation;b)>>", 
+      label: "<<;operation;b)>>",
       types: ["other"],
-    });   suggestions.push({
-      label: "{deck}",  
+    });
+    suggestions.push({
+      label: "{deck}",
       types: ["cardList"],
     });
-  suggestions.push({
-      label: "{discardDeck}",  
+    suggestions.push({
+      label: "{discardDeck}",
       types: ["cardList"],
     });
 
-    const playerBases = ["{startPlayer}", "getPlayer(<<position>>)", "{playerBoucle}"];
+    const playerBases = [
+      "{startPlayer}",
+      "getPlayer(<<position>>)",
+      "{playerBoucle}", 
+    ];
 
     if (playerGlobalValues) {
       let playerBloglValuesTotal = {

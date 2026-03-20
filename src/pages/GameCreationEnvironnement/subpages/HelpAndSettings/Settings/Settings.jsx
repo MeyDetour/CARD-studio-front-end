@@ -1,5 +1,5 @@
 import Input from "../../../../../components/input/Input";
-import InputSelect from "../../../../../components/inputSelect/InputSelect";
+import InputSelect from "../../../../../components/InputSelect/InputSelect.jsx";
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer"; 
 
 

@@ -350,7 +350,11 @@ export default function GameCreationEnvironnement() {
                         : [],
                      actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions.sort((a, b) => {
                       return Number(a.id) - Number(b.id);
-                     }) : []
+                     }) : [],
+
+                        globalValue: game.globalValue,
+                    playerGlobalValue: game.playerGlobalValue,
+                    globalValueStatic: game.globalValueStatic ?? {}
                     }} 
                   getEventFromIdAndType={getEventFromIdAndType} 
                 />

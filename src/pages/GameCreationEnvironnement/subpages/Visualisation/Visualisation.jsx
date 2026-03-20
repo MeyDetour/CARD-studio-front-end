@@ -1,4 +1,6 @@
 import "./style.css";
+
+import { useTranslation } from "react-i18next";
 import { Mermaid } from "./Mermaid/Mermaid";
 import { Legend } from "./Legend/Legend";
 import { useState } from "react";
@@ -26,10 +28,7 @@ const colors = {
 };
 
 // Page principale
-export default function VisualisationPage({
- gameData,
-  getEventFromIdAndType,
-}) {
+export default function VisualisationPage({ gameData, getEventFromIdAndType }) {
   const [subpage, setSubpage] = useState("demons");
   if (!gameData.demons) {
     return <p>Démons manquants</p>;
@@ -40,10 +39,10 @@ export default function VisualisationPage({
   if (!gameData.withValueEvents) {
     return <p>Événements avec valeur manquants</p>;
   }
-  let demons = gameData.demons
-  let events = gameData.events
-  let actions = gameData.actions
-  let withValueEvents = gameData.withValueEvents
+  let demons = gameData.demons;
+  let events = gameData.events;
+  let actions = gameData.actions;
+  let withValueEvents = gameData.withValueEvents;
 
   const chartDefinition = `
     graph TD
@@ -57,8 +56,15 @@ export default function VisualisationPage({
     graph TD 
       %% Section Entrées (Actions)
       ${iterateTrhoughActions(actions, getEventFromIdAndType)}
- 
   `;
+
+  const charDefinition3 = `
+classDiagram   
+    ${getGlobalValueClassDefinition(gameData.globalValue)}
+    ${getPlayerGlobalValueStaticClassDefinition(gameData.playerGlobalValue)}
+    ${getGlobalValueStaticClassDefinition(gameData.globalValueStatic)}
+    
+        `;
   console.log(chartDefinition);
   return (
     <div className="visualisationsubPageOfdemonsAndDeclencheurSubpage">
@@ -77,6 +83,8 @@ export default function VisualisationPage({
             return <Mermaid chart={chartDefinition} />;
           case "actions":
             return <Mermaid chart={chartDefinition2} />;
+          case "variables":
+            return <Mermaid chart={charDefinition3} />;
           default:
             return <Mermaid chart={chartDefinition} />;
         }
@@ -252,6 +260,34 @@ function getActionLabel(action) {
 
 function getActionStyle(action) {
   return `style ACTION${action.id} fill:${colors.action.fill},stroke:${colors.action.stroke}`;
+}
+
+function getGlobalValueClassDefinition(globalValue) {
+  const { t } = useTranslation();
+  return `${Object.keys(globalValue)
+    .map((key) => {
+      return `Global : ${key}`;
+    })
+    .join("\n")}
+    `;
+}
+function getGlobalValueStaticClassDefinition(globalValueStatic) {
+  const { t } = useTranslation();
+  return `${Object.keys(globalValueStatic)
+    .map((key) => {
+      return `Static : ${key}`;
+    })
+    .join("\n")}
+    `;
+}
+function getPlayerGlobalValueStaticClassDefinition(playerGlobalValue) {
+  const { t } = useTranslation();
+  return `${Object.keys(playerGlobalValue)
+    .map((key) => {
+      return `Player : ${key}`;
+    })
+    .join("\n")}
+    `;
 }
 
 // ====== RANDOM ========

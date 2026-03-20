@@ -1,4 +1,4 @@
-export function getSugggestionForCurrentPlayer(playerGlobalValues){
+export function getSugggestionForPlayer(playerPrefix,playerGlobalValues){
     let suggestions = [];
      
       let playerBloglValuesTotal = {
@@ -18,7 +18,7 @@ export function getSugggestionForCurrentPlayer(playerGlobalValues){
         Object.entries(playerBloglValuesTotal).forEach(([prop, data]) => {
          
             suggestions.push({
-              label: `{currentPlayer#${prop}}`,
+              label: `{${playerPrefix}#${prop}}`,
               types: data.types,
             });
          

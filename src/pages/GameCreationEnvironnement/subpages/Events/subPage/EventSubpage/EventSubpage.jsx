@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer";
 import Input from "../../../../../../components/input/Input.jsx";
 import { useGameContext } from "../../../../../../context/GameContext.jsx";
-import InputSelect from "../../../../../../components/inputSelect/InputSelect.jsx";
+import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import {
   updateElementValue,
   updateValueArray,
@@ -134,6 +134,9 @@ export default function EventSubpage({
                 description="activationConditionDescription"
                 defaultValue={currentEvent.condition ?? ""}
                 pathInObject="condition"
+                suggestions={suggestions.filter(
+                        (s) => !s.label.includes("{playerBoucle"),
+                      )}
                 onChangeFunction={(path, value) => {
                   setCurrentEvent(
                     updateElementValue(path, currentEvent, value),

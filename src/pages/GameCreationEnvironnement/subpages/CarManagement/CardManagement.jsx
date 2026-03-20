@@ -23,6 +23,7 @@ export default function CardManagement({
   setGameImageUploadedUrl,
 }) {
   const { t } = useTranslation();
+  const [subpage, setSubpage] = useState("cardManagement");
 
   if (!gameData) return;
   return (
@@ -34,71 +35,87 @@ export default function CardManagement({
       />
       <SearchBar placeholder="searchInLibraryPlaceholder" />
 
-      <p>{t("ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault")}</p>
+      <SubNavigationBar
+        buttons={{
+          cardManagement: () => setSubpage("cardManagement"),
+          cardImported: () => setSubpage("cardImported"),
+        }}
+        page={subpage}
+      />
 
-      <div className="basicContainer">
-
-        {/* ======DECK======= */}
-        <Input
-          title="deck"
-          description="deckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings"
-          defaultValue={gameData.cardParams?.deck?.activation ?? false}
-          inputType="toggle"
-          pathInObject="params.cards.deck.activation"
-          onChangeFunction={(path,value)=>{
-            for (let a of gameData.actions){
-              if(a.actionOnDeck){
-                updateGameValueArray("params.tours.actions",{...a,actionOnDeck:false})
+      {subpage === "cardManagement" && (
+        <div className="basicContainer">
+          {/* ======DECK======= */}
+          <Input
+            title="deck"
+            description="deckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings"
+            defaultValue={gameData.cardParams?.deck?.activation ?? false}
+            inputType="toggle"
+            pathInObject="params.cards.deck.activation"
+            onChangeFunction={(path, value) => {
+              for (let a of gameData.actions) {
+                if (a.actionOnDeck) {
+                  updateGameValueArray("params.tours.actions", {
+                    ...a,
+                    actionOnDeck: false,
+                  });
+                }
               }
-            }
 
-            updateGameValue(path,value)
-            
-          }}
-        />
-        <Input
-          title="renderTheNextDeckCard"
-          description="renderTheNextDeckCardDescription"
-          defaultValue={
-            gameData.cardParams?.deck?.renderTheNextDeckCard ?? false
-          }
-          disabled={!(gameData.cardParams?.deck?.activation??false)}
-          inputType="toggle"
-          pathInObject="params.cards.deck.renderTheNextDeckCard"
-          onChangeFunction={updateGameValue}
-        />
-        {/* ======DISCARD======= */}
-        <Input
-          title="discardDeck"
-          description="discardDeckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings"
-          defaultValue={gameData.cardParams?.discard?.activation ?? false}
-          inputType="toggle"
-          pathInObject="params.cards.discard.activation"
-          onChangeFunction={(path,value)=>{
-            for (let a of gameData.actions){
-              if(a.actionOnDiscardDeck){
-                updateGameValueArray("params.tours.actions",{...a,actionOnDiscardDeck:false})
+              updateGameValue(path, value);
+            }}
+          />
+          <Input
+            title="renderTheNextDeckCard"
+            description="renderTheNextDeckCardDescription"
+            defaultValue={
+              gameData.cardParams?.deck?.renderTheNextDeckCard ?? false
+            }
+            disabled={!(gameData.cardParams?.deck?.activation ?? false)}
+            inputType="toggle"
+            pathInObject="params.cards.deck.renderTheNextDeckCard"
+            onChangeFunction={updateGameValue}
+          />
+          {/* ======DISCARD======= */}
+          <Input
+            title="discardDeck"
+            description="discardDeckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings"
+            defaultValue={gameData.cardParams?.discard?.activation ?? false}
+            inputType="toggle"
+            pathInObject="params.cards.discard.activation"
+            onChangeFunction={(path, value) => {
+              for (let a of gameData.actions) {
+                if (a.actionOnDiscardDeck) {
+                  updateGameValueArray("params.tours.actions", {
+                    ...a,
+                    actionOnDiscardDeck: false,
+                  });
+                }
               }
+
+              updateGameValue(path, value);
+            }}
+          />
+          <Input
+            title="renderTheLastDiscardedCard"
+            description="renderTheLastDiscardedCardDescription"
+            defaultValue={
+              gameData.cardParams?.discard?.renderTheLastDiscardedCard ?? false
             }
-
-            updateGameValue(path,value)
-            
-          }}
-        />
-        <Input
-          title="renderTheLastDiscardedCard"
-          description="renderTheLastDiscardedCardDescription"
-          defaultValue={
-            gameData.cardParams?.discard?.renderTheLastDiscardedCard ?? false
-          }
-          inputType="toggle"
-          disabled={!(gameData.cardParams?.discard?.activation??false)}
-          pathInObject="params.cards.discard.renderTheLastDiscardedCard"
-          onChangeFunction={updateGameValue}
-        />
-
-      </div>
-        
+            inputType="toggle"
+            disabled={!(gameData.cardParams?.discard?.activation ?? false)}
+            pathInObject="params.cards.discard.renderTheLastDiscardedCard"
+            onChangeFunction={updateGameValue}
+          />
+        </div>
+      )}
+      {subpage === "cardImported" && (
+        <div className="basicContainer">
+          <p>
+            {t("ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault")}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

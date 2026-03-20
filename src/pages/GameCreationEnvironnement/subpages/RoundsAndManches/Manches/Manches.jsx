@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
  
 import Input from "../../../../../components/input/Input";
 import InputRange from "../../../../../components/inputRange/inputRange";
-import InputSelect from "../../../../../components/inputSelect/InputSelect"; 
+import InputSelect from "../../../../../components/InputSelect/InputSelect"; 
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
  
  export default function Manches({

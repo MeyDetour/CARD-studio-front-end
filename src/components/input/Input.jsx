@@ -12,16 +12,18 @@ export default function Input({
   defaultValue,
   disabled = false,
   pathInObject = "",
-  max=null,
-  min=null,
+  max = null,
+  min = null,
   hint,
   onChangeFunction,
   suggestions = [],
+  searchbar = true,
 }) {
   const { t } = useTranslation();
   let inputNumber = useRef(null);
   const inputRef = useRef(null);
   const [focused, setFocused] = useState(false);
+  const [searchInSuggestion, setSearchInSuggestion] = useState("");
 
   if (inputType === "toggle") {
     return (
@@ -34,8 +36,8 @@ export default function Input({
 
         <label className="switch">
           <input
-          readOnly={disabled}
-            disabled={disabled} // Ajout ici 
+            readOnly={disabled}
+            disabled={disabled} // Ajout ici
             onChange={(e) =>
               !disabled &&
               (pathInObject
@@ -51,18 +53,22 @@ export default function Input({
     );
   }
 
-  const insertTextAtCursor = (textToInsert) => { 
-  const input = inputRef.current; 
-  const start = input.selectionStart;
-  const end = input.selectionEnd; 
-  const value = input.value; 
-  const newValue = value.substring(0, start) + textToInsert + value.substring(end);
- 
-  return newValue
-};
+  const insertTextAtCursor = (textToInsert) => {
+    const input = inputRef.current;
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    const value = input.value;
+    const newValue =
+      value.substring(0, start) + textToInsert + value.substring(end);
+
+    return newValue;
+  };
 
   return (
-    <div style={type=="input" && hint ?{marginBottom: "20px"} :null} className={`input ${type} ${disabled ? "disabled" : ""}`}>
+    <div
+      style={type == "input" && hint ? { marginBottom: "20px" } : null}
+      className={`input ${type} ${disabled ? "disabled" : ""}`}
+    >
       <span className="normalText">{t(title)}</span>
       {(() => {
         switch (inputType) {
@@ -70,9 +76,9 @@ export default function Input({
             return (
               <>
                 <input
-                ref={inputRef}
+                  ref={inputRef}
                   disabled={disabled}
-          readOnly={disabled}
+                  readOnly={disabled}
                   onChange={(e) =>
                     !disabled &&
                     (pathInObject
@@ -80,52 +86,73 @@ export default function Input({
                       : onChangeFunction(e.target.value))
                   }
                   onFocus={() => setFocused(true)}
-                  onBlur={() => setFocused(false)}
+                  onBlur={(e) => {
+                    if (
+                      e.relatedTarget &&
+                      e.currentTarget.parentNode.contains(e.relatedTarget)
+                    ) {
+                      return;
+                    }
+                    setFocused(false);
+                  }}
                   value={defaultValue ?? ""}
                   type="text"
                   placeholder={t(placeholder)}
                 />
                 {hint && <span className="hint">{t(hint)}</span>}
-                {(() => {
-                  const passVIPAfficherTout = true
-                  // Si aucun text on affiche tout
-                  // si text correspond à suggestion on affiche sinon on affiche pas
-                  // si pass VIP on affiche tout même si ça correspond pas
+                {(() => { 
+                  
                   let newSuggestions = suggestions.filter(
-                    (suggestion) =>
-                    (
-                      (defaultValue == "" ||
-                        suggestion.label
-                          .toLowerCase()
-                          .includes(defaultValue ? defaultValue.toString().toLowerCase() : "")) &&
-                      suggestion.label != defaultValue) || passVIPAfficherTout
+                    (suggestion) =>  suggestion.label.toLowerCase().includes(searchInSuggestion.toLowerCase()) || searchInSuggestion === "",
                   );
-
-                  if (newSuggestions.length === 0) return null;
+ 
                   return (
                     <div
                       className="suggestion"
                       style={{ display: focused ? "flex" : "none" }}
+                      tabIndex="-1"
+                      onBlur={(e) => {
+                        if (
+                          !e.relatedTarget ||
+                          !e.currentTarget.parentNode.parentNode.contains(
+                            e.relatedTarget,
+                          )
+                        ) {
+                          setFocused(false);
+                        }
+                      }}
                     >
-                      {newSuggestions.map((suggestion, index) => {
-                        return (
-                          <span
-                            onMouseDown={() => {
-                              console.log(suggestion);
-                              const newValue = insertTextAtCursor(suggestion.label);
-                              pathInObject
-                                ? onChangeFunction(
-                                    pathInObject,
-                                    newValue,
-                                  )
-                                : onChangeFunction(newValue);
-                            }}
-                            key={index}
-                          >
-                            {suggestion.label}
-                          </span>
-                        );
-                      })}
+                      <input
+                        onClick={() => setFocused(true)}
+                        onChange={(e) => {
+                          let search = e.target.value;
+                          console.log("search "+search);
+                          setSearchInSuggestion(search);
+                        }}
+                        type="text"
+                        placeholder={t("searchExpression")}
+                      />
+                      <div className="wrapperSuggestion">
+                        {newSuggestions.map((suggestion, index) => {
+                          return (
+                            <span
+                              onMouseDown={(e) => {
+                                e.preventDefault();
+                                console.log(suggestion);
+                                const newValue = insertTextAtCursor(
+                                  suggestion.label,
+                                );
+                                pathInObject
+                                  ? onChangeFunction(pathInObject, newValue)
+                                  : onChangeFunction(newValue);
+                              }}
+                              key={index}
+                            >
+                              {suggestion.label}
+                            </span>
+                          );
+                        })}
+                      </div>
                     </div>
                   );
                 })()}
@@ -136,7 +163,7 @@ export default function Input({
               <input
                 ref={inputNumber}
                 disabled={disabled}
-          readOnly={disabled}
+                readOnly={disabled}
                 onChange={(e) => {
                   if (disabled) return;
                   let myString = e.target.value;
@@ -144,9 +171,9 @@ export default function Input({
                   let cleanedValue = myString.replace(/\D/g, "");
                   cleanedValue = parseInt(cleanedValue)
                     ? parseInt(cleanedValue)
-                    : 0 ;
+                    : 0;
 
-                  if (min &&  cleanedValue < min) {
+                  if (min && cleanedValue < min) {
                     cleanedValue = min;
                   }
                   if (max && cleanedValue > max) {
@@ -167,7 +194,7 @@ export default function Input({
             return (
               <textarea
                 disabled={disabled}
-          readOnly={disabled}
+                readOnly={disabled}
                 onChange={(e) =>
                   !disabled &&
                   (pathInObject

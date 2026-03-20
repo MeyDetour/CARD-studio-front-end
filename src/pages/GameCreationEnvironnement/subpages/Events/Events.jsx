@@ -70,12 +70,14 @@ export default function Events({
           case "demon":
             return (
               <DemonSubpage
+
+                globalPlayerValue={gameData.playerGlobalValue}
+                suggestions={gameData.suggestions}
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 demons={gameData.demons}
                 withValueEvents={gameData.withValueEvents}
-                events={gameData.events}
-                suggestions={gameData.suggestions}
+                events={gameData.events} 
                 getEventFromIdAndType={getEventFromIdAndType}
               />
             );

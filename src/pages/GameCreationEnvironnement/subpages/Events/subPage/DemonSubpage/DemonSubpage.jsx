@@ -13,11 +13,13 @@ import {
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
 import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
-
+import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
+import { getSugggestionForPlayer } from "../../../../../../helpers/suggestions.js";
 export default function DemonSubpage({
   demons,
   events,
   updateGameValue,
+  globalPlayerValue,
   updateGameValueArray,
   suggestions,
   getEventFromIdAndType,
@@ -121,6 +123,22 @@ export default function DemonSubpage({
                   );
                 }}
               />
+              <InputSelect
+                title="loop"
+                pathObject="boucle"
+                items={["{allPlayersInGame}"]}
+                closeAfterSelect={true}
+                selected={currentDemon.boucle ? [currentDemon.boucle] : []}
+                updateValueArray={(path, value) => {
+                  setCurrentDemon(
+                    updateElementValue(
+                      path,
+                      currentDemon,
+                      value === currentDemon.boucle ? null : value,
+                    ),
+                  );
+                }}
+              ></InputSelect>
             </div>
 
             <div className="basicContainer">
@@ -134,6 +152,14 @@ export default function DemonSubpage({
 
               <Input
                 title="condition"
+                suggestions={
+                  currentDemon.boucle
+                    ?  suggestions: 
+                        suggestions.filter(
+                          (s) => !s.label.includes("{playerBoucle"),
+                         
+                        )                      
+                }
                 description="condition"
                 defaultValue={currentDemon.condition}
                 pathInObject="condition"
@@ -168,7 +194,7 @@ export default function DemonSubpage({
                       action={() => {
                         setCurrentDemon(
                           updateValueArray("events", currentDemon, event.id),
-                        ); 
+                        );
                       }}
                       event={event}
                       isSelected={

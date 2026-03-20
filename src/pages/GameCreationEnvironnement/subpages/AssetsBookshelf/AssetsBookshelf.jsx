@@ -18,7 +18,7 @@ import GameCreationEnvironnementStatDashboard from "../../../../components/GameC
 import Separator from "../../../../components/Separator/Separator";
 import Button from "../../../../components/Button/Button";
 import Input from "../../../../components/input/Input";
-import InputSelect from "../../../../components/inputSelect/InputSelect";
+import InputSelect from "../../../../components/InputSelect/InputSelect";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 

@@ -6,12 +6,12 @@ import { useTranslation } from "react-i18next";
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
 import Input from "../../../../../../components/input/Input.jsx";
 import { useGameContext } from "../../../../../../context/GameContext.jsx";
-import InputSelect from "../../../../../../components/inputSelect/InputSelect.jsx";
+import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../../helpers/objectManagement.js";
-import { getSugggestionForCurrentPlayer } from "../../../../../../helpers/suggestions.js";
+import {  getSugggestionForPlayer} from "../../../../../../helpers/suggestions.js";
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
 
 export default function CurrentWithValueEventubpage({
@@ -194,13 +194,13 @@ export default function CurrentWithValueEventubpage({
                   currentWithValueEvent.boucle
                     ? [
                         ...suggestions,
-                        ...getSugggestionForCurrentPlayer(globalPlayerValue),
+                        ...getSugggestionForPlayer("currentPlayer",globalPlayerValue),
                       ]
                     : [
                         ...suggestions.filter(
                           (s) => !s.label.includes("{playerBoucle"),
                         ),
-                        ...getSugggestionForCurrentPlayer(globalPlayerValue),
+                        ...getSugggestionForPlayer("currentPlayer",globalPlayerValue),
                       ]
                 }
                 defaultValue={currentWithValueEvent.event.from}
@@ -234,7 +234,7 @@ export default function CurrentWithValueEventubpage({
                   }
                   filtered = [
                     ...filtered,
-                    ...getSugggestionForCurrentPlayer(globalPlayerValue),
+                    ...getSugggestionForPlayer("currentPlayer",globalPlayerValue),
                   ];
 
                   return filtered;
