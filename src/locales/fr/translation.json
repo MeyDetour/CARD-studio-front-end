@@ -386,6 +386,20 @@
 ,"withValueEventDoesnotExist":"Cet événement avec valeur dynamique n'existe pas",
 "restoringGame":"Restauration du jeu...",
 "callTheseEvents":"Appel ces événements",
+"visualisation":"Visualisation",
 "visualiseYourGameSchema":"Visualisez le schéma de votre jeu avec l'outil de diagramme. Cet outil vous permet de créer une représentation visuelle des mécaniques de votre jeu, y compris le flux des événements, les actions des joueurs et les états du jeu. Vous pouvez utiliser cette visualisation pour mieux comprendre et optimiser la conception de votre jeu."
-,"caractereMax75":"Le champ ne peut pas dépasser 75 caractères"
+,"caractereMax75":"Le champ ne peut pas dépasser 75 caractères",
+"ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault":"S'il n'y a aucune configuration de carte, toutes les cartes seront dans le deck par défaut"
+,"tutoriels":"Tutoriels",
+"configurationDistributionOfCard":"Configuration de la distribution de cartes",
+"howToConfigureDistributionOfCard":"Pour mettre en place la distribution de cartes, commencez par vous rendre dans la section Événements afin de choisir la catégorie correspondante et de créer un nouvel élément avec le nom de votre choix. Dans la partie Entité concernée, sélectionnez le deck source, par exemple {deck}, ou tout autre emplacement où se trouvent vos cartes au lancement du jeu. Si l'action doit s'appliquer à l'ensemble des participants, veillez à cocher l'option 'Tous les joueurs de la partie'. Pour l'Entité ciblée, définissez la destination des cartes en utilisant la variable {playerBoucle#handDeck}. Il vous suffit ensuite d'indiquer le nombre de cartes à distribuer dans le champ 'Donner un élément' avant d'enregistrer votre configuration. Enfin, n'oubliez pas de lier cet événement à un Démon spécifique pour qu'il s'exécute automatiquement au moment voulu durant la partie."
+,"noEventInGame":"Il n'y a aucun événement dans ce jeu. Veuillez ajouter des événements avec valeur dynamique pour que votre jeu puisse fonctionner correctement. "
+,"createWithValueEvent":"Créer un événement avec valeur dynamique"
+,"typeOfVariable":"Type de variable",
+"defaultValue":"Valeur par défaut",
+
+  "playerGlobalValueDescription": "Variable utilisée pour gérer les calculs ou stocker les états du jeu pour un joueur spécifique."
+,"globalValueStatic":"Valeur statique"
+,"globalValueStaticDescription":"Variable utilisée pour gérer les calculs ou stocker les états du jeu avec une valeur calculée."
+, "caclulatedValue":"Valeur calculée"
 }

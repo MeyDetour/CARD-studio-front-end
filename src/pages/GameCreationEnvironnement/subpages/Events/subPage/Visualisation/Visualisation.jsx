@@ -1,6 +1,8 @@
 import "./style.css";
 import { Mermaid } from "./Mermaid/Mermaid";
 import { Legend } from "./Legend/Legend";
+import { useState } from "react";
+import SubNavigationBar from "../../../../../../components/SubNavigationBar/SubNavigationBar";
 
 // Composant Mermaid corrigé
 
@@ -21,7 +23,7 @@ const colors = {
     fill: "#adff83",
     stroke: "#1fc103",
   },
-}; 
+};
 
 // Page principale
 export default function VisualisationSubPage({
@@ -31,6 +33,7 @@ export default function VisualisationSubPage({
   withValueEvents,
   getEventFromIdAndType,
 }) {
+  const [subpage, setSubpage] = useState("demons");
   if (!demons) {
     return <p>Démons manquants</p>;
   }
@@ -43,9 +46,13 @@ export default function VisualisationSubPage({
   const chartDefinition = `
     graph TD
       %% Section Entrées (Démons)
+      
       ${iterateTrhoughDemons(demons, getEventFromIdAndType)}
+      
  
-
+  `;
+  const chartDefinition2 = `
+    graph TD 
       %% Section Entrées (Actions)
       ${iterateTrhoughActions(actions, getEventFromIdAndType)}
  
@@ -54,7 +61,23 @@ export default function VisualisationSubPage({
   return (
     <div className="visualisationsubPageOfdemonsAndDeclencheurSubpage">
       <Legend colors={colors} />
-      <Mermaid chart={chartDefinition} />
+      <SubNavigationBar
+        buttons={{
+          demons: () => setSubpage("demons"),
+          actions: () => setSubpage("actions"),
+        }}
+        page={subpage}
+      />
+      {(() => {
+        switch (subpage) {
+          case "demons":
+            return <Mermaid chart={chartDefinition} />;
+          case "actions":
+            return <Mermaid chart={chartDefinition2} />;
+          default:
+            return <Mermaid chart={chartDefinition} />;
+        }
+      })()}
     </div>
   );
 }
@@ -64,17 +87,10 @@ function iterateTrhoughDemons(demons, getEventFromIdAndType) {
   return `${demons
     .map((d) => {
       if (d.events.length === 0) return "";
-      return `
-        
-            %% INITIALIZE DEMON ${d.id}
-            ${getDemonNode(d)}
-
-            %% INITIALISE EVENTS OF DEMON ${d.id}
-            ${getEventsOfDemon(d, getEventFromIdAndType)}    
-            
-            %% STYLE DEMON ${d.id}
-            ${getDemonStyle(d)}
-        `;
+      return `   %% INITIALIZE DEMON ${d.id} ${d.name}
+            ${getDemonNode(d)} 
+            ${getEventsOfDemon(d, getEventFromIdAndType)}   
+            ${getDemonStyle(d)} `;
     })
     .join("\n")}
     `;
@@ -101,19 +117,18 @@ function getEventsOfDemon(demon, getEventFromIdAndType) {
       // les démons appellent chacun leur evenement sans avoir de fleche croisé
       // Certains evenements apparaitront plusieurs fois si ils sont appellé
       // par  des démons dffferents
-      let eventNodeID = "E" + event.id + "-" + getRandomNumber();
-      return `
-            %% INITIALIZE NODE
-            ${getEventNode(eventNodeID, event)}
-
-            %% RELIER EVENT ${eventNodeID} AU DEMON ${demon.id}
-            ${getDemonNode(demon)} --> ${eventNodeID}
-
-            %% EVENT STYLE
-            ${getEventStyle(eventNodeID)}
-
-            %% WITH VALUE EVENT OF EVENT
-            ${getWithValueEventsFrom(event, getEventFromIdAndType, eventNodeID,new Set())}
+      let eventNodeID =
+        "E" +
+        event.id +
+        "-" +
+        getRandomNumber() +
+        "-" +
+        event.name.replace(/\s/g, "");
+      return ` 
+            ${getEventNode(eventNodeID, event)} 
+            ${getDemonNode(demon)} --> ${eventNodeID} 
+            ${getEventStyle(eventNodeID)} 
+            ${getWithValueEventsFrom(event, getEventFromIdAndType, eventNodeID, new Set())}
         `;
     })
     .join("\n")}
@@ -156,21 +171,18 @@ function getWithValueEventsFrom(
       // les démons appellent chacun leur evenement sans avoir de fleche croisé
       // Certains evenements apparaitront plusieurs fois si ils sont appellé
       // par  des démons dffferents
-      let withValueEventNodeId = "WVE" + vwEvent.id + "-" + getRandomNumber();
-      return `
-            %% INITIALIZE NODE
-            ${getWithValueEventNode(withValueEventNodeId, vwEvent)}
-
-            %% RELIER EVENT ${withValueEventNodeId} A ${originNode}
-            ${originNode} --> ${withValueEventNodeId}
-
-            %% EVENT STYLE
-            ${getWithValueEventStyle(withValueEventNodeId)}
-
-            %% WITH VALUE EVENT OF WITH VALUE EVENT
-            ${getWithValueEventsFrom(vwEvent, getEventFromIdAndType, withValueEventNodeId,visited)}
-     
-        `;
+      let withValueEventNodeId =
+        "WVE" +
+        vwEvent.id +
+        "-" +
+        getRandomNumber() +
+        "-" +
+        vwEvent.name.replace(/\s/g, "");
+      return `  %% INITIALIZE NODE
+            ${getWithValueEventNode(withValueEventNodeId, vwEvent)} 
+            ${originNode} --> ${withValueEventNodeId} 
+            ${getWithValueEventStyle(withValueEventNodeId)} 
+            ${getWithValueEventsFrom(vwEvent, getEventFromIdAndType, withValueEventNodeId, visited)}   `;
     })
     .join("\n")}
     `;
@@ -179,7 +191,10 @@ function getWithValueEventNode(withValueEventNodeId, event) {
   return `${withValueEventNodeId}["${getWithValueEventLabel(event)}"]`;
 }
 function getWithValueEventLabel(event) {
-  return `<span class="withValueEventLabel">${event.name}</span>`.replace(/\n/g, "");
+  return `<span class="withValueEventLabel">${event.name}</span>`.replace(
+    /\n/g,
+    "",
+  );
 }
 
 function getWithValueEventStyle(withValueEventNodeId) {
@@ -191,17 +206,10 @@ function getWithValueEventStyle(withValueEventNodeId) {
 function iterateTrhoughActions(actions, getEventFromIdAndType) {
   return `${actions
     .map((action) => {
-       return `
-        
-            %% INITIALIZE ACTION ${action.id}
-            ${getActionNode(action)}
-
-            %% INITIALISE EVENTS OF ACTION ${action.id}
-            ${getWithValueEventsOfAction(action, getEventFromIdAndType)}    
-            
-            %% STYLE ACTION ${action.id}
-            ${getActionStyle(action)}
-        `;
+      return `  %% INITIALIZE ACTION ${action.id} ${action.name}
+            ${getActionNode(action)} 
+            ${getWithValueEventsOfAction(action, getEventFromIdAndType)}  
+            ${getActionStyle(action)}  `;
     })
     .join("\n")}
     `;
@@ -210,27 +218,24 @@ function getWithValueEventsOfAction(action, getEventFromIdAndType) {
   if (!action.withValue || action.withValue.length === 0) return "";
   return `${action.withValue
     .map((obj) => {
-       let vwEvent = getEventFromIdAndType(obj.id, "withValueEvent");
+      let vwEvent = getEventFromIdAndType(obj.id, "withValueEvent");
       if (!vwEvent) return "";
 
       // on donne un identifiant unique à chaque evenement pour que
       // les démons appellent chacun leur evenement sans avoir de fleche croisé
       // Certains evenements apparaitront plusieurs fois si ils sont appellé
       // par  des démons dffferents
-      let withValueEventNodeId = "VWE" + vwEvent.id + "-" + getRandomNumber();
-      return `
-            %% INITIALIZE NODE
-            ${getWithValueEventNode(withValueEventNodeId, vwEvent)}
-
-            %% RELIER EVENT ${withValueEventNodeId} A LACTION ${action.id}
-            ${getActionNode(action)} --> ${withValueEventNodeId}
-
-            %% EVENT STYLE
-            ${getWithValueEventStyle(withValueEventNodeId)}
-
-            %% WITH VALUE EVENT OF EVENT
-            ${getWithValueEventsFrom(vwEvent, getEventFromIdAndType, withValueEventNodeId,new Set())}
-        `;
+      let withValueEventNodeId =
+        "VWE" +
+        vwEvent.id +
+        "-" +
+        getRandomNumber() +
+        "-" +
+        vwEvent.name.replace(/\s/g, "");
+      return `  ${getWithValueEventNode(withValueEventNodeId, vwEvent)} 
+            ${getActionNode(action)} --> ${withValueEventNodeId} 
+            ${getWithValueEventStyle(withValueEventNodeId)} 
+            ${getWithValueEventsFrom(vwEvent, getEventFromIdAndType, withValueEventNodeId, new Set())}   `;
     })
     .join("\n")}
     `;

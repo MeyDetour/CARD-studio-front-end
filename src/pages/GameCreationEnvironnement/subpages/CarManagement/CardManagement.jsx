@@ -3,6 +3,8 @@ import "./style.css";
 // External libraries
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { useTranslation } from "react-i18next";
+
 
 // Contexts
 
@@ -22,6 +24,7 @@ export default function CardManagement({
   setGameImageUploaded,
   setGameImageUploadedUrl,
 }) { 
+  const {t} = useTranslation();
 
   if (!gameData) return;
   return (
@@ -33,7 +36,7 @@ export default function CardManagement({
       />
       <SearchBar placeholder="searchInLibraryPlaceholder" />
  
-    
+      <p>{t("ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault")}</p>
     </div>
   );
 }

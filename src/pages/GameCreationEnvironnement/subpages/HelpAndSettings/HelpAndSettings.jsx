@@ -10,7 +10,7 @@ import { useApi } from "../../../../hooks/useApi";
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar"; 
 import Settings from "./Settings/Settings.jsx";
-import Help from "./Help copy/Help.jsx";
+import Help from "./Help/Help.jsx";
 
 export default function HelpAndSettings({
   gameData,

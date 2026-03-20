@@ -99,7 +99,7 @@ export default function GameCreationEnvironnement() {
     }
   }, []);
 
-  if (false){
+  if (true){
 
   console.log("game :", game);
   console.log("user :", user);
@@ -166,7 +166,25 @@ export default function GameCreationEnvironnement() {
       deleteGameSaved(id);
     }
   }
-
+   // =========== EVENTS ===========
+  const getEventFromIdAndType = (id, type) => {
+    if (!game || !game.events) return null;
+    switch (type) {
+      case "event":
+        return game.events.events.find((event) => event.id === id);
+      case "demon":
+        return game.events.demons.find((demon) => demon.id === id);
+      case "withValueEvent":
+        return game.events.withValueEvent.find(
+          (withValueEvent) => withValueEvent.id === id,
+        );
+      case "globalValue":
+        return game.events.globalValue[id]
+        
+      default:
+        return null;
+    }
+  };
    // =========== UPDLOAD IMAGE GAME OBJECT ============
   const uploadFileForGameEditionHandler = (file) => {
     uploadFileForGameEdition(file, game.id);
@@ -286,7 +304,8 @@ export default function GameCreationEnvironnement() {
             case "rounds":
               return (
                 <RoundsPage
-                  gameData={{
+                  gameData={{suggestions: suggestions,
+                    gameId : game.id,
                     tours: game.params.tours,
                     manches: game.params.manches,
                     globalGame: game.params.globalGame,
@@ -296,6 +315,7 @@ export default function GameCreationEnvironnement() {
                         ? game.events.events
                         : [],
                   }}
+                  getEventFromIdAndType={getEventFromIdAndType}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
                 />
@@ -332,11 +352,13 @@ export default function GameCreationEnvironnement() {
                     actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions : [],
                     globalValue: game.globalValue,
                     playerGlobalValue: game.playerGlobalValue,
+                    globalValueStatic: game.globalValueStatic ?? {}
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
                   setGameImageUploaded={setGameImageUploaded}
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
+                  getEventFromIdAndType={getEventFromIdAndType}
                 />
               );
             case "cards":

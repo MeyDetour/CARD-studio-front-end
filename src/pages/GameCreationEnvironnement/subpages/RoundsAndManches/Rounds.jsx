@@ -16,6 +16,7 @@ export default function RoundsAndManches({
   gameData,
   updateGameValueArray,
   updateGameValue,
+  getEventFromIdAndType
 }) {
   const [subpage, setSubpage] = useState("rounds");
  
@@ -38,6 +39,7 @@ export default function RoundsAndManches({
         <RoundsPage
           gameData={gameData}
           updateGameValue={updateGameValue}
+          getEventFromIdAndType={getEventFromIdAndType}
           updateGameValueArray={updateGameValueArray}
         />
       )}   {subpage === "manches" && (

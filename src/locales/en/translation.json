@@ -216,9 +216,7 @@
   "attachedEventForTour": "Associate an item with the player",
   "require-input": "Elements requested from the player",
   "{allPlayersInGame}": "All players in the game",
-  "globalValue": "Global variable of a game",
-  "globalValueDescription": "Variable used to manage calculations or store game states.",
-  "playerGlobalValue": "Player variable",
+ "playerGlobalValue": "Player variable",
   "quickStart": "Quick Start",
   "basicsToGetStarted": "The basics to get started",
   "createYourFirstGame": "Create your first game",
@@ -385,5 +383,22 @@
 "restoringGame": "Restoring game...",
 "callTheseEvents": "Call these events",
 "visualiseYourGameSchema": "Visualize your game schema with the flowchart tool. This tool allows you to create a visual representation of your game's mechanics, including the flow of events, player actions, and game states. You can use this visualization to better understand and optimize your game design."
-,"caractereMax75": "The name must be less than 75 characters"
+,"caractereMax75": "The name must be less than 75 characters",
+"visualisation":"Visualization",
+"ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault":"If there is no card configuration, all cards will be in the deck by default."
+,"tutoriels":"Tutorials",
+"configurationDistributionOfCard":"Card Distribution Configuration",
+"howToConfigureDistributionOfCard":"To set up card distribution, start by navigating to the Events section, select the appropriate category, and create a new entry with the name of your choice. In the Concerned Entity section, select the source deck—typically {deck}, or any other location where your cards are held at the start of the game. If the action should apply to all participants, be sure to select the 'All players in the game' option. For the Targeted Entity, define the cards' destination by using the {playerBoucle#handDeck} variable. Simply enter the number of cards to be dealt in the 'Give an element' field before saving your configuration. Finally, remember to link this event to a specific Demon to ensure it executes automatically at the desired moment during the match."
+,
+"noEventInGame":"There is no event in this game yet. Create your first event with value event to start configuring your game mechanics!",
+"createWithValueEvent":"Create a dynamic value event"
+,"typeOfVariable":"Type of variable",
+"defaultValue":"Default value",
+ "globalValue": "Global variable of a game",
+  "globalValueDescription": "Variable used to manage calculations or store game states.",
+ 
+  "playerGlobalValueDescription": "Variable used to manage calculations or store game states for a specific player."
+,"globalValueStatic":"Static value"
+,"globalValueStaticDescription":"Variable used to manage calculations or store game states with a caclulated value."
+,"caclulatedValue":"Calculated value"
 }

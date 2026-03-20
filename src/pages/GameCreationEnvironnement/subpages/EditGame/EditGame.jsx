@@ -188,6 +188,8 @@ export default function EditGame({
             title="maxPlayers"
             defaultValue={gameData.maxPlayer ? gameData.maxPlayer : 0}
             inputType="number"
+            max={8}
+            min={1}
             onChangeFunction={(path, value) => {
               const maxVal = parseInt(value) || 0;
               if (maxVal <= gameData.minPlayer) {

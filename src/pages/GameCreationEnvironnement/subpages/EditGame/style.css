@@ -26,16 +26,7 @@
       align-items: start;
       gap: 24px;
       width: 67%;
-      .row {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 40px;
-        width: 100%;
-        > div {
-          width: 50%;
-        }
-      }
+    
     }
     .imageContainer {
       width: 28%;
@@ -74,16 +65,5 @@
     gap: 24px;
   }
 
-  .playerConfigurationSection{
-       .row {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 40px;
-        width: 100%;
-        > div {
-          width: 50%;
-        }
-      }
-  }
+  
 }

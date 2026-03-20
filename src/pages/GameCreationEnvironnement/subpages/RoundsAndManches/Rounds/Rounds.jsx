@@ -1,26 +1,31 @@
- 
 import { useTranslation } from "react-i18next";
-import {splitText} from "../../../../../helpers/text";
-import Button from "../../../../../components/Button/Button"; 
+import { splitText } from "../../../../../helpers/text";
+import Button from "../../../../../components/Button/Button";
 import Icon from "../../../../../components/Icon/Icon";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Input from "../../../../../components/input/Input";
 import InputRange from "../../../../../components/inputRange/inputRange";
 import InputSelect from "../../../../../components/inputSelect/InputSelect";
 import Alert from "../../../../../components/Alert/Alert";
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
-import { updateElementValue, updateValueArray } from "../../../../../helpers/objectManagement";
-import EventCard from "../../../../../components/Cards/EventCard/EventCard"; 
+import {
+  updateElementValue,
+  updateValueArray,
+} from "../../../../../helpers/objectManagement";
+import WithValueEventCard from "../../../../../components/Cards/WithValueEventCard/WithValueEventCard"; 
+import { findTextInElt } from "../../../../../helpers/text";
+import DetailContainer from "../../../../../components/DetailContainer/DetailContainer";
+import EventCard from "../../../../../components/Cards/EventCard/EventCard";
 import { useNotificationContext } from "../../../../../context/NotificationContext";
 export default function RoundsPage({
   gameData,
   updateGameValueArray,
-  updateGameValue,
-}) { 
+  updateGameValue,getEventFromIdAndType
+}) {
   const { t } = useTranslation();
   const [currentElementToEdit, setCurrentElementToEdit] = useState(null);
   const { removeAlert, setAlert, alertList, getAlert } =
-    useNotificationContext(); 
+    useNotificationContext();
 
   useEffect(() => {
     if (currentElementToEdit !== null && gameData) {
@@ -28,7 +33,8 @@ export default function RoundsPage({
     }
   }, [currentElementToEdit]);
 
-  return    <>
+  return (
+    <>
       <div className="basicContainer">
         <TitleContainer
           title="roundsManagement"
@@ -185,6 +191,8 @@ export default function RoundsPage({
             description={"actionOfPlayerAtTurnDescription"}
           />
           <div className="wrapperSelection  wrapperSelectionActions">
+            {/*===========EDIT ACTION=========== */}
+
             {currentElementToEdit !== null &&
               (() => {
                 let alertMessageName =
@@ -207,6 +215,9 @@ export default function RoundsPage({
                     >
                       <Icon name="close"></Icon>
                     </div>
+
+                    {/*===========NAME=========== */}
+
                     <Input
                       title="name"
                       description="playersCanPlayInSameTime"
@@ -222,6 +233,7 @@ export default function RoundsPage({
                         );
                       }}
                     />
+                    {/*===========CONDITION=========== */}
 
                     <Input
                       title="condition"
@@ -238,6 +250,8 @@ export default function RoundsPage({
                         );
                       }}
                     />
+                    {/*===========APPARITION DE L ACTION=========== */}
+
                     <Input
                       title="actionAppearAtPlayerTurn"
                       description="ifTrueActionWillAppearAtPlayerTurn"
@@ -254,38 +268,114 @@ export default function RoundsPage({
                       }
                     />
 
-                    <div className="innerContainer">
-                      <TitleContainer title="events" />
-                      <div className="wrapperSelection">
-                        {gameData.events &&
-                          gameData.events.map((event, index) => (
-                            <EventCard
-                              alertMessage={event.id + "|event|"}
-                              key={index}
-                              action={() => {
-                                setCurrentElementToEdit(
-                                  updateValueArray(
-                                    "withValue",
-                                    currentElementToEdit,
-                                    event.id,
-                                    "multiple",
-                                  ),
-                                );
-                              }}
-                              event={event}
-                              isSelected={
-                                currentElementToEdit.withValue &&
-                                currentElementToEdit.withValue.includes(
-                                  event.id,
-                                )
-                              }
-                            />
-                          ))}
-                      </div>
-                      {gameData.events && gameData.events.length === 0 && (
-                        <span className="normalText">{t("noEventInGame")}</span>
+                    {/*===========WITH VALUE EVENT ASSOCIEES=========== */}
+
+                     
+                    <DetailContainer
+                      title={"withValueEvent"}
+                      description={
+                        "withValueEventWichBeExecutedWhenThisEventIsTriggered"
+                      }
+                      className="demonsAssociatedContainer"
+                    >
+                      <InputSelect
+                        title={"useWithValueEvent"}
+                        updateValueArray={(value) => {
+                          setCurrentElementToEdit(
+                            updateValueArray(
+                              "withValue",
+                              currentElementToEdit,
+                              {
+                                id: value.id,
+                                player: "{currentPlayer}",
+                              },
+                              "new",
+                            ),
+                          );
+                        }}
+                        closeAfterSelect={true}
+                        selected={[t("selectWithValueEvent")]}
+                        items={gameData.withValueEvents}
+                        itemsDisplayFields={["id", "name"]}
+                      />
+                      {currentElementToEdit.withValue &&
+                      currentElementToEdit.withValue.length > 0 ? (
+                        currentElementToEdit.withValue.map(
+                          (withValueEventInputs, index) => {
+                            let withValueEvent = getEventFromIdAndType(
+                              withValueEventInputs.id,
+                              "withValueEvent",
+                            );
+                            let keyInputInwithValueEvent = [];
+                            if (withValueEvent) {
+                              const keysInput = [
+                                "inputBool",
+                                "inputNumber",
+                                "inputString",
+                              ];
+                              keyInputInwithValueEvent = keysInput.filter(
+                                (key) => findTextInElt(withValueEvent, key),
+                              );
+                            }
+                            function remove() {
+                              setCurrentElementToEdit(
+                                updateValueArray(
+                                  "withValue",
+                                  currentElementToEdit,
+                                  { id: withValueEventInputs.id },
+                                  "delete",
+                                ),
+                              );
+                            }
+                            return (
+                              <WithValueEventCard
+                                actionOnRemove={remove}
+                                action={() => {
+                                  if (!withValueEvent) {
+                                    remove();
+                                  }
+                                }}
+                                withValueEvent={
+                                  withValueEvent
+                                    ? withValueEvent
+                                    : { name: t("withValueEventDoesnotExist") }
+                                }
+                                alertMessage={
+                                  withValueEvent
+                                    ? ""
+                                    : withValueEventInputs.id +
+                                      "|withValueEvent|" +
+                                      "withValueEventDoesnotExist|alert"
+                                }
+                                className="withValueEventEdition"
+                                withValueEventInputs={withValueEventInputs}
+                                withValueEventKeys={keyInputInwithValueEvent}
+                                modifyKeyValue={(path, value) => {
+                                  setCurrentElementToEdit(
+                                    updateValueArray(
+                                      "withValue",
+                                      currentElementToEdit,
+                                      updateElementValue(
+                                        path,
+                                        withValueEventInputs,
+                                        value,
+                                      ),
+                                    ),
+                                  );
+                                }}
+                                suggestions={gameData.suggestions}
+                              ></WithValueEventCard>
+                            );
+                          },
+                        )
+                      ) : (
+                        <span className="normalText">
+                          {t("noWithValueEvent")}
+                        </span>
                       )}
-                    </div>
+                    </DetailContainer>
+                    {/*===========SUPPRIMER=========== */}
+
                     <div className="basicContainer basicRedContainer ">
                       <TitleContainer
                         title={"deleteActionInTour"}
@@ -295,6 +385,7 @@ export default function RoundsPage({
 
                       <Button
                         text={"delete"}
+                        type="redButton"
                         action={async () => {
                           if (confirm(t("doYouReallyWantToDeleteAction"))) {
                             setCurrentElementToEdit(null);
@@ -310,6 +401,8 @@ export default function RoundsPage({
                   </div>
                 );
               })()}
+            {/*===========LIST ACTIONS=========== */}
+
             {gameData.tours.actions.map((action, index) => {
               let alertMessage = action.id + "|action";
               return (
@@ -325,6 +418,7 @@ export default function RoundsPage({
                 </div>
               );
             })}
+            {/*===========NEW ACTION=========== */}
             <div
               className="action"
               onClick={() => {
@@ -353,8 +447,7 @@ export default function RoundsPage({
             </div>
           </div>
         </div>
-        
       </div>
- 
- </>
+    </>
+  );
 }

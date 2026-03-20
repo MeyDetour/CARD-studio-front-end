@@ -79,7 +79,7 @@ export default function DisplayPage({
           <Input
             title="display-handDeck"
             description="display-handDeck-description"
-            defaultValue={gameData.rendering.game.displayHandDeck ?? true}
+            defaultValue={gameData.rendering.game.displayHandDeck ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayHandDeck"
             onChangeFunction={updateGameValue}
@@ -88,7 +88,7 @@ export default function DisplayPage({
             title="display-count-adversary-handdeck"
             description="display-count-adversary-handdeck-description"
             defaultValue={
-              gameData.rendering.game.displayCountAdversaryHandDeck ?? true
+              gameData.rendering.game.displayCountAdversaryHandDeck ?? false
             }
             inputType="toggle"
             pathInObject="params.rendering.game.displayCountAdversaryHandDeck"
@@ -97,7 +97,7 @@ export default function DisplayPage({
           <Input
             title="display-statistics"
             description="display-statistics-description"
-            defaultValue={gameData.rendering.game.displayStatistics ?? true}
+            defaultValue={gameData.rendering.game.displayStatistics ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayStatistics"
             onChangeFunction={updateGameValue}
@@ -105,7 +105,7 @@ export default function DisplayPage({
           <Input
             title="display-chat"
             description="display-chat-description"
-            defaultValue={gameData.rendering.game.displayChat ?? true}
+            defaultValue={gameData.rendering.game.displayChat ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayChat"
             onChangeFunction={updateGameValue}
@@ -113,7 +113,7 @@ export default function DisplayPage({
           <Input
             title="display-history"
             description="display-history-description"
-            defaultValue={gameData.rendering.game.displayHistory ?? true}
+            defaultValue={gameData.rendering.game.displayHistory ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayHistory"
             onChangeFunction={updateGameValue}
@@ -122,7 +122,7 @@ export default function DisplayPage({
             title="display-timer"
             disabled={!(gameData.timerActivation ?? false)}
             description="display-timer-description"
-            defaultValue={gameData.rendering.game.displayTimer ?? true}
+            defaultValue={gameData.rendering.game.displayTimer ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayTimer"
             onChangeFunction={updateGameValue}

@@ -22,40 +22,48 @@ export const useDynamicEntitySuggestions = (
     suggestions.push({
       label: "*",
       tooltip: "all",
-      type: "number",
+      types:  ["number"],
     });
     suggestions.push({
-      label: "calc(a;operation;b)",
+      label: "calc(a+b)",
       tooltip: "calculTwoValue",
-      type: "number",
+      types: ["number"],
     });
     suggestions.push({
       label: "exp(a;operation;b)",
       tooltip: "compareTwoValue",
-      type: "boolean",
+      types:[ "boolean"],
     });
     suggestions.push({
       label: "<<(a;operation;b)>>",
       tooltip: "textualValue",
-      type: "other",
-    }); suggestions.push({
-      label: "<<;operation;b)>>",
-      tooltip: "textualValue",
-      type: "other",
+      types: ["other"],
+    });
+    suggestions.push({
+      label: "<<;operation;b)>>", 
+      types: ["other"],
+    });   suggestions.push({
+      label: "{deck}",  
+      types: ["cardList"],
+    });
+  suggestions.push({
+      label: "{discardDeck}",  
+      types: ["cardList"],
     });
 
-    const playerBases = ["{startPlayer}", "getPlayer(...)", "{playerBoucle}"];
+    const playerBases = ["{startPlayer}", "getPlayer(<<position>>)", "{playerBoucle}"];
 
     if (playerGlobalValues) {
       let playerBloglValuesTotal = {
         ...playerGlobalValues,
-        handDeck: { type: "cardList" },
-        personalHandDeck: { type: "cardList" },
-        personalHandDiscard: { type: "cardList" },
-        hasPlayed: { type: "boolean" },
-        haswin: { type: "boolean" },
-        actions: { type: "array" },
-        roles: { type: "array" },
+        handDeck: { types: ["cardList"] },
+        personalHandDeck: { types: ["cardList"] },
+        personalHandDiscard: { types: ["cardList"] },
+        position: { types: ["number"] },
+        hasPlayed: { types: ["boolean"] },
+        haswin: { types: ["boolean"] },
+        actions: { types: ["array"] },
+        roles: { types: ["array"] },
       };
 
       playerBases.forEach((base) => {
@@ -64,11 +72,11 @@ export const useDynamicEntitySuggestions = (
         }
 
         Object.entries(playerBloglValuesTotal).forEach(([prop, data]) => {
-          if (!filterType || data.type === filterType) {
+          if (!filterType || data.types.includes(filterType)) {
             const cleanBase = base.replace(/[{}]/g, "");
             suggestions.push({
               label: `{${cleanBase}#${prop}}`,
-              type: data.type,
+              types: data.types,
             });
           }
         });

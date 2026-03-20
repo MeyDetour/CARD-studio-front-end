@@ -1,7 +1,7 @@
 .mermaid {
   .label-container {
-
-height: 95px;
+    min-width: 200px;
+    height: 95px;
     max-height: 139px;
     stroke-width: 1.5px;
   }
@@ -14,13 +14,16 @@ height: 95px;
       width: 100%;
     }
   }
-  .demonLabel , .eventLabel, .actionLabel,.withValueEventLabel{  
-        white-space: normal;
-        text-align: left;
-        line-height: 1.2;
-        display: block;
-    
+  .demonLabel,
+  .eventLabel,
+  .actionLabel,
+  .withValueEventLabel {
+    white-space: normal;
+    text-align: left;
+    line-height: 1.2;
+    display: block;
   }
+
 }
 .mermaid .node rect,
 .mermaid .node circle,

@@ -28,6 +28,7 @@ export default function Events({
   gameData,
   updateGameValueArray,
   updateGameValue,
+  getEventFromIdAndType
 }) {
   const { result, loading, error, fetchData } = useApi();
   const {
@@ -46,24 +47,7 @@ export default function Events({
   const t = useTranslation();
   const { alertList } = useNotificationContext();
 
-  const getEventFromIdAndType = (id, type) => {
-    switch (type) {
-      case "event":
-        return gameData.events.find((event) => event.id === id);
-      case "demon":
-        return gameData.demons.find((demon) => demon.id === id);
-      case "withValueEvent":
-        return gameData.withValueEvents.find(
-          (withValueEvent) => withValueEvent.id === id,
-        );
-      case "globalValue":
-        return gameData.globalValue.find(
-          (globalValue) => globalValue.id === id,
-        );
-      default:
-        return null;
-    }
-  };
+
   return (
     <div className="eventsAndDeclencheurSubpage">
       {(() => {
@@ -74,6 +58,7 @@ export default function Events({
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 events={gameData.events}
+                
                 suggestions={gameData.suggestions}
                 demons={gameData.demons}
                 globalValue={gameData.globalValue}
@@ -102,6 +87,7 @@ export default function Events({
                 updateGameValue={updateGameValue}
                 demons={gameData.demons}
                 events={gameData.events}
+                globalPlayerValue={gameData.playerGlobalValue}
                 actions={gameData.actions}
                 suggestions={gameData.suggestions}
                 withValueEvents={gameData.withValueEvents}
@@ -114,6 +100,7 @@ export default function Events({
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 globalValue={gameData.globalValue}
+                globalValueStatic={gameData.globalValueStatic}
                 playerGlobalValue={gameData.playerGlobalValue}
                 getEventFromIdAndType={getEventFromIdAndType}
               />

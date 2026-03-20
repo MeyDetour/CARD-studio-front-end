@@ -1,7 +1,10 @@
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import Separator from "../../../../../components/Separator/Separator";
+import DetailParagraphe from "../../../../../components/DetailParagraphe/DetailParagraphe";
 
+import { useTranslation } from "react-i18next";
 export default function Help() {
+  const { t } = useTranslation();
   return (
     <>
       <div className="basicContainer  ">
@@ -83,41 +86,49 @@ export default function Help() {
           description={"saveYourAssetsTip"}
           icon="astuce-round-icon"
           type="h3"
-        ></TitleContainer> 
+        ></TitleContainer>
       </div>
 
       <div className="basicContainer  ">
         <TitleContainer
-          title={"frequentlyAskedQuestions"} 
+          title={"frequentlyAskedQuestions"}
           type="h1"
         ></TitleContainer>
-<TitleContainer
-  title={"howToChangeGame"}
-  description={"howToChangeGameAnswer"}
-  type="h3"
-></TitleContainer>
-<Separator></Separator>
+        <TitleContainer
+          title={"howToChangeGame"}
+          description={"howToChangeGameAnswer"}
+          type="h3"
+        ></TitleContainer>
+        <Separator></Separator>
 
-<TitleContainer
-  title={"canIImportImages"}
-  description={"canIImportImagesAnswer"}
-  type="h3"
-></TitleContainer>
-<Separator></Separator>
+        <TitleContainer
+          title={"canIImportImages"}
+          description={"canIImportImagesAnswer"}
+          type="h3"
+        ></TitleContainer>
+        <Separator></Separator>
 
-<TitleContainer
-  title={"howToInvitePlayers"}
-  description={"howToInvitePlayersAnswer"}
-  type="h3"
-></TitleContainer>
-<Separator></Separator>
+        <TitleContainer
+          title={"howToInvitePlayers"}
+          description={"howToInvitePlayersAnswer"}
+          type="h3"
+        ></TitleContainer>
+        <Separator></Separator>
 
-<TitleContainer
-  title={"areChangesSavedAutomatically"}
-  description={"areChangesSavedAutomaticallyAnswer"}
-  type="h3"
-></TitleContainer> 
-
+        <TitleContainer
+          title={"areChangesSavedAutomatically"}
+          description={"areChangesSavedAutomaticallyAnswer"}
+          type="h3"
+        ></TitleContainer>
+      </div>
+      <div className="basicContainer">
+         <TitleContainer
+          title={"tutoriels"}
+          type="h1"
+        ></TitleContainer>
+        <DetailParagraphe title={"configurationDistributionOfCard"} >
+          <p>{t("howToConfigureDistributionOfCard")}</p>
+        </DetailParagraphe>
       </div>
     </>
   );

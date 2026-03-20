@@ -11,8 +11,10 @@ import Button from "../../../../../../components/Button/Button.jsx";
 export default function VariableSubpage({
   globalValue,
   playerGlobalValue,
-  updateGameValue, 
-  updateGameValueArray,getEventFromIdAndType
+  updateGameValue,
+  globalValueStatic,
+  updateGameValueArray,
+  getEventFromIdAndType,
 }) {
   const { t } = useTranslation();
 
@@ -20,7 +22,11 @@ export default function VariableSubpage({
   const [editedObject, setEditedObject] = useState({});
 
   const currentData =
-    subPage === "globalValue" ? globalValue : playerGlobalValue;
+    subPage === "globalValue"
+      ? globalValue
+      : subPage === "globalValueStatic"
+        ? globalValueStatic
+        : playerGlobalValue;
 
   function save() {
     let newCurrentData = { ...currentData };
@@ -47,18 +53,19 @@ export default function VariableSubpage({
   useEffect(() => {
     setEditedObject(null);
   }, [subPage]);
-
-  console.log(editedObject);
+ 
 
   return (
-  
-  <div className={" globalValuesubPageOfdemonsAndDeclencheurSubpage"}>
-        {/* ========== NAVIGATION ENTRE TYPES DE VARIABLES ============== */}
-      
+    <div className={" globalValuesubPageOfdemonsAndDeclencheurSubpage"}>
+      {/* ========== NAVIGATION ENTRE TYPES DE VARIABLES ============== */}
+
       <SubNavigationBar
-       buttons={{
+        buttons={{
           globalValue: () => {
             setSubpage("globalValue");
+          },
+          globalValueStatic: () => {
+            setSubpage("globalValueStatic");
           },
           playerGlobalValue: () => {
             setSubpage("playerGlobalValue");
@@ -69,8 +76,8 @@ export default function VariableSubpage({
       <div className="titleRow">
         {/* ========== TITRE ET BOUTON NOUVELLE VARIABLE ============== */}
         <TitleContainer
-          title={"globalValue"}
-          description={"globalValueDescription"}
+          title={subPage}
+          description={subPage + "Description"}
         ></TitleContainer>
         <Button
           text={"new"}
@@ -83,43 +90,70 @@ export default function VariableSubpage({
               {
                 name: newName,
                 type: "number",
+
                 defaultValue: 0,
-                display: false,
+                display: subPage === "globalValueStatic" ? true : false,
               },
               "new",
             );
           }}
         />
       </div>
-      <div className="informationContainer basicContainer">
         {/* ========== INFORMATIONS IMPORTANTES ============== */}
-        
-        {subPage == "globalValue" ? (
-          <>
+
+        {subPage == "globalValue" &&
+      <div className="informationContainer basicContainer">
             <p>
               Note importante : Certaines variables ne doivent pas être créées
               manuellement. Pour y accéder et les configurer, rendez-vous sur la
               page concernée ; ne les recréez pas ici. Vous pouvez utiliser ces
               variables directement dans vos formules.
-              <br/>
+              <br />
               Voici les variables concernées :
             </p>
             <ul>
-             <li><strong>players :</strong> Liste des joueurs.</li>
-  <li><strong>messages :</strong> Messages traités et envoyés.</li>
-  <li><strong>logs :</strong> Historique des logs du jeu.</li>
-  <li><strong>state :</strong> État actuel de la partie.</li>
-  <li><strong>boardCard :</strong> Cartes posées sur le plateau.</li>
-  <li><strong>allPlayersHasPlayed :</strong> État de jeu de l'ensemble des joueurs.</li>
-  <li><strong>winners :</strong> Liste des vainqueurs (la victoire est gérée dans l'onglet "Déroulement").</li>
-  <li><strong>currentPlayerPosition :</strong> Position du joueur dont c'est le tour.</li>
-  <li><strong>tour :</strong> Numéro du tour actuel.</li>
-  <li><strong>manche :</strong> Numéro de la manche actuelle.</li>
-  <li><strong>gain (global) :</strong> Pot commun des gains.</li>
+              <li>
+                <strong>players :</strong> Liste des joueurs.
+              </li>
+              <li>
+                <strong>messages :</strong> Messages traités et envoyés.
+              </li>
+              <li>
+                <strong>logs :</strong> Historique des logs du jeu.
+              </li>
+              <li>
+                <strong>state :</strong> État actuel de la partie.
+              </li>
+              <li>
+                <strong>boardCard :</strong> Cartes posées sur le plateau.
+              </li>
+              <li>
+                <strong>allPlayersHasPlayed :</strong> État de jeu de l'ensemble
+                des joueurs.
+              </li>
+              <li>
+                <strong>winners :</strong> Liste des vainqueurs (la victoire est
+                gérée dans l'onglet "Déroulement").
+              </li>
+              <li>
+                <strong>currentPlayerPosition :</strong> Position du joueur dont
+                c'est le tour.
+              </li>
+              <li>
+                <strong>tour :</strong> Numéro du tour actuel.
+              </li>
+              <li>
+                <strong>manche :</strong> Numéro de la manche actuelle.
+              </li>
+              <li>
+                <strong>gain (global) :</strong> Pot commun des gains.
+              </li>
             </ul>
-          </>
-        ) : (
-          <>
+          </div>
+          }
+
+        {subPage == "playerGlobalValue" && 
+      <div className="informationContainer basicContainer">
             <p>
               Note importante : Certaines variables ne doivent pas être créées
               manuellement. Pour y accéder et les configurer, rendez-vous sur la
@@ -129,21 +163,43 @@ export default function VariableSubpage({
               Voici les variables concernées :
             </p>
             <ul>
-             <li><strong>gain (joueur) :</strong> Gains accumulés par le joueur.</li>
-  <li><strong>handDeck :</strong> Cartes actuellement en main.</li>
-  <li><strong>personalHandDeck :</strong> Deck personnel du joueur (si applicable).</li>
-  <li><strong>personalHandDiscard :</strong> Défausse personnelle du joueur (si applicable).</li>
-  <li><strong>hasPlayed :</strong> Indique si le joueur a déjà effectué son action.</li>
-  <li><strong>hasWin :</strong> Indique si le joueur a gagné.</li>
-  <li><strong>actions :</strong> Actions disponibles ou effectuées par le joueur ce tour-ci.</li>
-  <li><strong>roles :</strong> Rôles attribués au joueur.</li>
-  <li><strong>attachedEventForTour :</strong> Événement temporaire associé au joueur (ex : "Passer son tour").</li>
+              <li>
+                <strong>gain (joueur) :</strong> Gains accumulés par le joueur.
+              </li>
+              <li>
+                <strong>handDeck :</strong> Cartes actuellement en main.
+              </li>
+              <li>
+                <strong>personalHandDeck :</strong> Deck personnel du joueur (si
+                applicable).
+              </li>
+              <li>
+                <strong>personalHandDiscard :</strong> Défausse personnelle du
+                joueur (si applicable).
+              </li>
+              <li>
+                <strong>hasPlayed :</strong> Indique si le joueur a déjà
+                effectué son action.
+              </li>
+              <li>
+                <strong>hasWin :</strong> Indique si le joueur a gagné.
+              </li>
+              <li>
+                <strong>actions :</strong> Actions disponibles ou effectuées par
+                le joueur ce tour-ci.
+              </li>
+              <li>
+                <strong>roles :</strong> Rôles attribués au joueur.
+              </li>
+              <li>
+                <strong>attachedEventForTour :</strong> Événement temporaire
+                associé au joueur (ex : "Passer son tour").
+              </li>
             </ul>
-          </>
-        )}
-      </div>
+         </div>}
+      
 
-        {/* ========== LISTE DES VARIABLES ============== */}
+      {/* ========== LISTE DES VARIABLES ============== */}
       {currentData &&
         Object.keys(currentData)
           .sort((a, b) => a.localeCompare(b))
@@ -152,29 +208,27 @@ export default function VariableSubpage({
             const item = currentData[key];
             return isEditing ? (
               <div key={key} className="basicContainer globalValueElementForm">
-               
-               {/* ========== NOM============== */}
+                {/* ========== NOM============== */}
                 <Input
                   title="name"
                   inputType="input"
                   placeholder="enterName"
                   defaultValue={editedObject.name}
                   onChangeFunction={(value) => {
+                    console.log(value);
                     let existing;
                     let newValue = value;
                     if (subPage === "globalValue") {
-                      existing = globalValue.find((elt) => elt.name === value);
+                      existing = globalValue[newValue];
                     }
                     if (subPage === "playerGlobalValue") {
-                      existing = playerGlobalValue.find(
-                        (elt) => elt.name === value,
-                      );
+                      existing = playerGlobalValue[newValue];
                     }
                     if (existing) {
                       newValue =
                         value + "(copy" + Math.floor(Math.random() * 100) + ")";
                     }
-                    setEditedObject((prev) => ({ ...prev, name: value }));
+                    setEditedObject((prev) => ({ ...prev, name: newValue }));
                   }}
                 />
                 {/* ========== TYPE ============== */}
@@ -195,21 +249,38 @@ export default function VariableSubpage({
                       setEditedObject((prev) => ({ ...prev, type: value }));
                     }}
                   />
-                {/* ========== DEFAULT VALUE ============== */}
-                  <Input
-                    title="defaultValue"
-                    inputType="input"
-                    placeholder="enterValue"
-                    defaultValue={editedObject.defaultValue}
-                    onChangeFunction={(value) => {
-                      setEditedObject((prev) => ({
-                        ...prev,
-                        defaultValue: value,
-                      }));
-                    }}
-                  />
+                  {/* ========== DEFAULT VALUE FOR GLOBAL VALUE AND PLAYER GLOBAL VALUE ============== */}
+                  {(subPage === "globalValue" ||
+                    subPage === "playerGlobalValue") && (
+                    <Input
+                      title="defaultValue"
+                      inputType="input"
+                      placeholder="enterValue"
+                      defaultValue={editedObject.defaultValue}
+                      onChangeFunction={(value) => {
+                        setEditedObject((prev) => ({
+                          ...prev,
+                          defaultValue: value,
+                        }));
+                      }}
+                    />
+                  )}
+                  {subPage === "globalValueStatic" && (
+                    <Input
+                      title="caclulatedValue"
+                      inputType="input"
+                      placeholder="enterValue"
+                      defaultValue={editedObject.value}
+                      onChangeFunction={(value) => {
+                        setEditedObject((prev) => ({
+                          ...prev,
+                          value: value,
+                        }));
+                      }}
+                    />
+                  )}
                 </div>
-              {/* ========== VISIBILITY ============== */}
+                {/* ========== VISIBILITY ============== */}
                 <Input
                   title="visibility"
                   description="thisElementWillBeVisibleInGame"
@@ -219,7 +290,7 @@ export default function VariableSubpage({
                     setEditedObject((prev) => ({ ...prev, display: value }));
                   }}
                 />
-              {/* ========== SAVE ============== */}
+                {/* ========== SAVE ============== */}
                 <Button
                   text={"save"}
                   type="violetButton"
@@ -236,10 +307,11 @@ export default function VariableSubpage({
                   }}
                 ></Button>
               </div>
-            ) : (
-
-              
+            ) : 
+            (
               <div key={key} className="basicContainer globalValueElement">
+
+             {/* AFFICHAGE D'UNE VARIABLE */}
                 <div className="elementHeader">
                   <h3>{key}</h3>
                   <Icon
@@ -250,6 +322,7 @@ export default function VariableSubpage({
                         oldName: key,
                         type: item.type,
                         defaultValue: item.defaultValue,
+                        value: item.value,
                         display: item.display ? item.display : false,
                       });
                     }}
@@ -258,7 +331,8 @@ export default function VariableSubpage({
 
                 <p>Type : {item.type}</p>
                 <p>Visible : {t(item.display ? "yes" : "no")}</p>
-                <p>default value : {item.defaultValue ?? t("none")}</p>
+                {subPage !== "globalValueStatic" &&  <p>{t('defaultValue')} : {item.defaultValue ?? t("none")}</p> }
+                {subPage == "globalValueStatic" &&  <p>{t('valueLabel')} : {item.value ?? t("none")}</p> }
               </div>
             );
           })}

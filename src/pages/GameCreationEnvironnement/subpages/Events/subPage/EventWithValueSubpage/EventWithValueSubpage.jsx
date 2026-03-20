@@ -11,19 +11,20 @@ import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../../helpers/objectManagement.js";
-
+import { getSugggestionForCurrentPlayer } from "../../../../../../helpers/suggestions.js";
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
 
 export default function CurrentWithValueEventubpage({
   withValueEvents,
   demons,
   events,
+  globalPlayerValue,
   suggestions,
   gains,
   actions,
   updateGameValue,
   updateGameValueArray,
-  getEventFromIdAndType
+  getEventFromIdAndType,
 }) {
   const {
     currentWithValueEvent,
@@ -41,9 +42,10 @@ export default function CurrentWithValueEventubpage({
     }
   }, [withValueEvents]);
   useEffect(() => {
-    if (currentWithValueEvent) updateGameValueArray("events.withValueEvent", currentWithValueEvent);
+    if (currentWithValueEvent)
+      updateGameValueArray("events.withValueEvent", currentWithValueEvent);
   }, [currentWithValueEvent]);
-   console.log(currentWithValueEvent);
+  console.log(currentWithValueEvent);
   return (
     <div
       className={
@@ -190,10 +192,16 @@ export default function CurrentWithValueEventubpage({
                 description="entity-concerned-description"
                 suggestions={
                   currentWithValueEvent.boucle
-                    ? suggestions
-                    : suggestions.filter(
-                        (s) => !s.label.includes("{playerBoucle"),
-                      )
+                    ? [
+                        ...suggestions,
+                        ...getSugggestionForCurrentPlayer(globalPlayerValue),
+                      ]
+                    : [
+                        ...suggestions.filter(
+                          (s) => !s.label.includes("{playerBoucle"),
+                        ),
+                        ...getSugggestionForCurrentPlayer(globalPlayerValue),
+                      ]
                 }
                 defaultValue={currentWithValueEvent.event.from}
                 pathInObject="event.from"
@@ -224,6 +232,10 @@ export default function CurrentWithValueEventubpage({
                       (s) => !s.label.includes("{playerBoucle"),
                     );
                   }
+                  filtered = [
+                    ...filtered,
+                    ...getSugggestionForCurrentPlayer(globalPlayerValue),
+                  ];
 
                   return filtered;
                 })()}
@@ -441,7 +453,7 @@ export default function CurrentWithValueEventubpage({
                             currentWithValueEvent,
                             event.id,
                           ),
-                        ); 
+                        );
                       }}
                       event={event}
                       isSelected={
@@ -456,9 +468,8 @@ export default function CurrentWithValueEventubpage({
                   ))}
               </div>
             </div>
-              {/* ========== WITH VALUE EVENTS QUI APPELLENT CETTE WITH VALUE EVENT ============== */}
+            {/* ========== WITH VALUE EVENTS QUI APPELLENT CETTE WITH VALUE EVENT ============== */}
             <DetailContainer
-            
               title={"calledInThisWithValueEventt"}
               description="hereIsAllWithValueWichCallThisEvent"
             >
@@ -477,7 +488,7 @@ export default function CurrentWithValueEventubpage({
                                 currentWithValueEvent,
                                 withValue.id,
                               ),
-                            ); 
+                            );
                           }}
                           event={withValue}
                           isSelected={

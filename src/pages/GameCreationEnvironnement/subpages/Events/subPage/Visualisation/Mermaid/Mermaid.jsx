@@ -15,7 +15,7 @@ export function Mermaid({ chart }) {
         useMaxWidth: false,
         curve: "basis",
         rankSpacing: 100, // vertical
-        nodeSpacing: 50, // horizontale
+        nodeSpacing: 100, // horizontale
       },
     });
 

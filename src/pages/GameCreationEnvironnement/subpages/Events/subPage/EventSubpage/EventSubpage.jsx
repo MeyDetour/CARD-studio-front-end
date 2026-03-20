@@ -213,13 +213,17 @@ export default function EventSubpage({
                 description="entity-target-description"
                 defaultValue={currentEvent.event.for ?? ""}
                 suggestions={(() => {
-                  const selectedFrom = suggestions.find(
+                  // on récupere l'element sélectionné et on récupère son type
+                  // afin que les deux soient du même type
+                
+                  const fromElementSelected = suggestions.find(
                     (s) => s.label === currentEvent.event.from,
                   );
-                  const typeOfFrom = selectedFrom?.type;
+                  
+                  const typeOfFrom = fromElementSelected?.type;
 
                   let filtered = typeOfFrom
-                    ? suggestions.filter((s) => s.type === typeOfFrom)
+                    ? suggestions.filter((s) => s.types.includes(typeOfFrom))
                     : suggestions;
 
                   if (!currentEvent.boucle) {

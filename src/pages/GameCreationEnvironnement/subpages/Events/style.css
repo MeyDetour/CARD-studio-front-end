@@ -12,13 +12,13 @@
             flex-wrap: wrap;
             align-items: stretch;
             justify-content: start;
-            gap: 24px;
+            gap: 35px;
             height: fit-content;
       > .titleContainer {
         width: 50%;
       }
       > div {
-        width: 30%; 
+        width: 31%; 
       }
     }
   }

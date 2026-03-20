@@ -12,12 +12,15 @@ export default function Input({
   defaultValue,
   disabled = false,
   pathInObject = "",
+  max=null,
+  min=null,
   hint,
   onChangeFunction,
   suggestions = [],
 }) {
   const { t } = useTranslation();
   let inputNumber = useRef(null);
+  const inputRef = useRef(null);
   const [focused, setFocused] = useState(false);
 
   if (inputType === "toggle") {
@@ -48,6 +51,16 @@ export default function Input({
     );
   }
 
+  const insertTextAtCursor = (textToInsert) => { 
+  const input = inputRef.current; 
+  const start = input.selectionStart;
+  const end = input.selectionEnd; 
+  const value = input.value; 
+  const newValue = value.substring(0, start) + textToInsert + value.substring(end);
+ 
+  return newValue
+};
+
   return (
     <div style={type=="input" && hint ?{marginBottom: "20px"} :null} className={`input ${type} ${disabled ? "disabled" : ""}`}>
       <span className="normalText">{t(title)}</span>
@@ -57,6 +70,7 @@ export default function Input({
             return (
               <>
                 <input
+                ref={inputRef}
                   disabled={disabled}
           readOnly={disabled}
                   onChange={(e) =>
@@ -73,13 +87,18 @@ export default function Input({
                 />
                 {hint && <span className="hint">{t(hint)}</span>}
                 {(() => {
+                  const passVIPAfficherTout = true
+                  // Si aucun text on affiche tout
+                  // si text correspond à suggestion on affiche sinon on affiche pas
+                  // si pass VIP on affiche tout même si ça correspond pas
                   let newSuggestions = suggestions.filter(
                     (suggestion) =>
+                    (
                       (defaultValue == "" ||
                         suggestion.label
                           .toLowerCase()
                           .includes(defaultValue ? defaultValue.toString().toLowerCase() : "")) &&
-                      suggestion.label != defaultValue,
+                      suggestion.label != defaultValue) || passVIPAfficherTout
                   );
 
                   if (newSuggestions.length === 0) return null;
@@ -93,12 +112,13 @@ export default function Input({
                           <span
                             onMouseDown={() => {
                               console.log(suggestion);
+                              const newValue = insertTextAtCursor(suggestion.label);
                               pathInObject
                                 ? onChangeFunction(
                                     pathInObject,
-                                    suggestion.label,
+                                    newValue,
                                   )
-                                : onChangeFunction(suggestion.label);
+                                : onChangeFunction(newValue);
                             }}
                             key={index}
                           >
@@ -125,6 +145,14 @@ export default function Input({
                   cleanedValue = parseInt(cleanedValue)
                     ? parseInt(cleanedValue)
                     : 0 ;
+
+                  if (min &&  cleanedValue < min) {
+                    cleanedValue = min;
+                  }
+                  if (max && cleanedValue > max) {
+                    cleanedValue = max;
+                  }
+
                   pathInObject
                     ? onChangeFunction(pathInObject, cleanedValue)
                     : onChangeFunction(cleanedValue);
