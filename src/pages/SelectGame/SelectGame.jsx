@@ -62,6 +62,7 @@ export default function SelectGame() {
   return (
     <div className="selectGamePage">
       <div className="headerSection">
+        <img src="/src/assets/CARDStudioLogo.svg" alt="logo" className="logo" />
         <h1>{t("selectGameTitle")}</h1>
         <p>{t("selectGameSubtitle")} </p>
       </div>
@@ -99,7 +100,7 @@ export default function SelectGame() {
       <div className="gamesWrapper">
         {loading && <Loader></Loader>}{" "}
         {personalGames &&
-          personalGames.map((game, index) => <GameCard game={game} />)}
+          personalGames.map((game, index) => <GameCard key={index} game={game} />)}
       </div>
     </div>
   );

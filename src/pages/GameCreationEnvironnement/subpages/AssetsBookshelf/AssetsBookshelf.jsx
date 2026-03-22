@@ -55,10 +55,10 @@ export default function AssetsBookshelf({
       {subPage == "cardsTab" && (
         <div>
           {gameData.cards &&
-            Object.keys(gameData.cards).map((id) => {
+            Object.keys(gameData.cards).map((id,index) => {
               let card = gameData.cards[id];
               return (
-                <div className="card">
+                <div className="card" key={index}>
                   {card.name && <span>{card.name}</span>}
                 </div>
               );
@@ -68,9 +68,9 @@ export default function AssetsBookshelf({
        {subPage == "palettesTab" && (
         <div className="wrapper">
            {gameData.colors &&
-           gameData.colors.map((palette) => 
+           gameData.colors.map((palette, index) => 
               (
-                <div className="card">
+                <div className="card" key={index}>
                    <div style={{fill:palette.code}}></div>
                    <span>{palette.name}</span>
                 </div>

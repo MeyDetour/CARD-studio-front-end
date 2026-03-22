@@ -37,8 +37,10 @@ export default function Settings( {
           title="displayErrorsAndWarnings"
           description="displayErrorsAndWarningsToggle"
           inputType="toggle"
-          onChangeFunction={(value) => editUserHandler({ ...user, displayErrors: value })}
-          defaultValue={canDisplayError}
+          onChangeFunction={(value) =>{
+            setCanDisplayError(value);
+            editUserHandler({ ...user, displayErrors: value }) }}
+          defaultValue={user.displayErrors}
         />
       </div>
       

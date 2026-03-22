@@ -4,6 +4,7 @@ import Icon from "../Icon/Icon";
 import { useState } from "react";
 export default function InputSelect({
   title,
+  description,
   items,
   pathObject = "",
   customClass = "",
@@ -11,16 +12,18 @@ export default function InputSelect({
   selected,
   closeAfterSelect = false,
   updateValueArray,
-  itemsDisplayFields=[]
+  itemsDisplayFields = [],
 }) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  if (Array.isArray(selected)) {
-    console.warn("Selected is not array");
+  if (!Array.isArray(selected)) {
+    console.warn("Selected is not array for input title : " + title +" got :");
+    console.warn(selected);
   }
   return (
     <div className={"inputSelect " + customClass}>
       <span className="normalText">{t(title)}</span>
+    {description && <p>{t(description)}</p>}
       <div className="itemSelected" onClick={() => setIsOpen(!isOpen)}>
         <p>
           {!selected || selected.length === 0
@@ -46,15 +49,24 @@ export default function InputSelect({
                 key={index}
                 className={isSelected ? "select" : ""}
                 onClick={() => {
-                  pathObject ? updateValueArray(pathObject, item) : updateValueArray(item); 
+                  pathObject
+                    ? updateValueArray(pathObject, item)
+                    : updateValueArray(item);
                   if (closeAfterSelect) setIsOpen(false);
                 }}
               >
-                {
-                itemsDisplayFields.length > 0
-                  ? item[itemsDisplayFields[0]] + (itemsDisplayFields[1] ? " - " + item[itemsDisplayFields[1]] : "") + (itemsDisplayFields[2] ? " - " + item[itemsDisplayFields[2]] : "") + (itemsDisplayFields[3] ? " - " + item[itemsDisplayFields[3]] : "")
-                  : t(item)
-                } 
+                {itemsDisplayFields.length > 0
+                  ? item[itemsDisplayFields[0]] +
+                    (itemsDisplayFields[1]
+                      ? " - " + item[itemsDisplayFields[1]]
+                      : "") +
+                    (itemsDisplayFields[2]
+                      ? " - " + item[itemsDisplayFields[2]]
+                      : "") +
+                    (itemsDisplayFields[3]
+                      ? " - " + item[itemsDisplayFields[3]]
+                      : "")
+                  : t(item)}
               </span>
             );
           })}

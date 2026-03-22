@@ -1,4 +1,8 @@
 .mermaid {
+  svg{
+
+    min-width: 1400px;
+  }
   .label-container {
     min-width: 200px;
     height: 95px;

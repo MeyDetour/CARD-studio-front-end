@@ -12,6 +12,9 @@
 
   .headerSection {
     width: 51%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     > p,
     h1 {
       text-align: center !important;

@@ -4,6 +4,8 @@
   flex-direction: column;
   position: relative;
   gap: 8px;
+animation: appearFromOpacity 1.5s ease;
+
   input,
   textarea {
     width: 100%;
@@ -88,6 +90,7 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+animation: appearFromOpacity 1.5s ease;
   .titleContainer {
     width: 80%;
   }
@@ -158,5 +161,15 @@
 
   .slider.round:before {
     border-radius: 50%;
+  }
+}
+
+
+@keyframes appearFromOpacity{
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
   }
 }

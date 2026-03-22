@@ -22,7 +22,9 @@ import DemonSubpage from "./subPage/DemonSubpage/DemonSubpage.jsx";
 import EventSubpage from "./subPage/EventSubpage/EventSubpage.jsx";
 import CurrentWithValueEventubpage from "./subPage/EventWithValueSubpage/EventWithValueSubpage.jsx";
 import VariableSubpage from "./subPage/VariableSubpage/VariableSubpage.jsx";
- 
+import WinSubpage from "./subPage/WinSubpage/WinSubpage.jsx"; 
+
+
 export default function Events({
   gameData,
   updateGameValueArray,
@@ -98,6 +100,20 @@ export default function Events({
           case "globalValue":
             return (
               <VariableSubpage
+
+                updateGameValueArray={updateGameValueArray}
+                updateGameValue={updateGameValue}
+                globalValue={gameData.globalValue}
+                globalValueStatic={gameData.globalValueStatic}
+                playerGlobalValue={gameData.playerGlobalValue}
+                getEventFromIdAndType={getEventFromIdAndType}
+              />
+            );
+          case "winCondition":
+            return (
+              <WinSubpage
+              suggestions={gameData.suggestions}
+                winParams={gameData.winParams}
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 globalValue={gameData.globalValue}
@@ -138,10 +154,17 @@ export default function Events({
                       description: "globalValueDescription",
                       onclickEvent: () =>
                         setCurrentSubpageOfEvents("globalValue"),
+                    },
+                    {
+                      name: "winCondition",
+                      description: "hereYouCanConfigureWhenWinAppendAndVictoryCondition",
+                      onclickEvent: () =>
+                        setCurrentSubpageOfEvents("winCondition"),
                     }
-                  ].map((section) => (
+                  ].map((section,key) => (
                     <>
                       <CardSubpage
+                      key={key}
                         displayAlertOfType={
                           section.name === "eventTitle"
                             ? "event"
@@ -149,8 +172,11 @@ export default function Events({
                               ? "demon"
                               : section.name === "withValueEventTitle"
                                 ? "withValueEvent"
-                                : "globalValue"
+                                : section.name === "winCondition"
+                                  ? "winCondition"
+                                  : "globalValue"
                         }
+                        className={"cardSubpage"+key}
                         title={section.name}
                         icon={section.icon}
                         action={() => {

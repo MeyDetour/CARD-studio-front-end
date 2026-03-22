@@ -418,4 +418,21 @@
   "renderTheNextDeckCardDescription": "Permet de rendre visible la carte située sur le dessus de la pioche (face visible). Utile pour les mécaniques de jeu où les joueurs peuvent anticiper le prochain tirage."
 ,"cardImported":"Cartes importées",
 "searchExpression":"Recherchez une expression"
+,"hereYouCanConfigureWhenWinAppendAndVictoryCondition":"Ici, vous pouvez configurer les conditions de victoire de votre jeu. Vous pouvez définir des événements spécifiques qui déclencheront la victoire pour les joueurs concernés lorsque ces événements sont déclenchés. Par exemple, vous pouvez créer un événement qui se déclenche lorsque un joueur atteint un certain nombre de points, ou lorsqu'un joueur accomplit une action spécifique. En configurant ces conditions de victoire, vous pourrez créer des objectifs clairs pour les joueurs et rendre votre jeu plus engageant et compétitif.",
+"winCondition":"Condition de victoire"
+,"winApplyOnAllPlayers":"La condition de victoire s'applique à tous les joueurs",
+"winApplyOnAllPlayersDescription": "Si cette option est activée, la victoire d'un joueur met fin à la partie pour tout le monde immédiatement. Si elle est désactivée, seuls les joueurs ayant gagné quittent la partie pour devenir spectateurs, tandis que les autres continuent de jouer."
+,"manyPlayersCanBeWinner":"Plusieurs joueurs peuvent gagner",
+"manyPlayersCanBeWinnerDescription":"Si cette option est activée, plusieurs joueurs peuvent remplir la condition de victoire et gagner la partie en même temps. Cela peut être utile pour les jeux coopératifs ou les jeux où il est possible d'avoir des égalités. Si cette option est désactivée, une fois qu'un joueur remplit la condition de victoire, la partie se termine immédiatement et ce joueur est déclaré vainqueur, même si d'autres joueurs pourraient également remplir la condition de victoire."
+,"countPoints":"Compter les points",
+"countPointsDescription":"Si cette option est activée, les points seront visibles sur l'écran de victoire."
+,"valueToBaseCountOfPoints":"Valeur de base pour le comptage des points",
+"valueToBaseCountOfPointsDescription": "Sélectionnez la variable ou l'élément qui sera utilisé pour calculer les points pour la condition de victoire. Cela pourrait être le score d'un joueur, le nombre de cartes spécifiques collectées, ou toute autre variable pertinente dans le jeu."
+ ,
+"conditionToSatisfyDescription": "Décrivez la condition que les joueurs doivent satisfaire pour remplir la condition de victoire."
+,"winConditionLoopDescription":"La victoire peut être calculée en fonction de tous les joueurs ou on va vérifier la condition de victoire pour chaque joueur individuellement."
+,"allElementOfBoucleMustSatisyCondition":"Tous les éléments de la boucle doivent satisfaire la condition pour que la victoire soit déclenchée."
+,"allElementOfBoucleMustSatisyConditionDescription":"Si cette option est activée, tous les éléments de la boucle (par exemple, tous les joueurs) doivent satisfaire la condition de victoire pour que la victoire soit déclenchée. Cela signifie que si vous avez configuré une condition de victoire qui s'applique à tous les joueurs, alors tous les joueurs doivent remplir cette condition pour que la partie se termine et que les joueurs soient déclarés vainqueurs. Si cette option est désactivée, alors il suffit qu'un seul joueur remplisse la condition de victoire pour que la partie se termine et que ce joueur soit déclaré vainqueur."
+,"playerWichWeDisplayPoints":"Joueur dont les points sont affichés",
+"playerWichWeDisplayPointsDescription":"Sélectionnez le joueur dont les points seront affichés sur l'écran de victoire. Cela peut être le joueur actif, un joueur spécifique ou tous les joueurs, en fonction de la configuration de votre condition de victoire et de vos préférences pour l'affichage des points à la fin de la partie."  
 }

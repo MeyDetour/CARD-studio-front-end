@@ -395,6 +395,7 @@ const navigate = useNavigate();
                             }
                             return (
                               <WithValueEventCard
+                              key={index}
                                 actionOnRemove={remove}
                                 action={() => {
                                   if (!withValueEvent) {

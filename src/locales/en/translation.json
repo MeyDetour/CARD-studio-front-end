@@ -395,7 +395,7 @@
   "defaultValue": "Default value",
   "globalValue": "Global variable of a game",
   "globalValueDescription": "Variable used to manage calculations or store game states.",
-"variables":"Variables",
+  "variables": "Variables",
   "playerGlobalValueDescription": "Variable used to manage calculations or store game states for a specific player.",
   "globalValueStatic": "Static value",
   "globalValueStaticDescription": "Variable used to manage calculations or store game states with a caclulated value.",
@@ -403,16 +403,32 @@
   "attachThisActionOnDiscardDeck": "Attach this action to the discard pile",
   "attachThisActionOnDiscardDeckDescription": "If enabled, this action will not appear in the standard action bar. Instead, the user must click directly on the discard pile to trigger the effect. This allows for specific interactions with discarded cards, adding a layer of strategy to the game's discard management. Setting available event if this option is enable in card management and if no action use this settings.",
   "attachThisActionOnDeck": "Attach this action to the deck",
-  "attachThisActionOnDeckDescription": "If enabled, this action will not appear in the standard action bar. Instead, the user must click directly on the deck (draw pile) to trigger the effect. This is ideal for creating custom mechanics related to drawing cards or inspecting the deck. Setting available event if this option is enable in card management and if no action use this settings."
-  ,"discardDeck":"Discard Pile",
+  "attachThisActionOnDeckDescription": "If enabled, this action will not appear in the standard action bar. Instead, the user must click directly on the deck (draw pile) to trigger the effect. This is ideal for creating custom mechanics related to drawing cards or inspecting the deck. Setting available event if this option is enable in card management and if no action use this settings.",
+  "discardDeck": "Discard Pile",
   "discardDeckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings": "If this setting is enabled, you can access multiple settings related to the deck or discard pile in the card management section. This allows you to create specific interactions and mechanics for these elements, such as triggering events when a card is drawn from the deck or discarded into the discard pile.",
-  "deck":"Deck",
-  "deckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings": "If this setting is enabled, you can access multiple settings related to the deck or discard pile in the card management section. This allows you to create specific interactions and mechanics for these elements, such as triggering events when a card is drawn from the deck or discarded into the discard pile."
-,"hereYouCanManageAllSettingsConcernedCardAndDecks": "Here you can manage all settings related to cards, decks, and discard piles. This includes configuring specific interactions, such as triggering events when a card is drawn from the deck or discarded into the discard pile. You can also set up custom mechanics for these elements to create a unique gaming experience."
-,"renderTheLastDiscardedCard": "Render the last discarded card",
+  "deck": "Deck",
+  "deckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings": "If this setting is enabled, you can access multiple settings related to the deck or discard pile in the card management section. This allows you to create specific interactions and mechanics for these elements, such as triggering events when a card is drawn from the deck or discarded into the discard pile.",
+  "hereYouCanManageAllSettingsConcernedCardAndDecks": "Here you can manage all settings related to cards, decks, and discard piles. This includes configuring specific interactions, such as triggering events when a card is drawn from the deck or discarded into the discard pile. You can also set up custom mechanics for these elements to create a unique gaming experience.",
+  "renderTheLastDiscardedCard": "Render the last discarded card",
   "renderTheLastDiscardedCardDescription": "If enabled, the last card sent to the discard pile will be displayed face-up on top. Otherwise, only the card back or the discard pile icon will be visible.",
   "renderTheNextDeckCard": "Render the next deck card",
-  "renderTheNextDeckCardDescription": "Makes the card on top of the draw pile visible (face-up). This is useful for gameplay mechanics where players can anticipate the next draw."
-  ,"cardImported":"card imported",
-  "searchExpression":"Search for an expression"
+  "renderTheNextDeckCardDescription": "Makes the card on top of the draw pile visible (face-up). This is useful for gameplay mechanics where players can anticipate the next draw.",
+  "cardImported": "card imported",
+  "searchExpression": "Search for an expression",
+  "winCondition": "Victory condition",
+  "hereYouCanConfigureWhenWinAppendAndVictoryCondition": "Here you can configure when a victory occurs and the victory conditions. A victory condition is a specific situation or set of criteria that, when met, results in a player's victory. For example, in a card game, a victory condition could be having a certain number of points, collecting specific cards, or being the last player remaining. By configuring victory conditions, you can define clear goals for players and create engaging gameplay dynamics.",
+  "winApplyOnAllPlayers": "The victory condition applies to all players",
+  "winApplyOnAllPlayersDescription": "If enabled, a player's victory immediately ends the game for everyone. If disabled, only the winning players complete the game and become spectators, while the others continue to play.",
+  "manyPlayersCanBeWinner": "Multiple players can win",
+  "manyPlayersCanBeWinnerDescription": "If this option is enabled, multiple players can meet the victory condition and be declared winners. This is ideal for games where players can achieve the victory condition independently, such as collecting a certain number of points or specific cards. However, if this option is disabled, only the first player to meet the victory condition will be declared the winner, creating a more competitive environment where players race to achieve the victory condition first.",
+  "countPoints": "Count points",
+  "countPointsDescription": "If this option, points will be visible on the win screen",
+  "valueToBaseCountOfPoints": "Value to base the count of points on",
+  "valueToBaseCountOfPointsDescription": "Select the variable or element that will be used to calculate the points for the victory condition. This could be a player's score, the number of specific cards collected, or any other relevant variable in the game.",
+  "conditionToSatisfyDescription": "Define the specific condition that must be satisfied for the victory condition to be met. This could involve reaching a certain score, collecting specific cards, or any other criteria relevant to your game's mechanics. For example, you could set a condition that requires a player to have at least 10 points and possess a specific card in their hand to achieve victory.",
+  "winConditionLoopDescription": "If this option is enabled, the victory condition will be checked continuously throughout the game. This means that as soon as the specified condition is met, the victory will be triggered immediately. This is ideal for games where victory can occur at any time based on players' actions and decisions. However, if this option is disabled, the victory condition will only be checked at specific moments in the game, such as at the end of a round or when a certain event occurs, allowing for more strategic gameplay where players can plan their moves to meet the victory condition at the right moment.",
+  "allElementOfBoucleMustSatisyCondition": "All elements of the loop must satisfy the condition for the victory to be triggered.",
+  "allElementOfBoucleMustSatisyConditionDescription": "If this option is enabled, all elements of the loop (e.g., all players) must satisfy the victory condition for the victory to be triggered. This means that if you have configured a victory condition that applies to all players, then all players must meet this condition for the game to end and for the players to be declared winners. If this option is disabled, then it is sufficient for only one player to meet the victory condition for the game to end and for that player to be declared the winner."
+,"playerWichWeDisplayPointsDescription":"Player whose points are displayed on the victory screen when the 'Count points' option is enabled. This can be the active player, a specific player, or all players in the game, depending on your game's mechanics and how you want to present the victory conditions."
+,"playerWichWeDisplayPoints":"Player whose points are displayed on the victory screen"
 }

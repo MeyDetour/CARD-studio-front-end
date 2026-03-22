@@ -253,8 +253,8 @@ export default function EventSubpage({
                 description="give-ressources-to-players-description"
               />
               {gains &&
-                gains.map((gain) => (
-                  <div>
+                gains.map((gain, index) => (
+                  <div key={index}>
                     <span>
                       {gain.nom.charAt(0).toUpperCase() +
                         String(gain.nom).slice(1)}
@@ -434,6 +434,7 @@ export default function EventSubpage({
                     }
                     return (
                       <WithValueEventCard
+                      key={index}
                         actionOnRemove={remove}
                         action={() => {
                           if (!withValueEvent) {

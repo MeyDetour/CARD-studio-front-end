@@ -23,7 +23,11 @@ export const useDynamicEntitySuggestions = (
       label: "*",
       tooltip: "all",
       types: ["number"],
-    });   suggestions.push({
+    });       suggestions.push({
+      label: "len(a)", 
+      types: ["number"],
+    });   
+    suggestions.push({
       label: "startOfGame", 
       types: ["event"],
     });  suggestions.push({
@@ -73,22 +77,25 @@ export const useDynamicEntitySuggestions = (
       label: "exp(a;operation;b)",
       tooltip: "compareTwoValue",
       types: ["boolean"],
-    });
-    suggestions.push({
-      label: "<<(a;operation;b)>>",
-      tooltip: "textualValue",
-      types: ["other"],
-    });
-    suggestions.push({
-      label: "<<;operation;b)>>",
-      types: ["other"],
-    });
+    }); 
     suggestions.push({
       label: "{deck}",
       types: ["cardList"],
+    });suggestions.push({
+      label: "allPlayersHasPlayed/endOfTour",
+      types: ["boolean"],
     });
     suggestions.push({
       label: "{discardDeck}",
+      types: ["cardList"],
+    });  suggestions.push({
+      label: "{allPlayersInGame}",
+      types: ["cardList"],
+    }); suggestions.push({
+      label: "{allPlayersWinners}",
+      types: ["cardList"],
+    }); suggestions.push({
+      label: "{allPlayersLoosers}",
       types: ["cardList"],
     });
 

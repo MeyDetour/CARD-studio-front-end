@@ -85,6 +85,12 @@ export function GameProvider({ children }) {
     newObj.EventWithValueEvents = newObj.events.withValueEvent;
     delete newObj.events.withValueEvent;
 
+    newObj.EventWin = newObj.events?.win;
+    delete newObj.events?.win;
+
+    newObj.EventLoose = newObj.events?.loose;
+    delete newObj.events?.loose;
+
     delete newObj.events;
 
     newObj.assetsCard = newObj.assets.cards;

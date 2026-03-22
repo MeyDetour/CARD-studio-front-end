@@ -363,6 +363,7 @@ export default function GameCreationEnvironnement() {
               return (
                 <Events
                   gameData={{
+                    winParams : game.events.win,
                     suggestions: suggestions,
                     events:
                       game.events && game.events.events

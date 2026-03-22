@@ -57,11 +57,25 @@ export default function Input({
     const input = inputRef.current;
     const start = input.selectionStart;
     const end = input.selectionEnd;
-    const value = input.value;
-    const newValue =
-      value.substring(0, start) + textToInsert + value.substring(end);
 
-    return newValue;
+    let value = input.value.trim();
+    value = value.replaceAll(" ", "");
+    console.log("cursor start " + start);
+    console.log("cursor end " + end);
+    console.log("text length " + inputRef.value); 
+    if (
+      textToInsert.includes("(a)") &&
+      (end == input.value.length || start == 0)
+    ) {
+      value = textToInsert.replace("(a)", "("+value+")");
+    } else if (textToInsert.includes("(a") &&end == input.value.length ) {
+      value = textToInsert.replace("(a", "("+value);
+    } else if (textToInsert.includes("b)") && start == 0) {
+      value = textToInsert.replace("b)", value+")");
+    } else {
+      value = value.substring(0, start) + textToInsert + value.substring(end);
+    }
+    return value;
   };
 
   return (
@@ -100,12 +114,15 @@ export default function Input({
                   placeholder={t(placeholder)}
                 />
                 {hint && <span className="hint">{t(hint)}</span>}
-                {(() => { 
-                  
+                {(() => {
                   let newSuggestions = suggestions.filter(
-                    (suggestion) =>  suggestion.label.toLowerCase().includes(searchInSuggestion.toLowerCase()) || searchInSuggestion === "",
+                    (suggestion) =>
+                      suggestion.label
+                        .toLowerCase()
+                        .includes(searchInSuggestion.toLowerCase()) ||
+                      searchInSuggestion === "",
                   );
- 
+
                   return (
                     <div
                       className="suggestion"
@@ -126,7 +143,7 @@ export default function Input({
                         onClick={() => setFocused(true)}
                         onChange={(e) => {
                           let search = e.target.value;
-                          console.log("search "+search);
+                          console.log("search " + search);
                           setSearchInSuggestion(search);
                         }}
                         type="text"

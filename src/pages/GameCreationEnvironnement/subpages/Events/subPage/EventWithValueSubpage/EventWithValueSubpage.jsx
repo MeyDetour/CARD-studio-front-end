@@ -253,8 +253,8 @@ export default function CurrentWithValueEventubpage({
                 description="give-ressources-to-players-description"
               />
               {gains &&
-                gains.map((gain) => (
-                  <div>
+                gains.map((gain,index) => (
+                  <div key={index}>
                     <span>{gain.nom}</span>
 
                     <Input

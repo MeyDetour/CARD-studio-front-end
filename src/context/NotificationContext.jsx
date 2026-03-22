@@ -44,8 +44,8 @@ export function NotificationProvider({ children }) {
         alertList,
       }}
     >
-      {errorList.map((error) => (
-        <div className="errorNotification">{error}</div>
+      {errorList.map((error, index) => (
+        <div className="errorNotification" key={index}>{error}</div>
       ))}
       {children}
     </NotificationContext.Provider>

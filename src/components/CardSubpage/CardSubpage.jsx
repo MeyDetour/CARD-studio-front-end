@@ -4,11 +4,11 @@ import { Link } from "react-router";
 import Alert from "../Alert/Alert";
 import { useNotificationContext } from "../../context/NotificationContext.jsx";
 import TitleContainer from "../TitleContainer/TitleContainer";
-export default function CardSubpage({ title, icon, description , displayAlertOfType,action }) {
+export default function CardSubpage({ title, icon, description , displayAlertOfType,action,className=""}) {
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
   return (
-    <div className="cardSubpage basicContainer" onClick={action} >
+    <div className={"cardSubpage basicContainer " + className} onClick={action} >
       <TitleContainer
         type="h2"
         icon={icon}
