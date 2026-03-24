@@ -49,6 +49,7 @@ export default function LoginAndRegisterPage() {
     try {
       if (subPage == "navLogin") {
         res = await fetchData("api/login_check", data);
+        console.log(res);
         if (res && res.token) {
           setToken(res.token);
           navigate("/");

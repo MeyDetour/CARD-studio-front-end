@@ -13,12 +13,13 @@ import {
   updateValueArray,
 } from "../../../../../../helpers/objectManagement.js";
 import { findTextInElt } from "../../../../../../helpers/text.js";
-import { actions } from "../elements.js";
+
 import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
-import { set } from "react-hook-form";
+import { eventActions } from "../../../../../../../data/eventActions.js";
+
 export default function EventSubpage({
   events,
   demons,
@@ -29,6 +30,7 @@ export default function EventSubpage({
   withValueEvents,
   updateGameValue,
   updateGameValueArray,
+  addACtionOnEvent,addACtionOnEvent,
   getEventFromIdAndType,
 }) {
   const {
@@ -54,7 +56,7 @@ export default function EventSubpage({
   useEffect(() => {
     if (currentEvent) updateGameValueArray("events.events", currentEvent);
   }, [currentEvent]);
- 
+
   return (
     <div className={" eventSubPageOfEventsAndDeclencheurSubpage"}>
       <div className="left">
@@ -135,8 +137,8 @@ export default function EventSubpage({
                 defaultValue={currentEvent.condition ?? ""}
                 pathInObject="condition"
                 suggestions={suggestions.filter(
-                        (s) => !s.label.includes("{playerBoucle"),
-                      )}
+                  (s) => !s.label.includes("{playerBoucle"),
+                )}
                 onChangeFunction={(path, value) => {
                   setCurrentEvent(
                     updateElementValue(path, currentEvent, value),
@@ -192,6 +194,13 @@ export default function EventSubpage({
             {/* ========== FROM ET FOR ============== */}
 
             <div className="basicContainer">
+              <Alert
+                message={
+                  currentEvent.id +
+                  "|event|eventHaveFromElementButNoFor|warning"
+                }
+                alertList={alertList}
+              ></Alert>
               <Input
                 title="entity-concerned"
                 description="entity-concerned-description"
@@ -218,11 +227,11 @@ export default function EventSubpage({
                 suggestions={(() => {
                   // on récupere l'element sélectionné et on récupère son type
                   // afin que les deux soient du même type
-                
+
                   const fromElementSelected = suggestions.find(
                     (s) => s.label === currentEvent.event.from,
                   );
-                  
+
                   const typeOfFrom = fromElementSelected?.type;
 
                   let filtered = typeOfFrom
@@ -322,16 +331,16 @@ export default function EventSubpage({
               <InputSelect
                 title="eventAction"
                 pathObject="event.action"
-                items={actions}
+                items={eventActions}
                 closeAfterSelect={true}
                 selected={
                   currentEvent.event.action ? [currentEvent.event.action] : []
                 }
-                updateValueArray={(path, value) => {
-                  setCurrentEvent(
-                    updateElementValue(path, currentEvent, value),
-                  );
-                }}
+                updateValueArray={(path, value) =>
+                  addACtionOnEvent(currentEvent, value,"event")
+                }
+
+                description={"eventActionDescription"}
               ></InputSelect>
               {(currentEvent.event.action == "updateGlobalValue" ||
                 currentEvent.event.action == "changeStartingPlayer") && (
@@ -364,7 +373,7 @@ export default function EventSubpage({
                         updateGameValueArray(
                           "events.demons",
                           updateValueArray("events", demon, currentEvent.id),
-                        ); 
+                        );
                       }}
                       demon={demon}
                       displayIcons={true}
@@ -434,7 +443,7 @@ export default function EventSubpage({
                     }
                     return (
                       <WithValueEventCard
-                      key={index}
+                        key={index}
                         actionOnRemove={remove}
                         action={() => {
                           if (!withValueEvent) {

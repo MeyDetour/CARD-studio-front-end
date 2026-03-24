@@ -62,22 +62,23 @@ export default function Input({
     value = value.replaceAll(" ", "");
     console.log("cursor start " + start);
     console.log("cursor end " + end);
-    console.log("text length " + inputRef.value); 
+    console.log("text length " + inputRef.value);
     if (
       textToInsert.includes("(a)") &&
       (end == input.value.length || start == 0)
     ) {
-      value = textToInsert.replace("(a)", "("+value+")");
-    } else if (textToInsert.includes("(a") &&end == input.value.length ) {
-      value = textToInsert.replace("(a", "("+value);
+      value = textToInsert.replace("(a)", "(" + value + ")");
+    } else if (textToInsert.includes("(a") && end == input.value.length) {
+      value = textToInsert.replace("(a", "(" + value);
     } else if (textToInsert.includes("b)") && start == 0) {
-      value = textToInsert.replace("b)", value+")");
+      value = textToInsert.replace("b)", value + ")");
     } else {
       value = value.substring(0, start) + textToInsert + value.substring(end);
     }
     return value;
   };
 
+  console.log(title, suggestions);
   return (
     <div
       style={type == "input" && hint ? { marginBottom: "20px" } : null}
@@ -122,7 +123,7 @@ export default function Input({
                         .includes(searchInSuggestion.toLowerCase()) ||
                       searchInSuggestion === "",
                   );
-
+                  if (newSuggestions.length === 0) return null; 
                   return (
                     <div
                       className="suggestion"
@@ -149,27 +150,29 @@ export default function Input({
                         type="text"
                         placeholder={t("searchExpression")}
                       />
-                      <div className="wrapperSuggestion">
-                        {newSuggestions.map((suggestion, index) => {
-                          return (
-                            <span
-                              onMouseDown={(e) => {
-                                e.preventDefault();
-                                console.log(suggestion);
-                                const newValue = insertTextAtCursor(
-                                  suggestion.label,
-                                );
-                                pathInObject
-                                  ? onChangeFunction(pathInObject, newValue)
-                                  : onChangeFunction(newValue);
-                              }}
-                              key={index}
-                            >
-                              {suggestion.label}
-                            </span>
-                          );
-                        })}
-                      </div>
+                    
+                        <div className="wrapperSuggestion">
+                          {newSuggestions.map((suggestion, index) => {
+                            return (
+                              <span
+                                onMouseDown={(e) => {
+                                  e.preventDefault();
+                                  console.log(suggestion);
+                                  const newValue = insertTextAtCursor(
+                                    suggestion.label,
+                                  );
+                                  pathInObject
+                                    ? onChangeFunction(pathInObject, newValue)
+                                    : onChangeFunction(newValue);
+                                }}
+                                key={index}
+                              >
+                                {suggestion.label}
+                              </span>
+                            );
+                          })}
+                        </div>
+                   
                     </div>
                   );
                 })()}

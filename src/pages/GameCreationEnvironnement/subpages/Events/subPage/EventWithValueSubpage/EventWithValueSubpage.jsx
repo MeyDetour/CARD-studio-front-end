@@ -11,10 +11,12 @@ import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../../helpers/objectManagement.js";
-import {  getSugggestionForPlayer} from "../../../../../../helpers/suggestions.js";
+import { getSugggestionForPlayer } from "../../../../../../helpers/suggestions.js";
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
+import Alert from "../../../../../../components/Alert/Alert.jsx";
+import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
 
-export default function CurrentWithValueEventubpage({
+export default function CurrentWithValueEventSubpage({
   withValueEvents,
   demons,
   events,
@@ -22,7 +24,7 @@ export default function CurrentWithValueEventubpage({
   suggestions,
   gains,
   actions,
-  updateGameValue,
+  updateGameValue,addACtionOnEvent,
   updateGameValueArray,
   getEventFromIdAndType,
 }) {
@@ -35,6 +37,7 @@ export default function CurrentWithValueEventubpage({
   const [ConditionExpressionBuilder, setConditionExpressionBuilder] =
     useState(false);
   const { t } = useTranslation();
+  const { alertList } = useNotificationContext();
 
   useEffect(() => {
     if (withValueEvents && !currentWithValueEvent) {
@@ -187,6 +190,13 @@ export default function CurrentWithValueEventubpage({
             </div>
             <div className="basicContainer">
               {/* ========== FROM ET FOR ============== */}
+              <Alert
+                message={
+                  currentWithValueEvent.id +
+                  "|eventWithValue|eventHaveFromElementButNoFor|warning"
+                }
+                alertList={alertList}
+              ></Alert>
               <Input
                 title="entity-concerned"
                 description="entity-concerned-description"
@@ -194,13 +204,19 @@ export default function CurrentWithValueEventubpage({
                   currentWithValueEvent.boucle
                     ? [
                         ...suggestions,
-                        ...getSugggestionForPlayer("currentPlayer",globalPlayerValue),
+                        ...getSugggestionForPlayer(
+                          "currentPlayer",
+                          globalPlayerValue,
+                        ),
                       ]
                     : [
                         ...suggestions.filter(
                           (s) => !s.label.includes("{playerBoucle"),
                         ),
-                        ...getSugggestionForPlayer("currentPlayer",globalPlayerValue),
+                        ...getSugggestionForPlayer(
+                          "currentPlayer",
+                          globalPlayerValue,
+                        ),
                       ]
                 }
                 defaultValue={currentWithValueEvent.event.from}
@@ -234,7 +250,10 @@ export default function CurrentWithValueEventubpage({
                   }
                   filtered = [
                     ...filtered,
-                    ...getSugggestionForPlayer("currentPlayer",globalPlayerValue),
+                    ...getSugggestionForPlayer(
+                      "currentPlayer",
+                      globalPlayerValue,
+                    ),
                   ];
 
                   return filtered;
@@ -253,7 +272,7 @@ export default function CurrentWithValueEventubpage({
                 description="give-ressources-to-players-description"
               />
               {gains &&
-                gains.map((gain,index) => (
+                gains.map((gain, index) => (
                   <div key={index}>
                     <span>{gain.nom}</span>
 
@@ -323,17 +342,22 @@ export default function CurrentWithValueEventubpage({
             </div>
             <div className="basicContainer">
               {/* ========== ACTION ============== */}
-              <Input
+     
+              <InputSelect
+                description={"eventActionDescription"}
                 title="eventAction"
-                description="eventActionDescription"
-                defaultValue={currentWithValueEvent.event.action}
-                pathInObject="event.action"
-                onChangeFunction={(path, value) => {
-                  setCurrentWithValueEvent(
-                    updateElementValue(path, currentWithValueEvent, value),
-                  );
-                }}
-              />
+                pathObject="event.action"
+                items={eventActions}
+                closeAfterSelect={true}
+                selected={
+                  currentWithValueEvent.event.action
+                    ? [currentWithValueEvent.event.action]
+                    : []
+                }
+                updateValueArray={(path, value) =>
+                  addACtionOnEvent(currentEvent, value)
+                }
+              ></InputSelect>
               <Input
                 title="eventValue"
                 description="eventValueDescription"
@@ -341,7 +365,7 @@ export default function CurrentWithValueEventubpage({
                 pathInObject="event.value"
                 onChangeFunction={(path, value) => {
                   setCurrentWithValueEvent(
-                    updateElementValue(path, currentWithValueEvent, value),
+                    updateElementValue( currentWithValueEvent, value,"withValue"),
                   );
                 }}
               />

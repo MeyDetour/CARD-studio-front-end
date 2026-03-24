@@ -100,7 +100,7 @@ export default function GameCreationEnvironnement() {
     }
   }, []);
 
-  if (true){
+  if (false){
 
   console.log("game :", game);
   console.log("user :", user);

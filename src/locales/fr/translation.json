@@ -435,4 +435,8 @@
 ,"allElementOfBoucleMustSatisyConditionDescription":"Si cette option est activée, tous les éléments de la boucle (par exemple, tous les joueurs) doivent satisfaire la condition de victoire pour que la victoire soit déclenchée. Cela signifie que si vous avez configuré une condition de victoire qui s'applique à tous les joueurs, alors tous les joueurs doivent remplir cette condition pour que la partie se termine et que les joueurs soient déclarés vainqueurs. Si cette option est désactivée, alors il suffit qu'un seul joueur remplisse la condition de victoire pour que la partie se termine et que ce joueur soit déclaré vainqueur."
 ,"playerWichWeDisplayPoints":"Joueur dont les points sont affichés",
 "playerWichWeDisplayPointsDescription":"Sélectionnez le joueur dont les points seront affichés sur l'écran de victoire. Cela peut être le joueur actif, un joueur spécifique ou tous les joueurs, en fonction de la configuration de votre condition de victoire et de vos préférences pour l'affichage des points à la fin de la partie."  
+,"pageNotFound": "Page non trouvée",
+"backToHome": "Retour à l'accueil" ,
+"eventHaveFromElementButNoFor": "Cet événement contient des éléments d'experidition, mais aucun n'est configuré pour être destinataire."
+,"invalidAction": "Action invalide"
 }
