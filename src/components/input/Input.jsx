@@ -77,8 +77,7 @@ export default function Input({
     }
     return value;
   };
-
-  console.log(title, suggestions);
+ 
   return (
     <div
       style={type == "input" && hint ? { marginBottom: "20px" } : null}
@@ -123,7 +122,11 @@ export default function Input({
                         .includes(searchInSuggestion.toLowerCase()) ||
                       searchInSuggestion === "",
                   );
-                  if (newSuggestions.length === 0) return null; 
+                  // on applique la condition sur suggestions et non pas newsuggestions
+                  // car si newsuggestions est vide alors on affiche pas la box de suggestion 
+                  // alors que peut etre il y a des suggestions mais qui ne match pas avec 
+                  // la recherche dans la suggestion
+                  if (suggestions.length === 0) return null; 
                   return (
                     <div
                       className="suggestion"

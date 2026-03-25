@@ -122,6 +122,7 @@ export default function GameCreationEnvironnement() {
       console.log("Sauvegarde automatique sur le serveur...");
 
       saveNewGameInStorage(game);
+          setAlerts(loadAlertListFormGame(game));
       setPlayerHasEdit(false);
     }, 2000);
 

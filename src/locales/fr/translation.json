@@ -438,5 +438,26 @@
 ,"pageNotFound": "Page non trouvée",
 "backToHome": "Retour à l'accueil" ,
 "eventHaveFromElementButNoFor": "Cet événement contient des éléments d'experidition, mais aucun n'est configuré pour être destinataire."
-,"invalidAction": "Action invalide"
+,"invalidAction": "Action invalide",
+"eventActionDescription":"Action préfaite pour déclencher un événement spécifique. Par exemple, vous pouvez utiliser une action préfaite pour changer le joueur de départ. Les actions préfaittes ne permettent pas les dons de ressources."
+,"endOfTourDescription": "Déclenche la fin du tour actuel.",
+    "changeMancheDescription": "Modifie le numéro de la manche en cours.",
+    "removeAllAtachedEventsForTourDescription": "Supprime tous les événements liés aux joueurs.",
+    "changeStartingPlayerDescription": "Désigne un nouveau joueur de départ.",
+    "suffleDescription": "Mélange un paquet de cartes spécifié.",
+    "updateGlobalValueDescription": "Met à jour une variable globale du jeu.",
+    "verificationCardsDescription": "Vérifie la validité des cartes jouées.",
+    "frenchCardVerifyStraightDescription": "Vérifie la présence d'une suite.",
+    "frenchCardVerifyRoyalStraightDescription": "Vérifie la présence d'une suite royale.",
+    "frenchCardVerifyStraightFlushDescription": "Vérifie la présence d'une quinte flush.",
+    "frenchCardVerifyFourOfAKindDescription": "Vérifie la présence d'un carré.",
+    "frenchCardVerifyFullHouseDescription": "Vérifie la présence d'un full.",
+    "frenchCardVerifyFlushDescription": "Vérifie la présence d'une couleur.",
+    "frenchCardVerifyThreeOfAKindDescription": "Vérifie la présence d'un brelan.",
+    "frenchCardVerifyTwoPairDescription": "Vérifie la présence de deux paires.",
+    "frenchCardVerifyOnePairDescription": "Vérifie la présence d'une paire.",
+    "frenchCardVerifyHighCardDescription": "Vérifie la carte la plus haute.",
+    "askPlayerDescription": "Demande une saisie ou une valeur au joueur.",
+    "skipPlayerTourDescription": "Force le joueur à passer son prochain tour.",
+    "elementsGivesButNoFor":"Cette action donne des éléments à une cible, mais aucun destinataire n'est configuré pour recevoir ces éléments."
 }

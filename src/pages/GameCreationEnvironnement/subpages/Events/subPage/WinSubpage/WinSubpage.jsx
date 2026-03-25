@@ -158,9 +158,9 @@ export default function VariableSubpage({
               updateValueArray={(path, value) => {
                 updateGameValue(
                   path,
-                  value === winParams?.displayPoints.elementToDisplay
+                  value.label === winParams?.displayPoints.elementToDisplay
                     ? null
-                    : value,
+                    : value.label,
                 );
               }}
               itemsDisplayFields={["label"]}

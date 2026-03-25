@@ -201,13 +201,7 @@ const navigate = useNavigate();
 
             {currentElementToEdit !== null &&
               (() => {
-                let alertMessageName =
-                  currentElementToEdit.id +
-                  "|action|actionNameCannotBeEmpty|alert";
-                let alertMessageCondition =
-                  currentElementToEdit.id +
-                  "|action|pleaseProvideConditionForAction|warning";
-
+             
                 return (
                   <div className="actionEdition">
                     <Alert

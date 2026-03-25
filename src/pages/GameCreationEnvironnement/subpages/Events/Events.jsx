@@ -23,6 +23,7 @@ import EventSubpage from "./subPage/EventSubpage/EventSubpage.jsx";
 import CurrentWithValueEventSubpage from "./subPage/EventWithValueSubpage/EventWithValueSubpage.jsx";
 import VariableSubpage from "./subPage/VariableSubpage/VariableSubpage.jsx";
 import WinSubpage from "./subPage/WinSubpage/WinSubpage.jsx";
+import { eventActions } from "../../../../../data/eventActions.js";
 
 export default function Events({
   gameData,
@@ -49,21 +50,112 @@ export default function Events({
 
   function addACtionOnEvent(event, action, type) {
     let newEvent = { ...event };
-    if (action.lonelyField) {
-      newEvent.event.for = null
-      newEvent.event.from = null
-      newEvent.event.value = null
-      newEvent.event. = null
+    console.log(event,action,type);
+    if (action) {
+      console.log(action);
+      if (action.lonelyField) {
+        newEvent.event.for = null;
+        newEvent.event.from = null;
+        newEvent.event.value = null;
+        newEvent.event.condition = null;
+        newEvent.event.give = null;
+        newEvent.event.boucle = null;
+      }
+      if (!action.necessiteValue) {
+        newEvent.event.value = null;
+      }
+      if (!action.necessiteFor) {
+        newEvent.event.for = null;
+      }
+      if (!action.necessiteFrom) {
+        newEvent.event.from = null;
+      }
+      if (!action.necessiteCondition) {
+        newEvent.event.condition = null;
+      }
+      if (!action.necessiteGive) {
+        newEvent.event.give = null;
+      }
+      if (!action.necessiteBoucle) {
+        newEvent.event.boucle = null;
+      }
+      if (!action.necessiteRequiresInput) {
+        newEvent.event.requiresInput = null;
+      }
+      newEvent.event.action = action.label;
+    } else {
+      newEvent.event.action = null;
     }
+    console.log(newEvent);
 
     if (type === "event") {
-      setCurrentEvent(event);
+      setCurrentEvent(newEvent);
+      updateGameValueArray("events.events", newEvent);
     }
     if (type === "withValue") {
-      setCurrentWithValueEvent(event);
+      setCurrentWithValueEvent(newEvent);
+      updateGameValueArray("events.withValueEvent", newEvent);
     }
   }
+  function getActionObj(action) {
+    return eventActions.find((actionItem) => actionItem.label === action);
+  }
+  function loadDisabledFields(event) {
+    if (!event.event?.action) return {};
 
+    let action = getActionObj(event.event.action);
+    if (!action) {
+      console.warn("Cant find action " + event.event.action);
+      console.warn(event);
+      return {};
+    }
+    let obj = {};
+
+    if (action.lonelyField) {
+      obj.for = true;
+      obj.from = true;
+      obj.value = true;
+      obj.condition = true;
+      obj.give = true;
+      obj.boucle = true;
+    }
+
+    if (!action.necessiteValue) {
+      obj.value = true;
+    }
+    if (!action.necessiteFor) {
+      obj.for = true;
+    }
+    if (!action.necessiteFrom) {
+      obj.from = true;
+    }
+    if (!action.necessiteCondition) {
+      obj.condition = true;
+    }
+    if (!action.necessiteGive) {
+      obj.give = true;
+    }
+    if (!action.necessiteBoucle) {
+      obj.boucle = true;
+    }
+    if (!action.necessiteRequiresInput) {
+      obj.requiresInput = true;
+    }
+    return obj;
+  }
+
+// Met à jour le contexte du jeu lors de la modification d’un événement courant.
+// Ces fonctions sont placées ici (et non dans les pages) car elles modifient directement les variables currentEvent et currentWithValueEvent.
+// Cela permet aux sous-composants de détecter les changements, même si les modifications sont effectuées en dehors de leur propre composant.
+// Les fonctions sont spécifiques aux événements et withValueEvents, et reçoivent les variables concernées en paramètre pour garantir la réactivité des champs.
+  useEffect(() => {
+    if (currentWithValueEvent)
+      updateGameValueArray("events.withValueEvent", currentWithValueEvent);
+  }, [currentWithValueEvent]);
+
+  useEffect(() => {
+    if (currentEvent) updateGameValueArray("events.events", currentEvent);
+  }, [currentEvent]);
   return (
     <div className="eventsAndDeclencheurSubpage">
       {(() => {
@@ -71,6 +163,8 @@ export default function Events({
           case "event":
             return (
               <EventSubpage
+                currentEvent={currentEvent}
+                setCurrentEvent={setCurrentEvent}
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 events={gameData.events}
@@ -79,7 +173,9 @@ export default function Events({
                 globalValue={gameData.globalValue}
                 globalPlayerValue={gameData.playerGlobalValue}
                 withValueEvents={gameData.withValueEvents}
+                loadDisabledFields={loadDisabledFields}
                 gains={gameData.gains}
+                addACtionOnEvent={addACtionOnEvent}
                 getEventFromIdAndType={getEventFromIdAndType}
               />
             );
@@ -99,13 +195,17 @@ export default function Events({
           case "withValueEvent":
             return (
               <CurrentWithValueEventSubpage
+                currentWithValueEvent={currentWithValueEvent}
+                setCurrentWithValueEvent={setCurrentWithValueEvent}
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 demons={gameData.demons}
                 events={gameData.events}
                 globalPlayerValue={gameData.playerGlobalValue}
                 actions={gameData.actions}
+                addACtionOnEvent={addACtionOnEvent}
                 suggestions={gameData.suggestions}
+                loadDisabledFields={loadDisabledFields}
                 withValueEvents={gameData.withValueEvents}
                 getEventFromIdAndType={getEventFromIdAndType}
               />

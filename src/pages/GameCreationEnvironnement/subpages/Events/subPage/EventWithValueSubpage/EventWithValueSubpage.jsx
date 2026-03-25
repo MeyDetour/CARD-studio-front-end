@@ -1,5 +1,5 @@
 import "./style.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Button from "../../../../../../components/Button/Button.jsx";
 import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,7 @@ import { getSugggestionForPlayer } from "../../../../../../helpers/suggestions.j
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
-
+import { eventActions } from "../../../../../../../data/eventActions.js";
 export default function CurrentWithValueEventSubpage({
   withValueEvents,
   demons,
@@ -24,31 +24,31 @@ export default function CurrentWithValueEventSubpage({
   suggestions,
   gains,
   actions,
-  updateGameValue,addACtionOnEvent,
+  addACtionOnEvent,
   updateGameValueArray,
-  getEventFromIdAndType,
+  loadDisabledFields,
+  currentWithValueEvent,
+  setCurrentWithValueEvent,
 }) {
-  const {
-    currentWithValueEvent,
-    setCurrentWithValueEvent,
-    setCurrentDemon,
-    setCurrentSubpageOfcurrentWithValueEvent,
-  } = useGameContext();
   const [ConditionExpressionBuilder, setConditionExpressionBuilder] =
     useState(false);
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
+  const [disabledFields, setDisabledFields] = useState(null);
 
   useEffect(() => {
     if (withValueEvents && !currentWithValueEvent) {
       setCurrentWithValueEvent(withValueEvents[0]);
+      setDisabledFields(loadDisabledFields(withValueEvents[0]));
     }
   }, [withValueEvents]);
+
   useEffect(() => {
-    if (currentWithValueEvent)
-      updateGameValueArray("events.withValueEvent", currentWithValueEvent);
-  }, [currentWithValueEvent]);
-  console.log(currentWithValueEvent);
+    if (currentWithValueEvent) {
+    setDisabledFields(loadDisabledFields(currentWithValueEvent));
+    }
+  }, [currentWithValueEvent, withValueEvents]);
+
   return (
     <div
       className={
@@ -62,24 +62,22 @@ export default function CurrentWithValueEventSubpage({
             text={"new"}
             icon={"add-white"}
             type="grey"
-            action={() =>
-              updateGameValueArray(
-                "events.withValueEvent",
-                {
-                  id: Date.now(),
-                  name: "Default name",
-                  condition: "",
-                  event: {
-                    for: "",
-                    give: null,
-                    attachedEventForTour: null,
-                    action: "",
-                    value: null,
-                  },
+            action={() => {
+              let newEvent = {
+                id: Date.now(),
+                name: "Default name",
+                condition: null,
+                event: {
+                  for: null,
+                  give: null,
+                  action: null,
+                  value: null,
                 },
-                "new",
-              )
-            }
+              };
+              updateGameValueArray("events.withValueEvent", newEvent, "new");
+              setCurrentWithValueEvent(newEvent);
+              setDisabledFields(loadDisabledFields(newEvent));
+            }}
           />
         </div>
         <div className="wrappercurrentWithValueEvent">
@@ -267,6 +265,13 @@ export default function CurrentWithValueEventSubpage({
             </div>
             <div className="basicContainer">
               {/* ========== GIVE ELEMENT ============== */}
+              <Alert
+                message={
+                  currentWithValueEvent.id +
+                  "|eventWithValue|elementsGivesButNoFromAndFor|warning"
+                }
+                alertList={alertList}
+              ></Alert>
               <TitleContainer
                 title="give-ressources-to-players"
                 description="give-ressources-to-players-description"
@@ -342,21 +347,48 @@ export default function CurrentWithValueEventSubpage({
             </div>
             <div className="basicContainer">
               {/* ========== ACTION ============== */}
-     
+              <Alert
+                message={
+                  currentWithValueEvent.id +
+                  "|eventWithValue|elementsGivesButNoFromAndFor|warning"
+                }
+                alertList={alertList}
+              ></Alert>
+               <Alert
+                message={
+                  currentWithValueEvent.id +
+                  "|eventWithValue|invalidAction|warning"
+                }
+                alertList={alertList}
+              ></Alert>
               <InputSelect
                 description={"eventActionDescription"}
                 title="eventAction"
-                pathObject="event.action"
                 items={eventActions}
+                itemsDisplayFields={["label", "tooltip"]}
                 closeAfterSelect={true}
                 selected={
                   currentWithValueEvent.event.action
                     ? [currentWithValueEvent.event.action]
                     : []
                 }
-                updateValueArray={(path, value) =>
-                  addACtionOnEvent(currentEvent, value)
-                }
+                updateValueArray={(value) => {
+                  addACtionOnEvent(
+                    currentWithValueEvent,
+                    currentWithValueEvent.event.action == value.label
+                      ? null
+                      : value,
+                    "withValue",
+                  );
+
+                  setDisabledFields(
+                    loadDisabledFields({
+                      event: {
+                        action: value.label,
+                      },
+                    }),
+                  );
+                }}
               ></InputSelect>
               <Input
                 title="eventValue"
@@ -365,7 +397,11 @@ export default function CurrentWithValueEventSubpage({
                 pathInObject="event.value"
                 onChangeFunction={(path, value) => {
                   setCurrentWithValueEvent(
-                    updateElementValue( currentWithValueEvent, value,"withValue"),
+                    updateElementValue(
+                      currentWithValueEvent,
+                      value,
+                      "withValue",
+                    ),
                   );
                 }}
               />

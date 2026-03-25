@@ -434,5 +434,26 @@
 ,"withValueEventWichBeExecutedWhenThisEventIsTriggered":"Dynamic value event that will be executed when this event is triggered. This allows you to create complex interactions and mechanics in your game, as you can trigger specific events with dynamic values based on the conditions of the game. For example, you could create a dynamic value event that calculates the number of points a player receives when they trigger a specific event, or that determines the next player to play based on the current game state."
 ,"advancedSettings":"Advanced settings",
 "eventHaveFromElementButNoFor": "This event has a 'from' element but no 'for' element. This means that the event is triggered based on a specific source (e.g., a player, a card, or another game element), but it does not specify a target for the event's effects. This can be useful for creating events that are triggered by specific actions or conditions without directly affecting other elements in the game. However, it's important to ensure that the event's effects are still meaningful and contribute to the game's mechanics, even without a specified target."
-,"invalidAction"  : "Invalid action"
-}
+,"invalidAction"  : "Invalid action",
+"eventActionDescription":"Predefined action to trigger a specific event. For example, you can use a predefined action to change the starting player. Predefined actions do not allow resource donations."
+,"endOfTourDescription": "Triggers the end of the current turn.",
+    "changeMancheDescription": "Changes the current round number.",
+    "removeAllAtachedEventsForTourDescription": "Removes all events attached to players.",
+    "changeStartingPlayerDescription": "Assigns a new starting player.",
+    "suffleDescription": "Shuffles a specific deck of cards.",
+    "updateGlobalValueDescription": "Updates a global game variable.",
+    "verificationCardsDescription": "Checks the validity of played cards.",
+    "frenchCardVerifyStraightDescription": "Checks for a straight.",
+    "frenchCardVerifyRoyalStraightDescription": "Checks for a royal flush.",
+    "frenchCardVerifyStraightFlushDescription": "Checks for a straight flush.",
+    "frenchCardVerifyFourOfAKindDescription": "Checks for four of a kind.",
+    "frenchCardVerifyFullHouseDescription": "Checks for a full house.",
+    "frenchCardVerifyFlushDescription": "Checks for a flush.",
+    "frenchCardVerifyThreeOfAKindDescription": "Checks for three of a kind.",
+    "frenchCardVerifyTwoPairDescription": "Checks for two pairs.",
+    "frenchCardVerifyOnePairDescription": "Checks for one pair.",
+    "frenchCardVerifyHighCardDescription": "Checks for high card.",
+    "askPlayerDescription": "Requests an input or value from the player.",
+    "skipPlayerTourDescription": "Forces the player to skip their next turn."
+,"elementsGivesButNoFor": "This event has elements to give but no 'for' element. This means that the event is configured to provide certain resources or effects, but it does not specify a target for these effects. This can be useful for creating events that have global effects or that affect all players in the game, but it's important to ensure that the event's effects are still meaningful and contribute to the game's mechanics, even without a specified target."
+  }

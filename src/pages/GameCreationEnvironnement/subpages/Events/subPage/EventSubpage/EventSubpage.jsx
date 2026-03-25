@@ -23,40 +23,38 @@ import { eventActions } from "../../../../../../../data/eventActions.js";
 export default function EventSubpage({
   events,
   demons,
-  gains,
-  globalPlayerValue,
-  suggestions,
-  globalValue,
-  withValueEvents,
-  updateGameValue,
+  gains, 
+  suggestions, 
+  withValueEvents, 
   updateGameValueArray,
-  addACtionOnEvent,addACtionOnEvent,
+  addACtionOnEvent,
   getEventFromIdAndType,
-}) {
-  const {
+  loadDisabledFields,
     currentEvent,
-    setCurrentEvent,
-    setCurrentDemon,
-    setCurrentSubpageOfEvents,
-  } = useGameContext();
-  const [ConditionExpressionBuilder, setConditionExpressionBuilder] =
-    useState(false);
+    setCurrentEvent, 
+}) { 
+
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
+  const [disabledFields, setDisabledFields] = useState(null);
 
-  if (!events) return;
-
+  // setByDefault the first event if there is no current event
   useEffect(() => {
     if (events && !currentEvent) {
       setCurrentEvent(events[0]);
+
+      setDisabledFields(loadDisabledFields(events[0]));
     }
-  }, [events]);
+  }, [events]); 
 
-  // update game context when we update current event
   useEffect(() => {
-    if (currentEvent) updateGameValueArray("events.events", currentEvent);
-  }, [currentEvent]);
+    if (currentEvent) {
+    setDisabledFields(loadDisabledFields(currentEvent));
+    }
+  }, [currentEvent, events]);
 
+  if (!events) return;
+ 
   return (
     <div className={" eventSubPageOfEventsAndDeclencheurSubpage"}>
       <div className="left">
@@ -66,24 +64,24 @@ export default function EventSubpage({
             text={"new"}
             icon={"add-white"}
             type="grey"
-            action={() =>
-              updateGameValueArray(
-                "events.events",
-                {
-                  id: Date.now(),
-                  name: "Default name",
-                  condition: "",
-                  event: {
-                    for: "",
-                    give: null,
-                    attachedEventForTour: null,
-                    action: "",
-                    value: null,
-                  },
+            action={() => {
+              let newEvent = {
+                id: Date.now(),
+                name: "Default name",
+                condition: null,
+                event: {
+                  for: null,
+                  give: null,
+                  action: null,
+                  value: null,
                 },
-                "new",
-              )
-            }
+              };
+
+              updateGameValueArray("events.events", newEvent, "new");
+              setCurrentEvent(newEvent);
+
+              setDisabledFields(loadDisabledFields(newEvent));
+            }}
           />
         </div>
         <div className="wrapperEvents">
@@ -114,7 +112,13 @@ export default function EventSubpage({
                 }
                 alertList={alertList}
               ></Alert>
-
+   <Alert
+                message={
+                  currentEvent.id +
+                  "|event|invalidAction|warning"
+                }
+                alertList={alertList}
+              ></Alert>
               <TitleContainer
                 title="eventConfigurationTitle"
                 description="eventConfigurationDescription"
@@ -165,6 +169,7 @@ export default function EventSubpage({
               <InputSelect
                 title="loop"
                 pathObject="boucle"
+                disabled={disabledFields && disabledFields.boucle}
                 items={["{allPlayersInGame}"]}
                 closeAfterSelect={true}
                 selected={currentEvent.boucle ? [currentEvent.boucle] : []}
@@ -180,6 +185,7 @@ export default function EventSubpage({
               ></InputSelect>
               <Input
                 title="condition"
+                disabled={disabledFields && disabledFields.condition}
                 description="condition-in-boucle-description"
                 defaultValue={currentEvent.event.condition ?? ""}
                 pathInObject="event.condition"
@@ -206,6 +212,7 @@ export default function EventSubpage({
                 description="entity-concerned-description"
                 defaultValue={currentEvent.event.from ?? ""}
                 pathInObject="event.from"
+                disabled={disabledFields && disabledFields.from}
                 suggestions={
                   currentEvent.boucle
                     ? suggestions
@@ -224,6 +231,7 @@ export default function EventSubpage({
                 title="entity-target"
                 description="entity-target-description"
                 defaultValue={currentEvent.event.for ?? ""}
+                disabled={disabledFields && disabledFields.for}
                 suggestions={(() => {
                   // on récupere l'element sélectionné et on récupère son type
                   // afin que les deux soient du même type
@@ -257,6 +265,13 @@ export default function EventSubpage({
 
             {/* ========== GIVE ELEMENT ============== */}
             <div className="basicContainer">
+              <Alert
+                message={
+                  currentEvent.id +
+                  "|event|elementsGivesButNoFromAndFor|warning"
+                }
+                alertList={alertList}
+              ></Alert>
               <TitleContainer
                 title="give-ressources-to-players"
                 description="give-ressources-to-players-description"
@@ -264,12 +279,12 @@ export default function EventSubpage({
               {gains &&
                 gains.map((gain, index) => (
                   <div key={index}>
-                    <span>
-                      {gain.nom.charAt(0).toUpperCase() +
-                        String(gain.nom).slice(1)}
-                    </span>
-
                     <Input
+                      title={
+                        gain.nom.charAt(0).toUpperCase() +
+                        String(gain.nom).slice(1)
+                      }
+                      disabled={disabledFields && disabledFields.give}
                       defaultValue={
                         currentEvent.event.give
                           ? currentEvent.event.give["{gain#" + gain.id + "}"]
@@ -297,8 +312,9 @@ export default function EventSubpage({
                   </div>
                 ))}
               <div>
-                <span>Cards</span>
                 <Input
+                  title="cards"
+                  disabled={disabledFields && disabledFields.give}
                   defaultValue={
                     currentEvent.event.give
                       ? currentEvent.event.give["{cards}"]
@@ -329,33 +345,35 @@ export default function EventSubpage({
             {/* ========== ACTION ============== */}
             <div className="basicContainer">
               <InputSelect
-                title="eventAction"
-                pathObject="event.action"
+                title="eventAction" 
                 items={eventActions}
+                itemsDisplayFields={["label", "tooltip"]}
                 closeAfterSelect={true}
                 selected={
                   currentEvent.event.action ? [currentEvent.event.action] : []
                 }
-                updateValueArray={(path, value) =>
-                  addACtionOnEvent(currentEvent, value,"event")
-                }
+                updateValueArray={( value) => { 
+                  addACtionOnEvent(currentEvent, currentEvent.event.action == value.label ? null:value, "event");
 
+                  setDisabledFields(loadDisabledFields({event:{
+                    action: value.label
+                  }}));
+                }}
                 description={"eventActionDescription"}
               ></InputSelect>
-              {(currentEvent.event.action == "updateGlobalValue" ||
-                currentEvent.event.action == "changeStartingPlayer") && (
-                <Input
-                  title="eventValue"
-                  description="eventValueDescription"
-                  defaultValue={currentEvent.event.value ?? ""}
-                  pathInObject="event.value"
-                  onChangeFunction={(path, value) => {
-                    setCurrentEvent(
-                      updateElementValue(path, currentEvent, value),
-                    );
-                  }}
-                />
-              )}
+
+              <Input
+                disabled={disabledFields && disabledFields.value}
+                title="eventValue"
+                description="eventValueDescription"
+                defaultValue={currentEvent.event.value ?? ""}
+                pathInObject="event.value"
+                onChangeFunction={(path, value) => {
+                  setCurrentEvent(
+                    updateElementValue(path, currentEvent, value),
+                  );
+                }}
+              />
             </div>
             {/* ========== DEMONS ============== */}
             <DetailContainer

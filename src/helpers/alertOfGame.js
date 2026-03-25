@@ -12,9 +12,7 @@ export function loadAlertListFormGame(gameData) {
     console.warn("Game data is incomplete, cannot load alerts.");
     return [];
   }
-
-  console.log("Load alerts !!!");
-  console.log(gameData);
+ 
   let alertList = [];
 
   // Check  actions
@@ -44,8 +42,20 @@ export function loadAlertListFormGame(gameData) {
     if (event.event.from && !event.event.for) {
       alertList.push(event.id + "|event|eventHaveFromElementButNoFor|warning");
     }
-    if ( event.event.action &&  !eventActions.some((action) => action.label === event.event.action)) {
+    if (
+      event.event.action &&
+      !eventActions.some((action) => action.label === event.event.action)
+    ) {
       alertList.push(event.id + "|event|invalidAction|warning");
+    } 
+    if (
+      event.event.give &&
+      Object.values(event.event.give).some(
+        (val) => val !== 0 && val !== null && val !== "",
+      ) &&
+      !event.event.for
+    ) {
+      alertList.push(event.id + "|event|elementsGivesButNoFor|warning");
     }
   }); // Check for missing demon name
   gameData.events.demons.forEach((demon) => {
@@ -71,10 +81,21 @@ export function loadAlertListFormGame(gameData) {
         event.id + "|eventWithValue|eventHaveFromElementButNoFor|warning",
       );
     }
-    if (event.event.action && !eventActions.some((action) => action.label === event.event.action)) {
+    if (
+      event.event.action &&
+      !eventActions.some((action) => action.label === event.event.action)
+    ) {
       alertList.push(event.id + "|eventWithValue|invalidAction|warning");
     }
-  });
-  console.log(alertList);
+       if (
+      event.event.give &&
+      Object.values(event.event.give).some(
+        (val) => val !== 0 && val !== null && val !== "",
+      ) &&
+      !event.event.for
+    ) {
+      alertList.push(event.id + "|eventWithValue|elementsGivesButNoFor|warning");
+    }
+  }); 
   return alertList;
 }
