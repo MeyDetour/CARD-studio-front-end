@@ -122,12 +122,13 @@ export default function Help() {
         ></TitleContainer>
       </div>
       <div className="basicContainer">
-         <TitleContainer
-          title={"tutoriels"}
-          type="h1"
-        ></TitleContainer>
-        <DetailParagraphe title={"configurationDistributionOfCard"} >
+        <TitleContainer title={"tutoriels"} type="h1"></TitleContainer>
+        <DetailParagraphe title={"configurationDistributionOfCard"}>
           <p>{t("howToConfigureDistributionOfCard")}</p>
+        </DetailParagraphe>
+
+           <DetailParagraphe title={"howToChangeTurn"}>
+          <p>{t("howToChangeTurnDescription")}</p>
         </DetailParagraphe>
       </div>
     </>

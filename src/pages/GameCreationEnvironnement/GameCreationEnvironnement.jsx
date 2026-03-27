@@ -456,9 +456,9 @@ export default function GameCreationEnvironnement() {
                       game.assets && game.assets.cards
                         ? Object.keys(game.assets.cards).length
                         : [],
-                    rolesCount:
-                      game.assets && game.assets.roles
-                        ? game.assets.roles.length
+                    demonsCount:
+                      game.events && game.events.demons
+                        ? game.events.demons.length
                         : 0,
                     gainsCount:
                       game.assets && game.assets.gains

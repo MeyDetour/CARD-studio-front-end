@@ -31,6 +31,7 @@
   "password_recovery_info": "You will receive a recovery code in your inbox once the form is submitted.",
   "send_code": "send code",
   "back": "Back",
+  "demonsCount": "Demons created",
   "errorLength": "You must enter at least {{length}} characters",
   "passwordNotMatch": "Passwords must match",
   "searchGame": "Find game with name, description or type...",
@@ -456,4 +457,8 @@
     "askPlayerDescription": "Requests an input or value from the player.",
     "skipPlayerTourDescription": "Forces the player to skip their next turn."
 ,"elementsGivesButNoFor": "This event has elements to give but no 'for' element. This means that the event is configured to provide certain resources or effects, but it does not specify a target for these effects. This can be useful for creating events that have global effects or that affect all players in the game, but it's important to ensure that the event's effects are still meaningful and contribute to the game's mechanics, even without a specified target."
-  }
+
+,"howToChangeTurn":"Turn Management System",
+"howToChangeTurnDescription" : "To implement a classic turn-based system, you must ensure that as soon as a player selects an action, their hasPlayed status is set to true. This signals to the system that their action is complete. The game must then monitor when all players have finished to trigger the turn change. You will need to create a 'demon' (or watcher) based on the 'allPlayersHasPlayed/endOfTour' condition to trigger the end of the current turn."
+,"eventCannotCallWithValueEventWithCurrentPlayer":"This event cannot call a dynamic value event that uses the current player as a variable. If you want to call this dynamic value event, you need to ensure that it does not use the current player as a variable, or you need to modify the event's configuration and add {inputPlayer} variable. Only actions can call dynamic value events with the current player as a variable or a dynamic value event wich is itself called by an action."
+}

@@ -22,12 +22,12 @@ const navigate = useNavigate();
         <GameCreationEnvironnementStatDashboard
           number={gameData.cardsCount}
           text={"cardsCreated"}
-          icon={"layer-violet-background"}
+          icon={"layer-grey-background"}
         />
         <GameCreationEnvironnementStatDashboard
-          number={gameData.rolesCount}
-          text={"rolesCount"}
-          icon={"stat-grey-background"}
+          number={gameData.demonsCount}
+          text={"demonsCount"}
+          icon={"demon-grey-background"}
         />
         <GameCreationEnvironnementStatDashboard
           number={gameData.gainsCount}
@@ -47,7 +47,7 @@ const navigate = useNavigate();
           <GameCreationEnvironnementQuickAction
             text="modifyDisplay"
             icon="screen"
-            action={()=>navigate("/game/flow/" + gameData.id)}
+            action={()=>navigate("/game/displays/" + gameData.id)}
           />
           <GameCreationEnvironnementQuickAction
             text="browseAssets"

@@ -406,6 +406,7 @@ export default function EventSubpage({
               )}
             </DetailContainer>
             {/* ========== WithValueEvents ============== */}
+           
             <DetailContainer
               title={"withValueEvent"}
               description={
@@ -413,6 +414,13 @@ export default function EventSubpage({
               }
               className="demonsAssociatedContainer"
             >
+               <Alert
+                message={
+                  currentEvent.id +
+                  "|event|eventCannotCallWithValueEventWithCurrentPlayer|error"
+                }
+                alertList={alertList}
+              ></Alert>
               <InputSelect
                 title={"useWithValueEvent"}
                 updateValueArray={(value) => {
@@ -443,6 +451,7 @@ export default function EventSubpage({
                       const keysInput = [
                         "inputBool",
                         "inputNumber",
+                        "inputPlayer",
                         "inputString",
                       ];
                       keyInputInwithValueEvent = keysInput.filter((key) =>
