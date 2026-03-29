@@ -94,7 +94,7 @@ export default function SelectGame() {
         <StatElement
           text={"statGamesPlayed"}
           icon={"game-stats"}
-          number={otherStat.partiesPlayed}
+          number={otherStat.averageNotes}
         />
       </div>
       <div className="gamesWrapper">

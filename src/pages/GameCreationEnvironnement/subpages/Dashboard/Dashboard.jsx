@@ -91,7 +91,8 @@ const navigate = useNavigate();
                 <>
                   {index != 0 && <Separator></Separator>}
                   <div className="commentElement" key={index}>
-                    <span className="normalText">{n.commentaire}</span>
+                    <span className="normalText">{n.comment}</span>
+                    <span className="normalText">{n.rate}/5</span>
                     <span className="littleMention">{n.date}</span>
                   </div>
                 </>
