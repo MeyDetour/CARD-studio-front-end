@@ -45,10 +45,10 @@ export default function CurrentWithValueEventSubpage({
 
   useEffect(() => {
     if (currentWithValueEvent) {
-    setDisabledFields(loadDisabledFields(currentWithValueEvent));
+      setDisabledFields(loadDisabledFields(currentWithValueEvent));
     }
   }, [currentWithValueEvent, withValueEvents]);
-
+console.log(currentWithValueEvent);
   return (
     <div
       className={
@@ -69,6 +69,7 @@ export default function CurrentWithValueEventSubpage({
                 condition: null,
                 event: {
                   for: null,
+                  from: null,
                   give: null,
                   action: null,
                   value: null,
@@ -124,6 +125,15 @@ export default function CurrentWithValueEventSubpage({
             </div>
             <div className="basicContainer">
               {/* ========== CONDITION ============== */}
+              {currentWithValueEvent.condition?.includes("currentPlayer") && (
+                <Alert
+                  message={
+                    currentWithValueEvent.id +
+                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction"
+                  }
+                  alertList={alertList}
+                ></Alert>
+              )}
               <Input
                 title="activationCondition"
                 description="activationConditionDescription"
@@ -138,6 +148,7 @@ export default function CurrentWithValueEventSubpage({
             </div>
             <div className="basicContainer">
               {/* ========== MESSAGE DE CHARGEMENT  ============== */}
+
               <Input
                 title="loadMessage"
                 description="loadMessageDescription"
@@ -153,6 +164,17 @@ export default function CurrentWithValueEventSubpage({
 
             <div className="basicContainer">
               {/* ========== BOUCLE ============== */}
+              {currentWithValueEvent.event?.condition?.includes(
+                "currentPlayer",
+              ) && (
+                <Alert
+                  message={
+                    currentWithValueEvent.id +
+                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction"
+                  }
+                  alertList={alertList}
+                ></Alert>
+              )}
               <InputSelect
                 title="loop"
                 pathObject="boucle"
@@ -195,6 +217,16 @@ export default function CurrentWithValueEventSubpage({
                 }
                 alertList={alertList}
               ></Alert>
+              {(currentWithValueEvent?.event?.from?.includes("currentPlayer") ||
+                currentWithValueEvent?.event?.for?.includes("currentPlayer")) && (
+                <Alert
+                  message={
+                    currentWithValueEvent.id +
+                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction"
+                  }
+                  alertList={alertList}
+                ></Alert>
+              )}
               <Input
                 title="entity-concerned"
                 description="entity-concerned-description"
@@ -272,6 +304,17 @@ export default function CurrentWithValueEventSubpage({
                 }
                 alertList={alertList}
               ></Alert>
+              {JSON.stringify(currentWithValueEvent.event?.give).includes(
+                "currentPlayer",
+              ) && (
+                <Alert
+                  message={
+                    currentWithValueEvent.id +
+                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction"
+                  }
+                  alertList={alertList}
+                ></Alert>
+              )}
               <TitleContainer
                 title="give-ressources-to-players"
                 description="give-ressources-to-players-description"
@@ -354,13 +397,14 @@ export default function CurrentWithValueEventSubpage({
                 }
                 alertList={alertList}
               ></Alert>
-               <Alert
+              <Alert
                 message={
                   currentWithValueEvent.id +
                   "|eventWithValue|invalidAction|warning"
                 }
                 alertList={alertList}
               ></Alert>
+              
               <InputSelect
                 description={"eventActionDescription"}
                 title="eventAction"
@@ -494,43 +538,11 @@ export default function CurrentWithValueEventSubpage({
                 )}
               </div>
             </div>
-            <div className="basicContainer">
-              {/* ========== EVENTS QUI APPELLENT CETTE WITH VALUE EVENT ============== */}
-              <TitleContainer
-                title="events-wich-execute-this-event"
-                description="hereIsAllEventWichCallThisEvent"
-              />
-              <div className="wrapperSelection">
-                {events &&
-                  events.map((event, index) => (
-                    <EventCard
-                      alertMessage={event.id + "|withValueEvent|"}
-                      key={index}
-                      action={() => {
-                        setCurrentWithValueEvent(
-                          updateValueArray(
-                            "events",
-                            currentWithValueEvent,
-                            event.id,
-                          ),
-                        );
-                      }}
-                      event={event}
-                      isSelected={
-                        event.id &&
-                        event.event &&
-                        event.event.withValue &&
-                        event.event.withValue.find(
-                          (elt) => elt.id === currentWithValueEvent.id,
-                        )
-                      }
-                    />
-                  ))}
-              </div>
-            </div>
+            
+           
             {/* ========== WITH VALUE EVENTS QUI APPELLENT CETTE WITH VALUE EVENT ============== */}
             <DetailContainer
-              title={"calledInThisWithValueEventt"}
+              title={"calledInTheseWithValueEvent"}
               description="hereIsAllWithValueWichCallThisEvent"
             >
               <div className="wrapperSelection">

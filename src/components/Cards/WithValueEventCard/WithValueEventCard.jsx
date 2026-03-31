@@ -36,6 +36,7 @@ export default function WithValueEventCard({
   withValueEventKeys,
   suggestions,
   actionOnRemove,
+  children
 }) {
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
@@ -47,6 +48,8 @@ export default function WithValueEventCard({
       onClick={action}
       className={`eventCard ${isSelected ? "Selected" : ""} basicContainer ${className}`}
     >
+
+      {children}
       {alertMessage && <Alert message={alertMessage} alertList={alertList} />}
       <h2>{withValueEvent.name ? withValueEvent.name : "No name"}</h2>
       {withValueEventKeys.map((necessitedKey, key) => (

@@ -8,6 +8,7 @@ export default function Alert({
   message,
   alertList,
   displayAlertOfType = "", // Nouveau : filtre par type (ex: "action")
+  displayAlertStartWith = "",  
 }) {
   const { t } = useTranslation();
   const [alertMessages, setAlertMessage] = useState([]);
@@ -16,7 +17,7 @@ export default function Alert({
   useEffect(() => {
     let alerts = [];
 
-    if (displayAlertOfType) {
+    if (displayAlertOfType ) {
       displayAlertOfType = displayAlertOfType.split("|");
       let obj = {
         warning: false,
@@ -38,16 +39,35 @@ export default function Alert({
       setAlertTypesToDisplay(obj);
     } else if (message) {
       alerts = getAlerts(message);
-    }
+    } else if (displayAlertStartWith ) {
+      alerts = getAlerts(displayAlertStartWith); 
+      let obj = {
+        warning: false,
+        alert: false,
+      };
+      for (let alert of alerts) { 
+ 
+          const parts = alert.split("|");
+          const severity = parts[3] || "alert";
+          if (severity === "alert") {
+            obj.alert = true;
+          } else if (severity === "warning") {
+            obj.warning = true;
+          } 
+      }
+      alerts=[]
+      setAlertTypesToDisplay(obj);
+    } 
 
     setAlertMessage(alerts || []);
   }, [message, alertList, displayAlertOfType, getAlerts]);
 
 
   if (!canDisplayError) return null;
+ 
 
   // Si pas d'alertes, on ne rend rien
-  if (displayAlertOfType && (alertTypesToDisplay.alert || alertTypesToDisplay.warning)) {
+  if ((displayAlertOfType || displayAlertStartWith) && (alertTypesToDisplay.alert || alertTypesToDisplay.warning)) {
     return (
       <div className="alertContainer">
         {alertTypesToDisplay.alert && (

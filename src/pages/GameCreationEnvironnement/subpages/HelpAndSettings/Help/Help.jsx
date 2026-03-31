@@ -41,7 +41,6 @@ export default function Help() {
           type="h3"
         ></TitleContainer>
       </div>
-
       <div className="basicContainer  ">
         <TitleContainer
           title={"tipsAndBestPractices"}
@@ -88,7 +87,6 @@ export default function Help() {
           type="h3"
         ></TitleContainer>
       </div>
-
       <div className="basicContainer  ">
         <TitleContainer
           title={"frequentlyAskedQuestions"}
@@ -127,8 +125,21 @@ export default function Help() {
           <p>{t("howToConfigureDistributionOfCard")}</p>
         </DetailParagraphe>
 
-           <DetailParagraphe title={"howToChangeTurn"}>
+        <DetailParagraphe title={"howToChangeTurn"}>
           <p>{t("howToChangeTurnDescription")}</p>
+        </DetailParagraphe>
+      </div>{" "}
+      <div className="basicContainer">
+        <TitleContainer title={"errorCodes"} type="h1"></TitleContainer>
+        <DetailParagraphe title={"errorCode-E001-shortText"}>
+          <p>
+            {t("errorCode-E001-eventCannotCallWithValueEventWithCurrentPlayer")}
+          </p>
+        </DetailParagraphe>
+        <DetailParagraphe title={"errorCode-E002-shortText"}>
+          <p>
+            {t("errorCode-E002-withValueEventCannotUseCurrentPlayerIfItsNotCalledInAction")}
+          </p>
         </DetailParagraphe>
       </div>
     </>

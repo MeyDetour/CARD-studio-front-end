@@ -154,11 +154,10 @@ export default function DemonSubpage({
                 title="condition"
                 suggestions={
                   currentDemon.boucle
-                    ?  suggestions: 
-                        suggestions.filter(
-                          (s) => !s.label.includes("{playerBoucle"),
-                         
-                        )                      
+                    ? suggestions
+                    : suggestions.filter(
+                        (s) => !s.label.includes("{playerBoucle"),
+                      )
                 }
                 description="condition"
                 defaultValue={currentDemon.condition}
@@ -174,10 +173,9 @@ export default function DemonSubpage({
               <Alert
                 alertList={alertList}
                 message={
-                  currentDemon.id + "|demon|demonEventsMustNotBeEmpty|alert"
+                  currentDemon.id + "|demon|demonEventsMustNotBeEmpty|warning"
                 }
-              ></Alert>
-
+              ></Alert> 
               <TitleContainer
                 title="events"
                 description="demon-event-description"
@@ -188,8 +186,7 @@ export default function DemonSubpage({
               <div className="wrapperSelection">
                 {events &&
                   events.map((event, index) => (
-                    <EventCard
-                      alertMessage={event.id + "|event|"}
+                    <EventCard 
                       key={index}
                       action={() => {
                         setCurrentDemon(

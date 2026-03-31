@@ -23,17 +23,16 @@ import { eventActions } from "../../../../../../../data/eventActions.js";
 export default function EventSubpage({
   events,
   demons,
-  gains, 
-  suggestions, 
-  withValueEvents, 
+  gains,
+  suggestions,
+  withValueEvents,
   updateGameValueArray,
   addACtionOnEvent,
   getEventFromIdAndType,
   loadDisabledFields,
-    currentEvent,
-    setCurrentEvent, 
-}) { 
-
+  currentEvent,
+  setCurrentEvent,
+}) {
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
   const [disabledFields, setDisabledFields] = useState(null);
@@ -45,16 +44,16 @@ export default function EventSubpage({
 
       setDisabledFields(loadDisabledFields(events[0]));
     }
-  }, [events]); 
+  }, [events]);
 
   useEffect(() => {
     if (currentEvent) {
-    setDisabledFields(loadDisabledFields(currentEvent));
+      setDisabledFields(loadDisabledFields(currentEvent));
     }
   }, [currentEvent, events]);
 
   if (!events) return;
- 
+
   return (
     <div className={" eventSubPageOfEventsAndDeclencheurSubpage"}>
       <div className="left">
@@ -87,13 +86,14 @@ export default function EventSubpage({
         <div className="wrapperEvents">
           {events &&
             events.map((event, index) => (
-              <EventCard
-                alertMessage={event.id + "|event|"}
+              <EventCard 
                 key={index}
                 action={() => setCurrentEvent(event)}
                 event={event}
                 isSelected={currentEvent && event.id === currentEvent.id}
-              />
+              >
+                <Alert alertList={alertList} displayAlertStartWith={event.id + "|event|"}></Alert>
+              </EventCard>
             ))}
         </div>
       </div>
@@ -112,11 +112,8 @@ export default function EventSubpage({
                 }
                 alertList={alertList}
               ></Alert>
-   <Alert
-                message={
-                  currentEvent.id +
-                  "|event|invalidAction|warning"
-                }
+              <Alert
+                message={currentEvent.id + "|event|invalidAction|warning"}
                 alertList={alertList}
               ></Alert>
               <TitleContainer
@@ -345,19 +342,27 @@ export default function EventSubpage({
             {/* ========== ACTION ============== */}
             <div className="basicContainer">
               <InputSelect
-                title="eventAction" 
+                title="eventAction"
                 items={eventActions}
                 itemsDisplayFields={["label", "tooltip"]}
                 closeAfterSelect={true}
                 selected={
                   currentEvent.event.action ? [currentEvent.event.action] : []
                 }
-                updateValueArray={( value) => { 
-                  addACtionOnEvent(currentEvent, currentEvent.event.action == value.label ? null:value, "event");
+                updateValueArray={(value) => {
+                  addACtionOnEvent(
+                    currentEvent,
+                    currentEvent.event.action == value.label ? null : value,
+                    "event",
+                  );
 
-                  setDisabledFields(loadDisabledFields({event:{
-                    action: value.label
-                  }}));
+                  setDisabledFields(
+                    loadDisabledFields({
+                      event: {
+                        action: value.label,
+                      },
+                    }),
+                  );
                 }}
                 description={"eventActionDescription"}
               ></InputSelect>
@@ -406,21 +411,22 @@ export default function EventSubpage({
               )}
             </DetailContainer>
             {/* ========== WithValueEvents ============== */}
-           
+
             <DetailContainer
               title={"withValueEvent"}
               description={
                 "withValueEventWichBeExecutedWhenThisEventIsTriggered"
               }
               className="demonsAssociatedContainer"
-            >
-               <Alert
+              topAlert = {  <Alert
                 message={
                   currentEvent.id +
-                  "|event|eventCannotCallWithValueEventWithCurrentPlayer|error"
+                  "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert"
                 }
                 alertList={alertList}
-              ></Alert>
+              ></Alert>}
+            >
+            
               <InputSelect
                 title={"useWithValueEvent"}
                 updateValueArray={(value) => {
@@ -428,7 +434,9 @@ export default function EventSubpage({
                     updateValueArray(
                       "event.withValue",
                       currentEvent,
-                      { id: value.id },
+                      { id: value.id,
+                        componentId : new Date().getTime()  
+                       },
                       "new",
                     ),
                   );
@@ -463,8 +471,9 @@ export default function EventSubpage({
                         updateValueArray(
                           "event.withValue",
                           currentEvent,
-                          { id: withValueEventInputs.id },
+                          { componentId: withValueEventInputs.componentId },
                           "delete",
+                          { newIdKey: "componentId" },
                         ),
                       );
                     }
@@ -489,6 +498,7 @@ export default function EventSubpage({
                               "|withValueEvent|" +
                               "withValueEventDoesnotExist|alert"
                         }
+                        
                         className="withValueEventEdition"
                         withValueEventInputs={withValueEventInputs}
                         withValueEventKeys={keyInputInwithValueEvent}
@@ -502,11 +512,22 @@ export default function EventSubpage({
                                 withValueEventInputs,
                                 value,
                               ),
+                              {
+                                newIdKey: "componentId",
+                              }
                             ),
                           );
                         }}
                         suggestions={suggestions}
-                      ></WithValueEventCard>
+                      >
+                        <Alert
+                          message={
+                            currentEvent.id +
+                            "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert"
+                          }
+                          alertList={alertList}
+                        ></Alert>
+                      </WithValueEventCard>
                     );
                   },
                 )

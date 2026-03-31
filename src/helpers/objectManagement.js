@@ -1,4 +1,10 @@
-export function updateValueArray(path, object, value, type = "multiple") {
+export function updateValueArray(
+  path,
+  object,
+  value,
+  type = "multiple",
+  params = {},
+) {
   const log = false;
   if (log) {
     console.log("Updating value array at path:", path);
@@ -18,21 +24,25 @@ export function updateValueArray(path, object, value, type = "multiple") {
   }
   const lastKey = keys[keys.length - 1];
   let targetArray = current[lastKey];
- if ((type === "multiple" || type==="new") && !targetArray) {
+  if ((type === "multiple" || type === "new") && !targetArray) {
     current[lastKey] = [];
     targetArray = current[lastKey];
- }
+  }
   if (type === "unique" && !targetArray) {
     current[lastKey] = null;
     targetArray = current[lastKey];
- }
- 
+  }
 
   if (type === "delete") {
     if (typeof value === "object" && value.id !== null) {
       const existingElt = targetArray.find((elt) => elt.id === value.id);
       if (existingElt) {
         current[lastKey] = targetArray.filter((elt) => elt.id !== value.id);
+      }
+    } else if (typeof value === "object" && params?.newIdKey) {
+      const existingElt = targetArray.find((elt) => elt[params.newIdKey] === value[params.newIdKey]);
+      if (existingElt) {
+        current[lastKey] = targetArray.filter((elt) => elt[params.newIdKey] !== value[params.newIdKey]);
       }
     } else {
       if (targetArray.includes(value)) {
@@ -61,6 +71,18 @@ export function updateValueArray(path, object, value, type = "multiple") {
       // replace
       const filteredArray = targetArray.filter((elt) => elt.id !== value.id);
       current[lastKey] = [...filteredArray, value];
+    }  if (typeof value === "object" && params?.newIdKey) {
+      const existingElt = targetArray.find((elt) => elt[params.newIdKey] === value[params.newIdKey]);
+      if (
+        existingElt &&
+        JSON.stringify(existingElt) === JSON.stringify(value)
+      ) {
+        // do nothing if the object is the same
+        return object;
+      }
+      // replace
+      const filteredArray = targetArray.filter((elt) => elt[params.newIdKey] !== value[params.newIdKey]);
+      current[lastKey] = [...filteredArray, value];
     } else {
       // if not object we add it if not present, else we remove it
       if (!targetArray.includes(value)) {
@@ -77,7 +99,7 @@ export function updateValueArray(path, object, value, type = "multiple") {
 
   return newObj;
 }
-export function updateElementValue(path, obj, value, type = "replace") {
+export function updateElementValue(path, obj, value, type = "replace",params={}) {
   const keys = path.split(".");
   const newObj = { ...obj };
   let current = newObj;
@@ -86,7 +108,7 @@ export function updateElementValue(path, obj, value, type = "replace") {
     const key = keys[i];
     current[key] = current[key] ? { ...current[key] } : {};
     current = current[key];
-    if(current === undefined){
+    if (current === undefined) {
       current[key] = {};
       current = current[key];
     }
@@ -96,6 +118,7 @@ export function updateElementValue(path, obj, value, type = "replace") {
   switch (type) {
     case "replace":
       current[lastKey] = value;
+
       break;
 
     case "new":
@@ -118,4 +141,3 @@ export function updateElementValue(path, obj, value, type = "replace") {
 
   return newObj;
 }
- 

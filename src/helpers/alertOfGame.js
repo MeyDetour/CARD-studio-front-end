@@ -12,10 +12,11 @@ export function loadAlertListFormGame(gameData) {
     console.warn("Game data is incomplete, cannot load alerts.");
     return [];
   }
- 
-  let alertList = [];
 
-  // Check  actions
+  let alertList = [];
+  let withValueEventCalledInActions = [];
+
+  // ========== Check  actions
   gameData.params.tours.actions.forEach((action) => {
     // Check for missing action name
     if (!action.name.trim(" ")) {
@@ -27,15 +28,22 @@ export function loadAlertListFormGame(gameData) {
         action.id + "|action|pleaseProvideEventsForAction|warning",
       );
     }
+    // collect withValueEvent id called in actions
+    // sert à vérifier que les événements à valeur dynamique qui utilisent
+    // le joueur actuel comme variable sont bien appelés par une action,
+    // sinon le joueur actuel peut être indéfini dans ces événements à valeur dynamique
+    withValueEventCalledInActions = withValueEventCalledInActions.concat(
+      action.withValue.map((event) => event.id),
+    );
   });
 
-  // Check for missing game name
+  // ============= GAME DATA
   if (!gameData.name.trim(" ")) {
     alertList.push("name|data|missingValue|alert");
   }
 
-  let eventsWithCurrentValueInput = []
- // Check for missing eventWithValue name
+  // ============= Check events with value
+  let eventsWithCurrentValueInput = [];
   gameData.events.withValueEvent.forEach((event) => {
     if (!event.name.trim(" ")) {
       alertList.push(
@@ -53,21 +61,33 @@ export function loadAlertListFormGame(gameData) {
     ) {
       alertList.push(event.id + "|eventWithValue|invalidAction|warning");
     }
-       if (
+    if (
       event.event.give &&
       Object.values(event.event.give).some(
         (val) => val !== 0 && val !== null && val !== "",
       ) &&
       !event.event.for
     ) {
-      alertList.push(event.id + "|eventWithValue|elementsGivesButNoFor|warning");
+      alertList.push(
+        event.id + "|eventWithValue|elementsGivesButNoFor|warning",
+      );
     }
-    if(JSON.stringify(event).includes('currentPlayer')){
-      eventsWithCurrentValueInput.push(event.id)
+    if (
+      JSON.stringify(event).includes("currentPlayer") &&
+      !event.name.includes("currentPlayer") &&
+      !event.loadMessage?.includes("currentPlayer")
+    ) {
+      eventsWithCurrentValueInput.push(event.id);
+      if (!withValueEventCalledInActions.includes(event.id)) {
+        alertList.push(
+          event.id +
+            "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction|alert",
+        );
+      }
     }
-  }); 
+  });
 
-  // Check for missing event name
+  // ============= Check for missing event name
   gameData.events.events.forEach((event) => {
     if (!event.name || !event.name.trim(" ")) {
       alertList.push(event.id + "|event|eventNameCannotBeEmpty|alert");
@@ -80,7 +100,7 @@ export function loadAlertListFormGame(gameData) {
       !eventActions.some((action) => action.label === event.event.action)
     ) {
       alertList.push(event.id + "|event|invalidAction|warning");
-    } 
+    }
     if (
       event.event.give &&
       Object.values(event.event.give).some(
@@ -90,14 +110,18 @@ export function loadAlertListFormGame(gameData) {
     ) {
       alertList.push(event.id + "|event|elementsGivesButNoFor|warning");
     }
-    if (event.event.withValue?.some((withValueEvent) =>
-      eventsWithCurrentValueInput.includes(withValueEvent.id)
-    )) {
+    if (
+      event.event.withValue?.some((withValueEvent) =>
+        eventsWithCurrentValueInput.includes(withValueEvent.id),
+      )
+    ) {
       alertList.push(
-        event.id + "|event|eventCannotCallWithValueEventWithCurrentPlayer|error",
+        event.id +
+          "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert",
       );
     }
-  }); // Check for missing demon name
+  });
+  // ============= Check for missing demon name
   gameData.events.demons.forEach((demon) => {
     if (!demon.name || !demon.name.trim(" ")) {
       alertList.push(demon.id + "|demon|demonNameCannotBeEmpty|alert");
@@ -109,6 +133,6 @@ export function loadAlertListFormGame(gameData) {
       alertList.push(demon.id + "|demon|demonEventsMustNotBeEmpty|warning");
     }
   });
- 
+
   return alertList;
 }
