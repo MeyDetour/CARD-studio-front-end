@@ -265,6 +265,7 @@
   "FailedToRetrieveGame": "An error occurred while retrieving the game",
   "FailedToUpdateGame": "An error occurred while updating the game",
   "deleteEvent": "Delete event",
+  "thisActionHasConsequences": "This action has irreversible consequences. Here are the elements linked to this event:",
   "doYouRealyWantToDeleteEvent": "Do you really want to delete this event?",
   "youDeleteEventWithoutSave": "By clicking 'Delete' you delete the event. It will no longer be visible in the event list. Data will not be recoverable.",
   "roundsAndMancheConfiguration": "Rounds and matches",
@@ -457,8 +458,15 @@
     "askPlayerDescription": "Requests an input or value from the player.",
     "skipPlayerTourDescription": "Forces the player to skip their next turn."
 ,"elementsGivesButNoFor": "This event has elements to give but no 'for' element. This means that the event is configured to provide certain resources or effects, but it does not specify a target for these effects. This can be useful for creating events that have global effects or that affect all players in the game, but it's important to ensure that the event's effects are still meaningful and contribute to the game's mechanics, even without a specified target."
+,
+"demonCallNonExistingEvent": "This demon attempts to call an event that does not exist. Try to delete this demon.",
 
-,"howToChangeTurn":"Turn Management System",
+  "missingValueForKey-inputBool": "Missing value for the key {inputBool} in the event configuration.",
+  "missingValueForKey-inputNumber": "Missing value for the key {inputNumber} in the event configuration.",
+  "missingValueForKey-inputString": "Missing value for the key {inputString} in the event configuration.",
+  "missingValueForKey-inputPlayer": "Missing value for the key {inputPlayer} in the event configuration.",
+  "callNonExistingWithValueEvent": "This action attempts to call a dynamic value event that does not exist.",
+"howToChangeTurn":"Turn Management System",
 "howToChangeTurnDescription" : "To implement a classic turn-based system, you must ensure that as soon as a player selects an action, their hasPlayed status is set to true. This signals to the system that their action is complete. The game must then monitor when all players have finished to trigger the turn change. You will need to create a 'demon' (or watcher) based on the 'allPlayersHasPlayed/endOfTour' condition to trigger the end of the current turn."
 ,"eventCannotCallWithValueEventWithCurrentPlayer":"This event cannot call a dynamic value event that uses the current player as a variable but current player does not exist at this step. Error code : E001."
 ,"errorCodes":"Error Codes",
@@ -467,5 +475,5 @@
  ,"withValueEventCannotUseCurrentPlayerIfItsNotColledInAction": "This event cannot use {currentPlayer} as a variable if it is not called by a player action. Error code: E002",
   "errorCode-E002-shortText": "E002 : Cannot use {currentPlayer}",
   "errorCode-E002-withValueEventCannotUseCurrentPlayerIfItsNotCalledInAction": "If you use a dynamic value event that uses {currentPlayer} as a variable, you must ensure it is called by a player action. Otherwise, {currentPlayer} will be undefined. You must either modify the dynamic value event to not use {currentPlayer}, or ensure it is called by an action."
-
+,"cards": "Cards"
 }

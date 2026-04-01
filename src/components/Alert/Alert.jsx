@@ -4,70 +4,73 @@ import { Link } from "react-router-dom";
 import Icon from "../Icon/Icon";
 import { useEffect, useState } from "react";
 import { useNotificationContext } from "../../context/NotificationContext";
+
 export default function Alert({
-  message,
+  messages = [],
   alertList,
   displayAlertOfType = "", // Nouveau : filtre par type (ex: "action")
-  displayAlertStartWith = "",  
+  displayAlertStartWith = "",
 }) {
   const { t } = useTranslation();
-  const [alertMessages, setAlertMessage] = useState([]);
-  const { getAlerts, getAlertOfType, canDisplayError } = useNotificationContext();
-  const [alertTypesToDisplay, setAlertTypesToDisplay] = useState({});
+  const { getAlerts, getAlertOfType, canDisplayError } =
+    useNotificationContext();
+  const [alertMessages, setAlertMessages] = useState([]);
+  const [alertTypesToDisplay, setAlertTypesToDisplay] = useState({
+    alert: false,
+    warning: false,
+  });
+
   useEffect(() => {
-    let alerts = [];
+    if (!canDisplayError) return;
 
-    if (displayAlertOfType ) {
-      displayAlertOfType = displayAlertOfType.split("|");
-      let obj = {
-        warning: false,
-        alert: false,
-      };
-      for (let type of displayAlertOfType) {
-        const alertsOfType = getAlertOfType(type);
+    let newAlerts = [];
+    let hasAlert = false;
+    let hasWarning = false;
 
-        for (let alert of alertsOfType) {
-          const parts = alert.split("|");
-          const severity = parts[3] || "alert";
-          if (severity === "alert") {
-            obj.alert = true;
-          } else if (severity === "warning") {
-            obj.warning = true;
-          }
-        }
-      }
-      setAlertTypesToDisplay(obj);
-    } else if (message) {
-      alerts = getAlerts(message);
-    } else if (displayAlertStartWith ) {
-      alerts = getAlerts(displayAlertStartWith); 
-      let obj = {
-        warning: false,
-        alert: false,
-      };
-      for (let alert of alerts) { 
- 
-          const parts = alert.split("|");
-          const severity = parts[3] || "alert";
-          if (severity === "alert") {
-            obj.alert = true;
-          } else if (severity === "warning") {
-            obj.warning = true;
-          } 
-      }
-      alerts=[]
-      setAlertTypesToDisplay(obj);
-    } 
-
-    setAlertMessage(alerts || []);
-  }, [message, alertList, displayAlertOfType, getAlerts]);
-
-
+    if (displayAlertOfType) {
+      const types = displayAlertOfType.split("|");
+      types.forEach((type) => {
+        getAlertOfType(type).forEach((alert) => {
+          const severity = alert.split("|")[3] || "alert";
+          if (severity === "alert") hasAlert = true;
+          if (severity === "warning") hasWarning = true;
+        });
+      });
+    } else if (displayAlertStartWith) {
+      const alerts = getAlerts(displayAlertStartWith);
+      alerts.forEach((alert) => {
+        const severity = alert.split("|")[3] || "alert";
+        if (severity === "alert") hasAlert = true;
+        if (severity === "warning") hasWarning = true;
+      });
+    } else if (messages?.length > 0) {
+      messages.forEach((msg) => {
+        newAlerts = [...newAlerts, ...getAlerts(msg)];
+      });
+    }
+    setAlertTypesToDisplay((prev) => {
+      if (prev.alert === hasAlert && prev.warning === hasWarning) return prev;
+      return { alert: hasAlert, warning: hasWarning };
+    });
+    setAlertMessages((prev) => {
+      if (JSON.stringify(prev) === JSON.stringify(newAlerts)) return prev;
+      return newAlerts;
+    });
+  }, [
+    messages,
+    displayAlertOfType,
+    displayAlertStartWith,
+    canDisplayError,
+    getAlerts,
+    getAlertOfType,
+  ]);
   if (!canDisplayError) return null;
- 
 
-  // Si pas d'alertes, on ne rend rien
-  if ((displayAlertOfType || displayAlertStartWith) && (alertTypesToDisplay.alert || alertTypesToDisplay.warning)) {
+  // Affichage des icônes d'alerte ou warning si demandé par type
+  if (
+    (displayAlertOfType || displayAlertStartWith) &&
+    (alertTypesToDisplay.alert || alertTypesToDisplay.warning)
+  ) {
     return (
       <div className="alertContainer">
         {alertTypesToDisplay.alert && (
@@ -79,15 +82,15 @@ export default function Alert({
       </div>
     );
   }
-   if (alertMessages.length === 0) return null;
- 
+
+  if (!alertMessages || alertMessages.length === 0) return null;
 
   return (
     <div className="alertContainer">
       {alertMessages.map((alertString, index) => {
         const parts = alertString.split("|");
         const severity = parts[3] || "alert";
-        const translationKey = parts[2]; 
+        const translationKey = parts[2];
         return (
           <div key={index} className={`alertItem ${severity}Case`}>
             <img

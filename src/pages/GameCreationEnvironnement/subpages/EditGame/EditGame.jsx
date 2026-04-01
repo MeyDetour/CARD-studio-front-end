@@ -61,7 +61,7 @@ export default function EditGame({
       <div className="basicContainer globalSection">
         <Alert
           alertList={alertList}
-          message={"name|data|missingValue|alert"}
+          messages={["name|data|missingValue|alert"]}
         ></Alert>
 
         {/* Left part */}
@@ -272,7 +272,7 @@ export default function EditGame({
           pathInObject="params.gains.activation"
           onChangeFunction={updateGameValue}
         />
-      </div>{" "}
+      </div>
       <div className="basicContainer rewardsManagementSection">
         <TitleContainer
           title={"revertToTheLastSavedVersion"}

@@ -128,7 +128,7 @@ export default function Help() {
         <DetailParagraphe title={"howToChangeTurn"}>
           <p>{t("howToChangeTurnDescription")}</p>
         </DetailParagraphe>
-      </div>{" "}
+      </div>
       <div className="basicContainer">
         <TitleContainer title={"errorCodes"} type="h1"></TitleContainer>
         <DetailParagraphe title={"errorCode-E001-shortText"}>

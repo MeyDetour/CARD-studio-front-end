@@ -30,7 +30,7 @@ export default function WithValueEventCard({
   withValueEventInputs = {},
   withValueEvent,
   isSelected = false,
-  alertMessage,
+  alertMessages,
   className = "",
   modifyKeyValue,
   withValueEventKeys,
@@ -50,9 +50,9 @@ export default function WithValueEventCard({
     >
 
       {children}
-      {alertMessage && <Alert message={alertMessage} alertList={alertList} />}
+      {alertMessages && <Alert messages={alertMessages} alertList={alertList} />}
       <h2>{withValueEvent.name ? withValueEvent.name : "No name"}</h2>
-      {withValueEventKeys.map((necessitedKey, key) => (
+      {withValueEventKeys?.map((necessitedKey, key) => (
         <div key={key}>
           <span>{necessitedKey} :</span>
           <Input

@@ -57,13 +57,19 @@ export default function GameCreationEnvironnement() {
     getGameInStorage,
     getGame,
     uploadFileForGameEdition,
-    currentEvent,currentDemon,currentWithValueEvent,setCurrentEvent,setCurrentWithvalueEvent,setCurrentDemon
+    currentEvent,
+    currentDemon,
+    currentWithValueEvent,
+    setCurrentEvent,
+    setCurrentWithvalueEvent,
+    setCurrentDemon,
   } = useGameContext();
   const { fetchUser, editUser } = useUserContext();
   const [gameImageUploaded, setGameImageUploaded] = useState();
   const [gameImageUploadedUrl, setGameImageUploadedUrl] = useState();
   const { t } = useTranslation();
-  const { setAlerts, alertList, setCanDisplayError } = useNotificationContext();
+  const { setAlerts, alertList, canDisplayError, setCanDisplayError } =
+    useNotificationContext();
   const [restaurationLoading, setRestaurationLoading] = useState(false);
   useEffect(() => {
     const initGame = async () => {
@@ -72,12 +78,12 @@ export default function GameCreationEnvironnement() {
       if (stored && String(stored.id) === String(id)) {
         if (stored && stored.id == id) {
           setGame(stored);
-          setAlerts(loadAlertListFormGame(stored));
+          setAlerts(loadAlertListFormGame(stored, canDisplayError));
         }
       } else {
         const result = await getGame(id);
         if (result) {
-          setAlerts(loadAlertListFormGame(result));
+          setAlerts(loadAlertListFormGame(result, canDisplayError));
           setGame(result);
           setCanDisplayError(result.displayErrors);
         }
@@ -100,21 +106,17 @@ export default function GameCreationEnvironnement() {
     }
   }, []);
 
-  if (false){
-
-  console.log("game :", game);
-  console.log("user :", user);
+  if (false) {
+    console.log("game :", game);
+    console.log("user :", user);
   }
- 
 
-   // =========== SUGGESTION DYNAMIQUE FOR ALL APP ============
+  // =========== SUGGESTION DYNAMIQUE FOR ALL APP ============
 
-
-  
   const suggestions = useDynamicEntitySuggestions(
     game?.globalValue,
     game?.playerGlobalValue,
-  ); 
+  );
   // =========== DETECTION DE MODIFICATION ET SAUVEGARDE AUTOMATIQUE============
   useEffect(() => {
     if (!game || !playerHasEdit) return;
@@ -122,11 +124,11 @@ export default function GameCreationEnvironnement() {
       console.log("Sauvegarde automatique sur le serveur...");
 
       saveNewGameInStorage(game);
-          setAlerts(loadAlertListFormGame(game));
+      setAlerts(loadAlertListFormGame(game,canDisplayError));
       setPlayerHasEdit(false);
     }, 2000);
 
-    setAlerts(loadAlertListFormGame(game));
+    setAlerts(loadAlertListFormGame(game,canDisplayError));
     return () => clearTimeout(delayDebounceFn);
   }, [game, playerHasEdit]);
 
@@ -136,7 +138,7 @@ export default function GameCreationEnvironnement() {
   if (!game) return <Loader />;
   if (!user) return <Loader />;
 
-   // =========== UPDATE GAME OBJECT ============
+  // =========== UPDATE GAME OBJECT ============
   const updateGameValueHandler = (path, value) => {
     setGame((prev) => updateElementValue(path, prev, value));
     setPlayerHasEdit(true);
@@ -147,28 +149,27 @@ export default function GameCreationEnvironnement() {
     setPlayerHasEdit(true);
   };
 
-   // =========== GAME SAVES ============
+  // =========== GAME SAVES ============
   const saveGame = async () => {
     let newGame = await pushModification(game);
     setGame(newGame);
   };
   const restoreGameFromDb = async () => {
     const result = await getGame(id);
-    if (result) { 
-
+    if (result) {
       setGame(result);
       setRestaurationLoading(true);
       setTimeout(() => {
         setRestaurationLoading(false);
-        window.location.href = "/game/dashboard/"+result.id;
+        window.location.href = "/game/dashboard/" + result.id;
       }, 3000);
       setPlayerHasEdit(true);
-      setAlerts(loadAlertListFormGame(result));
+      setAlerts(loadAlertListFormGame(result, canDisplayError));
       setCanDisplayError(result.displayErrors);
       deleteGameSaved(id);
     }
-  }
-   // =========== EVENTS ===========
+  };
+  // =========== EVENTS ===========
   const getEventFromIdAndType = (id, type) => {
     if (!game || !game.events) return null;
     switch (type) {
@@ -181,13 +182,13 @@ export default function GameCreationEnvironnement() {
           (withValueEvent) => withValueEvent.id === id,
         );
       case "globalValue":
-        return game.events.globalValue[id]
-        
+        return game.events.globalValue[id];
+
       default:
         return null;
     }
   };
-   // =========== UPDLOAD IMAGE GAME OBJECT ============
+  // =========== UPDLOAD IMAGE GAME OBJECT ============
   const uploadFileForGameEditionHandler = (file) => {
     uploadFileForGameEdition(file, game.id);
   };
@@ -199,10 +200,11 @@ export default function GameCreationEnvironnement() {
       setUser((prev) => ({ ...prev, ...userEdited }));
     }
   };
-   
-  if (restaurationLoading){
-    return <LoadingRestorGame/>
+
+  if (restaurationLoading) {
+    return <LoadingRestorGame />;
   }
+  console.log(game);
   return (
     <div className={" gameCreationEnvironnementPage"}>
       <GameCreationEnvironnementHeader name={game.name} />
@@ -306,12 +308,16 @@ export default function GameCreationEnvironnement() {
             case "rounds":
               return (
                 <RoundsPage
-                  gameData={{suggestions: suggestions,
-                    gameId : game.id,
+                  gameData={{
+                    suggestions: suggestions,
+                    gameId: game.id,
                     tours: game.params.tours,
-                    actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions.sort((a, b) => {
-                      return Number(a.id) - Number(b.id);
-                    }) : [],
+                    actions:
+                      game.params.tours && game.params.tours.actions
+                        ? game.params.tours.actions.sort((a, b) => {
+                            return Number(a.id) - Number(b.id);
+                          })
+                        : [],
                     manches: game.params.manches,
                     globalGame: game.params.globalGame,
                     withValueEvents: game.events.withValueEvent,
@@ -319,14 +325,14 @@ export default function GameCreationEnvironnement() {
                       game.events && game.events.events
                         ? game.events.events
                         : [],
-                           cardParams : game.params.cards ? game.params.cards : {}
-            
+                    cardParams: game.params.cards ? game.params.cards : {},
                   }}
                   getEventFromIdAndType={getEventFromIdAndType}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
                 />
-              );   case "visualisation":
+              );
+            case "visualisation":
               return (
                 <VisualisationPage
                   gameData={{
@@ -341,30 +347,32 @@ export default function GameCreationEnvironnement() {
                         ? game.events.demons.sort((a, b) => {
                             return Number(a.id) - Number(b.id);
                           })
-                        : []
-                        ,
-                             withValueEvents:
+                        : [],
+                    withValueEvents:
                       game.events && game.events.withValueEvent
                         ? game.events.withValueEvent.sort((a, b) => {
                             return Number(a.id) - Number(b.id);
                           })
                         : [],
-                     actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions.sort((a, b) => {
-                      return Number(a.id) - Number(b.id);
-                     }) : [],
+                    actions:
+                      game.params.tours && game.params.tours.actions
+                        ? game.params.tours.actions.sort((a, b) => {
+                            return Number(a.id) - Number(b.id);
+                          })
+                        : [],
 
-                        globalValue: game.globalValue,
+                    globalValue: game.globalValue,
                     playerGlobalValue: game.playerGlobalValue,
-                    globalValueStatic: game.globalValueStatic ?? {}
-                    }} 
-                  getEventFromIdAndType={getEventFromIdAndType} 
+                    globalValueStatic: game.globalValueStatic ?? {},
+                  }}
+                  getEventFromIdAndType={getEventFromIdAndType}
                 />
               );
             case "events":
               return (
                 <Events
                   gameData={{
-                    winParams : game.events.win,
+                    winParams: game.events.win,
                     suggestions: suggestions,
                     events:
                       game.events && game.events.events
@@ -390,12 +398,15 @@ export default function GameCreationEnvironnement() {
                             return Number(a.id) - Number(b.id);
                           })
                         : [],
-                     actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions.sort((a, b) => {
-                      return Number(a.id) - Number(b.id);
-                    }) : [],
-                        globalValue: game.globalValue,
+                    actions:
+                      game.params.tours && game.params.tours.actions
+                        ? game.params.tours.actions.sort((a, b) => {
+                            return Number(a.id) - Number(b.id);
+                          })
+                        : [],
+                    globalValue: game.globalValue,
                     playerGlobalValue: game.playerGlobalValue,
-                    globalValueStatic: game.globalValueStatic ?? {}
+                    globalValueStatic: game.globalValueStatic ?? {},
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
@@ -408,9 +419,12 @@ export default function GameCreationEnvironnement() {
               return (
                 <CardManagement
                   gameData={{
-                    actions : game.params.tours  &&game.params.tours.actions ? game.params.tours.actions.sort((a, b) => {
-                      return Number(a.id) - Number(b.id);
-                    }) : [],
+                    actions:
+                      game.params.tours && game.params.tours.actions
+                        ? game.params.tours.actions.sort((a, b) => {
+                            return Number(a.id) - Number(b.id);
+                          })
+                        : [],
                     events:
                       game.events && game.events.events
                         ? game.events.events.sort((a, b) => {
@@ -429,7 +443,7 @@ export default function GameCreationEnvironnement() {
                             a.name.localeCompare(b.name),
                           )
                         : [],
-                      cardParams : game.params.cards ? game.params.cards : {}
+                    cardParams: game.params.cards ? game.params.cards : {},
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}

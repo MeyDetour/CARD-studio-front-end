@@ -7,7 +7,7 @@ import { useGameContext } from "../../../context/GameContext.jsx";
 import Icon from "../../Icon/Icon.jsx";
 
 
-export default function EventCard({ action, event, isSelected ,alertMessage, displayIcons = false, actionOnAdd, actionOnRemove,children}) {
+export default function EventCard({ action, event, isSelected ,alertMessages, displayIcons = false, actionOnAdd, actionOnRemove,children}) {
   const { t } = useTranslation(); 
   const { alertList } = useNotificationContext();
   const { setCurrentEvent, setCurrentSubpageOfEvents } = useGameContext();
@@ -25,7 +25,7 @@ export default function EventCard({ action, event, isSelected ,alertMessage, dis
       className={`eventCard ${isSelected ? "Selected" : ""}`}
     >
       {children}
-      {alertMessage && <Alert message={alertMessage}  alertList={alertList} />}
+      {alertMessages && <Alert messages={alertMessages}  alertList={alertList} />}
       <h3>{event.name ? event.name : "No name"}</h3>
       
     </div>

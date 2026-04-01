@@ -98,7 +98,7 @@ export default function SelectGame() {
         />
       </div>
       <div className="gamesWrapper">
-        {loading && <Loader></Loader>}{" "}
+        {loading && <Loader></Loader>}
         {personalGames &&
           personalGames.map((game, index) => <GameCard key={index} game={game} />)}
       </div>

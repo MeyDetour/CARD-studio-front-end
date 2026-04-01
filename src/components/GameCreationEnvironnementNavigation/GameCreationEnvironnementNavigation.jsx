@@ -28,8 +28,7 @@ export default function GameCreationEnvironnementNavigation({
     <nav className="gameCreationEnvironnementNavigationSideBar">
       <div className="sidebar-section">
         <ul>
-          <li>
-            <Alert alertList={alertList}></Alert>
+          <li> 
             <Button
               text={t("dashboard")}
               action={() => navigate("/game/dashboard/" + id)}
@@ -150,7 +149,7 @@ export default function GameCreationEnvironnementNavigation({
               type={currentPage == "displays" ? "navbar active" : "navbar"}
               icon={currentPage === "displays" ? "screen-white" : "screen"}
             />
-          </li>{" "}
+          </li>
           <li>
             <Alert
               alertList={alertList}
@@ -231,7 +230,7 @@ export default function GameCreationEnvironnementNavigation({
                   : "visualisation"
               }
             />
-          </li>{" "}
+          </li>
           <li>
             <Button
               text={t("helpAndSettings")}

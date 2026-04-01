@@ -33,6 +33,8 @@ export default function DemonSubpage({
   } = useGameContext();
   const { alertList } = useNotificationContext();
   const { t } = useTranslation();
+  const [displayDeleteConfirmation, setDisplayDeleteConfirmation] = useState(false);
+  
 
   if (!demons) return;
 
@@ -73,11 +75,15 @@ export default function DemonSubpage({
             demons.map((demon, index) => (
               <DemonCard
                 key={index}
-                alertMessage={demon.id + "|demon|"}
                 action={() => setCurrentDemon(demon)}
                 demon={demon}
                 isSelected={currentDemon && demon == currentDemon}
-              />
+              >
+                <Alert
+                  alertList={alertList}
+                  displayAlertStartWith={demon.id + "|demon|"}
+                ></Alert>
+              </DemonCard>
             ))}
         </div>
       </div>
@@ -101,9 +107,9 @@ export default function DemonSubpage({
             <div className="basicContainer">
               <Alert
                 alertList={alertList}
-                message={
-                  currentDemon.id + "|demon|demonNameCannotBeEmpty|alert"
-                }
+                messages={[
+                  currentDemon.id + "|demon|demonNameCannotBeEmpty|alert",
+                ]}
               ></Alert>
               <TitleContainer
                 title="demonConfigurationTitle"
@@ -145,9 +151,9 @@ export default function DemonSubpage({
               {/* ========== CONDITION ============== */}
               <Alert
                 alertList={alertList}
-                message={
-                  currentDemon.id + "|demon|demonConditionMustNotBeEmpty|alert"
-                }
+                messages={[
+                  currentDemon.id + "|demon|demonConditionMustNotBeEmpty|alert",
+                ]}
               ></Alert>
 
               <Input
@@ -172,10 +178,12 @@ export default function DemonSubpage({
               {/* ========== EVENTS ASSOCIÉS ============== */}
               <Alert
                 alertList={alertList}
-                message={
-                  currentDemon.id + "|demon|demonEventsMustNotBeEmpty|warning"
-                }
-              ></Alert> 
+                messages={[
+                  currentDemon.id + "|demon|demonEventsMustNotBeEmpty|warning",
+                  currentDemon.id + "|demon|demonCallNonExistingEvent|alert",
+                ]}
+              ></Alert>
+
               <TitleContainer
                 title="events"
                 description="demon-event-description"
@@ -186,7 +194,7 @@ export default function DemonSubpage({
               <div className="wrapperSelection">
                 {events &&
                   events.map((event, index) => (
-                    <EventCard 
+                    <EventCard
                       key={index}
                       action={() => {
                         setCurrentDemon(
@@ -210,7 +218,7 @@ export default function DemonSubpage({
               </span>
 
               <span>
-                {t("callTheseEvents")} :{" "}
+                {t("callTheseEvents")} :
                 {currentDemon.events ? currentDemon.events.length : 0}
               </span>
             </div>

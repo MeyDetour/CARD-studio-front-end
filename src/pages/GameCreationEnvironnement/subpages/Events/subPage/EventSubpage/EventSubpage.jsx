@@ -12,13 +12,13 @@ import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../../helpers/objectManagement.js";
-import { findTextInElt } from "../../../../../../helpers/text.js";
-
 import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
 import { eventActions } from "../../../../../../../data/eventActions.js";
+import { getDynamicValueForEvent } from "../../../../../../helpers/withValueEventManager.js";
+import Confirm from "../../../../../../components/Confirm/Confirm.jsx";
 
 export default function EventSubpage({
   events,
@@ -36,7 +36,8 @@ export default function EventSubpage({
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
   const [disabledFields, setDisabledFields] = useState(null);
-
+  const [displayDeleteConfirmation, setDisplayDeleteConfirmation] =
+    useState(false);
   // setByDefault the first event if there is no current event
   useEffect(() => {
     if (events && !currentEvent) {
@@ -86,13 +87,16 @@ export default function EventSubpage({
         <div className="wrapperEvents">
           {events &&
             events.map((event, index) => (
-              <EventCard 
+              <EventCard
                 key={index}
                 action={() => setCurrentEvent(event)}
                 event={event}
                 isSelected={currentEvent && event.id === currentEvent.id}
               >
-                <Alert alertList={alertList} displayAlertStartWith={event.id + "|event|"}></Alert>
+                <Alert
+                  alertList={alertList}
+                  displayAlertStartWith={event.id + "|event|"}
+                ></Alert>
               </EventCard>
             ))}
         </div>
@@ -107,15 +111,13 @@ export default function EventSubpage({
           <>
             <div className="basicContainer">
               <Alert
-                message={
-                  currentEvent.id + "|event|eventNameCannotBeEmpty|alert"
-                }
+                messages={[
+                  currentEvent.id + "|event|invalidAction|warning",
+                  currentEvent.id + "|event|eventNameCannotBeEmpty|alert",
+                ]}
                 alertList={alertList}
               ></Alert>
-              <Alert
-                message={currentEvent.id + "|event|invalidAction|warning"}
-                alertList={alertList}
-              ></Alert>
+
               <TitleContainer
                 title="eventConfigurationTitle"
                 description="eventConfigurationDescription"
@@ -198,10 +200,10 @@ export default function EventSubpage({
 
             <div className="basicContainer">
               <Alert
-                message={
+                messages={[
                   currentEvent.id +
-                  "|event|eventHaveFromElementButNoFor|warning"
-                }
+                    "|event|eventHaveFromElementButNoFor|warning",
+                ]}
                 alertList={alertList}
               ></Alert>
               <Input
@@ -263,10 +265,10 @@ export default function EventSubpage({
             {/* ========== GIVE ELEMENT ============== */}
             <div className="basicContainer">
               <Alert
-                message={
+                messages={[
                   currentEvent.id +
-                  "|event|elementsGivesButNoFromAndFor|warning"
-                }
+                    "|event|elementsGivesButNoFromAndFor|warning",
+                ]}
                 alertList={alertList}
               ></Alert>
               <TitleContainer
@@ -343,7 +345,7 @@ export default function EventSubpage({
             <div className="basicContainer">
               <InputSelect
                 title="eventAction"
-                items={eventActions}
+                items={eventActions.filter((a) => a.label !== "askPlayer")}
                 itemsDisplayFields={["label", "tooltip"]}
                 closeAfterSelect={true}
                 selected={
@@ -418,15 +420,19 @@ export default function EventSubpage({
                 "withValueEventWichBeExecutedWhenThisEventIsTriggered"
               }
               className="demonsAssociatedContainer"
-              topAlert = {  <Alert
-                message={
-                  currentEvent.id +
-                  "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert"
-                }
-                alertList={alertList}
-              ></Alert>}
+              topAlert={
+                <Alert
+                  messages={[
+                    currentEvent.id +
+                      "|event|callNonExistingWithValueEvent|alert",
+                    currentEvent.id + "|event|missingValueForKey",
+                    currentEvent.id +
+                      "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert",
+                  ]}
+                  alertList={alertList}
+                ></Alert>
+              }
             >
-            
               <InputSelect
                 title={"useWithValueEvent"}
                 updateValueArray={(value) => {
@@ -434,9 +440,7 @@ export default function EventSubpage({
                     updateValueArray(
                       "event.withValue",
                       currentEvent,
-                      { id: value.id,
-                        componentId : new Date().getTime()  
-                       },
+                      { id: value.id, componentId: new Date().getTime() },
                       "new",
                     ),
                   );
@@ -454,24 +458,15 @@ export default function EventSubpage({
                       withValueEventInputs.id,
                       "withValueEvent",
                     );
-                    let keyInputInwithValueEvent = [];
-                    if (withValueEvent) {
-                      const keysInput = [
-                        "inputBool",
-                        "inputNumber",
-                        "inputPlayer",
-                        "inputString",
-                      ];
-                      keyInputInwithValueEvent = keysInput.filter((key) =>
-                        findTextInElt(withValueEvent, key),
-                      );
-                    }
+                    let keyInputInwithValueEvent =
+                      getDynamicValueForEvent(withValueEvent);
                     function remove() {
+                      console.log(withValueEventInputs.componentId);
                       setCurrentEvent(
                         updateValueArray(
                           "event.withValue",
                           currentEvent,
-                          { componentId: withValueEventInputs.componentId },
+                          withValueEventInputs,
                           "delete",
                           { newIdKey: "componentId" },
                         ),
@@ -491,14 +486,13 @@ export default function EventSubpage({
                             ? withValueEvent
                             : { name: t("withValueEventDoesnotExist") }
                         }
-                        alertMessage={
-                          withValueEvent
-                            ? ""
-                            : withValueEventInputs.id +
-                              "|withValueEvent|" +
-                              "withValueEventDoesnotExist|alert"
-                        }
-                        
+                        alertMessages={[
+                          withValueEventInputs.id +
+                            "|withValueEvent|" +
+                            "withValueEventDoesnotExist|alert",
+                          currentEvent.id +
+                            "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert",
+                        ]}
                         className="withValueEventEdition"
                         withValueEventInputs={withValueEventInputs}
                         withValueEventKeys={keyInputInwithValueEvent}
@@ -514,20 +508,12 @@ export default function EventSubpage({
                               ),
                               {
                                 newIdKey: "componentId",
-                              }
+                              },
                             ),
                           );
                         }}
                         suggestions={suggestions}
-                      >
-                        <Alert
-                          message={
-                            currentEvent.id +
-                            "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert"
-                          }
-                          alertList={alertList}
-                        ></Alert>
-                      </WithValueEventCard>
+                      ></WithValueEventCard>
                     );
                   },
                 )
@@ -544,7 +530,7 @@ export default function EventSubpage({
                 {t("uniqueId")} : {currentEvent.id}
               </span>
               <span>
-                {t("demonsWichExecuteThisEvent")} :{" "}
+                {t("demonsWichExecuteThisEvent")} :
                 {
                   demons.filter((demon) =>
                     demon.events.includes(currentEvent.id),
@@ -552,7 +538,7 @@ export default function EventSubpage({
                 }
               </span>
               <span>
-                {t("callTheseWithValueEvent")} :{" "}
+                {t("callTheseWithValueEvent")} :
                 {currentEvent.event.withValue
                   ? currentEvent.event.withValue.length
                   : 0}
@@ -566,20 +552,56 @@ export default function EventSubpage({
                 type="h2"
                 description={"youDeleteEventWithoutSave"}
               />
+              {displayDeleteConfirmation &&
+                (() => {
+                  let appearInDemons = demons.filter((demon) =>
+                    demon.events.includes(currentEvent.id),
+                  )
 
+                  return (
+                    <Confirm
+                      actionOnCancel={() => {
+                        setDisplayDeleteConfirmation(false);
+                      }}
+                      actionOnConfirm={() => {
+                        for (let demon of demons) {
+                          if (
+                            demon.events?.some((id) => id == currentEvent.id)
+                          ) {
+                            let newDemon = structuredClone(demon);
+                            newDemon.events = newDemon.events.filter(
+                              (id) => id !== currentEvent.id,
+                            );
+                            updateGameValueArray("events.demons", newDemon);
+                          }
+                        }
+                        updateGameValueArray(
+                          "events.events",
+                          currentEvent,
+                          "delete",
+                        );
+                        setCurrentEvent(null);
+
+                        setDisplayDeleteConfirmation(false);
+                      }}
+                    >
+                      <TitleContainer
+                      title={"doYouRealyWantToDeleteEvent"}
+                      description={"youDeleteEventWithoutSave"}
+                      ></TitleContainer> 
+                      <p>{t("thisActionHasConsequences")}</p>
+                      <ul>
+                        <li>
+                          {t("demons")} ({appearInDemons.length }) {appearInDemons.length > 0 && appearInDemons.map((d) => d.name).join(", ")}
+                        </li>
+                      </ul>
+                    </Confirm>
+                  );
+                })()}
               <Button
                 text={"delete"}
                 type="redButton"
-                action={async () => {
-                  if (confirm(t("doYouRealyWantToDeleteEvent"))) {
-                    updateGameValueArray(
-                      "events.events",
-                      currentEvent,
-                      "delete",
-                    );
-                    setCurrentEvent(null);
-                  }
-                }}
+                action={() => setDisplayDeleteConfirmation(true)}
               ></Button>
             </div>
           </>

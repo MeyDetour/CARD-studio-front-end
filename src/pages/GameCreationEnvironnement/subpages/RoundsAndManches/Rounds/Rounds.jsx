@@ -15,11 +15,10 @@ import {
 import { useGameContext } from "../../../../../context/GameContext";
 import DetailContainer from "../../../../../components/DetailContainer/DetailContainer";
 import WithValueEventCard from "../../../../../components/Cards/WithValueEventCard/WithValueEventCard";
-import { findTextInElt } from "../../../../../helpers/text";
-import EventCard from "../../../../../components/Cards/EventCard/EventCard";
 import { useNotificationContext } from "../../../../../context/NotificationContext";
 
 import { useNavigate } from "react-router";
+import { getDynamicValueForEvent } from "../../../../../helpers/withValueEventManager";
 
 export default function RoundsPage({
   gameData,
@@ -31,8 +30,8 @@ export default function RoundsPage({
   const [currentElementToEdit, setCurrentElementToEdit] = useState(null);
   const { removeAlert, setAlert, alertList, getAlert } =
     useNotificationContext();
-    const {setCurrentSubpageOfEvents} = useGameContext();
-const navigate = useNavigate();
+  const { setCurrentSubpageOfEvents } = useGameContext();
+  const navigate = useNavigate();
   useEffect(() => {
     if (currentElementToEdit !== null && gameData) {
       updateGameValueArray("params.tours.actions", currentElementToEdit);
@@ -85,7 +84,7 @@ const navigate = useNavigate();
         {gameData.tours && gameData.tours.firstPlayer === "definedPlayer" && (
           <div className="innerContainer">
             <span className="normalText">
-              {t("positionOfPlayerWhoHasToPlay")} :{" "}
+              {t("positionOfPlayerWhoHasToPlay")} :
               {gameData.tours.definePlayerWhoHasToPlayFirst}
             </span>
             <InputRange
@@ -201,12 +200,11 @@ const navigate = useNavigate();
 
             {currentElementToEdit !== null &&
               (() => {
-             
                 return (
                   <div className="actionEdition">
                     <Alert
                       alertList={alertList}
-                      message={currentElementToEdit.id + "|action|"}
+                      messages={[currentElementToEdit.id + "|action|"]}
                     ></Alert>
 
                     <div
@@ -337,18 +335,36 @@ const navigate = useNavigate();
                         "withValueEventWichBeExecutedWhenThisEventIsTriggered"
                       }
                       className="demonsAssociatedContainer"
+                      topAlert={
+                        <Alert
+                          alertList={alertList}
+                          messages={[
+                            currentElementToEdit.id +
+                              "|action|missingValueForKey",
+                            currentElementToEdit.id +
+                              "|action|callNonExistingWithValueEvent|alert",
+                            currentElementToEdit.id +
+                              "|action|pleaseProvideEventsForAction|warning",
+                          ]}
+                        ></Alert>
+                      }
                     >
                       <InputSelect
                         title={"useWithValueEvent"}
                         updateValueArray={(value) => {
+                          let newElt = {
+                            id: value.id,
+                            player: "{currentPlayer}",
+                          };
+                          for (let key of getDynamicValueForEvent(value)) {
+                            newElt[key] = "";
+                          }
+                          console.log(newElt);
                           setCurrentElementToEdit(
                             updateValueArray(
                               "withValue",
                               currentElementToEdit,
-                              {
-                                id: value.id,
-                                player: "{currentPlayer}",
-                              },
+                              newElt,
                               "new",
                             ),
                           );
@@ -366,17 +382,9 @@ const navigate = useNavigate();
                               withValueEventInputs.id,
                               "withValueEvent",
                             );
-                            let keyInputInwithValueEvent = [];
-                            if (withValueEvent) {
-                              const keysInput = [
-                                "inputBool",
-                                "inputNumber",
-                                "inputString",
-                              ];
-                              keyInputInwithValueEvent = keysInput.filter(
-                                (key) => findTextInElt(withValueEvent, key),
-                              );
-                            }
+                            let keyInputInwithValueEvent =
+                              getDynamicValueForEvent(withValueEvent);
+
                             function remove() {
                               setCurrentElementToEdit(
                                 updateValueArray(
@@ -389,7 +397,7 @@ const navigate = useNavigate();
                             }
                             return (
                               <WithValueEventCard
-                              key={index}
+                                key={index}
                                 actionOnRemove={remove}
                                 action={() => {
                                   if (!withValueEvent) {
@@ -401,13 +409,11 @@ const navigate = useNavigate();
                                     ? withValueEvent
                                     : { name: t("withValueEventDoesnotExist") }
                                 }
-                                alertMessage={
-                                  withValueEvent
-                                    ? ""
-                                    : withValueEventInputs.id +
-                                      "|withValueEvent|" +
-                                      "withValueEventDoesnotExist|alert"
-                                }
+                                alertMessages={[
+                                  currentElementToEdit.id +
+                                    "|action|" +
+                                    "callNonExistingWithValueEvent|alert",
+                                ]}
                                 className="withValueEventEdition"
                                 withValueEventInputs={withValueEventInputs}
                                 withValueEventKeys={keyInputInwithValueEvent}
@@ -433,7 +439,7 @@ const navigate = useNavigate();
                         <span className="normalText">
                           {t("noWithValueEvent")}
                           <Button
-                          type="grey"
+                            type="grey"
                             action={() => {
                               navigate("/game/events/" + gameData.gameId);
                               setCurrentSubpageOfEvents("withValueEvent");
@@ -473,7 +479,6 @@ const navigate = useNavigate();
             {/*===========LIST ACTIONS=========== */}
 
             {gameData.actions.map((action, index) => {
-              let alertMessage = action.id + "|action";
               return (
                 <div
                   className={`action ${currentElementToEdit && currentElementToEdit.id == action.id ? "selected" : ""}`}
@@ -482,7 +487,10 @@ const navigate = useNavigate();
                     setCurrentElementToEdit(action);
                   }}
                 >
-                  <Alert message={alertMessage} alertList={alertList}></Alert>
+                  <Alert
+                    messagse={[action.id + "|action"]}
+                    alertList={alertList}
+                  ></Alert>
                   <span>{splitText(action.name, 20)}</span>
                 </div>
               );

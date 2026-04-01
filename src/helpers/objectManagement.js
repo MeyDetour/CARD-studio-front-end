@@ -40,9 +40,13 @@ export function updateValueArray(
         current[lastKey] = targetArray.filter((elt) => elt.id !== value.id);
       }
     } else if (typeof value === "object" && params?.newIdKey) {
-      const existingElt = targetArray.find((elt) => elt[params.newIdKey] === value[params.newIdKey]);
+      const existingElt = targetArray.find(
+        (elt) => elt[params.newIdKey] === value[params.newIdKey],
+      );
       if (existingElt) {
-        current[lastKey] = targetArray.filter((elt) => elt[params.newIdKey] !== value[params.newIdKey]);
+        current[lastKey] = targetArray.filter(
+          (elt) => elt[params.newIdKey] !== value[params.newIdKey],
+        );
       }
     } else {
       if (targetArray.includes(value)) {
@@ -71,8 +75,10 @@ export function updateValueArray(
       // replace
       const filteredArray = targetArray.filter((elt) => elt.id !== value.id);
       current[lastKey] = [...filteredArray, value];
-    }  if (typeof value === "object" && params?.newIdKey) {
-      const existingElt = targetArray.find((elt) => elt[params.newIdKey] === value[params.newIdKey]);
+    } else if (typeof value === "object" && params?.newIdKey) {
+      const existingElt = targetArray.find(
+        (elt) => elt[params.newIdKey] === value[params.newIdKey],
+      );
       if (
         existingElt &&
         JSON.stringify(existingElt) === JSON.stringify(value)
@@ -81,7 +87,9 @@ export function updateValueArray(
         return object;
       }
       // replace
-      const filteredArray = targetArray.filter((elt) => elt[params.newIdKey] !== value[params.newIdKey]);
+      const filteredArray = targetArray.filter(
+        (elt) => elt[params.newIdKey] !== value[params.newIdKey],
+      );
       current[lastKey] = [...filteredArray, value];
     } else {
       // if not object we add it if not present, else we remove it
@@ -99,7 +107,13 @@ export function updateValueArray(
 
   return newObj;
 }
-export function updateElementValue(path, obj, value, type = "replace",params={}) {
+export function updateElementValue(
+  path,
+  obj,
+  value,
+  type = "replace",
+  params = {},
+) {
   const keys = path.split(".");
   const newObj = { ...obj };
   let current = newObj;

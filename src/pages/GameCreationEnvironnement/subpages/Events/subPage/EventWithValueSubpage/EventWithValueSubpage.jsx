@@ -16,6 +16,10 @@ import DetailContainer from "../../../../../../components/DetailContainer/Detail
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
 import { eventActions } from "../../../../../../../data/eventActions.js";
+import { getDynamicValueForEvent } from "../../../../../../helpers/withValueEventManager.js";
+import WithValueEventCard from "../../../../../../components/Cards/WithValueEventCard/WithValueEventCard.jsx";
+import Confirm from "../../../../../../components/Confirm/Confirm.jsx";
+
 export default function CurrentWithValueEventSubpage({
   withValueEvents,
   demons,
@@ -29,12 +33,15 @@ export default function CurrentWithValueEventSubpage({
   loadDisabledFields,
   currentWithValueEvent,
   setCurrentWithValueEvent,
+  getEventFromIdAndType,
 }) {
   const [ConditionExpressionBuilder, setConditionExpressionBuilder] =
     useState(false);
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
   const [disabledFields, setDisabledFields] = useState(null);
+  const [displayDeleteConfirmation, setDisplayDeleteConfirmation] =
+    useState(false);
 
   useEffect(() => {
     if (withValueEvents && !currentWithValueEvent) {
@@ -48,7 +55,7 @@ export default function CurrentWithValueEventSubpage({
       setDisabledFields(loadDisabledFields(currentWithValueEvent));
     }
   }, [currentWithValueEvent, withValueEvents]);
-console.log(currentWithValueEvent);
+  console.log(disabledFields);
   return (
     <div
       className={
@@ -91,7 +98,12 @@ console.log(currentWithValueEvent);
                 isSelected={
                   currentWithValueEvent && event.id === currentWithValueEvent.id
                 }
-              />
+              >
+                <Alert
+                  alertList={alertList}
+                  displayAlertStartWith={event.id + "|eventWithValue|"}
+                ></Alert>
+              </EventCard>
             ))}
         </div>
       </div>
@@ -127,10 +139,10 @@ console.log(currentWithValueEvent);
               {/* ========== CONDITION ============== */}
               {currentWithValueEvent.condition?.includes("currentPlayer") && (
                 <Alert
-                  message={
+                  messages={[
                     currentWithValueEvent.id +
-                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction"
-                  }
+                      "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction",
+                  ]}
                   alertList={alertList}
                 ></Alert>
               )}
@@ -168,16 +180,17 @@ console.log(currentWithValueEvent);
                 "currentPlayer",
               ) && (
                 <Alert
-                  message={
+                  messages={[
                     currentWithValueEvent.id +
-                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction"
-                  }
+                      "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction",
+                  ]}
                   alertList={alertList}
                 ></Alert>
               )}
               <InputSelect
                 title="loop"
                 pathObject="boucle"
+                disabled={disabledFields && disabledFields.boucle}
                 items={["{allPlayersInGame}"]}
                 closeAfterSelect={true}
                 selected={
@@ -198,6 +211,7 @@ console.log(currentWithValueEvent);
               ></InputSelect>
               <Input
                 title="condition"
+                disabled={disabledFields && disabledFields.condition}
                 description="condition-in-boucle-description"
                 defaultValue={currentWithValueEvent.event.condition}
                 pathInObject="event.condition"
@@ -211,22 +225,16 @@ console.log(currentWithValueEvent);
             <div className="basicContainer">
               {/* ========== FROM ET FOR ============== */}
               <Alert
-                message={
+                messages={[
                   currentWithValueEvent.id +
-                  "|eventWithValue|eventHaveFromElementButNoFor|warning"
-                }
+                    "|eventWithValue|eventHaveFromElementButNoFor|warning",
+
+                  currentWithValueEvent.id +
+                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction",
+                ]}
                 alertList={alertList}
               ></Alert>
-              {(currentWithValueEvent?.event?.from?.includes("currentPlayer") ||
-                currentWithValueEvent?.event?.for?.includes("currentPlayer")) && (
-                <Alert
-                  message={
-                    currentWithValueEvent.id +
-                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction"
-                  }
-                  alertList={alertList}
-                ></Alert>
-              )}
+
               <Input
                 title="entity-concerned"
                 description="entity-concerned-description"
@@ -249,6 +257,7 @@ console.log(currentWithValueEvent);
                         ),
                       ]
                 }
+                disabled={disabledFields && disabledFields.from}
                 defaultValue={currentWithValueEvent.event.from}
                 pathInObject="event.from"
                 onChangeFunction={(path, value) => {
@@ -259,6 +268,7 @@ console.log(currentWithValueEvent);
               />
               <Input
                 title="entity-target"
+                disabled={disabledFields && disabledFields.for}
                 description="entity-target-description"
                 defaultValue={currentWithValueEvent.event.for}
                 pathInObject="event.for"
@@ -298,23 +308,15 @@ console.log(currentWithValueEvent);
             <div className="basicContainer">
               {/* ========== GIVE ELEMENT ============== */}
               <Alert
-                message={
+                messages={[
                   currentWithValueEvent.id +
-                  "|eventWithValue|elementsGivesButNoFromAndFor|warning"
-                }
+                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction",
+                  currentWithValueEvent.id +
+                    "|eventWithValue|elementsGivesButNoFromAndFor|warning",
+                ]}
                 alertList={alertList}
               ></Alert>
-              {JSON.stringify(currentWithValueEvent.event?.give).includes(
-                "currentPlayer",
-              ) && (
-                <Alert
-                  message={
-                    currentWithValueEvent.id +
-                    "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotColledInAction"
-                  }
-                  alertList={alertList}
-                ></Alert>
-              )}
+
               <TitleContainer
                 title="give-ressources-to-players"
                 description="give-ressources-to-players-description"
@@ -325,6 +327,7 @@ console.log(currentWithValueEvent);
                     <span>{gain.nom}</span>
 
                     <Input
+                      disabled={disabledFields && disabledFields.give}
                       defaultValue={
                         currentWithValueEvent.event.give
                           ? currentWithValueEvent.event.give[
@@ -360,8 +363,9 @@ console.log(currentWithValueEvent);
                   </div>
                 ))}
               <div>
-                <span>Cards</span>
                 <Input
+                  title={"cards"}
+                  disabled={disabledFields && disabledFields.give}
                   defaultValue={
                     currentWithValueEvent.event.give
                       ? currentWithValueEvent.event.give["{cards}"]
@@ -391,20 +395,15 @@ console.log(currentWithValueEvent);
             <div className="basicContainer">
               {/* ========== ACTION ============== */}
               <Alert
-                message={
+                messages={[
                   currentWithValueEvent.id +
-                  "|eventWithValue|elementsGivesButNoFromAndFor|warning"
-                }
+                    "|eventWithValue|invalidAction|warning",
+                  currentWithValueEvent.id +
+                    "|eventWithValue|elementsGivesButNoFromAndFor|warning",
+                ]}
                 alertList={alertList}
               ></Alert>
-              <Alert
-                message={
-                  currentWithValueEvent.id +
-                  "|eventWithValue|invalidAction|warning"
-                }
-                alertList={alertList}
-              ></Alert>
-              
+
               <InputSelect
                 description={"eventActionDescription"}
                 title="eventAction"
@@ -438,10 +437,12 @@ console.log(currentWithValueEvent);
                 title="eventValue"
                 description="eventValueDescription"
                 defaultValue={currentWithValueEvent.event.value}
+                disabled={disabledFields && disabledFields.value}
                 pathInObject="event.value"
                 onChangeFunction={(path, value) => {
                   setCurrentWithValueEvent(
                     updateElementValue(
+                      path,
                       currentWithValueEvent,
                       value,
                       "withValue",
@@ -538,9 +539,207 @@ console.log(currentWithValueEvent);
                 )}
               </div>
             </div>
+
+            {/* ========== WithValueEvents ============== */}
+
+            <DetailContainer
+              title={"withValueEvent"}
+              description={
+                "withValueEventWichBeExecutedWhenThisEventIsTriggered"
+              }
+              className="demonsAssociatedContainer"
+              topAlert={
+                <>
+                  <Alert
+                    messages={[
+                      currentWithValueEvent.id +
+                        "|eventWithValue|callNonExistingWithValueEvent|alert",
+                      currentWithValueEvent.id +
+                        "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotCalledInAction|alert",
+                      currentWithValueEvent.id +
+                        "|eventWithValue|missingValueForKey",
+                    ]}
+                    alertList={alertList}
+                  ></Alert>
+                </>
+              }
+            >
+              <InputSelect
+                title={"useWithValueEvent"}
+                updateValueArray={(value) => {
+                  setCurrentWithValueEvent(
+                    updateValueArray(
+                      "event.withValue",
+                      currentWithValueEvent,
+                      { id: value.id, componentId: new Date().getTime() },
+                      "new",
+                    ),
+                  );
+                }}
+                closeAfterSelect={true}
+                selected={[t("selectWithValueEvent")]}
+                items={withValueEvents}
+                itemsDisplayFields={["id", "name"]}
+              />
+              {currentWithValueEvent.event.withValue &&
+              currentWithValueEvent.event.withValue.length > 0 ? (
+                currentWithValueEvent.event.withValue.map(
+                  (withValueEventInputs, index) => {
+                    let withValueEvent = getEventFromIdAndType(
+                      withValueEventInputs.id,
+                      "withValueEvent",
+                    );
+                    let keyInputInwithValueEvent =
+                      getDynamicValueForEvent(withValueEvent);
+                    function remove() {
+                      setCurrentWithValueEvent(
+                        updateValueArray(
+                          "event.withValue",
+                          currentWithValueEvent,
+                          withValueEventInputs,
+                          "delete",
+                          { newIdKey: "componentId" },
+                        ),
+                      );
+                    }
+                    return (
+                      <WithValueEventCard
+                        key={index}
+                        actionOnRemove={remove}
+                        action={() => {
+                          if (!withValueEvent) {
+                            remove();
+                          }
+                        }}
+                        withValueEvent={
+                          withValueEvent
+                            ? withValueEvent
+                            : { name: t("withValueEventDoesnotExist") }
+                        }
+                        alertMessages={[
+                          withValueEventInputs.id +
+                            "|withValueEvent|" +
+                            "withValueEventDoesnotExist|alert",
+                          currentWithValueEvent.id +
+                            "|eventWithValue|eventCannotCallWithValueEventWithCurrentPlayer|alert",
+                        ]}
+                        className="withValueEventEdition"
+                        withValueEventInputs={withValueEventInputs}
+                        withValueEventKeys={keyInputInwithValueEvent}
+                        modifyKeyValue={(path, value) => {
+                          setCurrentWithValueEvent(
+                            updateValueArray(
+                              "event.withValue",
+                              currentWithValueEvent,
+                              updateElementValue(
+                                path,
+                                withValueEventInputs,
+                                value,
+                              ),
+                              {
+                                newIdKey: "componentId",
+                              },
+                            ),
+                          );
+                          let newDynamicValues = getDynamicValueForEvent(value);
+                          for (let action of actions) {
+                            if (
+                              action.withValue?.some(
+                                (e) => e.id == currentWithValueEvent.id,
+                              )
+                            ) {
+                              let withValueObj = action.withValue.find(
+                                (e) => e.id === currentWithValueEvent.id,
+                              );
+                              for (let key of newDynamicValues) {
+                                if (!withValueObj[key]) {
+                                  withValueObj[key] = "";
+                                }
+                              }
+                              updateGameValueArray(
+                                "params.tours.actions",
+
+                                // return new action
+                                updateValueArray(
+                                  "withValue",
+                                  action,
+                                  withValueObj,
+                                  "update",
+                                  { newIdKey: "componentId" },
+                                ),
+                              );
+                            }
+                          }
+                          for (let event of withValueEvents) {
+                            if (
+                              event.event?.withValue?.some(
+                                (e) => e.id == currentWithValueEvent.id,
+                              )
+                            ) {
+                              let withValueObj = event.event?.withValue?.find(
+                                (e) => e.id === currentWithValueEvent.id,
+                              );
+                              for (let key of newDynamicValues) {
+                                if (!withValueObj[key]) {
+                                  withValueObj[key] = "";
+                                }
+                              }
+                              updateGameValueArray(
+                                "events.withValueEvent",
+
+                                // return new action
+                                updateValueArray(
+                                  "event.withValue",
+                                  event,
+                                  withValueObj,
+                                  "update",
+                                  { newIdKey: "componentId" },
+                                ),
+                              );
+                            }
+                          }
+
+                          for (let event of events) {
+                            if (
+                              event.event?.withValue?.some(
+                                (e) => e.id == currentWithValueEvent.id,
+                              )
+                            ) {
+                              let withValueObj = event.event?.withValue?.find(
+                                (e) => e.id === currentWithValueEvent.id,
+                              );
+                              for (let key of newDynamicValues) {
+                                if (!withValueObj[key]) {
+                                  withValueObj[key] = "";
+                                }
+                              }
+                              updateGameValueArray(
+                                "events.events",
+
+                                // return new action
+                                updateValueArray(
+                                  "event.withValue",
+                                  event,
+                                  withValueObj,
+                                  "update",
+                                  { newIdKey: "componentId" },
+                                ),
+                              );
+                            }
+                          }
+                        }}
+                        suggestions={suggestions}
+                      ></WithValueEventCard>
+                    );
+                  },
+                )
+              ) : (
+                <span className="normalText">{t("noWithValueEvent")}</span>
+              )}
+            </DetailContainer>
             
-           
             {/* ========== WITH VALUE EVENTS QUI APPELLENT CETTE WITH VALUE EVENT ============== */}
+           {/* 
             <DetailContainer
               title={"calledInTheseWithValueEvent"}
               description="hereIsAllWithValueWichCallThisEvent"
@@ -551,7 +750,7 @@ console.log(currentWithValueEvent);
                     (withValue, index) =>
                       withValue.id != currentWithValueEvent.id && (
                         <EventCard
-                          alertMessage={withValue.id + "|withValueEvent|"}
+                          alertMessages={[withValue.id + "|withValueEvent|"]}
                           key={index}
                           action={() => {
                             setCurrentWithValueEvent(
@@ -576,7 +775,7 @@ console.log(currentWithValueEvent);
                   )}
               </div>
             </DetailContainer>
-
+*/}
             <div className="basicContainer">
               {/* ========== METADONNEES ============== */}
               <TitleContainer title={"metadata"}></TitleContainer>
@@ -584,7 +783,7 @@ console.log(currentWithValueEvent);
                 {t("uniqueId")} : {currentWithValueEvent.id}
               </span>
               <span>
-                {t("calledInTheseEvents")} :{" "}
+                {t("calledInTheseEvents")} :
                 {
                   events.filter((event) =>
                     event.event.withValue
@@ -594,7 +793,7 @@ console.log(currentWithValueEvent);
                       : 0,
                   ).length
                 }
-              </span>{" "}
+              </span>
               <span>
                 {t("calledInTheseWithValueEvent")} :
                 {
@@ -632,20 +831,129 @@ console.log(currentWithValueEvent);
                 type="h2"
                 description={"youDeleteEventWithoutSave"}
               />
+              {displayDeleteConfirmation &&
+                (() => {
+                  let appearInEvents = events.filter((event) =>
+                    event.event.withValue
+                      ? event.event.withValue.filter(
+                          (e) => e.id == currentWithValueEvent.id,
+                        ).length > 0
+                      : 0,
+                  );
+                  let appearInwithValueEvents = withValueEvents.filter(
+                    (event) =>
+                      event.event.withValue
+                        ? event.event.withValue.filter(
+                            (e) => e.id == currentWithValueEvent.id,
+                          ).length > 0
+                        : 0,
+                  );
+                  let appearInActions = actions.filter((action) =>
+                    action.withValue
+                      ? action.withValue.filter(
+                          (e) => e.id == currentWithValueEvent.id,
+                        ).length > 0
+                      : 0,
+                  );
 
+                  return (
+                    <Confirm
+                      actionOnCancel={() => {
+                        setDisplayDeleteConfirmation(false);
+                      }}
+                      actionOnConfirm={() => {
+                        for (let action of actions) {
+                          if (
+                            action.withValue?.some(
+                              (e) => e.id == currentWithValueEvent.id,
+                            )
+                          ) {
+                            let newAction = structuredClone(action);
+                            newAction.withValue = newAction.withValue.filter(
+                              (e) => e.id !== currentWithValueEvent.id,
+                            );
+                            updateGameValueArray(
+                              "params.tours.actions",
+                              newAction,
+                            );
+                          }
+                        }
+
+                        for (let event of withValueEvents) {
+                          if (
+                            event.event?.withValue?.some(
+                              (e) => e.id == currentWithValueEvent.id,
+                            )
+                          ) {
+                            let newEvent = structuredClone(event);
+                            newEvent.event.withValue =
+                              newEvent.event.withValue.filter(
+                                (e) => e.id !== currentWithValueEvent.id,
+                              );
+                            updateGameValueArray(
+                              "events.withValueEvent",
+                              newEvent,
+                            );
+                          }
+                        }
+
+                        for (let event of events) {
+                          if (
+                            event.event?.withValue?.some(
+                              (e) => e.id == currentWithValueEvent.id,
+                            )
+                          ) {
+                            let newEvent = structuredClone(event);
+                            newEvent.event.withValue =
+                              newEvent.event.withValue.filter(
+                                (e) => e.id !== currentWithValueEvent.id,
+                              );
+                            updateGameValueArray("events.events", newEvent);
+                          }
+                        }
+
+                        updateGameValueArray(
+                          "events.withValueEvent",
+                          currentWithValueEvent,
+                          "delete",
+                        );
+                        setCurrentWithValueEvent(null);
+
+                        setDisplayDeleteConfirmation(false);
+                      }}
+                    >
+                      <TitleContainer
+                        title={"deleteEvent"}
+                        description={"doYouRealyWantToDeleteEvent"}
+                      ></TitleContainer>
+                      <p>{t("thisActionHasConsequences")}</p>
+                      <ul>
+                        <li>
+                          {t("events")} ({appearInEvents.length})
+                          {appearInEvents.length > 0 && " : "+
+                            appearInEvents.map((e) => e.name).join(", ")}
+                        </li>
+                        <li>
+                          {t("withValueEvents")} (
+                          {appearInwithValueEvents.length})
+                          {appearInwithValueEvents.length > 0 && " : "+
+                            appearInwithValueEvents
+                              .map((e) => e.name)
+                              .join(", ")}
+                        </li>
+                        <li>
+                          {t("actions")} ({appearInActions.length})
+                          {appearInActions.length > 0  && " : "+
+                            appearInActions.map((a) => a.name).join(", ")}
+                        </li>
+                      </ul>
+                    </Confirm>
+                  );
+                })()}
               <Button
                 text={"delete"}
                 type="redButton"
-                action={async () => {
-                  if (confirm(t("doYouRealyWantToDeleteEvent"))) {
-                    updateGameValueArray(
-                      "events.withValueEvent",
-                      currentWithValueEvent,
-                      "delete",
-                    );
-                    setCurrentWithValueEvent(null);
-                  }
-                }}
+                action={() => setDisplayDeleteConfirmation(true)}
               ></Button>
             </div>
           </>

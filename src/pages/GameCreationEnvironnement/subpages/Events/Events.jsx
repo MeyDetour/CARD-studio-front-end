@@ -140,7 +140,7 @@ export default function Events({
     }
     if (!action.necessiteRequiresInput) {
       obj.requiresInput = true;
-    }
+    } 
     return obj;
   }
 
@@ -203,11 +203,11 @@ export default function Events({
                 events={gameData.events}
                 globalPlayerValue={gameData.playerGlobalValue}
                 actions={gameData.actions}
+                getEventFromIdAndType={getEventFromIdAndType}
                 addACtionOnEvent={addACtionOnEvent}
                 suggestions={gameData.suggestions}
                 loadDisabledFields={loadDisabledFields}
-                withValueEvents={gameData.withValueEvents}
-                getEventFromIdAndType={getEventFromIdAndType}
+                withValueEvents={gameData.withValueEvents} 
               />
             );
           case "globalValue":
@@ -284,7 +284,7 @@ export default function Events({
                             : section.name === "demonTitle"
                               ? "demon"
                               : section.name === "withValueEventTitle"
-                                ? "withValueEvent"
+                                ? "eventWithValue"
                                 : section.name === "winCondition"
                                   ? "winCondition"
                                   : "globalValue"
