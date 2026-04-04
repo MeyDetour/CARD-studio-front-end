@@ -3,6 +3,7 @@ import { createContext, use, useContext, useEffect, useState } from "react";
 import { useTokenContext } from "./TokenContext";
 import { useApi } from "../../src/hooks/useApi";
 import { useTranslation } from "react-i18next";
+import { useHistoryContext } from "./HistoryContext";
 const GameContext = createContext();
 
 export function GameProvider({ children }) {
@@ -13,14 +14,16 @@ export function GameProvider({ children }) {
   const [currentSubpageOfEvents, setCurrentSubpageOfEvents] = useState(null);
   const { getToken } = useTokenContext();
   const { displayError } = useNotificationContext();
+  const {deleteLocalHistory, storeHistrory} = useHistoryContext()
   const { t } = useTranslation();
 
   const deleteGameSaved = (id) => {
+    deleteLocalHistory(id);
     localStorage.removeItem("gamesSaved" + id);
   };
   const saveNewGameInStorage = (newGame) => {  
     localStorage.setItem("gamesSaved" + newGame.id, JSON.stringify(newGame));
- 
+  
   };
   const getGameInStorage = (id) => {  
     try {
@@ -117,6 +120,7 @@ export function GameProvider({ children }) {
       token: getToken(),
       methode: "DELETE",
     });
+    deleteLocalHistory(game.id);
     if (!result) {
       displayError(t("FailedToDeleteGame"));
     }

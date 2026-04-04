@@ -1,6 +1,8 @@
 import "./style.css";
 
 // External libraries
+import { createHistoryElement } from "../../../../helpers/historyObject";
+import { useHistoryContext } from "../../../../context/HistoryContext";
 import { useState } from "react";
 
 // Components
@@ -14,6 +16,7 @@ export default function DisplayPage({
   updateGameValue,
 }) {
   const [subpage, setSubpage] = useState("visibility");
+  const {addItem} = useHistoryContext();
   if (!gameData) return;
 
   return (
@@ -82,7 +85,15 @@ export default function DisplayPage({
             defaultValue={gameData.rendering.game.displayHandDeck ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayHandDeck"
-            onChangeFunction={updateGameValue}
+            onChangeFunction={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
           />
           <Input
             title="display-count-adversary-handdeck"
@@ -92,7 +103,15 @@ export default function DisplayPage({
             }
             inputType="toggle"
             pathInObject="params.rendering.game.displayCountAdversaryHandDeck"
-            onChangeFunction={updateGameValue}
+            onChangeFunction={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
           />
           <Input
             title="display-statistics"
@@ -100,7 +119,15 @@ export default function DisplayPage({
             defaultValue={gameData.rendering.game.displayStatistics ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayStatistics"
-            onChangeFunction={updateGameValue}
+            onChangeFunction={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
           />
           <Input
             title="display-chat"
@@ -108,7 +135,15 @@ export default function DisplayPage({
             defaultValue={gameData.rendering.game.displayChat ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayChat"
-            onChangeFunction={updateGameValue}
+            onChangeFunction={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
           />
           <Input
             title="display-history"
@@ -116,7 +151,15 @@ export default function DisplayPage({
             defaultValue={gameData.rendering.game.displayHistory ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayHistory"
-            onChangeFunction={updateGameValue}
+            onChangeFunction={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
           /> 
           <Input
             title="display-timer"
@@ -125,7 +168,15 @@ export default function DisplayPage({
             defaultValue={gameData.rendering.game.displayTimer ?? false}
             inputType="toggle"
             pathInObject="params.rendering.game.displayTimer"
-            onChangeFunction={updateGameValue}
+            onChangeFunction={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
           />
           
         </div>

@@ -155,3 +155,31 @@ export function updateElementValue(
 
   return newObj;
 }
+
+export function getElementWithPath(
+  path,
+  obj,
+  id = null,
+) {
+  const keys = path.split(".");
+  const newObj = { ...obj };
+  let current = newObj;
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+    current[key] = current[key] ? { ...current[key] } : {};
+    current = current[key];
+    if (current === undefined) {
+      current[key] = {};
+      current = current[key];
+    }
+  }
+  const lastKey = keys[keys.length - 1]; 
+  if (id && current[lastKey] && Array.isArray(current[lastKey])) {
+   
+    const element = current[lastKey].find((elt) => elt.id === id);
+    return element || null;
+  }
+
+  return current[lastKey];
+}

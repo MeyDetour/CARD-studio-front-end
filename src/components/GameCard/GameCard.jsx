@@ -10,7 +10,7 @@ import { useGameContext } from "../../context/GameContext.jsx";
 export default function GameCard({ game }) {
   const { getGameInStorage } = useGameContext();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation(); 
   return (
     <div className="gameCard">
       <div className="cardHeader">
@@ -60,10 +60,10 @@ export default function GameCard({ game }) {
       <Separator></Separator>
       {getGameInStorage(game.id) ? (
         <div className="savedGame">Jeu non sauvegardée</div>
-      ) : game.editionHistory[0] ? (
+      ) : game.editionHistory && game.editionHistory[0] ? (
         <div className="lastEdit">
           <Icon name={"clock-grey"}></Icon>
-          <span> {formatSmartDate(game.editionHistory[0].date_relative)}</span>
+          <span> {formatSmartDate(game.editionHistory[0]?.date_relative)}</span>
         </div>
       ) : (
         <div className="lastEdit">

@@ -5,13 +5,16 @@ import Input from "../../../../../components/input/Input";
 import InputRange from "../../../../../components/inputRange/inputRange";
 import InputSelect from "../../../../../components/InputSelect/InputSelect"; 
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
- 
+import { useHistoryContext } from "../../../../../context/HistoryContext";
+import { createHistoryElement } from "../../../../../helpers/historyObject";
+
  export default function Manches({
   gameData,
   updateGameValueArray,
   updateGameValue,
 }) { 
   const { t } = useTranslation();  
+  const {addItem} = useHistoryContext();
 
   return    <>
       <div className="basicContainer">
@@ -29,15 +32,29 @@ import TitleContainer from "../../../../../components/TitleContainer/TitleContai
             min={0}
             max={100}
             maxValue={gameData.manches.max??0}
-            setMaxValue={(value) =>
-              updateGameValue("params.manches.max", value)
-            }
+            setMaxValue={(value) => {
+              updateGameValue("params.manches.max", value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: "params.manches.max",
+                }),
+              );
+            }}
           ></InputRange>
         </div>
  
           <InputSelect
             title="orderOfManches"
-            updateValueArray={updateGameValue}
+            updateValueArray={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
             pathObject="params.manches.sens"
             selected={gameData.manches.sens ? [gameData.manches.sens] : []}
             items={["incrementation", "decrementation"]}
@@ -47,7 +64,15 @@ import TitleContainer from "../../../../../components/TitleContainer/TitleContai
         <Input
           title="numberOfTheFirstManche"
           defaultValue={gameData.manches.startNumber}
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
           inputType="number"
           pathInObject={"params.manches.startNumber"}
         />

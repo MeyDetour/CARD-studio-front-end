@@ -1,6 +1,6 @@
 import "./App.css";
 import { GameProvider } from "./context/GameContext.jsx";
-
+import { HistoryProvider } from "./context/HistoryContext.jsx";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import { TokenProvider } from "./context/TokenContext.jsx";
 import { UserProvider } from "./context/UserContext.jsx";
@@ -18,6 +18,7 @@ function App() {
         <NotificationProvider>
           <TokenProvider>
             <UserProvider>
+              <HistoryProvider>
               <GameProvider>
                 <Header></Header>
                 <Routes>
@@ -40,6 +41,7 @@ function App() {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </GameProvider>
+              </HistoryProvider>
             </UserProvider>
           </TokenProvider>
         </NotificationProvider>

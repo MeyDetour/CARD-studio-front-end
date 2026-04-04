@@ -47,7 +47,7 @@ export function Mermaid({ chart }) {
 
   return (
     <div
-      className="mermaid"
+      className="mermaidVisualisation"
       ref={containerRef}
       style={{
         width: "100%",

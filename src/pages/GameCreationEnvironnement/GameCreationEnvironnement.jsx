@@ -13,6 +13,7 @@ import { useDynamicEntitySuggestions } from "../../hooks/useDynamicSuggestions.j
 import { useUserContext } from "../../context/UserContext.jsx";
 import { useGameContext } from "../../context/GameContext";
 import { useNotificationContext } from "../../context/NotificationContext";
+import { useHistoryContext } from "../../context/HistoryContext";
 
 // Helpers
 import { loadAlertListFormGame } from "../../helpers/alertOfGame";
@@ -37,12 +38,11 @@ import Events from "./subpages/Events/Events";
 import HelpAndSettings from "./subpages/HelpAndSettings/HelpAndSettings";
 import RoundsPage from "./subpages/RoundsAndManches/Rounds";
 import VisualisationPage from "./subpages/Visualisation/Visualisation";
+import ActivityLog from "./subpages/ActivityLog/ActivityLog";
 
 // Hooks
 import { useApi } from "../../hooks/useApi";
 import i18next from "i18next";
-import { set } from "react-hook-form";
-
 export default function GameCreationEnvironnement() {
   const navigate = useNavigate();
   const { subpage, id } = useParams();
@@ -61,9 +61,10 @@ export default function GameCreationEnvironnement() {
     currentDemon,
     currentWithValueEvent,
     setCurrentEvent,
-    setCurrentWithvalueEvent,
+    setCurrentWithValueEvent,
     setCurrentDemon,
   } = useGameContext();
+  const {deleteLocalHistory}= useHistoryContext();
   const { fetchUser, editUser } = useUserContext();
   const [gameImageUploaded, setGameImageUploaded] = useState();
   const [gameImageUploadedUrl, setGameImageUploadedUrl] = useState();
@@ -71,6 +72,7 @@ export default function GameCreationEnvironnement() {
   const { setAlerts, alertList, canDisplayError, setCanDisplayError } =
     useNotificationContext();
   const [restaurationLoading, setRestaurationLoading] = useState(false);
+
   useEffect(() => {
     const initGame = async () => {
       const stored = getGameInStorage(id);
@@ -85,6 +87,11 @@ export default function GameCreationEnvironnement() {
         if (result) {
           setAlerts(loadAlertListFormGame(result, canDisplayError));
           setGame(result);
+
+          deleteLocalHistory(id);
+          setCurrentEvent(null);
+          setCurrentDemon(null);
+          setCurrentWithValueEvent(null);
           setCanDisplayError(result.displayErrors);
         }
       }
@@ -124,11 +131,11 @@ export default function GameCreationEnvironnement() {
       console.log("Sauvegarde automatique sur le serveur...");
 
       saveNewGameInStorage(game);
-      setAlerts(loadAlertListFormGame(game,canDisplayError));
+      setAlerts(loadAlertListFormGame(game, canDisplayError));
       setPlayerHasEdit(false);
     }, 2000);
 
-    setAlerts(loadAlertListFormGame(game,canDisplayError));
+    setAlerts(loadAlertListFormGame(game, canDisplayError));
     return () => clearTimeout(delayDebounceFn);
   }, [game, playerHasEdit]);
 
@@ -223,6 +230,7 @@ export default function GameCreationEnvironnement() {
                 <EditGame
                   gameData={{
                     name: game.name,
+                    id: game.id,
                     types:
                       game.type && Array.isArray(game.type)
                         ? game.type
@@ -297,6 +305,7 @@ export default function GameCreationEnvironnement() {
               return (
                 <DisplayPage
                   gameData={{
+                    id: game.id,
                     rendering: game.params.rendering,
                     timerActivation: game.params.tours.timerActivation,
                   }}
@@ -372,6 +381,7 @@ export default function GameCreationEnvironnement() {
               return (
                 <Events
                   gameData={{
+                    id: game.id,
                     winParams: game.events.win,
                     suggestions: suggestions,
                     events:
@@ -443,6 +453,7 @@ export default function GameCreationEnvironnement() {
                             a.name.localeCompare(b.name),
                           )
                         : [],
+                    id: game.id,
                     cardParams: game.params.cards ? game.params.cards : {},
                   }}
                   updateGameValue={updateGameValueHandler}
@@ -455,6 +466,16 @@ export default function GameCreationEnvironnement() {
               return (
                 <HelpAndSettings
                   gameData={{}}
+                  user={user}
+                  editUserHandler={editUserHandler}
+                  updateGameValue={updateGameValueHandler}
+                  updateGameValueArray={updateGameValueArrayHandler}
+                />
+              );
+            case "activity-log":
+              return (
+                <ActivityLog
+                  game={game}
                   user={user}
                   editUserHandler={editUserHandler}
                   updateGameValue={updateGameValueHandler}

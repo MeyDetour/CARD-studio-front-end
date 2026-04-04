@@ -6,8 +6,9 @@ import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
 // Contexts
-
+import { useHistoryContext } from "../../../../context/HistoryContext";
 // Hooks
+import { createHistoryElement } from "../../../../helpers/historyObject";
 
 // Components
 import Input from "../../../../components/input/Input";
@@ -24,7 +25,8 @@ export default function CardManagement({
 }) {
   const { t } = useTranslation();
   const [subpage, setSubpage] = useState("cardManagement");
-
+  const { addItem } = useHistoryContext();
+  
   if (!gameData) return;
   return (
     <div className={" assetsBookshelfSubpage"}>
@@ -63,6 +65,12 @@ export default function CardManagement({
               }
 
               updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
             }}
           />
           <Input
@@ -74,7 +82,15 @@ export default function CardManagement({
             disabled={!(gameData.cardParams?.deck?.activation ?? false)}
             inputType="toggle"
             pathInObject="params.cards.deck.renderTheNextDeckCard"
-            onChangeFunction={updateGameValue}
+            onChangeFunction={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
           />
           {/* ======DISCARD======= */}
           <Input
@@ -94,6 +110,12 @@ export default function CardManagement({
               }
 
               updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
             }}
           />
           <Input
@@ -105,7 +127,15 @@ export default function CardManagement({
             inputType="toggle"
             disabled={!(gameData.cardParams?.discard?.activation ?? false)}
             pathInObject="params.cards.discard.renderTheLastDiscardedCard"
-            onChangeFunction={updateGameValue}
+            onChangeFunction={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
           />
         </div>
       )}

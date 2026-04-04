@@ -8,18 +8,22 @@ import { useGameContext } from "../../../../../../context/GameContext.jsx";
 import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import SubNavigationBar from "../../../../../../components/SubNavigationBar/SubNavigationBar.jsx";
 import Button from "../../../../../../components/Button/Button.jsx";
+import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
+import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
 export default function VariableSubpage({
   globalValue,
   playerGlobalValue,
   updateGameValue,
   globalValueStatic,
   updateGameValueArray,
+  gameId,
   getEventFromIdAndType,
 }) {
   const { t } = useTranslation();
 
   const [subPage, setSubpage] = useState("globalValue");
   const [editedObject, setEditedObject] = useState({});
+  const { addItem } = useHistoryContext();
 
   const currentData =
     subPage === "globalValue"
@@ -40,12 +44,17 @@ export default function VariableSubpage({
 
     newCurrentData[name] = editedObject;
     setEditedObject(null);
+    addItem(
+      gameId,
+      createHistoryElement(subPage, "edit", { id: editedObject.id }),
+    );
     updateGameValue(subPage, newCurrentData);
   }
   function removeVariable(name) {
     let newCurrentData = { ...currentData };
-
     delete newCurrentData[name];
+
+    addItem(gameId, createHistoryElement(subPage, "delete", { id: editedObject.id }));
 
     setEditedObject(null);
     updateGameValue(subPage, newCurrentData);
@@ -53,7 +62,6 @@ export default function VariableSubpage({
   useEffect(() => {
     setEditedObject(null);
   }, [subPage]);
- 
 
   return (
     <div className={" globalValuesubPageOfdemonsAndDeclencheurSubpage"}>
@@ -85,119 +93,124 @@ export default function VariableSubpage({
           type="grey"
           action={() => {
             let newName = "newVariable_" + new Date().getTime();
+            let newIdentifier = new Date().getTime();
             updateGameValue(
               subPage + "." + newName,
               {
                 name: newName,
                 type: "number",
-
+                id: newIdentifier,
                 defaultValue: 0,
                 display: subPage === "globalValueStatic" ? true : false,
               },
               "new",
             );
+            addItem(
+              gameId,
+              createHistoryElement(subPage, "add", { id: newIdentifier }),
+            );
           }}
         />
       </div>
-        {/* ========== INFORMATIONS IMPORTANTES ============== */}
+      {/* ========== INFORMATIONS IMPORTANTES ============== */}
 
-        {subPage == "globalValue" &&
-      <div className="informationContainer basicContainer">
-            <p>
-              Note importante : Certaines variables ne doivent pas être créées
-              manuellement. Pour y accéder et les configurer, rendez-vous sur la
-              page concernée ; ne les recréez pas ici. Vous pouvez utiliser ces
-              variables directement dans vos formules.
-              <br />
-              Voici les variables concernées :
-            </p>
-            <ul>
-              <li>
-                <strong>players :</strong> Liste des joueurs.
-              </li>
-              <li>
-                <strong>messages :</strong> Messages traités et envoyés.
-              </li>
-              <li>
-                <strong>logs :</strong> Historique des logs du jeu.
-              </li>
-              <li>
-                <strong>state :</strong> État actuel de la partie.
-              </li>
-              <li>
-                <strong>boardCard :</strong> Cartes posées sur le plateau.
-              </li>
-              <li>
-                <strong>allPlayersHasPlayed :</strong> État de jeu de l'ensemble
-                des joueurs.
-              </li>
-              <li>
-                <strong>winners :</strong> Liste des vainqueurs (la victoire est
-                gérée dans l'onglet "Déroulement").
-              </li>
-              <li>
-                <strong>currentPlayerPosition :</strong> Position du joueur dont
-                c'est le tour.
-              </li>
-              <li>
-                <strong>tour :</strong> Numéro du tour actuel.
-              </li>
-              <li>
-                <strong>manche :</strong> Numéro de la manche actuelle.
-              </li>
-              <li>
-                <strong>gain (global) :</strong> Pot commun des gains.
-              </li>
-            </ul>
-          </div>
-          }
+      {subPage == "globalValue" && (
+        <div className="informationContainer basicContainer">
+          <p>
+            Note importante : Certaines variables ne doivent pas être créées
+            manuellement. Pour y accéder et les configurer, rendez-vous sur la
+            page concernée ; ne les recréez pas ici. Vous pouvez utiliser ces
+            variables directement dans vos formules.
+            <br />
+            Voici les variables concernées :
+          </p>
+          <ul>
+            <li>
+              <strong>players :</strong> Liste des joueurs.
+            </li>
+            <li>
+              <strong>messages :</strong> Messages traités et envoyés.
+            </li>
+            <li>
+              <strong>logs :</strong> Historique des logs du jeu.
+            </li>
+            <li>
+              <strong>state :</strong> État actuel de la partie.
+            </li>
+            <li>
+              <strong>boardCard :</strong> Cartes posées sur le plateau.
+            </li>
+            <li>
+              <strong>allPlayersHasPlayed :</strong> État de jeu de l'ensemble
+              des joueurs.
+            </li>
+            <li>
+              <strong>winners :</strong> Liste des vainqueurs (la victoire est
+              gérée dans l'onglet "Déroulement").
+            </li>
+            <li>
+              <strong>currentPlayerPosition :</strong> Position du joueur dont
+              c'est le tour.
+            </li>
+            <li>
+              <strong>tour :</strong> Numéro du tour actuel.
+            </li>
+            <li>
+              <strong>manche :</strong> Numéro de la manche actuelle.
+            </li>
+            <li>
+              <strong>gain (global) :</strong> Pot commun des gains.
+            </li>
+          </ul>
+        </div>
+      )}
 
-        {subPage == "playerGlobalValue" && 
-      <div className="informationContainer basicContainer">
-            <p>
-              Note importante : Certaines variables ne doivent pas être créées
-              manuellement. Pour y accéder et les configurer, rendez-vous sur la
-              page concernée ; ne les recréez pas ici. Vous pouvez utiliser ces
-              variables directement dans vos formules.
-              <br></br>
-              Voici les variables concernées :
-            </p>
-            <ul>
-              <li>
-                <strong>gain (joueur) :</strong> Gains accumulés par le joueur.
-              </li>
-              <li>
-                <strong>handDeck :</strong> Cartes actuellement en main.
-              </li>
-              <li>
-                <strong>personalHandDeck :</strong> Deck personnel du joueur (si
-                applicable).
-              </li>
-              <li>
-                <strong>personalHandDiscard :</strong> Défausse personnelle du
-                joueur (si applicable).
-              </li>
-              <li>
-                <strong>hasPlayed :</strong> Indique si le joueur a déjà
-                effectué son action.
-              </li>
-              <li>
-                <strong>hasWin :</strong> Indique si le joueur a gagné.
-              </li>
-              <li>
-                <strong>actions :</strong> Actions disponibles ou effectuées par
-                le joueur ce tour-ci.
-              </li>
-              <li>
-                <strong>roles :</strong> Rôles attribués au joueur.
-              </li>
-              <li>
-                <strong>attachedEventForTour :</strong> Événement temporaire
-                associé au joueur (ex : "Passer son tour").
-              </li>
-            </ul>
-         </div>}
-      
+      {subPage == "playerGlobalValue" && (
+        <div className="informationContainer basicContainer">
+          <p>
+            Note importante : Certaines variables ne doivent pas être créées
+            manuellement. Pour y accéder et les configurer, rendez-vous sur la
+            page concernée ; ne les recréez pas ici. Vous pouvez utiliser ces
+            variables directement dans vos formules.
+            <br></br>
+            Voici les variables concernées :
+          </p>
+          <ul>
+            <li>
+              <strong>gain (joueur) :</strong> Gains accumulés par le joueur.
+            </li>
+            <li>
+              <strong>handDeck :</strong> Cartes actuellement en main.
+            </li>
+            <li>
+              <strong>personalHandDeck :</strong> Deck personnel du joueur (si
+              applicable).
+            </li>
+            <li>
+              <strong>personalHandDiscard :</strong> Défausse personnelle du
+              joueur (si applicable).
+            </li>
+            <li>
+              <strong>hasPlayed :</strong> Indique si le joueur a déjà effectué
+              son action.
+            </li>
+            <li>
+              <strong>hasWin :</strong> Indique si le joueur a gagné.
+            </li>
+            <li>
+              <strong>actions :</strong> Actions disponibles ou effectuées par
+              le joueur ce tour-ci.
+            </li>
+            <li>
+              <strong>roles :</strong> Rôles attribués au joueur.
+            </li>
+            <li>
+              <strong>attachedEventForTour :</strong> Événement temporaire
+              associé au joueur (ex : "Passer son tour").
+            </li>
+          </ul>
+        </div>
+      )}
 
       {/* ========== LISTE DES VARIABLES ============== */}
       {currentData &&
@@ -307,11 +320,9 @@ export default function VariableSubpage({
                   }}
                 ></Button>
               </div>
-            ) : 
-            (
+            ) : (
               <div key={key} className="basicContainer globalValueElement">
-
-             {/* AFFICHAGE D'UNE VARIABLE */}
+                {/* AFFICHAGE D'UNE VARIABLE */}
                 <div className="elementHeader">
                   <h3>{key}</h3>
                   <Icon
@@ -322,6 +333,7 @@ export default function VariableSubpage({
                         oldName: key,
                         type: item.type,
                         defaultValue: item.defaultValue,
+                        id: item.id,
                         value: item.value,
                         display: item.display ? item.display : false,
                       });
@@ -331,8 +343,16 @@ export default function VariableSubpage({
 
                 <p>Type : {item.type}</p>
                 <p>Visible : {t(item.display ? "yes" : "no")}</p>
-                {subPage !== "globalValueStatic" &&  <p>{t('defaultValue')} : {item.defaultValue ?? t("none")}</p> }
-                {subPage == "globalValueStatic" &&  <p>{t('valueLabel')} : {item.value ?? t("none")}</p> }
+                {subPage !== "globalValueStatic" && (
+                  <p>
+                    {t("defaultValue")} : {item.defaultValue ?? t("none")}
+                  </p>
+                )}
+                {subPage == "globalValueStatic" && (
+                  <p>
+                    {t("valueLabel")} : {item.value ?? t("none")}
+                  </p>
+                )}
               </div>
             );
           })}

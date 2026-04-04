@@ -16,9 +16,10 @@ import { useGameContext } from "../../../../../context/GameContext";
 import DetailContainer from "../../../../../components/DetailContainer/DetailContainer";
 import WithValueEventCard from "../../../../../components/Cards/WithValueEventCard/WithValueEventCard";
 import { useNotificationContext } from "../../../../../context/NotificationContext";
-
+import { useHistoryContext } from "../../../../../context/HistoryContext";
 import { useNavigate } from "react-router";
 import { getDynamicValueForEvent } from "../../../../../helpers/withValueEventManager";
+import { createHistoryElement } from "../../../../../helpers/historyObject";
 
 export default function RoundsPage({
   gameData,
@@ -32,9 +33,16 @@ export default function RoundsPage({
     useNotificationContext();
   const { setCurrentSubpageOfEvents } = useGameContext();
   const navigate = useNavigate();
+  const { addItem } = useHistoryContext();
+
   useEffect(() => {
     if (currentElementToEdit !== null && gameData) {
       updateGameValueArray("params.tours.actions", currentElementToEdit);
+
+      addItem(
+        gameData.id,
+        createHistoryElement("action", "edit", { id: currentElementToEdit.id }),
+      );
     }
   }, [currentElementToEdit]);
 
@@ -55,16 +63,30 @@ export default function RoundsPage({
             min={0}
             max={100}
             maxValue={gameData.tours.maxTour}
-            setMaxValue={(value) =>
-              updateGameValue("params.tours.maxTour", value)
-            }
+            setMaxValue={(value) => {
+              updateGameValue("params.tours.maxTour", value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: "params.tours.maxTour",
+                }),
+              );
+            }}
           ></InputRange>
         </div>
 
         <div className="row">
           <InputSelect
             title="orderOfTours"
-            updateValueArray={updateGameValue}
+            updateValueArray={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
             pathObject="params.tours.sens"
             selected={gameData.tours.sens ? [gameData.tours.sens] : []}
             items={["incrementation", "decrementation"]}
@@ -72,7 +94,15 @@ export default function RoundsPage({
           />
           <InputSelect
             title="firstPlayer"
-            updateValueArray={updateGameValue}
+            updateValueArray={(path, value) => {
+              updateGameValue(path, value);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
             closeAfterSelect={true}
             pathObject="params.tours.firstPlayer"
             selected={
@@ -98,9 +128,15 @@ export default function RoundsPage({
                   ? gameData.tours.firstPlayerValue
                   : 1
               }
-              setMaxValue={(value) =>
-                updateGameValue("params.tours.firstPlayerValue", value)
-              }
+              setMaxValue={(value) => {
+                updateGameValue("params.tours.firstPlayerValue", value);
+                addItem(
+                  gameData.id,
+                  createHistoryElement("gameElement", "edit", {
+                    field: "params.tours.firstPlayerValue",
+                  }),
+                );
+              }}
             ></InputRange>
           </div>
         )}
@@ -112,14 +148,30 @@ export default function RoundsPage({
                 description="writeExpressionToCalculateFirstPlayer"
                 defaultValue={gameData.tours.firstPlayerExpression}
                 pathInObject="params.tours.firstPlayerExpression"
-                onChangeFunction={updateGameValue}
+                onChangeFunction={(path, value) => {
+                  updateGameValue(path, value);
+                  addItem(
+                    gameData.id,
+                    createHistoryElement("gameElement", "edit", {
+                      field: path,
+                    }),
+                  );
+                }}
               />
             </div>
           )}
         <Input
           title="numberOfStratingTour"
           defaultValue={gameData.tours.startNumber}
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path,value)=>{
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
           inputType="number"
           pathInObject={"params.tours.startNumber"}
         />
@@ -154,7 +206,15 @@ export default function RoundsPage({
           defaultValue={gameData.tours.timerActivation ?? false}
           inputType="toggle"
           pathInObject="params.tours.timerActivation"
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
         />
         {(gameData.tours.timerActivation ?? false) && (
           <div className="innerContainer">
@@ -167,9 +227,15 @@ export default function RoundsPage({
               min={0}
               max={400}
               maxValue={gameData.tours.duration ?? 0}
-              setMaxValue={(value) =>
-                updateGameValue("params.tours.duration", value)
-              }
+              setMaxValue={(value) => {
+                updateGameValue("params.tours.duration", value);
+                addItem(
+                  gameData.id,
+                  createHistoryElement("gameElement", "edit", {
+                    field: "params.tours.duration",
+                  }),
+                );
+              }}
             ></InputRange>
           </div>
         )}
@@ -187,7 +253,15 @@ export default function RoundsPage({
           defaultValue={gameData.tours.actionOnlyAtPlayerTour}
           inputType="toggle"
           pathInObject="params.tours.actionOnlyAtPlayerTour"
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path,value)=>{
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
         />
         <div className="innerContainer">
           <TitleContainer
@@ -359,7 +433,9 @@ export default function RoundsPage({
                           for (let key of getDynamicValueForEvent(value)) {
                             newElt[key] = "";
                           }
-                          console.log(newElt);
+                          if (value.event?.action == "askPlayer") {
+                            newElt["type"] = "askPlayer";
+                          }
                           setCurrentElementToEdit(
                             updateValueArray(
                               "withValue",
@@ -463,12 +539,18 @@ export default function RoundsPage({
                         type="redButton"
                         action={async () => {
                           if (confirm(t("doYouReallyWantToDeleteAction"))) {
-                            setCurrentElementToEdit(null);
                             updateGameValueArray(
                               "params.tours.actions",
                               currentElementToEdit,
                               "delete",
                             );
+                            addItem(
+                              gameData.id,
+                              createHistoryElement("action", "delete", {
+                                id: currentElementToEdit.id,
+                              }),
+                            );
+                            setCurrentElementToEdit(null);
                           }
                         }}
                       ></Button>
@@ -505,17 +587,23 @@ export default function RoundsPage({
                     name = `Name of action (${i + 1})`;
                   }
                 }
+                let id = Date.now();
 
                 updateGameValueArray(
                   "params.tours.actions",
                   {
                     name: name,
-                    id: Date.now(),
+                    id: id,
                     condition: "",
                     appearAtPlayerTurn: true,
                     withValue: [],
                   },
                   "new",
+                );
+
+                addItem(
+                  gameData.id,
+                  createHistoryElement("action", "add", { id: id }),
                 );
               }}
             >

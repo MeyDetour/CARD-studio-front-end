@@ -24,11 +24,11 @@ export function loadAlertListFormGame(gameData) {
   // ========== Check  actions
   gameData.params.tours.actions.forEach((action) => {
     // Check for missing action name
-    if (!action.name.trim(" ")) {
+    if (!action.name?.trim(" ")) {
       alertList.push(action.id + "|action|actionNameCannotBeEmpty|alert");
     }
     // Check for missing events associated with the action
-    if (action.withValue.length === 0) {
+    if (action.withValue?.length === 0) {
       alertList.push(
         action.id + "|action|pleaseProvideEventsForAction|warning",
       );
@@ -39,11 +39,11 @@ export function loadAlertListFormGame(gameData) {
     // sinon le joueur actuel peut être indéfini dans ces événements à valeur dynamique
     withValueEventAllowToUseCurrentPlayer =
       withValueEventAllowToUseCurrentPlayer.concat(
-        action.withValue.map((event) => event.id),
+        action.withValue?.map((event) => event.id),
       );
 
     // parcourir les événements à valeur dynamique appelés par l'action
-    action.withValue.forEach((event) => {
+    action.withValue?.forEach((event) => {
       // si le withValueEvent n'existe pas
 
       if (!withValueEventIds.includes(event.id)) {
@@ -217,13 +217,11 @@ export function loadAlertListFormGame(gameData) {
     }
     if (demon.events.length === 0) {
       alertList.push(demon.id + "|demon|demonEventsMustNotBeEmpty|warning");
-    }
-    console.log(demon.events);
+    } 
     if (demon.events.some((eventId) => !eventIds.includes(eventId))) {
       alertList.push(demon.id + "|demon|demonCallNonExistingEvent|alert");
     }
   });
-
-  console.log(alertList);
+ 
   return alertList;
 }

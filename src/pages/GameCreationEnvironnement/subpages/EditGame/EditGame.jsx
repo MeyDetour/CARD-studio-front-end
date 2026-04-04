@@ -8,6 +8,10 @@ import { useTranslation } from "react-i18next";
 // Contexts
 import { useGameContext } from "../../../../context/GameContext.jsx";
 import { useNotificationContext } from "../../../../context/NotificationContext.jsx";
+import { useHistoryContext } from "../../../../context/HistoryContext.jsx";
+
+// utilities
+import { createHistoryElement } from "../../../../helpers/historyObject.js";
 
 // Hooks
 import { useApi } from "../../../../hooks/useApi";
@@ -37,6 +41,7 @@ export default function EditGame({
   const { deleteGame } = useGameContext();
   const navigate = useNavigate();
   const { alertList } = useNotificationContext();
+  const { addItem } = useHistoryContext();
   if (!gameData) return;
 
   return (
@@ -76,12 +81,28 @@ export default function EditGame({
               title="gameName"
               defaultValue={gameData.name}
               description="gameName"
-              onChangeFunction={updateGameValue}
+              onChangeFunction={(path, value) => {
+                updateGameValue(path, value);
+                addItem(
+                  gameData.id,
+                  createHistoryElement("gameElement", "edit", {
+                    field: path,
+                  }),
+                );
+              }}
               pathInObject={"name"}
             />
             <InputSelect
               title="gameType"
-              updateValueArray={updateGameValueArray}
+              updateValueArray={(path, value) => {
+                updateGameValueArray(path, value);
+                addItem(
+                  gameData.id,
+                  createHistoryElement("gameElement", "edit", {
+                    field: path,
+                  }),
+                );
+              }}
               pathObject="type"
               selected={gameData.types ?? []}
               items={[
@@ -112,7 +133,16 @@ export default function EditGame({
             title="description"
             description="description"
             pathInObject="description"
-            onChangeFunction={updateGameValue}
+            onChangeFunction={(path, value) => {
+              updateGameValue(path, value);
+
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
+            }}
             inputType="textarea"
             placeholder="gameDescription"
           />
@@ -159,7 +189,15 @@ export default function EditGame({
           description="publicVisibilityHelperText"
           inputType="toggle"
           pathInObject="isPublic"
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
           defaultValue={gameData.isPublic}
         />
       </div>
@@ -180,6 +218,12 @@ export default function EditGame({
                 updateGameValue("params.globalGame.maxPlayer", minVal + 1);
               }
               updateGameValue(path, minVal);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
             }}
             inputType="number"
             pathInObject={"params.globalGame.minPlayer"}
@@ -199,6 +243,12 @@ export default function EditGame({
                 );
               }
               updateGameValue(path, maxVal);
+              addItem(
+                gameData.id,
+                createHistoryElement("gameElement", "edit", {
+                  field: path,
+                }),
+              );
             }}
             pathInObject={"params.globalGame.maxPlayer"}
           />
@@ -209,7 +259,15 @@ export default function EditGame({
           defaultValue={gameData.jeuSolo}
           inputType="toggle"
           pathInObject="params.globalGame.jeuSolo"
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
         />
         <Input
           title="playerParticipation"
@@ -217,7 +275,15 @@ export default function EditGame({
           defaultValue={gameData.playersCanJoin}
           inputType="toggle"
           pathInObject="params.globalGame.playersCanJoin"
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
         />
         <Input
           title="allowSpectators"
@@ -225,7 +291,15 @@ export default function EditGame({
           defaultValue={gameData.autoriseSpectator}
           inputType="toggle"
           pathInObject="params.globalGame.autoriseSpectator"
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
         />
       </div>
       <div className="basicContainer tourManagementSection">
@@ -240,7 +314,15 @@ export default function EditGame({
           defaultValue={gameData.tourActivation}
           inputType="toggle"
           pathInObject="params.tours.activation"
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
         />
       </div>
       <div className="basicContainer roleManagementSection">
@@ -255,7 +337,15 @@ export default function EditGame({
           defaultValue={gameData.roleActivation}
           inputType="toggle"
           pathInObject="params.roles.activation"
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
         />
       </div>
       <div className="basicContainer rewardsManagementSection">
@@ -270,7 +360,15 @@ export default function EditGame({
           defaultValue={gameData.gainActivation}
           inputType="toggle"
           pathInObject="params.gains.activation"
-          onChangeFunction={updateGameValue}
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
         />
       </div>
       <div className="basicContainer rewardsManagementSection">

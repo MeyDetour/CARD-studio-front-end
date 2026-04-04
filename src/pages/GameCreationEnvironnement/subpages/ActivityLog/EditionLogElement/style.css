@@ -1,0 +1,44 @@
+.editionLogElement {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 20px;
+    height: fit-content;
+  .left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    justify-content: start;
+    .trait {
+      width: 1px;
+      height: 100%;
+      background: #e2e8f0;
+      min-height: 100px;
+    }
+    .icon {
+      width: 38px;
+      height: 38px;
+    }
+  }
+  .right {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    .modificationDetail {
+      background: #f1f5f9;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .modificationList{
+        display:flex;
+        flex-direction: column;
+
+            gap: 5px;
+            padding-left: 13px;
+            padding-top: 16px;
+    }
+  }
+}

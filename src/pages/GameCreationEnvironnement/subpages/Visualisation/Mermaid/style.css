@@ -1,4 +1,4 @@
-.mermaid {
+.mermaidVisualisation {
   svg{
 
     min-width: 1400px;
@@ -29,8 +29,8 @@
   }
 
 }
-.mermaid .node rect,
-.mermaid .node circle,
-.mermaid .node polygon {
+.mermaidVisualisation .node rect,
+.mermaidVisualisation .node circle,
+.mermaidVisualisation .node polygon {
   fill: #ffffff; /* Optionnel : fond blanc pour plus de lisibilité */
 }

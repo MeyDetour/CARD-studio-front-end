@@ -19,6 +19,8 @@ import DetailContainer from "../../../../../../components/DetailContainer/Detail
 import { eventActions } from "../../../../../../../data/eventActions.js";
 import { getDynamicValueForEvent } from "../../../../../../helpers/withValueEventManager.js";
 import Confirm from "../../../../../../components/Confirm/Confirm.jsx";
+import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
+import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
 
 export default function EventSubpage({
   events,
@@ -31,21 +33,25 @@ export default function EventSubpage({
   getEventFromIdAndType,
   loadDisabledFields,
   currentEvent,
+  gameId,
   setCurrentEvent,
 }) {
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
   const [disabledFields, setDisabledFields] = useState(null);
   const [displayDeleteConfirmation, setDisplayDeleteConfirmation] =
-    useState(false);
-  // setByDefault the first event if there is no current event
+  useState(false);
+const { addItem } = useHistoryContext();
+
+
+  // setByDefault the first event if there is no current event  
   useEffect(() => {
     if (events && !currentEvent) {
       setCurrentEvent(events[0]);
 
       setDisabledFields(loadDisabledFields(events[0]));
     }
-  }, [events]);
+  }, []);
 
   useEffect(() => {
     if (currentEvent) {
@@ -65,8 +71,9 @@ export default function EventSubpage({
             icon={"add-white"}
             type="grey"
             action={() => {
+              let id = Date.now();
               let newEvent = {
-                id: Date.now(),
+                id: id,
                 name: "Default name",
                 condition: null,
                 event: {
@@ -79,7 +86,7 @@ export default function EventSubpage({
 
               updateGameValueArray("events.events", newEvent, "new");
               setCurrentEvent(newEvent);
-
+              addItem(gameId, createHistoryElement("events", "add", {id: id}));
               setDisabledFields(loadDisabledFields(newEvent));
             }}
           />
@@ -556,7 +563,7 @@ export default function EventSubpage({
                 (() => {
                   let appearInDemons = demons.filter((demon) =>
                     demon.events.includes(currentEvent.id),
-                  )
+                  );
 
                   return (
                     <Confirm
@@ -579,20 +586,26 @@ export default function EventSubpage({
                           "events.events",
                           currentEvent,
                           "delete",
-                        );
+                        );  addItem(
+                                gameId,
+                                createHistoryElement("events", "delete", {id: currentEvent.id}),
+                              );
                         setCurrentEvent(null);
+                        
 
                         setDisplayDeleteConfirmation(false);
                       }}
                     >
                       <TitleContainer
-                      title={"doYouRealyWantToDeleteEvent"}
-                      description={"youDeleteEventWithoutSave"}
-                      ></TitleContainer> 
+                        title={"doYouRealyWantToDeleteEvent"}
+                        description={"youDeleteEventWithoutSave"}
+                      ></TitleContainer>
                       <p>{t("thisActionHasConsequences")}</p>
                       <ul>
                         <li>
-                          {t("demons")} ({appearInDemons.length }) {appearInDemons.length > 0 && appearInDemons.map((d) => d.name).join(", ")}
+                          {t("demons")} ({appearInDemons.length}){" "}
+                          {appearInDemons.length > 0 &&
+                            appearInDemons.map((d) => d.name).join(", ")}
                         </li>
                       </ul>
                     </Confirm>

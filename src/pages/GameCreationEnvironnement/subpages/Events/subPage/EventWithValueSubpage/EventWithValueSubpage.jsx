@@ -19,6 +19,8 @@ import { eventActions } from "../../../../../../../data/eventActions.js";
 import { getDynamicValueForEvent } from "../../../../../../helpers/withValueEventManager.js";
 import WithValueEventCard from "../../../../../../components/Cards/WithValueEventCard/WithValueEventCard.jsx";
 import Confirm from "../../../../../../components/Confirm/Confirm.jsx";
+import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
+import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
 
 export default function CurrentWithValueEventSubpage({
   withValueEvents,
@@ -29,7 +31,7 @@ export default function CurrentWithValueEventSubpage({
   gains,
   actions,
   addACtionOnEvent,
-  updateGameValueArray,
+  updateGameValueArray,gameId,
   loadDisabledFields,
   currentWithValueEvent,
   setCurrentWithValueEvent,
@@ -42,13 +44,14 @@ export default function CurrentWithValueEventSubpage({
   const [disabledFields, setDisabledFields] = useState(null);
   const [displayDeleteConfirmation, setDisplayDeleteConfirmation] =
     useState(false);
+    const {addItem} = useHistoryContext();
 
   useEffect(() => {
     if (withValueEvents && !currentWithValueEvent) {
       setCurrentWithValueEvent(withValueEvents[0]);
       setDisabledFields(loadDisabledFields(withValueEvents[0]));
     }
-  }, [withValueEvents]);
+  }, []);
 
   useEffect(() => {
     if (currentWithValueEvent) {
@@ -70,8 +73,9 @@ export default function CurrentWithValueEventSubpage({
             icon={"add-white"}
             type="grey"
             action={() => {
+              let id = Date.now();
               let newEvent = {
-                id: Date.now(),
+                id: id,
                 name: "Default name",
                 condition: null,
                 event: {
@@ -83,6 +87,10 @@ export default function CurrentWithValueEventSubpage({
                 },
               };
               updateGameValueArray("events.withValueEvent", newEvent, "new");
+              addItem(
+                gameId,
+                createHistoryElement("withValueEvent", "add", {id:id}),
+              );
               setCurrentWithValueEvent(newEvent);
               setDisabledFields(loadDisabledFields(newEvent));
             }}
@@ -416,6 +424,39 @@ export default function CurrentWithValueEventSubpage({
                     : []
                 }
                 updateValueArray={(value) => {
+                  for (const action of actions) {
+                    const targetWithValue = action.withValue?.find(
+                      (obj) => obj.id === currentWithValueEvent.id,
+                    );
+                    console.log(targetWithValue);
+                    if (!targetWithValue) {
+                      console.warn(
+                        "no with value event found for action : " +
+                          action.name +
+                          " and event : " +
+                          currentWithValueEvent.name,
+                      );
+                      continue;
+                    }
+                    if (targetWithValue) {
+                      const updatedWithValue = {
+                        ...targetWithValue,
+                        type: value.label === "askPlayer" ? "askPlayer" : null,
+                      };
+                      console.log(updatedWithValue);
+                      updateGameValueArray(
+                        "params.tours.actions",
+                        updateValueArray(
+                          "withValue",
+                          action,
+                          updatedWithValue,
+                          "multiple",
+                          { newIdKey: "componentId" },
+                        ),
+                      );
+                    }
+                  }
+
                   addACtionOnEvent(
                     currentWithValueEvent,
                     currentWithValueEvent.event.action == value.label
@@ -451,59 +492,54 @@ export default function CurrentWithValueEventSubpage({
                 }}
               />
             </div>
-
-            <div className="basicContainer">
-              {/* ========== REQUIRE INPUT ============== */}
-              <TitleContainer
-                title="require-input"
-                description="hereIsAllDemonWichCallThisEvent"
-              />
-              <div className="wrapperRequiresInput">
-                {currentWithValueEvent.event.requiresInput && (
+            {currentWithValueEvent.event.action === "askPlayer" && (
+              <div className="basicContainer">
+                {/* ========== REQUIRE INPUT ============== */}
+                <TitleContainer
+                  title="require-input"
+                  description="hereIsAllDemonWichCallThisEvent"
+                />
+                <Input
+                  title="label"
+                  defaultValue={
+                    currentWithValueEvent.event?.requiresInput?.label
+                  }
+                  pathInObject="event.requiresInput.label"
+                  onChangeFunction={(path, value) => {
+                    setCurrentWithValueEvent(
+                      updateElementValue(path, currentWithValueEvent, value),
+                    );
+                  }}
+                />
+                <InputSelect
+                  title="type"
+                  pathObject="event.requiresInput.type"
+                  items={["number", "text"]}
+                  closeAfterSelect={true}
+                  selected={
+                    currentWithValueEvent.event?.requiresInput?.type
+                      ? [currentWithValueEvent.event?.requiresInput?.type]
+                      : []
+                  }
+                  updateValueArray={(path, value) => {
+                    setCurrentWithValueEvent(
+                      updateValueArray(
+                        path,
+                        currentWithValueEvent,
+                        value,
+                        "unique",
+                      ),
+                    );
+                  }}
+                ></InputSelect>
+                {currentWithValueEvent.event?.requiresInput?.type ===
+                  "number" && (
                   <>
-                    <Input
-                      title="label"
-                      description="label"
-                      defaultValue={
-                        currentWithValueEvent.event.requiresInput.label
-                      }
-                      pathInObject="event.requiresInput.label"
-                      onChangeFunction={(path, value) => {
-                        setCurrentWithValueEvent(
-                          updateElementValue(
-                            path,
-                            currentWithValueEvent,
-                            value,
-                          ),
-                        );
-                      }}
-                    />
-                    <InputSelect
-                      title="type"
-                      description="type"
-                      pathObject="event.requiresInput.type"
-                      items={["number", "text"]}
-                      selected={
-                        currentWithValueEvent.event.type
-                          ? [currentWithValueEvent.event.type]
-                          : []
-                      }
-                      updateValueArray={(path, value) => {
-                        setCurrentWithValueEvent(
-                          updateValueArray(
-                            path,
-                            currentWithValueEvent,
-                            value,
-                            "unique",
-                          ),
-                        );
-                      }}
-                    ></InputSelect>
                     <Input
                       title="min"
                       description="min"
                       defaultValue={
-                        currentWithValueEvent.event.requiresInput.min
+                        currentWithValueEvent.event?.requiresInput?.min
                       }
                       type="input"
                       pathInObject="event.requiresInput.min"
@@ -521,7 +557,7 @@ export default function CurrentWithValueEventSubpage({
                       title="max"
                       description="max"
                       defaultValue={
-                        currentWithValueEvent.event.requiresInput.max
+                        currentWithValueEvent.event?.requiresInput?.max
                       }
                       type="input"
                       pathInObject="event.requiresInput.max"
@@ -538,7 +574,7 @@ export default function CurrentWithValueEventSubpage({
                   </>
                 )}
               </div>
-            </div>
+            )}
 
             {/* ========== WithValueEvents ============== */}
 
@@ -737,9 +773,9 @@ export default function CurrentWithValueEventSubpage({
                 <span className="normalText">{t("noWithValueEvent")}</span>
               )}
             </DetailContainer>
-            
+
             {/* ========== WITH VALUE EVENTS QUI APPELLENT CETTE WITH VALUE EVENT ============== */}
-           {/* 
+            {/* 
             <DetailContainer
               title={"calledInTheseWithValueEvent"}
               description="hereIsAllWithValueWichCallThisEvent"
@@ -811,7 +847,7 @@ export default function CurrentWithValueEventSubpage({
                 {
                   actions.filter(
                     (a) =>
-                      a.withValue.filter(
+                      a.withValue?.filter(
                         (e) => e.id == currentWithValueEvent.id,
                       ).length > 0,
                   ).length
@@ -917,8 +953,15 @@ export default function CurrentWithValueEventSubpage({
                           currentWithValueEvent,
                           "delete",
                         );
+                        addItem(
+                        gameId,
+                          createHistoryElement(
+                            "withValueEvent",
+                            "delete",
+                         {id :   currentWithValueEvent.id},
+                          ),
+                        );
                         setCurrentWithValueEvent(null);
-
                         setDisplayDeleteConfirmation(false);
                       }}
                     >
@@ -930,21 +973,24 @@ export default function CurrentWithValueEventSubpage({
                       <ul>
                         <li>
                           {t("events")} ({appearInEvents.length})
-                          {appearInEvents.length > 0 && " : "+
-                            appearInEvents.map((e) => e.name).join(", ")}
+                          {appearInEvents.length > 0 &&
+                            " : " +
+                              appearInEvents.map((e) => e.name).join(", ")}
                         </li>
                         <li>
                           {t("withValueEvents")} (
                           {appearInwithValueEvents.length})
-                          {appearInwithValueEvents.length > 0 && " : "+
-                            appearInwithValueEvents
-                              .map((e) => e.name)
-                              .join(", ")}
+                          {appearInwithValueEvents.length > 0 &&
+                            " : " +
+                              appearInwithValueEvents
+                                .map((e) => e.name)
+                                .join(", ")}
                         </li>
                         <li>
                           {t("actions")} ({appearInActions.length})
-                          {appearInActions.length > 0  && " : "+
-                            appearInActions.map((a) => a.name).join(", ")}
+                          {appearInActions.length > 0 &&
+                            " : " +
+                              appearInActions.map((a) => a.name).join(", ")}
                         </li>
                       </ul>
                     </Confirm>

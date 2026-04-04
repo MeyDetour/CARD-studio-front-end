@@ -233,6 +233,18 @@ export default function GameCreationEnvironnementNavigation({
           </li>
           <li>
             <Button
+              text={t("activityLog")}
+              action={() => {
+                navigate("/game/activity-log/" + id);
+                setCurrentSubpageOfEvents(null);
+              }}
+              type={
+                currentPage == "activity-log" ? "navbar active" : "navbar"
+              }
+              icon={currentPage === "activity-log" ? "activity-log-white" : "activity-log"}
+            />
+          </li>  <li>
+            <Button
               text={t("helpAndSettings")}
               action={() => {
                 navigate("/game/help-and-settings/" + id);

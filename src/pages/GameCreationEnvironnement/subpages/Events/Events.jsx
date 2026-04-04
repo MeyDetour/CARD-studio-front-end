@@ -1,5 +1,8 @@
 import "./style.css";
 
+//
+import { createHistoryElement } from "../../../../helpers/historyObject.js";
+
 // External libraries
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -8,6 +11,7 @@ import { useTranslation } from "react-i18next";
 // Contexts
 import { useGameContext } from "../../../../context/GameContext.jsx";
 import { useNotificationContext } from "../../../../context/NotificationContext.jsx";
+import { useHistoryContext } from "../../../../context/HistoryContext.jsx";
 
 // Hooks
 import { useApi } from "../../../../hooks/useApi";
@@ -44,13 +48,16 @@ export default function Events({
   } = useGameContext();
   const [selectedType, setSelectedType] = useState([]);
   const [isOpenExpressionBuilder, setIsOpenExpressionBuilder] = useState(false);
+  const [eventFirstLoad, setEventFirstLoad] = useState(true);
+  const [withValueEventFirstLoad, setWithValueEventFirstLoad] = useState(true);
   const navigate = useNavigate();
   const t = useTranslation();
   const { alertList } = useNotificationContext();
+  const { addItem } = useHistoryContext();
 
   function addACtionOnEvent(event, action, type) {
     let newEvent = { ...event };
-    console.log(event,action,type);
+    console.log(event, action, type);
     if (action) {
       console.log(action);
       if (action.lonelyField) {
@@ -140,21 +147,48 @@ export default function Events({
     }
     if (!action.necessiteRequiresInput) {
       obj.requiresInput = true;
-    } 
+    }
     return obj;
   }
 
-// Met à jour le contexte du jeu lors de la modification d’un événement courant.
-// Ces fonctions sont placées ici (et non dans les pages) car elles modifient directement les variables currentEvent et currentWithValueEvent.
-// Cela permet aux sous-composants de détecter les changements, même si les modifications sont effectuées en dehors de leur propre composant.
-// Les fonctions sont spécifiques aux événements et withValueEvents, et reçoivent les variables concernées en paramètre pour garantir la réactivité des champs.
+  // Met à jour le contexte du jeu lors de la modification d’un événement courant.
+  // Ces fonctions sont placées ici (et non dans les pages) car elles modifient directement les variables currentEvent et currentWithValueEvent.
+  // Cela permet aux sous-composants de détecter les changements, même si les modifications sont effectuées en dehors de leur propre composant.
+  // Les fonctions sont spécifiques aux événements et withValueEvents, et reçoivent les variables concernées en paramètre pour garantir la réactivité des champs.
+
+  // Sépare la gestion du premier lancement pour éviter toute modification ou ajout à l'historique
+ 
+
   useEffect(() => {
-    if (currentWithValueEvent)
+    if (currentWithValueEvent &&  withValueEventFirstLoad){
+      setWithValueEventFirstLoad(false);
+      return
+    }
+    if (currentWithValueEvent) {
       updateGameValueArray("events.withValueEvent", currentWithValueEvent);
+      addItem(
+        gameData.id,
+        createHistoryElement(
+          "withValueEvent",
+          "edit",
+          { id: currentWithValueEvent.id },
+        ),
+      );
+    } 
   }, [currentWithValueEvent]);
 
   useEffect(() => {
-    if (currentEvent) updateGameValueArray("events.events", currentEvent);
+    if(currentEvent && eventFirstLoad){
+      setEventFirstLoad(false);
+      return;
+    }
+    if (currentEvent && !eventFirstLoad) {
+      updateGameValueArray("events.events", currentEvent);
+      addItem(
+        gameData.id,
+        createHistoryElement("events", "edit",{ id : currentEvent.id }),
+      );
+    } 
   }, [currentEvent]);
   return (
     <div className="eventsAndDeclencheurSubpage">
@@ -175,6 +209,7 @@ export default function Events({
                 withValueEvents={gameData.withValueEvents}
                 loadDisabledFields={loadDisabledFields}
                 gains={gameData.gains}
+                gameId={gameData.id}
                 addACtionOnEvent={addACtionOnEvent}
                 getEventFromIdAndType={getEventFromIdAndType}
               />
@@ -186,6 +221,7 @@ export default function Events({
                 suggestions={gameData.suggestions}
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
+                gameId={gameData.id}
                 demons={gameData.demons}
                 withValueEvents={gameData.withValueEvents}
                 events={gameData.events}
@@ -204,10 +240,11 @@ export default function Events({
                 globalPlayerValue={gameData.playerGlobalValue}
                 actions={gameData.actions}
                 getEventFromIdAndType={getEventFromIdAndType}
+                gameId={gameData.id}
                 addACtionOnEvent={addACtionOnEvent}
                 suggestions={gameData.suggestions}
                 loadDisabledFields={loadDisabledFields}
-                withValueEvents={gameData.withValueEvents} 
+                withValueEvents={gameData.withValueEvents}
               />
             );
           case "globalValue":
@@ -216,7 +253,9 @@ export default function Events({
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 globalValue={gameData.globalValue}
+                
                 globalValueStatic={gameData.globalValueStatic}
+                gameId={gameData.id}
                 playerGlobalValue={gameData.playerGlobalValue}
                 getEventFromIdAndType={getEventFromIdAndType}
               />
@@ -229,6 +268,7 @@ export default function Events({
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 globalValue={gameData.globalValue}
+                gameId={gameData.id}
                 globalValueStatic={gameData.globalValueStatic}
                 playerGlobalValue={gameData.playerGlobalValue}
                 getEventFromIdAndType={getEventFromIdAndType}

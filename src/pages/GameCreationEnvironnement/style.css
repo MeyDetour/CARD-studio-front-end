@@ -78,6 +78,18 @@
       }
      
     }
+    .basicWarningContainer {
+  
+            border: 0.8px solid #d7a562;
+            background: #e9e25a38;
+      p,
+      span,
+      h1,
+      h2 {
+        color: #0000009e;
+      }
+     
+    }
     .lightContainer {
       border-radius: 12px;
       border-radius: 6px;

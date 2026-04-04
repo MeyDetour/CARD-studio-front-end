@@ -12,7 +12,7 @@ export default function VariableSubpage({
   suggestions,
   winParams,
   globalValue,
-  playerGlobalValue,
+  playerGlobalValue,gameId,
   updateGameValue,
   globalValueStatic,
   updateGameValueArray,

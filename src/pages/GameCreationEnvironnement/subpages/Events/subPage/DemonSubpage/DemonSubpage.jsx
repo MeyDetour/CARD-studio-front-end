@@ -15,10 +15,13 @@ import { useNotificationContext } from "../../../../../../context/NotificationCo
 import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
 import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import { getSugggestionForPlayer } from "../../../../../../helpers/suggestions.js";
+import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
+import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
 export default function DemonSubpage({
   demons,
   events,
   updateGameValue,
+  gameId,
   globalPlayerValue,
   updateGameValueArray,
   suggestions,
@@ -33,19 +36,31 @@ export default function DemonSubpage({
   } = useGameContext();
   const { alertList } = useNotificationContext();
   const { t } = useTranslation();
-  const [displayDeleteConfirmation, setDisplayDeleteConfirmation] = useState(false);
-  
+  const [displayDeleteConfirmation, setDisplayDeleteConfirmation] =
+    useState(false);
+  const { addItem } = useHistoryContext();
+  const [firstLoad, setFirstLoad] = useState(true);
 
   if (!demons) return;
 
   useEffect(() => {
-    if (demons && !currentDemon) {
+    if (demons && !currentDemon && firstLoad) {
       setCurrentDemon(demons[0]);
     }
-  }, [demons]);
+  }, []);
 
   useEffect(() => {
-    if (currentDemon) updateGameValueArray("events.demons", currentDemon);
+    if (currentDemon && !firstLoad) {
+      updateGameValueArray("events.demons", currentDemon);
+      addItem(
+        gameId,
+        createHistoryElement("demons", "edit",{id: currentDemon.id}),
+      );
+      
+    }
+    if( firstLoad){
+      setFirstLoad(false);
+    }
   }, [currentDemon]);
   return (
     <div className={" demonsubPageOfdemonsAndDeclencheurSubpage"}>
@@ -56,18 +71,20 @@ export default function DemonSubpage({
             text={"new"}
             icon={"add-white"}
             type="grey"
-            action={() =>
+            action={() => {
+              let newId = Date.now();
               updateGameValueArray(
                 "events.demons",
                 {
-                  id: Date.now(),
+                  id: newId,
                   condition: "",
                   name: "",
                   events: [],
                 },
                 "new",
-              )
-            }
+              );
+              addItem(gameId, createHistoryElement("demons", "add", {id: newId}));
+            }}
           />
         </div>
         <div className="wrapperdemons">
@@ -239,6 +256,10 @@ export default function DemonSubpage({
                       "events.demons",
                       currentDemon,
                       "delete",
+                    );
+                    addItem(
+                     gameId,
+                      createHistoryElement("demons", "delete", {id: currentDemon.id}),
                     );
                     setCurrentDemon(null);
                   }
