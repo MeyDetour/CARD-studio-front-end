@@ -25,9 +25,7 @@ import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigat
 export default function AssetsBookshelf({
   gameData,
   updateGameValueArray,
-  updateGameValue,
-  setGameImageUploaded,
-  setGameImageUploadedUrl,
+  updateGameValue, 
 }) {  
   const [subPage, setSubpage] = useState("cardsTab");
   const [selectedType, setSelectedType] = useState([]);

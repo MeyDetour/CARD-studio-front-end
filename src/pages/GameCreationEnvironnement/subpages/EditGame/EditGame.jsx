@@ -31,8 +31,7 @@ import Alert from "../../../../components/Alert/Alert.jsx";
 export default function EditGame({
   gameData,
   updateGameValueArray,
-  updateGameValue,
-  setGameImageUploaded,
+  updateGameValue, 
   setGameImageUploadedUrl,
   uploadFileForGameEditionHandler,
   restoreGameFromDb,
@@ -143,6 +142,7 @@ export default function EditGame({
                 }),
               );
             }}
+            defaultValue={gameData.description}
             inputType="textarea"
             placeholder="gameDescription"
           />
@@ -166,8 +166,7 @@ export default function EditGame({
                   if (
                     selectedFile.type == "image/jpeg" ||
                     selectedFile.type === "image/png"
-                  ) {
-                    setGameImageUploaded(selectedFile);
+                  ) { 
                     setGameImageUploadedUrl(URL.createObjectURL(selectedFile));
                     uploadFileForGameEditionHandler(selectedFile);
                   }

@@ -65,7 +65,7 @@ export function GameProvider({ children }) {
       null,
       {
         token: getToken(),
-        methode: "POST",
+        method: "POST",
       },
       formData,
     );
@@ -112,13 +112,26 @@ export function GameProvider({ children }) {
       displayError(t("FailedToUpdateGame"));
     } else {
       deleteGameSaved(newObj.id);
+      deleteLocalHistory(newObj.id);
     }
     return game
+  };
+  const pushCardModification = async (gameId,card) => { 
+ 
+    const result = await fetchData("api/game/"+gameId+"/edit/card/" + card.id, card, {
+      token: getToken(),
+    });
+    if (!result) {
+      displayError(t("FailedToUpdateGame"));
+    } else { 
+      // TODO
+    }
+    return result
   };
   const deleteGame = async () => {
     const result = await fetchData("api/game/remove/" + game.id, null, {
       token: getToken(),
-      methode: "DELETE",
+      method: "DELETE",
     });
     deleteLocalHistory(game.id);
     if (!result) {
@@ -153,7 +166,7 @@ export function GameProvider({ children }) {
         currentEvent,
         setCurrentDemon,
         setCurrentEvent,
-        getGames,
+        getGames,pushCardModification,
         pushModification,
         uploadFileForGameEdition,
       }}

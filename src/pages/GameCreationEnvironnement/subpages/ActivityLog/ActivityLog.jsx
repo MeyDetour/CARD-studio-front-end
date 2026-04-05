@@ -4,21 +4,19 @@ import { useTranslation } from "react-i18next";
 import { useHistoryContext } from "../../../../context/HistoryContext";
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
 import BarChartPage from "./BarChart/BarChart";
-import  SubNavigationBar  from "../../../../components/SubNavigationBar/SubNavigationBar";
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 import EditionLogElement from "./EditionLogElement/EditionLogElement";
-import { useGameContext } from "../../../../context/GameContext"; 
-export default function CardManagement({
-  game, 
-}) {
-  const { t } = useTranslation(); 
+import { useGameContext } from "../../../../context/GameContext";
+export default function CardManagement({ game }) {
+  const { t } = useTranslation();
   const [subPage, setSubpage] = useState("all");
   const [data, setData] = useState([]);
-  const {getGame} = useGameContext();
-  const {getDetailledHistory} = useHistoryContext();
+  const { getGame } = useGameContext();
+  const { getDetailledHistory } = useHistoryContext();
   useEffect(() => {
     const fetchData = async () => {
-      const gameInDb = await getGame(game.id); 
-      const detailedHistory = getDetailledHistory(gameInDb,game);
+      const gameInDb = await getGame(game.id);
+      const detailedHistory = getDetailledHistory(gameInDb, game);
       setData(detailedHistory);
     };
     fetchData();
@@ -65,9 +63,28 @@ export default function CardManagement({
           }}
           page={subPage}
         />
-        {data.map((item, index) => (
-          <EditionLogElement key={index} item={item} />
-        ))}
+        {subPage == "all" &&
+          data.map((item, index) => (
+            <EditionLogElement key={index} item={item} />
+          ))}
+        {subPage == "created" &&
+          data
+            .filter((e) => e.action == "add")
+            .map((item, index) => (
+              <EditionLogElement key={index} item={item} />
+            ))}
+        {subPage == "updated" &&
+          data
+            .filter((e) => e.action == "edit")
+            .map((item, index) => (
+              <EditionLogElement key={index} item={item} />
+            ))}
+        {subPage == "deleted" &&
+          data
+            .filter((e) => e.action == "delete")
+            .map((item, index) => (
+              <EditionLogElement key={index} item={item} />
+            ))}
       </div>
     </div>
   );

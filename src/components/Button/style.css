@@ -59,6 +59,15 @@
         }
       
 }
+.button.greenButton{
+   
+        background: green;
+        color : white;
+        span {
+          color: white !important;
+        }
+      
+}
 .button.greyButton{
       background: #e0e0e0;
 }

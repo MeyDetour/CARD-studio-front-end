@@ -5,13 +5,13 @@ import {
   useContext,
   useEffect,
   useState,
-} from "react"; 
-import {  getElementWithPath } from "../helpers/objectManagement.js";
-import { useTranslation } from "react-i18next"; 
+} from "react";
+import { getElementWithPath } from "../helpers/objectManagement.js";
+import { useTranslation } from "react-i18next";
 const HistoryContext = createContext();
 
 export function HistoryProvider({ children }) {
-  const {t}= useTranslation(); 
+  const { t } = useTranslation();
   const addItem = (id, item) => {
     console.log(item);
     let history = getHistory(id) || [];
@@ -43,7 +43,6 @@ export function HistoryProvider({ children }) {
           e.action === item.action && e.id === item.id && item.type === e.type,
       )
     ) {
-      console.log("ELEMENT NON PR2SENT");
       history.push(item);
       if (item.action === "delete") {
         // si il a été ajouté dans cette session, on le supprime de la liste au lieu d'ajouter une action de suppression
@@ -60,12 +59,31 @@ export function HistoryProvider({ children }) {
         } else {
           // si il existait deja
           history = history.filter(
-            (e) => e.action === "edit" && e.id === item.id,
+            (e) =>
+              e.action !== "edit" && e.id === item.id && e.type === item.type,
           );
         }
       }
     }
     storeHistrory(id, history);
+  };
+  const isInHistory = (item) => { 
+    let history = getHistory(item.gameId) || [];
+    
+    let result = history.some(
+      (e) =>
+        e.action == item.action && item.type == e.type && item.id == e.id,
+    ); 
+    return result;
+  };
+  const deleteItemHistoryRelatedTo = (item) => {
+ 
+      let history = getHistory(item.gameId) || [];
+ 
+    storeHistrory(item.gameId, history.filter(
+      (e) =>
+        !(e.type == item.type && e.id == item.id),
+    )); 
   };
 
   const getHistory = (id) => {
@@ -81,7 +99,7 @@ export function HistoryProvider({ children }) {
   const deleteLocalHistory = (id) => {
     localStorage.removeItem("gameHistory" + id);
   };
-  const getDetailledHistory = (game,currentGame) => {
+  const getDetailledHistory = (game, currentGame) => {
     // Si valeur est la meme ne rien affiché
     const detailedHistory = [];
     if (!game) return [];
@@ -89,51 +107,90 @@ export function HistoryProvider({ children }) {
     return history.map((item) => {
       console.log(item);
       if (item.action === "edit" && item.field == "name") {
-      return {
+        return {
           name: t("changeNameOFGame"),
-          oldValue : game.name,
-          newValue : currentGame.name,
+          oldValue: game.name,
+          newValue: currentGame.name,
           action: item.action,
           type: item.type,
         };
       }
-      if(item.field){
+      if (item.field) {
+        let previous = getElementWithPath(item.field, game);
+        let current = getElementWithPath(item.field, currentGame);
+        if (previous == current) return null;
         return {
-          oldValue : getElementWithPath(item.field,game),
-          newValue : getElementWithPath(item.field,currentGame),
+          name: t("editionLogChangeMetaData") + " : " + t(item.field),
+          oldValue: previous,
+          newValue: current,
           action: item.action,
           type: item.type,
+          field: item.field,
         };
       }
-      if (item.id != "undefined" && item.id != null && (item.type != "globalValue" || item.type != "globalValueStatic"  || item.type!="playerGlobalValue")) {
-
+      if (
+        item.id != "undefined" &&
+        item.id != null &&
+        (item.type != "globalValue" ||
+          item.type != "globalValueStatic" ||
+          item.type != "playerGlobalValue")
+      ) {
         return {
-          name : t("editionLogChange"+item.type) + " : "+  getElementWithPath("events."+item.type,currentGame,item.id)?.name ,
-          oldValue : getElementWithPath("events."+item.type,game,item.id),
-          newValue : getElementWithPath("events."+item.type,currentGame,item.id),
+          name:
+            t(
+              (item.action == "edit"
+                ? "editionLogChange"
+                : item.action == "delete"
+                  ? "editionLogDeletion"
+                  : "editionLogAdd") + item.type,
+            ) +
+            " : " +
+            (
+              getElementWithPath("events." + item.type, currentGame, item.id) ||
+              getElementWithPath("events." + item.type, game, item.id)
+            )?.name,
+          oldValue: getElementWithPath("events." + item.type, game, item.id),
+          newValue: getElementWithPath(
+            "events." + item.type,
+            currentGame,
+            item.id,
+          ),
           action: item.action,
           type: item.type,
         };
       }
-      if(item.type == "globalValue" || item.type == "globalValueStatic"  || item.type=="playerGlobalValue"){
-          return {
-            name : t("editionLogChangeWithValueEvents") + " : " + getElementWithPath(item.type,currentGame)?.find((e) => e.id == item.id)?.name,
-            oldValue : getElementWithPath(item.type,game)?.find((e) => e.id == item.id),
-            newValue : getElementWithPath(item.type,currentGame)?.find((e) => e.id == item.id),
-            action: item.action,
-            type: item.type,
-          };
+      if (
+        item.type == "globalValue" ||
+        item.type == "globalValueStatic" ||
+        item.type == "playerGlobalValue"
+      ) {
+        return {
+          name:
+            t("editionLogChangeWithValueEvents") +
+            " : " +
+            getElementWithPath(item.type, currentGame)?.find(
+              (e) => e.id == item.id,
+            )?.name,
+          oldValue: getElementWithPath(item.type, game)?.find(
+            (e) => e.id == item.id,
+          ),
+          newValue: getElementWithPath(item.type, currentGame)?.find(
+            (e) => e.id == item.id,
+          ),
+          action: item.action,
+          type: item.type,
+        };
       }
       return {
-        name : item.type,
-        oldValue : null,
-        newValue : null,
+        name: item.type,
+        oldValue: null,
+        newValue: null,
         action: item.action,
         type: item.type,
       };
     });
   };
- 
+
   const getDetailledTextHistory = (id) => {
     // Si valeur est la meme ne rien affiché
 
@@ -142,7 +199,14 @@ export function HistoryProvider({ children }) {
   };
   return (
     <HistoryContext.Provider
-      value={{ addItem, getHistory, storeHistrory, deleteLocalHistory, getDetailledHistory }}
+      value={{
+        addItem,
+        getHistory,
+        isInHistory,
+        storeHistrory,
+        deleteLocalHistory,deleteItemHistoryRelatedTo,
+        getDetailledHistory,
+      }}
     >
       {children}
     </HistoryContext.Provider>

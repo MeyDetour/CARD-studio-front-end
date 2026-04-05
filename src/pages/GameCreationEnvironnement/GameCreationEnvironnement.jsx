@@ -30,7 +30,7 @@ import LoadingRestorGame from "../../components/LoadingRestorGame/LoadingRestorG
 
 // Subpages
 import AssetsBookshelf from "./subpages/AssetsBookshelf/AssetsBookshelf";
-import CardManagement from "./subpages/CarManagement/CardManagement";
+import CardManagement from "./subpages/CarManagement/CardManagement.jsx";
 import Dashboard from "./subpages/Dashboard/Dashboard";
 import DisplayPage from "./subpages/Display/Display";
 import EditGame from "./subpages/EditGame/EditGame";
@@ -65,8 +65,7 @@ export default function GameCreationEnvironnement() {
     setCurrentDemon,
   } = useGameContext();
   const {deleteLocalHistory}= useHistoryContext();
-  const { fetchUser, editUser } = useUserContext();
-  const [gameImageUploaded, setGameImageUploaded] = useState();
+  const { fetchUser, editUser } = useUserContext(); 
   const [gameImageUploadedUrl, setGameImageUploadedUrl] = useState();
   const { t } = useTranslation();
   const { setAlerts, alertList, canDisplayError, setCanDisplayError } =
@@ -146,8 +145,8 @@ export default function GameCreationEnvironnement() {
   if (!user) return <Loader />;
 
   // =========== UPDATE GAME OBJECT ============
-  const updateGameValueHandler = (path, value) => {
-    setGame((prev) => updateElementValue(path, prev, value));
+  const updateGameValueHandler = (path, value,type) => {
+    setGame((prev) => updateElementValue(path, prev, value,type));
     setPlayerHasEdit(true);
   };
 
@@ -230,6 +229,7 @@ export default function GameCreationEnvironnement() {
                 <EditGame
                   gameData={{
                     name: game.name,
+                    description : game.description,
                     id: game.id,
                     types:
                       game.type && Array.isArray(game.type)
@@ -281,7 +281,7 @@ export default function GameCreationEnvironnement() {
                   }
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  setGameImageUploaded={setGameImageUploaded}
+                  
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                   restoreGameFromDb={restoreGameFromDb}
                 />
@@ -297,7 +297,7 @@ export default function GameCreationEnvironnement() {
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  setGameImageUploaded={setGameImageUploaded}
+                  
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                 />
               );
@@ -420,7 +420,7 @@ export default function GameCreationEnvironnement() {
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  setGameImageUploaded={setGameImageUploaded}
+                  
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                   getEventFromIdAndType={getEventFromIdAndType}
                 />
@@ -429,36 +429,14 @@ export default function GameCreationEnvironnement() {
               return (
                 <CardManagement
                   gameData={{
-                    actions:
-                      game.params.tours && game.params.tours.actions
-                        ? game.params.tours.actions.sort((a, b) => {
-                            return Number(a.id) - Number(b.id);
-                          })
-                        : [],
-                    events:
-                      game.events && game.events.events
-                        ? game.events.events.sort((a, b) => {
-                            return Number(a.id) - Number(b.id);
-                          })
-                        : [],
-                    demons:
-                      game.events && game.events.demons
-                        ? game.events.demons
-                        : [],
-                    gains:
-                      game.assets && game.assets.gains ? game.assets.gains : [],
-                    withValueEvents:
-                      game.events && game.events.withValueEvent
-                        ? game.events.withValueEvent.sort((a, b) =>
-                            a.name.localeCompare(b.name),
-                          )
-                        : [],
+                    cards: game.assets.cards,
+                     
                     id: game.id,
                     cardParams: game.params.cards ? game.params.cards : {},
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  setGameImageUploaded={setGameImageUploaded}
+                  
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                 />
               );

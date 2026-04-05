@@ -24,7 +24,7 @@ export function UserProvider({ children }) {
   const editUser = async (user) => {
    let res = await fetchData("api/edit/me", user , {
       token: getToken(),
-      methode:"PUT"
+      method:"PUT"
     });
     if (!res){
       displayError("FailedToModifyUserData");

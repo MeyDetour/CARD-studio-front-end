@@ -28,12 +28,15 @@ animation: appearFromOpacity 1.5s ease;
   }
   textarea {
     height: 153px;
-    color: var(--grey);
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     font-family: "Inter";
+  }
+  .textarea::placeholder{
+
+    color: var(--grey);
   }
   .suggestion {
     height: 350px;

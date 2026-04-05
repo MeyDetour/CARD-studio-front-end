@@ -3,7 +3,7 @@
   flex-direction: row;
   align-items: start;
   gap: 20px;
-    height: fit-content;
+  height: fit-content;
   .left {
     display: flex;
     flex-direction: column;
@@ -14,7 +14,6 @@
       width: 1px;
       height: 100%;
       background: #e2e8f0;
-      min-height: 100px;
     }
     .icon {
       width: 38px;
@@ -32,13 +31,13 @@
       padding: 20px;
       border-radius: 8px;
     }
-    .modificationList{
-        display:flex;
-        flex-direction: column;
+    .modificationList {
+      display: flex;
+      flex-direction: column;
 
-            gap: 5px;
-            padding-left: 13px;
-            padding-top: 16px;
+      gap: 5px;
+      padding-left: 13px;
+      padding-top: 16px;
     }
   }
 }

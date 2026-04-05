@@ -65,7 +65,7 @@ classDiagram
     ${getGlobalValueStaticClassDefinition(gameData.globalValueStatic)}
     
         `;
-  console.log(chartDefinition);
+ 
   return (
     <div className="visualisationsubPageOfdemonsAndDeclencheurSubpage">
       <Legend colors={colors} />

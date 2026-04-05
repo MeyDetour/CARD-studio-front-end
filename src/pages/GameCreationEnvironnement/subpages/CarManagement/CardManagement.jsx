@@ -1,9 +1,12 @@
 import "./style.css";
 
 // External libraries
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import Button from "../../../../components/Button/Button";
+
+import { updateElementValue } from "../../../../helpers/objectManagement";
 
 // Contexts
 import { useHistoryContext } from "../../../../context/HistoryContext";
@@ -15,19 +18,29 @@ import Input from "../../../../components/input/Input";
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
+import CardEditionPage from "./CardEditionPage/CardEditionPage";
+import DefaultCard from "./DefaultCard/DefaultCard";
 
 export default function CardManagement({
   gameData,
   updateGameValueArray,
-  updateGameValue,
-  setGameImageUploaded,
-  setGameImageUploadedUrl,
+  updateGameValue, 
 }) {
   const { t } = useTranslation();
   const [subpage, setSubpage] = useState("cardManagement");
+  const [currentCard, setCurrentCard] = useState(null);
   const { addItem } = useHistoryContext();
-  
+
   if (!gameData) return;
+  useEffect(() => {
+    if (currentCard) {
+      updateGameValue("assets.cards." + currentCard.id, currentCard);
+      addItem(
+        gameData.id,
+        createHistoryElement("card", "edit", { id: currentCard.id }),
+      );
+    }
+  }, [currentCard]);
   return (
     <div className={" assetsBookshelfSubpage"}>
       <TitleContainer
@@ -35,12 +48,11 @@ export default function CardManagement({
         type="h1"
         description="hereYouCanManageAllSettingsConcernedCardAndDecks"
       />
-      <SearchBar placeholder="searchInLibraryPlaceholder" />
 
       <SubNavigationBar
         buttons={{
-          cardManagement: () => setSubpage("cardManagement"),
-          cardImported: () => setSubpage("cardImported"),
+          cardManagement: () => {setSubpage("cardManagement");setCurrentCard(null)},
+          cardImported: () => {setSubpage("cardImported");setCurrentCard(null)},
         }}
         page={subpage}
       />
@@ -139,13 +151,65 @@ export default function CardManagement({
           />
         </div>
       )}
-      {subpage === "cardImported" && (
-        <div className="basicContainer">
-          <p>
-            {t("ifThereIsNoCardConfigurationAllCardWillBeInTheDeckByDefault")}
-          </p>
-        </div>
-      )}
+      {subpage === "cardImported" &&
+        (currentCard ? (
+          <CardEditionPage
+            currentCard={currentCard}
+            setCurrentCard={setCurrentCard}
+            gameData={{ id: gameData.id }}
+            updateGameValue={updateGameValue}
+          />
+        ) : (
+          <>
+            <div className="header">
+              <SearchBar placeholder="searchInLibraryPlaceholder" />
+              <Button
+                icon="add-white"
+                text="newCard"
+                type="violetButton"
+                action={() => {
+                  let id = Date.now();
+                  let newCard = {
+                    id: id,
+                    value:1,
+                    name: t("newCard"),
+                    type:"french_standard",
+                    addedAttributs:{
+                      couleur:"pique"
+                    }
+                  };
+
+                  updateGameValue("assets.cards." + newCard.id, newCard, "new");
+                  setCurrentCard(newCard);
+                  addItem(
+                    gameData.id,
+                    createHistoryElement("card", "add", { id: newCard.id }),
+                  );
+                }}
+              ></Button>
+            </div>
+
+            <div className="basicContainer cardLibrary">
+              <div className="cardWrapper">
+              {Object.keys(gameData.cards).map((key) => {
+                const card = gameData.cards[key];
+                if (card.type =="french_standard"){
+                  return <DefaultCard card={card} key={key} setCurrentCard={setCurrentCard} />;
+                } 
+                return (
+                  <div
+                    key={key}
+                    className="cardInLibrary"
+                    onClick={() => setCurrentCard(card)}
+                  >
+                    {card.image ? <img src={card.image} alt={card.name} /> : <span>{card.name}</span>}
+                  </div>
+                );
+              })}
+              </div>
+            </div>
+          </>
+        ))}
     </div>
   );
 }

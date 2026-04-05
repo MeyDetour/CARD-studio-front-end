@@ -77,7 +77,7 @@ export default function Input({
     }
     return value;
   };
- 
+
   return (
     <div
       style={type == "input" && hint ? { marginBottom: "20px" } : null}
@@ -123,10 +123,10 @@ export default function Input({
                       searchInSuggestion === "",
                   );
                   // on applique la condition sur suggestions et non pas newsuggestions
-                  // car si newsuggestions est vide alors on affiche pas la box de suggestion 
-                  // alors que peut etre il y a des suggestions mais qui ne match pas avec 
+                  // car si newsuggestions est vide alors on affiche pas la box de suggestion
+                  // alors que peut etre il y a des suggestions mais qui ne match pas avec
                   // la recherche dans la suggestion
-                  if (suggestions.length === 0) return null; 
+                  if (suggestions.length === 0) return null;
                   return (
                     <div
                       className="suggestion"
@@ -153,29 +153,28 @@ export default function Input({
                         type="text"
                         placeholder={t("searchExpression")}
                       />
-                    
-                        <div className="wrapperSuggestion">
-                          {newSuggestions.map((suggestion, index) => {
-                            return (
-                              <span
-                                onMouseDown={(e) => {
-                                  e.preventDefault();
-                                  console.log(suggestion);
-                                  const newValue = insertTextAtCursor(
-                                    suggestion.label,
-                                  );
-                                  pathInObject
-                                    ? onChangeFunction(pathInObject, newValue)
-                                    : onChangeFunction(newValue);
-                                }}
-                                key={index}
-                              >
-                                {suggestion.label}
-                              </span>
-                            );
-                          })}
-                        </div>
-                   
+
+                      <div className="wrapperSuggestion">
+                        {newSuggestions.map((suggestion, index) => {
+                          return (
+                            <span
+                              onMouseDown={(e) => {
+                                e.preventDefault();
+                                console.log(suggestion);
+                                const newValue = insertTextAtCursor(
+                                  suggestion.label,
+                                );
+                                pathInObject
+                                  ? onChangeFunction(pathInObject, newValue)
+                                  : onChangeFunction(newValue);
+                              }}
+                              key={index}
+                            >
+                              {suggestion.label}
+                            </span>
+                          );
+                        })}
+                      </div>
                     </div>
                   );
                 })()}
@@ -216,20 +215,23 @@ export default function Input({
           case "textarea":
             return (
               <textarea
-                disabled={disabled}
-                readOnly={disabled}
-                onChange={(e) =>
-                  !disabled &&
-                  (pathInObject
-                    ? onChangeFunction(pathInObject, e.target.value)
-                    : onChangeFunction(e.target.value))
-                }
-                value={defaultValue ? defaultValue : t(placeholder)}
                 id="story"
                 name="story"
                 rows="5"
                 cols="33"
-              ></textarea>
+                disabled={disabled}
+                readOnly={disabled}
+                value={defaultValue || ""}
+                placeholder={t(placeholder)}
+                onChange={(e) => {
+                  if (!disabled) {
+                    const val = e.target.value;
+                    pathInObject
+                      ? onChangeFunction(pathInObject, val)
+                      : onChangeFunction(val);
+                  }
+                }}
+              />
             );
         }
       })()}

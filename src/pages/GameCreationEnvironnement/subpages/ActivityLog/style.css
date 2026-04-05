@@ -1,9 +1,8 @@
-.activityLogSubpage{
-  .chartBartSection{
+.activityLogSubpage {
+  .chartBartSection {
     width: 100% !important;
-    .recharts-responsive-container{
-
-    margin-left: -29px;
+    .recharts-responsive-container {
+      margin-left: -29px;
     }
   }
 }

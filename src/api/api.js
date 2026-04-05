@@ -7,7 +7,7 @@ export async function apiClient(path, body, customConfig = {},formData=null ) {
   }
    
   const config = {
-    method:  customConfig.methode ? customConfig.methode : body ? "POST" : "GET",
+    method:  customConfig.method ? customConfig.method : body ? "POST" : "GET",
     headers: { ...headers, ...customConfig.headers },
     body: body ? JSON.stringify(body) : formData ? formData : null,
   };
