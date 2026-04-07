@@ -1,0 +1,95 @@
+.expressionBuilderContainer {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #644f66b3;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .expressionBuilder {
+    width: 80%;
+    height: 80%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    box-sizing: border-box;
+    
+  .inputSelect {
+            align-items: start;
+            width: 100%;
+          }
+    .expressionBuilderHeader {
+  
+            display: flex;
+            flex-direction: row;
+            justify-content: end;
+            position: absolute;
+            height: fit-content;
+            width: fit-content;
+            right: 0;
+            top: 0;
+            padding: 24px;
+            box-sizing: border-box;
+            img{
+              cursor: pointer;
+            }
+    }
+
+    .elementInExpressionBuilder {
+      width: 50%;
+      text-align: center;
+      padding: 19px;
+            align-items: start;
+      min-height: fit-content;
+      height: fit-content;
+      background: white;
+      border: 1px solid grey;
+      border-radius: 9px;
+      cursor: pointer;
+
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      .elementOptions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        .attribut {
+          padding: 8px 20px;
+          box-sizing: border-box;
+        
+        }
+      }
+    }
+    .trigger {
+      background: #caafff;
+      border: 3px solid #9c56ac;
+      color: #9c56ac;
+    }
+    .bottomArrow {
+      height: 50px;
+      width: 1px;
+      background: black;
+      position: relative;
+    }
+    .bottomArrow::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: -5px;
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid black;
+    }
+  }
+}

@@ -1,0 +1,101 @@
+.choicePanelContainer {
+  width: 50%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  .add {
+      width: 30px;
+      cursor: pointer;
+      height: 30px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      background: #f3f3f3;
+      border: 1px solid #949494;
+      border-radius: 50%;
+      img {
+        margin-top: -2px;
+        margin-right: -1px;
+      }
+    }
+  .choicePanel {
+    width: 100%;
+    background: #f4f4f4;
+    border: 1px solid #e2e2e2;
+    height: 100%;
+    padding: 14px 11px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .headerAndSearch {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      
+
+      > .searchBarForm {
+        width: 95%;
+        height: 40px;
+      }
+      > .icon{
+        cursor: pointer; 
+      }
+    }
+
+    .choiceContainer {
+      width: 100%;
+      height: 526px;
+      border-radius: 8px;
+      background: white;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      box-sizing: border-box;
+      .choiceOfTheCategories {
+        width: 100%;
+        box-sizing: border-box;
+        overflow-y: auto;
+        height: 100%;
+        overflow-x: hidden;
+        .element {
+          padding: 16px 18px;
+          box-sizing: border-box;
+          > span {
+            cursor: pointer;
+          }
+          > span:hover {
+            font-weight: bold;
+          }
+        }
+      }
+      .choiceCategories {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+
+        width: 243px;
+        border-right: 1px solid #ebebeb;
+        height: 100%;
+        box-sizing: border-box;
+        > .category {
+          width: 100%;
+          cursor: pointer;
+          box-sizing: border-box;
+          padding: 13px 16px;
+        }
+        > .category.selected {
+          background: #c5daff;
+        }
+      }
+    }
+  }
+
+  
+}

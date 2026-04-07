@@ -1,0 +1,20 @@
+.detailBasicContainer {
+  summary {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    .titleContainer {
+      cursor: pointer;
+      width: 97%;
+    }
+  }
+  .detailContent{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 24px;
+  }
+}
+ 

@@ -1,0 +1,87 @@
+.roundsSubpage {
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    > div {
+      width: 49%;
+    }
+  }
+  .playerTurnActionSection {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .wrapperSelectionActions {
+      max-height: none;
+      overflow-y: hidden;
+    }
+    .wrapperSelection {
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 24px;
+
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      .noEvent {
+        
+                width: 100%;
+                height: 103px;
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+      }
+      .actionEdition {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        align-items: start;
+        position: relative;
+        padding: 25px;
+        box-sizing: border-box;
+        border: 1px solid #dedede;
+        border-radius: 13px;
+        background: #ffffff;
+        .close {
+          position: absolute;
+          right: 23px;
+          top: 21px;
+          cursor: pointer;
+          z-index: 4;
+        }
+      }
+
+      .action {
+        width: 12%;
+        box-sizing: border-box;
+        aspect-ratio: 1 / 0.5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 7px;
+
+        border: 1px solid #dedede;
+        border-radius: 14px;
+        position: relative;
+        justify-content: center;
+        cursor: pointer;
+        span {
+          color: var(--primary-color);
+          font-weight: 500;
+        }
+      }
+      .action.selected{
+
+    border: 1px solid var(--violet);
+      }
+    }
+  }
+}

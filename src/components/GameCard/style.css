@@ -1,0 +1,73 @@
+.gameCard {
+  border-radius: 12px;
+  border: 1.6px solid #e1e8f1;
+  background: #fff;
+  padding: var(--padding-container);
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: start;
+  text-align: start;
+  .cardHeader{
+
+    height: 35%;
+  }
+  .name {
+    color: var(--DarkBleu);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 28px; /* 140% */
+  }
+  .badgeWrapper {
+    display: flex;
+    flex-direction: row;
+    height: 7%;
+    flex-wrap: wrap;
+    gap: 10px;
+    .badge {
+      padding: var(--padding-badge);
+      border-radius: 6px;
+      border: 0.8px solid rgba(0, 0, 0, 0);
+      border: 0.8px solid color(display-p3 0 0 0 / 0);
+      background: #f0f5f9;
+      background: color(display-p3 0.9451 0.9608 0.9765);
+    }
+  }
+  .stats {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 30%;
+      .count {
+        font-weight: 600;
+        font-size: 20px;
+        color: black !important;
+      }
+      .text {
+        font-weight: 400;
+        color: var(--blue-grey);
+      }
+    }
+  }
+  .lastEdit {
+    display: flex;
+    flex-direction: row;
+        height: 5%;
+    gap: 10px;
+    align-items: center;
+  }
+  .buttonContainer {
+    width: 100%;
+    > * {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

@@ -1,0 +1,50 @@
+.visualisationsubPageOfdemonsAndDeclencheurSubpage {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0 !important;
+  position: relative;
+  .sub-navigation-bar {
+    width: 30%; 
+    position: absolute;
+    z-index: 5;
+    left: 31px ;
+    top: 31px;
+  }
+  .visualisationLegend {
+    position: absolute;
+    z-index: 2;
+
+    right: 0;
+    top: 31px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
+    gap: 10px;
+        padding: 15px !important;
+
+    padding: var(--padding-content-page);
+    width: fit-content; 
+    background: white;
+        box-shadow: 1px 0 4px 1px #8080804d;
+        border-radius: 13px;
+        right: 8px;
+    > div {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 8px;
+
+      > div {
+        width: 33px;
+        height: 15px;
+        border-radius: 4px;
+        span{
+
+    font-size: 13px;
+        }
+      }
+    }
+  }
+}

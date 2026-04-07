@@ -1,0 +1,32 @@
+.currentWithValueEventubPageOfcurrentWithValueEventAndDeclencheurSubpage {
+  
+ 
+  .left { 
+    
+      overflow-y: scroll;
+      height: 93.7vh;
+      max-height: 93.7vh;
+  }
+  .right { 
+    
+      overflow-y: scroll;
+      height: 93.7vh;
+      max-height: 93.7vh;
+    >.basicContainer:not(.headerRight) {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+     .eventAssociatedSection {
+      .wrapperSelection {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        width: 100%;
+        .eventCard {
+          width: 17%;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+.inputRange {
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  align-self: center;
+  width: 100%;
+      border-radius: 12px;
+  cursor: pointer;
+  padding-top: 15px;
+
+  background: #f5f6f6;
+  padding: 20px 50px 46px 41px;
+  .slider {
+    padding-inline: 2.5%;
+    box-sizing: border-box;
+    align-self: center;
+    width: 100%;
+    cursor: pointer;
+    background: #a7adb5;
+    height: 6px;
+    position: relative;
+    .selectedSlider {
+      position: absolute;
+      background: var(--violet);
+      width: 20%;
+      height: 100%;
+      z-index: 2;
+    }
+  }
+  .minLabel {
+    position: absolute;
+    left: -3px;
+    top: -2px;
+    transform: translate(-100%);
+  }
+  .maxLabel {
+    position: absolute;
+    right: -4px;
+    top: -2px;
+    transform: translate(100%);
+  }
+  .rightCursor,
+  .leftCursor {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    top: -14px;
+    border-top: 14px solid var(--violet);
+    cursor: pointer;
+    transform: translate(-50%);
+  }
+  .tickMarks {
+    padding-top: 5px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 30px;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .tickMark {
+      width: 2px;
+      height: 9px;
+      background: grey;
+    }
+    .tickMark.colored {
+      background: var(--violet);
+      height: 11px;
+    }
+    .tickMark.active {
+      height: 17px;
+      width: 4px;
+    }
+  }
+}

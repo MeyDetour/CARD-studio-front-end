@@ -1,0 +1,13 @@
+.icon{
+  width: 24px;
+  height: 24px;
+}
+
+.iconBig{
+
+    width: 45px;
+    height: 45px;
+}
+.iconRotate{
+    transform: rotate(180deg);
+}

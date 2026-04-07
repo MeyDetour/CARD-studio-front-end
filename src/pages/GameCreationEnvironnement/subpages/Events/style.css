@@ -1,0 +1,131 @@
+.eventsAndDeclencheurSubpage {
+  padding: 0 !important;
+  .selectMode {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: var(--padding-content-page);
+    .wrapper {
+    
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: stretch;
+            justify-content: start;
+            gap: 35px;
+            height: fit-content;
+      > .titleContainer {
+        width: 50%;
+      }
+      > div {
+        width: 31%; 
+      }
+    }
+  }
+
+  .eventConfigurationSection {
+    .left {
+      width: 20%;
+      .headerEvent {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+
+  .eventSubPageOfEventsAndDeclencheurSubpage,
+  .demonsubPageOfdemonsAndDeclencheurSubpage,
+  .currentWithValueEventubPageOfcurrentWithValueEventAndDeclencheurSubpage {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    overflow: hidden;
+    min-height: 100%;
+    .left {
+      display: flex;
+      width: 20%;
+      padding: 24px 18px 61px 18px;
+      overflow-y: scroll;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      border-right: 0.8px solid #e1e8f1;
+      box-sizing: border-box;
+      background: #fcfcfc;
+      overflow-x: hidden;
+
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: transparent;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: transparent;
+      }
+      .headerEvent {
+        display: flex;
+
+        flex-direction: column;
+        align-items: start;
+        width: 100%;
+        gap: 25px;
+        h2{
+          width: 100%;
+          text-align:start
+        }
+      }
+      .wrapperEvents,
+      .wrapperdemons,
+      .wrappercurrentWithValueEvent {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .wrapperRequiresInput {
+      }
+    }
+    .right {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 80%;
+      padding: 50px 33px;
+      box-sizing: border-box;
+      .headerRight {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+      }
+      > .basicContainer:not(.headerRight) {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .referenceContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        > span {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

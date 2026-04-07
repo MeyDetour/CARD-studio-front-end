@@ -1,0 +1,73 @@
+.demonsubPageOfdemonsAndDeclencheurSubpage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  min-height: 100%;
+  .left {
+    display: flex;
+    width: 20%; 
+    padding: 24px 18px 0 18px;
+    flex-direction: column;
+    min-height: 100%;
+    align-items: flex-start; 
+    
+      overflow-y: scroll;
+     
+  
+      height: 93.7vh;
+      max-height: 93.7vh;
+    gap: 16px;
+    border-right: 0.8px solid #e1e8f1;
+    background: #fcfcfc;
+    
+    .headerEvent {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .wrapperEvents {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+  .right {
+
+      overflow-y: scroll;
+      height: 93.7vh;
+      max-height: 93.7vh;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 80%;
+    padding: 50px 33px;
+    box-sizing: border-box;
+    .headerRight {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      gap: 20px;
+    }
+    >.basicContainer:not(.headerRight) {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .eventAssociatedSection {
+      .wrapperSelection {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        width: 100%;
+        .eventCard {
+          width: 17%;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+.assetsBookshelfSubpage {
+  user-select: none;
+  padding-bottom: 50vh !important;
+  .cardEditionPage.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 24px;
+    .cardPreview {
+      width: fit-content;
+      .defaultCardOfGame {
+        width: 100%;
+        .leftSuit {
+          top: 4%;
+          font-size: 25px;
+        }
+        .rightSuit {
+          bottom: 4%;
+          font-size: 25px;
+        }
+      }
+      .cardInLibrary {
+        width: 100%;
+        aspect-ratio: 0.67 / 1;
+        border: 1px solid grey;
+        border-radius: 8px;
+        background: white;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .warningText {
+          width: 80%;
+          text-align: center;
+          color: #ff9705;
+        }
+      }
+      .imageUploadContainer {
+        width: 100%;
+        position: relative;
+        .button {
+          width: 100%;
+          justify-content: center;
+        }
+        input {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          opacity: 0;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
