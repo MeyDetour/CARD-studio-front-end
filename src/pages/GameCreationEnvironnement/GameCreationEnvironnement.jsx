@@ -21,6 +21,8 @@ import {
   updateElementValue,
   updateValueArray,
 } from "../../helpers/objectManagement";
+import { listenToCardStudioTester } from "../../helpers/browserMessageWithCardStudioTester.js";
+
 
 // Components
 import Loader from "../../components/Loader/Loader";
@@ -65,8 +67,8 @@ export default function GameCreationEnvironnement() {
     setCurrentWithValueEvent,
     setCurrentDemon,
   } = useGameContext();
-  const {deleteLocalHistory}= useHistoryContext();
-  const { fetchUser, editUser } = useUserContext(); 
+  const { deleteLocalHistory } = useHistoryContext();
+  const { fetchUser, editUser } = useUserContext();
   const [gameImageUploadedUrl, setGameImageUploadedUrl] = useState();
   const { t } = useTranslation();
   const { setAlerts, alertList, canDisplayError, setCanDisplayError } =
@@ -122,9 +124,9 @@ export default function GameCreationEnvironnement() {
 
   let suggestions = useDynamicEntitySuggestions(
     game?.globalValue,
-    game?.playerGlobalValue ,
-    game?.assets?.gains
-  ); 
+    game?.playerGlobalValue,
+    game?.assets?.gains,
+  );
   // =========== DETECTION DE MODIFICATION ET SAUVEGARDE AUTOMATIQUE============
   useEffect(() => {
     if (!game || !playerHasEdit) return;
@@ -147,8 +149,8 @@ export default function GameCreationEnvironnement() {
   if (!user) return <Loader />;
 
   // =========== UPDATE GAME OBJECT ============
-  const updateGameValueHandler = (path, value,type) => {
-    setGame((prev) => updateElementValue(path, prev, value,type));
+  const updateGameValueHandler = (path, value, type) => {
+    setGame((prev) => updateElementValue(path, prev, value, type));
     setPlayerHasEdit(true);
   };
 
@@ -208,7 +210,11 @@ export default function GameCreationEnvironnement() {
       setUser((prev) => ({ ...prev, ...userEdited }));
     }
   };
+  // ============ CARD STUDIO TESTER COMMUNICATION ============
+  // declare globally if card studio is refreshed
+  listenToCardStudioTester(navigate);
 
+  // ====================================================
   if (restaurationLoading) {
     return <LoadingRestorGame />;
   }
@@ -231,7 +237,7 @@ export default function GameCreationEnvironnement() {
                 <EditGame
                   gameData={{
                     name: game.name,
-                    description : game.description,
+                    description: game.description,
                     id: game.id,
                     types:
                       game.type && Array.isArray(game.type)
@@ -283,7 +289,6 @@ export default function GameCreationEnvironnement() {
                   }
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                   restoreGameFromDb={restoreGameFromDb}
                 />
@@ -299,7 +304,6 @@ export default function GameCreationEnvironnement() {
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                 />
               );
@@ -422,7 +426,6 @@ export default function GameCreationEnvironnement() {
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                   getEventFromIdAndType={getEventFromIdAndType}
                 />
@@ -432,13 +435,12 @@ export default function GameCreationEnvironnement() {
                 <CardManagement
                   gameData={{
                     cards: game.assets.cards,
-                     
+
                     id: game.id,
                     cardParams: game.params.cards ? game.params.cards : {},
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                 />
               );
@@ -447,13 +449,12 @@ export default function GameCreationEnvironnement() {
                 <Gains
                   gameData={{
                     gains: game.assets.gains,
-                     
+
                     id: game.id,
                     cardParams: game.params.gains ? game.params.gains : {},
                   }}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                 />
               );

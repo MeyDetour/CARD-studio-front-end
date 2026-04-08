@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { useGameContext } from "../../context/GameContext";
 import Alert from "../Alert/Alert";
 import { useTokenContext } from "../../context/TokenContext";
+import { sendMessageToCardStudioTester } from "../../helpers/browserMessageWithCardStudioTester.js";
 
 export default function GameCreationEnvironnementNavigation({
   saveGame,
@@ -269,7 +270,7 @@ export default function GameCreationEnvironnementNavigation({
           clickable={gameInStorage ? true : false}
           type={
             gameInStorage ? "whiteWithBordure" : "whiteWithBordure-Disabled"
-          } 
+          }
           action={() => saveGame()}
         ></Button>
         <Button
@@ -277,28 +278,8 @@ export default function GameCreationEnvironnementNavigation({
           text="testGame"
           type="violetButton"
           action={() => {
-            let testApp = window.open(
-              import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE,
-              "_blank",
-            );
-            const handleReady = (event) => {
-              if (
-                event.origin !== import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE
-              )
-                return;
-
-              if (event.data === "READY_FOR_TOKEN") {
-                testApp.postMessage(
-                  { token: getToken(), gameId: id },
-                  import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE,
-                );
-                console.log("send message to "+import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE);
-                 window.removeEventListener("message", handleReady);
-              }
-            };
-
-            window.addEventListener("message", handleReady);
-          }}
+        sendMessageToCardStudioTester( { token: getToken(), gameId: id })
+               }}
         ></Button>
       </div>
     </nav>

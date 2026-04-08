@@ -46,3 +46,11 @@ sequenceDiagram
 
 ```
 
+
+
+https://labex.io/fr/tutorials/git-how-to-address-fatal-bad-object-head-error-417639
+
+git fetch origin
+
+
+https://www.swyx.io/solve-git-bad-object-head
