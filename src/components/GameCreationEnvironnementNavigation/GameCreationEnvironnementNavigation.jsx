@@ -66,7 +66,7 @@ export default function GameCreationEnvironnementNavigation({
         <h4 className="section-title">{t("elementManagement")}</h4>
         <ul>
           <li>
-            <Alert alertList={alertList} displayAlertOfType="cards"></Alert>
+            <Alert alertList={alertList} displayAlertOfType="card"></Alert>
             <Button
               text={t("cardManagement")}
               action={() => navigate("/game/cards/" + id)}
@@ -246,7 +246,22 @@ export default function GameCreationEnvironnementNavigation({
                   : "activity-log"
               }
             />
-          </li>{" "}
+          </li>
+          <li>
+            <Button
+              text={t("tools")}
+              action={() => {
+                navigate("/game/tools/" + id);
+                setCurrentSubpageOfEvents(null);
+              }}
+              type={currentPage == "tools" ? "navbar active" : "navbar"}
+              icon={
+                currentPage === "tools"
+                  ? "tools-white"
+                  : "tools"
+              }
+            />
+          </li>
           <li>
             <Button
               text={t("helpAndSettings")}

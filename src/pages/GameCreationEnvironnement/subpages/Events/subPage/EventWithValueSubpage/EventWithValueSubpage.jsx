@@ -21,7 +21,7 @@ import WithValueEventCard from "../../../../../../components/Cards/WithValueEven
 import Confirm from "../../../../../../components/Confirm/Confirm.jsx";
 import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
 import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
-
+ 
 export default function CurrentWithValueEventSubpage({
   withValueEvents,
   demons,
@@ -219,7 +219,7 @@ export default function CurrentWithValueEventSubpage({
               ></InputSelect>
               <Input
                 title="condition"
-                disabled={disabledFields && disabledFields.condition}
+                disabled={disabledFields && disabledFields.boucleCondition}
                 description="condition-in-boucle-description"
                 defaultValue={currentWithValueEvent.event.condition}
                 pathInObject="event.condition"

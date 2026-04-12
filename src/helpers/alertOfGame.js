@@ -16,9 +16,8 @@ export function loadAlertListFormGame(gameData) {
   let alertList = [];
   let withValueEventIds = gameData.events.withValueEvent.map(
     (event) => event.id,
-  );  let eventIds = gameData.events.events.map(
-    (event) => event.id,
   );
+  let eventIds = gameData.events.events.map((event) => event.id);
   let withValueEventAllowToUseCurrentPlayer = [];
 
   // ========== Check  actions
@@ -188,11 +187,11 @@ export function loadAlertListFormGame(gameData) {
       // verifier si ca existe pas
       if (!withValueEventIds.includes(wve.id)) {
         alertList.push(event.id + "|event|callNonExistingWithValueEvent|alert");
-      }else{
+      } else {
         // si ca existe
 
         // verifier les clés
-           // verifier les clés
+        // verifier les clés
         for (let key of Object.keys(event)) {
           if (
             event[key] == undefined ||
@@ -217,26 +216,33 @@ export function loadAlertListFormGame(gameData) {
     }
     if (demon.events.length === 0) {
       alertList.push(demon.id + "|demon|demonEventsMustNotBeEmpty|warning");
-    } 
+    }
     if (demon.events.some((eventId) => !eventIds.includes(eventId))) {
       alertList.push(demon.id + "|demon|demonCallNonExistingEvent|alert");
     }
   });
-  
-  
+
   // ============= Check for cards
   Object.keys(gameData.assets.cards).forEach((cardId) => {
     const card = gameData.assets.cards[cardId];
     if (!card.type || !card.type?.trim(" ")) {
       alertList.push(card.id + "|card|cardTypeCannotBeEmpty|alert");
-    } 
-  }); 
+    }
+    if (!card.name || !card.name?.trim(" ")) {
+      alertList.push(card.id + "|card|cardNameMustNotBeEmpty|warning");
+    }
+  });
 
-   // ============= Check for gains
+  // ============= Check for gains
   gameData.assets.gains.forEach((gain) => {
     if (!gain.name || !gain.name.trim(" ")) {
       alertList.push(gain.id + "|gain|gainNameCannotBeEmpty|alert");
-    } 
+    }
+    if (
+      gameData.assets.gains.some((g) => g.name == gain.name && g.id != gain.id)
+    ) {
+      alertList.push(gain.id + "|gain|gainsCannotHaveSameName|alert");
+    }
   });
  
   return alertList;

@@ -22,6 +22,8 @@
   "passwordConfirmPlaceholder": "Enter your password",
   "forgotPassword": "Forgot your password?",
   "loginButton": "Log in",
+  "ExpressionEditor": "Expression editor",
+  "cardNameMustNotBeEmpty": "Card name must not be empty",
   "registerButton": "Create an account",
   "legalNotice": "By logging in, you accept our",
   "termsOfUse": "Terms of Use",
@@ -572,10 +574,18 @@
   "howToChangeTurnDescription": "To implement a classic turn-based system, you must ensure that as soon as a player selects an action, their hasPlayed status is set to true. This signals to the system that their action is complete. The game must then monitor when all players have finished to trigger the turn change. You will need to create a 'demon' (or watcher) based on the 'allPlayersHasPlayed/endOfTour' condition to trigger the end of the current turn.",
   "eventCannotCallWithValueEventWithCurrentPlayer": "This event cannot call a dynamic value event that uses the current player as a variable but current player does not exist at this step. Error code : E001.",
   "errorCodes": "Error Codes",
+  "expression":"Expression",
+  "tools": "Tools",
+  "expressionEditor": "Expression editor",
+  "expressionEditorDescription": "Tool to create and test expressions based on game variables and elements. This can be useful for creating complex game mechanics that require calculations or conditions based on the current game state.",
+  "flowchart": "Flowchart",
+  "toolsDescription": "Tools to analyze the changes in your game",
+  
   "errorCode-E001-shortText": "E001 : Cannot call a dynamic value event that uses the current player",
   "errorCode-E001-eventCannotCallWithValueEventWithCurrentPlayer": "If you use a dynamic value event that uses the current player as a variable in an event, current player may be undefined. If you want to call this dynamic value event, you need to ensure that it does not use the current player as a variable, or you need to modify the dynamic value event's configuration and replace {currentPlayer} with {inputPlayer} variable. Only actions can call dynamic value events with the current player as a variable or a dynamic value event wich is itself called by an action.",
   "withValueEventCannotUseCurrentPlayerIfItsNotColledInAction": "This event cannot use {currentPlayer} as a variable if it is not called by a player action. Error code: E002",
   "errorCode-E002-shortText": "E002 : Cannot use {currentPlayer}",
   "errorCode-E002-withValueEventCannotUseCurrentPlayerIfItsNotCalledInAction": "If you use a dynamic value event that uses {currentPlayer} as a variable, you must ensure it is called by a player action. Otherwise, {currentPlayer} will be undefined. You must either modify the dynamic value event to not use {currentPlayer}, or ensure it is called by an action.",
-  "cards": "Cards"
+  "cards": "Cards",
+  "gainsCannotHaveSameName": "Gains cannot have the same name"
 }

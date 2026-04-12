@@ -34,6 +34,8 @@ export const eventActions = [
     tooltip: "updateGlobalValueDescription",
     necessiteFor: true,
     necessiteValue: true,
+    necessiteBoucle :true,
+    necessiteBoucleCondition :true,
     types: ["action"],
   }, 
   {

@@ -45,9 +45,9 @@ const navigate = useNavigate();
           <GameCreationEnvironnementQuickAction text="createCard" icon="add" action={()=>navigate("/game/cards/" + gameData.id)} />
           <GameCreationEnvironnementQuickAction text="editGame" icon="stat" action={()=>navigate("/game/edit/" + gameData.id)} />
           <GameCreationEnvironnementQuickAction
-            text="modifyDisplay"
-            icon="screen"
-            action={()=>navigate("/game/displays/" + gameData.id)}
+            text="ExpressionEditor"
+            icon="parser"
+            action={()=>navigate("/game/expressionEditor/" + gameData.id)}
           />
           <GameCreationEnvironnementQuickAction
             text="browseAssets"

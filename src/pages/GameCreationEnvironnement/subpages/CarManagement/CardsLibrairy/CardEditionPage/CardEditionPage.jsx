@@ -122,6 +122,10 @@ export default function CardEditionPage({
 
         {/*=========CARD CONFIGURATION======= */}
         <div className="basicContainer">
+           <Alert
+                alertList={alertList}
+                messages={[currentCard.id + "|card|cardNameMustNotBeEmpty"]}
+              />
           {/* ===========NAME======= */}
           <Input
             title="cardName"

@@ -86,6 +86,9 @@ export default function Events({
       if (!action.necessiteBoucle) {
         newEvent.event.boucle = null;
       }
+      if (!action.necessiteBoucleCondition) {
+        newEvent.event.condition = null;
+      }
       if (!action.necessiteRequiresInput) {
         newEvent.event.requiresInput = null;
       }
@@ -145,6 +148,9 @@ export default function Events({
     if (!action.necessiteBoucle) {
       obj.boucle = true;
     }
+    if (!action.necessiteBoucleCondition) {
+      obj.boucleCondition = true;
+    }
     if (!action.necessiteRequiresInput) {
       obj.requiresInput = true;
     }
@@ -157,28 +163,25 @@ export default function Events({
   // Les fonctions sont spécifiques aux événements et withValueEvents, et reçoivent les variables concernées en paramètre pour garantir la réactivité des champs.
 
   // Sépare la gestion du premier lancement pour éviter toute modification ou ajout à l'historique
- 
 
   useEffect(() => {
-    if (currentWithValueEvent &&  withValueEventFirstLoad){
+    if (currentWithValueEvent && withValueEventFirstLoad) {
       setWithValueEventFirstLoad(false);
-      return
+      return;
     }
     if (currentWithValueEvent) {
       updateGameValueArray("events.withValueEvent", currentWithValueEvent);
       addItem(
         gameData.id,
-        createHistoryElement(
-          "withValueEvent",
-          "edit",
-          { id: currentWithValueEvent.id },
-        ),
+        createHistoryElement("withValueEvent", "edit", {
+          id: currentWithValueEvent.id,
+        }),
       );
-    } 
+    }
   }, [currentWithValueEvent]);
 
   useEffect(() => {
-    if(currentEvent && eventFirstLoad){
+    if (currentEvent && eventFirstLoad) {
       setEventFirstLoad(false);
       return;
     }
@@ -186,9 +189,9 @@ export default function Events({
       updateGameValueArray("events.events", currentEvent);
       addItem(
         gameData.id,
-        createHistoryElement("events", "edit",{ id : currentEvent.id }),
+        createHistoryElement("events", "edit", { id: currentEvent.id }),
       );
-    } 
+    }
   }, [currentEvent]);
   return (
     <div className="eventsAndDeclencheurSubpage">
@@ -253,7 +256,6 @@ export default function Events({
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 globalValue={gameData.globalValue}
-                
                 globalValueStatic={gameData.globalValueStatic}
                 gameId={gameData.id}
                 playerGlobalValue={gameData.playerGlobalValue}

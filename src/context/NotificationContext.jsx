@@ -24,7 +24,7 @@ export function NotificationProvider({ children }) {
     setAlertList((prev) => prev.filter((alert) => alert !== message));
   }
   function getAlerts(message) {
-    return alertList.filter((alert) => alert.includes(message));
+    return alertList.filter((alert) => alert.startsWith(message));
   }
   function getAlertOfType(type) {
     let result = alertList.filter((alert) => alert.split("|")[1] === type);

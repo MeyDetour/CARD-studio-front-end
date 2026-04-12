@@ -42,6 +42,8 @@ import RoundsPage from "./subpages/RoundsAndManches/Rounds";
 import VisualisationPage from "./subpages/Visualisation/Visualisation";
 import ActivityLog from "./subpages/ActivityLog/ActivityLog";
 import Gains from "./subpages/Gains/Gains.jsx";
+import Outils from "./subpages/Outils/Outils.jsx";
+import ExpressionEditor from "./subpages/ExpressionEditor/ExpressionEditor.jsx";
 
 // Hooks
 import { useApi } from "../../hooks/useApi";
@@ -477,6 +479,25 @@ export default function GameCreationEnvironnement() {
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
                 />
+              );
+            case "tools":
+              return (
+                <Outils
+                gameData={{
+                  id : game.id,
+                  suggestions: suggestions,
+                }}
+                 />
+              ); case "expressionEditor":
+              return (
+                <ExpressionEditor
+                 gameData={{
+                  suggestions: suggestions,
+                  id : game.id,
+                      playerGlobalValue: game.playerGlobalValue,
+                  
+                }}
+                 />
               );
             default:
               return (

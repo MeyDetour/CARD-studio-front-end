@@ -142,6 +142,8 @@ export default function Gains({
                 alertList={alertList}
                 messages={[
                   currentGain.id + "|gain|gainNameCannotBeEmpty|alert",
+
+                  currentGain.id + "|gain|gainsCannotHaveSameName|alert"
                 ]}
               ></Alert>
               <TitleContainer

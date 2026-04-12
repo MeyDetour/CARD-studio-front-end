@@ -81,10 +81,12 @@
   "timePrefix": "Il y a",
   "hours": "heures",
   "yesterday": "Hier",
+  "ExpressionEditor": "Éditeur d'expression",
   "comments": "Commentaires",
   "commentAreCollectOnGame": "Les commentaires sont recueillis directement depuis la plateforme de jeu",
   "generalInformation": "Informations générales",
   "gameName": "Nom du jeu",
+  "cardNameMustNotBeEmpty": "Le nom de la carte ne doit pas être vide",
   "gameType": "Type de jeu",
   "wantToSwitchGameToVisible": "Souhaitez-vous rendre ce jeu publiquement visible sur l'interface CARD Games ?",
   "publicVisibilityHelperText": "Le jeu apparaîtra dans la liste des jeux disponibles pour tous les utilisateurs. Sinon, le jeu ne sera pas listé dans l'interface publique. Il ne sera accessible qu'aux utilisateurs qui possèdent et entrent un code d'accès unique.",
@@ -576,13 +578,18 @@
    "editionLogAddglobalValue":"Ajout d'une valeur globale",
   "editionLogAddglobalValueStatic": "Ajout d'une valeur globale statique",
   "editionLogAddplayerGlobalValue": "Ajout d'une valeur globale du joueur",
-
+  "expression": "Expression",
   "editionLogChangeDetail": "Détail de la modification",
  "editionLogDeletionDetail": "Détail de la suppression",
 
   "detailedHistory": "Historique détaillé",
   "detailedHistoryDescription": "Liste complète de toutes les modifications",
   "lastSaved": "Dernière sauvegarde le",
+  "tools": "Outils",
+   "expressionEditor": "Éditeur d'expressions",
+  "expressionEditorDescription": "Outil pour créer et tester des expressions basées sur les variables et les éléments du jeu. Cela peut être utile pour créer des mécaniques de jeu complexes nécessitant des calculs ou des conditions basées sur l'état actuel du jeu.",
+  
+  "toolsDescription": "Outils pour analyser les modifications de votre jeu",
   "modificationsByCategory": "Modifications par catégorie",
   "changesByElementType": "Répartition des changements par type d'élément",
   "xUnsavedChanges": "Modifications non sauvegardées",
@@ -593,5 +600,6 @@
   "errorCode-E001-eventCannotCallWithValueEventWithCurrentPlayer": "Si vous utilisez un événement à valeur dynamique qui utilise le joueur actuel comme variable dans un événement, le joueur actuel peut être indéfini. Si vous souhaitez appeler cet événement à valeur dynamique, vous devez vous assurer qu'il n'utilise pas le joueur actuel comme variable, ou vous devez modifier la configuration de l'événement à valeur dynamique et remplacer {currentPlayer} par la variable {inputPlayer}. Seules les actions peuvent appeler des événements à valeur dynamique avec le joueur actuel comme variable ou un événement à valeur dynamique qui est lui-même appelé par une action.",
   "withValueEventCannotUseCurrentPlayerIfItsNotColledInAction": "Cet évènement ne peut pas appeler utiliser {currentPlayer} comme variable si il n'est pas appelé par une action du joueur. Code Erreur : E002",
   "errorCode-E002-shortText": "E002 : Impossible d'utiliser {currentPlayer}",
-  "errorCode-E002-withValueEventCannotUseCurrentPlayerIfItsNotColledInAction": "Si vous utilisez un événement à valeur dynamique qui utilise {currentPlayer} comme variable, vous devez vous assurer qu'il est appelé par une action du joueur. Sinon, {currentPlayer} sera indéfini. Vous devez soit modifier l'événement à valeur dynamique pour ne pas utiliser {currentPlayer}, soit vous assurer qu'il est appelé par une action."
+  "errorCode-E002-withValueEventCannotUseCurrentPlayerIfItsNotColledInAction": "Si vous utilisez un événement à valeur dynamique qui utilise {currentPlayer} comme variable, vous devez vous assurer qu'il est appelé par une action du joueur. Sinon, {currentPlayer} sera indéfini. Vous devez soit modifier l'événement à valeur dynamique pour ne pas utiliser {currentPlayer}, soit vous assurer qu'il est appelé par une action.",
+  "gainsCannotHaveSameName": "Les gains ne peuvent pas avoir le même nom"
 }
