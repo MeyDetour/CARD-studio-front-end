@@ -1,4 +1,32 @@
-.expressionEditorSubpage{
+.expressionEditorSubpage {
   overflow-y: auto;
   overflow-x: hidden;
+  .decompositionContainer {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: fit-content;
+    .decompositionNode {
+      border-left: 2.2px solid #0036d6;
+            margin-left: 28px;
+      padding-left: 15px;
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+    .decompositionNode.noMargin {
+      margin-left: 0px !important;
+    }
+
+    .part-label {
+        color: #6f6f6f;
+    font-weight: 400;
+    .letter{
+        font-weight: 500;
+        color:black
+    }
+    }
+  }
 }

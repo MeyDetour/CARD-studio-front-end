@@ -23,76 +23,96 @@ export const useDynamicEntitySuggestions = (
       label: "*",
       tooltip: "all",
       types: ["number"],
+      return : "null",
     });
     suggestions.push({
       label: "len(a)",
       types: ["number"],
+      return :"number"
     });
     suggestions.push({
       label: "startOfGame",
       types: ["event"],
+      return :"boolean"
+      
     });
     suggestions.push({
       label: "onChangeTour",
       types: ["event"],
+      return :"boolean"
+
     });
     suggestions.push({
       label: "eachStartOfManche",
       types: ["event"],
+      return :"boolean"
     });
     suggestions.push({
       label: "calc(a+b)",
       tooltip: "calculTwoValue",
       types: ["number"],
+      return :"number"
     });
     suggestions.push({
       label: "comp(a;isEqualNumber;b)",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "comp(a;isNotEqualNumber;b)",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "comp(a;isInferiorOrEqual;b)",
       types: ["boolean"],
+      return :"boolean" 
     });
     suggestions.push({
       label: "comp(a;isSuperiorNumber;b)",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "comp(a;isInferiorNumber;b)",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "comp(a;isEqualString;b)",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "comp(a;notContain;b)",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "comp(a;contain;b)",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "comp(a;differentPlayer;b)",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "comp(a;samePlayer;b)",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "exp(a;operation;b)",
       tooltip: "compareTwoValue",
       types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "{deck}",
-      types: ["cardList"],
+      types: ["cardList"],  
+      return :"array"
     });
     suggestions.push({
       label: "allPlayersHasPlayed/endOfTour",
@@ -101,18 +121,22 @@ export const useDynamicEntitySuggestions = (
     suggestions.push({
       label: "{discardDeck}",
       types: ["cardList"],
+      return :"array"
     });
     suggestions.push({
       label: "{allPlayersInGame}",
       types: ["playerList"],
+      return : "array"
     });
     suggestions.push({
       label: "{allPlayersWinners}",
       types: ["playerList"],
+      return : "array"
     });
     suggestions.push({
       label: "{allPlayersLoosers}",
       types: ["playerList"],
+      return : "array"
     });
 
     const playerBases = [
@@ -124,14 +148,14 @@ export const useDynamicEntitySuggestions = (
     if (playerGlobalValues) {
       let playerBloglValuesTotal = {
         ...playerGlobalValues,
-        handDeck: { types: ["cardList"] },
-        personalHandDeck: { types: ["cardList"] },
-        personalHandDiscard: { types: ["cardList"] },
-        position: { types: ["number"] },
-        hasPlayed: { types: ["boolean"] },
-        haswin: { types: ["boolean"] },
-        actions: { types: ["array"] },
-        roles: { types: ["array"] },
+        handDeck: { types: ["cardList"], return: "array" },
+        personalHandDeck: { types: ["cardList"], return: "array" },
+        personalHandDiscard: { types: ["cardList"], return: "array" },
+        position: { types: ["number"], return: "number" },
+        hasPlayed: { types: ["boolean"], return: "boolean" },
+        haswin: { types: ["boolean"], return: "boolean" },
+        actions: { types: ["array"], return: "array" },
+        roles: { types: ["array"], return: "array" },
       };
 
       playerBases.forEach((base) => {

@@ -493,7 +493,7 @@
 "doYouRealyWantToDeleteTheseCards": "Do you really want to delete these cards?",  
 "cardValue": "Card value", 
  "saveCardDescription":"The entered data is saved locally. Saving it will allow it to be stored in the database and enable adding an image.",
- 
+ "Attributs": "Attributes",
   "params.cards.deck.activation": "Activate settings related to the deck",
   "params.cards.deck.renderTheNextDeckCard": "Make the card on top of the draw pile visible (face-up).",
   "params.cards.discard.activation": "Activate settings related to the discard pile",
@@ -505,6 +505,8 @@
   "params.rendering.game.displayHistory": "Display a history of actions during the game.",
   "params.rendering.game.displayTimer": "Display a timer during the game.",
   "isPublic": "Public",
+  "object": "Object",
+  "decompositionOfExpression": "Decomposition of the expression",
   "params.globalGame.minPlayer": "Minimum number of players required to start the game",
   "params.globalGame.maxPlayer": "Maximum number of players allowed in the game",
   "params.globalGame.jeuSolo": "Solo game",
