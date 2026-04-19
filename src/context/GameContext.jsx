@@ -139,6 +139,32 @@ export function GameProvider({ children }) {
     }
     return result
   };
+   const restoreCards = async (gameId) => { 
+ 
+    const result = await fetchData(`api/game/${gameId}/restore/cards`, null, {
+      token: getToken(),
+      method: "PUT",
+    });
+    if (!result) {
+      displayError(t("FailedToUpdateGame"));
+    } else { 
+      // TODO
+    }
+    return result
+  };
+  const getCards = async (gameId) => { 
+ 
+    const result = await fetchData(`api/game/${gameId}/get/cards`, null, {
+      token: getToken(),
+      method: "GET",
+    });
+    if (!result) {
+      displayError(t("FailedToUpdateGame"));
+    } else { 
+      
+    }
+    return result
+  };
   const deleteGame = async () => {
     const result = await fetchData("api/game/remove/" + game.id, null, {
       token: getToken(),
@@ -174,11 +200,12 @@ export function GameProvider({ children }) {
         setCurrentSubpageOfEvents,
         currentWithValueEvent,
         currentDemon,
+        getCards,
         currentEvent,
         setCurrentDemon,
         setCurrentEvent,pushGainModification,
         getGames,pushCardModification,
-        pushModification,
+        pushModification,restoreCards,
         uploadFileForGameEdition,
       }}
     >

@@ -568,8 +568,11 @@
    "editionLogChangeglobalValue":"Modification d'une valeur globale",
   "editionLogChangeglobalValueStatic": "Modification d'une valeur globale statique",
   "editionLogChangeplayerGlobalValue": "Modification d'une valeur globale du joueur",
- 
-  "editionLogDeletioncards": "Suppression d'une carte",
+ "visualiseConnexionsBetwwenElements":"Visualisez les connexions entre les éléments de votre jeu avec l'outil de diagramme. Cet outil vous permet de créer une représentation visuelle des mécaniques de votre jeu, y compris le flux des événements, les actions des joueurs et les états du jeu. Vous pouvez utiliser cette visualisation pour mieux comprendre et optimiser la conception de votre jeu.",
+ "restoreCards": "Restore cards",
+ "allYoursCardsWillBeRestoredToDefaultCardsPack": "All your cards will be restored to the default cards pack. This action is irreversible, so make sure to save any important information before restoring.",
+  
+ "editionLogDeletioncards": "Suppression d'une carte",
   "editionLogDeletiondemons": "Suppression d'un démon",
   "editionLogDeletionwithValueEvent": "Suppression d'un événement avec valeur dynamique",
    "editionLogDeletionglobalValue":"Suppression d'une valeur globale",

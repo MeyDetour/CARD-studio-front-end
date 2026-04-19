@@ -217,21 +217,7 @@ export default function GameCreationEnvironnementNavigation({
               }
             />
           </li>
-          <li>
-            <Button
-              text={t("visualisation")}
-              action={() => {
-                navigate("/game/visualisation/" + id);
-                setCurrentSubpageOfEvents(null);
-              }}
-              type={currentPage == "visualisation" ? "navbar active" : "navbar"}
-              icon={
-                currentPage === "visualisation"
-                  ? "visualisation-white"
-                  : "visualisation"
-              }
-            />
-          </li>
+         
           <li>
             <Button
               text={t("activityLog")}

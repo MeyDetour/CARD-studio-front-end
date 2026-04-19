@@ -6,19 +6,18 @@
     gap: 24px;
     padding: var(--padding-content-page);
     .wrapper {
-    
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-items: stretch;
-            justify-content: start;
-            gap: 35px;
-            height: fit-content;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: start;
+      gap: 35px;
+      height: fit-content;
       > .titleContainer {
         width: 50%;
       }
       > div {
-        width: 31%; 
+        width: 31%;
       }
     }
   }
@@ -82,9 +81,9 @@
         align-items: start;
         width: 100%;
         gap: 25px;
-        h2{
+        h2 {
           width: 100%;
-          text-align:start
+          text-align: start;
         }
       }
       .wrapperEvents,

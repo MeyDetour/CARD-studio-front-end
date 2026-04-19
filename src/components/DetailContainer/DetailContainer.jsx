@@ -14,9 +14,9 @@ export default function DetailContainer({
   return (
     <details className={`basicContainer detailBasicContainer ${className}`}>
       <summary onClick={() => setIsOpen(!isOpen)}>
+       <TitleContainer title={title} description={description}>
         {topAlert && <div className="topAlert">{topAlert}</div>}
-        <TitleContainer title={title} description={description}>
-      
+       
         </TitleContainer>
         <Icon name="bottom_arrow" className={isOpen ? "iconRotate" : ""}></Icon>
       </summary>

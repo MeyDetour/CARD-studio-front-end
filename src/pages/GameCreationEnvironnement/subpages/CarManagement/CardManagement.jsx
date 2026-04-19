@@ -14,6 +14,7 @@ import CardsManagementSettings from "./CardsManagementSettings/CardsManagementSe
 
 export default function CardManagement({
   gameData, 
+  getCardsFromDb,
   updateGameValue,
 }) {
   const { t } = useTranslation();
@@ -51,6 +52,7 @@ export default function CardManagement({
       {subpage === "cardImported" && (
         <CardsLibrairy
           gameData={gameData}
+          getCardsFromDb={getCardsFromDb}
           updateGameValue={updateGameValue}
           currentCard={currentCard}
           setCurrentCard={setCurrentCard}

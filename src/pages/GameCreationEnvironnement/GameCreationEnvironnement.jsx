@@ -66,11 +66,13 @@ export default function GameCreationEnvironnement() {
     currentDemon,
     currentWithValueEvent,
     setCurrentEvent,
+    getCards,
     setCurrentWithValueEvent,
     setCurrentDemon,
   } = useGameContext();
   const { deleteLocalHistory } = useHistoryContext();
   const { fetchUser, editUser } = useUserContext();
+  
   const [gameImageUploadedUrl, setGameImageUploadedUrl] = useState();
   const { t } = useTranslation();
   const { setAlerts, alertList, canDisplayError, setCanDisplayError } =
@@ -181,6 +183,17 @@ export default function GameCreationEnvironnement() {
       deleteGameSaved(id);
     }
   };
+
+  // ======= CARD STUDIO ==========
+  const getCardsFromDb = async () => {
+    const result = await getCards(id);
+    if (result) {
+      setGame(prev=> ({ ...prev, assets: { ...prev.assets, cards: result } }));
+ 
+    }
+  };
+
+
   // =========== EVENTS ===========
   const getEventFromIdAndType = (id, type) => {
     if (!game || !game.events) return null;
@@ -441,6 +454,7 @@ export default function GameCreationEnvironnement() {
                     id: game.id,
                     cardParams: game.params.cards ? game.params.cards : {},
                   }}
+                  getCardsFromDb={getCardsFromDb}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
                   setGameImageUploadedUrl={setGameImageUploadedUrl}

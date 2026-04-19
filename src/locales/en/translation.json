@@ -494,6 +494,10 @@
 "cardValue": "Card value", 
  "saveCardDescription":"The entered data is saved locally. Saving it will allow it to be stored in the database and enable adding an image.",
  "Attributs": "Attributes",
+ "restoreCards": "Restore cards",
+ "allYoursCardsWillBeRestoredToDefaultCardsPack": "All your cards will be restored to the default cards pack. This action is irreversible, so make sure to save any important information before restoring.",
+ 
+ "visualiseConnexionsBetwwenElements": "Visualize connections between elements",
   "params.cards.deck.activation": "Activate settings related to the deck",
   "params.cards.deck.renderTheNextDeckCard": "Make the card on top of the draw pile visible (face-up).",
   "params.cards.discard.activation": "Activate settings related to the discard pile",

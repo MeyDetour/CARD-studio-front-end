@@ -1,85 +1,88 @@
-.cardSubpage{
+.cardSubpage {
+  >img{
 
+    width: 39%;
+    align-self: center;
+  }
 }
-.cardSubpage:hover{
+.cardSubpage:hover {
   scale: 1.03;
   cursor: pointer;
 }
 
-.cardSubpage1{
+.cardSubpage1 {
   animation: appearFromOpacity1 4s ease;
 }
 
-.cardSubpage2{
-  animation: appearFromOpacity2 4s  ease;
+.cardSubpage2 {
+  animation: appearFromOpacity2 4s ease;
 }
 
-.cardSubpage3{
-  animation: appearFromOpacity3 4s  ease;
+.cardSubpage3 {
+  animation: appearFromOpacity3 4s ease;
 }
 
-.cardSubpage4{
-  animation: appearFromOpacity4 4s   ease;
+.cardSubpage4 {
+  animation: appearFromOpacity4 4s ease;
 }
 
-.cardSubpage5{
+.cardSubpage5 {
   animation: appearFromOpacity5 4s ease;
 }
 
-
-@keyframes appearFromOpacity1{
-  0%{
+@keyframes appearFromOpacity1 {
+  0% {
     opacity: 0;
   }
-  20%{
+  20% {
     opacity: 1;
   }
 }
 
-@keyframes appearFromOpacity2{
-   0%{
+@keyframes appearFromOpacity2 {
+  0% {
     opacity: 0;
   }
-  10%{
+  10% {
     opacity: 0;
   }
-  40%{
+  40% {
     opacity: 1;
   }
 }
 
-@keyframes appearFromOpacity3{
-   0%{
+@keyframes appearFromOpacity3 {
+  0% {
     opacity: 0;
   }
-  20%{
+  20% {
     opacity: 0;
   }
-  60%{
+  60% {
     opacity: 1;
   }
 }
 
-@keyframes appearFromOpacity4{
-   0%{
+@keyframes appearFromOpacity4 {
+  0% {
     opacity: 0;
   }
-  40%{
+  40% {
     opacity: 0;
   }
-  80%{
+  80% {
     opacity: 1;
   }
 }
 
-@keyframes appearFromOpacity5{
-   0%{
+@keyframes appearFromOpacity5 {
+  0% {
     opacity: 0;
   }
-  60%{
+  60% {
     opacity: 0;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }

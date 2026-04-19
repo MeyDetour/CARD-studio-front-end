@@ -12,18 +12,19 @@ import TitleContainer from "../../../../../components/TitleContainer/TitleContai
 import { updateElementValue } from "../../../../../helpers/objectManagement";
 import { useNotificationContext } from "../../../../../context/NotificationContext";
 import Alert from "../../../../../components/Alert/Alert";
-
+import { useGameContext } from "../../../../../context/GameContext";
 
 export default function CardsLibrairy({
   gameData,
   updateGameValue,
-  currentCard,
+  currentCard,getCardsFromDb,
   setCurrentCard,
 }) {
   const { t } = useTranslation();
   const { addItem } = useHistoryContext();
   const [selected, setSelected] = useState(new Set());
   const { alertList } = useNotificationContext();
+  const {restoreCards} = useGameContext();
   useEffect(() => {
     if (currentCard) {
       updateGameValue("assets.cards." + currentCard.id, currentCard);
@@ -129,7 +130,10 @@ export default function CardsLibrairy({
                   classAdded={`selectable ${isSelected ? "selected" : ""}`}
                   setCurrentCard={setCurrentCard}
                 >
-                    <Alert alertList={alertList} displayAlertStartWith={card.id+"|card|"}></Alert>
+                  <Alert
+                    alertList={alertList}
+                    displayAlertStartWith={card.id + "|card|"}
+                  ></Alert>
                 </DefaultCard>
               );
             }
@@ -140,8 +144,11 @@ export default function CardsLibrairy({
                 className={`cardInLibrary selectable ${isSelected ? "selected" : ""}`}
                 onClick={() => !isSelected && setCurrentCard(card)}
               >
-                 <Alert alertList={alertList} displayAlertStartWith={card.id+"|card|"}></Alert>
-              
+                <Alert
+                  alertList={alertList}
+                  displayAlertStartWith={card.id + "|card|"}
+                ></Alert>
+
                 {card.image ? (
                   <img draggable={false} src={card.image} alt={card.name} />
                 ) : (
@@ -212,8 +219,29 @@ export default function CardsLibrairy({
               }}
             ></Button>
           </div>
+        
         </div>
       )}
+        <div className="basicContainer basicRedContainer  ">
+            <TitleContainer
+              title={"restoreCards"}
+              type="h2"
+              description={"allYoursCardsWillBeRestoredToDefaultCardsPack"}
+            />
+
+            <Button
+              text={"restoreCards"}
+              type={"redButton"}
+              action={async () => {
+                if (confirm(t("doYouRealyWantToRestore"))) {
+                  let result = await restoreCards(gameData.id);
+                  if (result && result.message === "ok") {
+                    getCardsFromDb()
+                  }
+                }
+              }}
+            ></Button>
+          </div>
     </>
   );
 }
