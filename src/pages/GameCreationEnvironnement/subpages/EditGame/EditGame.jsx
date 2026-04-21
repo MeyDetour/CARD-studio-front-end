@@ -392,7 +392,7 @@ export default function EditGame({
           type={"redButton"}
           action={async () => {
             if (confirm(t("doYouRealyWantToDeleteGame"))) {
-              let result = await deleteGame();
+              let result = await deleteGame(gameData.id);
               if (result && result.message === "ok") {
                 navigate("/");
               }

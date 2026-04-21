@@ -23,7 +23,6 @@ import {
 } from "../../helpers/objectManagement";
 import { listenToCardStudioTester } from "../../helpers/browserMessageWithCardStudioTester.js";
 
-
 // Components
 import Loader from "../../components/Loader/Loader";
 import GameCreationEnvironnementHeader from "../../components/GameCreationEnvironnementHeader/GameCreationEnvironnementHeader";
@@ -44,11 +43,12 @@ import ActivityLog from "./subpages/ActivityLog/ActivityLog";
 import Gains from "./subpages/Gains/Gains.jsx";
 import Outils from "./subpages/Outils/Outils.jsx";
 import ExpressionEditor from "./subpages/ExpressionEditor/ExpressionEditor.jsx";
+import ExpressionDocumentation from "./subpages/Documentation/ParserDocumentation/ExpressionDocumentation.jsx";
+
 
 // Hooks
 import { useApi } from "../../hooks/useApi";
-import i18next from "i18next";
-export default function GameCreationEnvironnement() {
+import i18next from "i18next"; export default function GameCreationEnvironnement() {
   const navigate = useNavigate();
   const { subpage, id } = useParams();
   const [game, setGame] = useState(null);
@@ -72,7 +72,7 @@ export default function GameCreationEnvironnement() {
   } = useGameContext();
   const { deleteLocalHistory } = useHistoryContext();
   const { fetchUser, editUser } = useUserContext();
-  
+
   const [gameImageUploadedUrl, setGameImageUploadedUrl] = useState();
   const { t } = useTranslation();
   const { setAlerts, alertList, canDisplayError, setCanDisplayError } =
@@ -188,11 +188,12 @@ export default function GameCreationEnvironnement() {
   const getCardsFromDb = async () => {
     const result = await getCards(id);
     if (result) {
-      setGame(prev=> ({ ...prev, assets: { ...prev.assets, cards: result } }));
- 
+      setGame((prev) => ({
+        ...prev,
+        assets: { ...prev.assets, cards: result },
+      }));
     }
   };
-
 
   // =========== EVENTS ===========
   const getEventFromIdAndType = (id, type) => {
@@ -497,21 +498,25 @@ export default function GameCreationEnvironnement() {
             case "tools":
               return (
                 <Outils
-                gameData={{
-                  id : game.id,
-                  suggestions: suggestions,
-                }}
-                 />
-              ); case "expressionEditor":
+                  gameData={{
+                    id: game.id,
+                    suggestions: suggestions,
+                  }}
+                />
+              );
+            case "expressionEditor":
               return (
                 <ExpressionEditor
-                 gameData={{
-                  suggestions: suggestions,
-                  id : game.id,
-                      playerGlobalValue: game.playerGlobalValue,
-                  
-                }}
-                 />
+                  gameData={{
+                    suggestions: suggestions, 
+                    playerGlobalValue: game.playerGlobalValue,
+                  }}
+                />
+              );  case "expression-documentation":
+              return (
+                <ExpressionDocumentation
+                  gameData={{   }}
+                />
               );
             default:
               return (

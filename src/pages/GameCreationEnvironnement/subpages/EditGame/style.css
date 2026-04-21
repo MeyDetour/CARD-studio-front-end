@@ -36,6 +36,8 @@
       > img {
         width: 100%; 
 
+                border: 1px solid #dedede;
+                border-radius: 12px;
                 object-fit: cover;
                 aspect-ratio: 1 / 1;
                 object-position: center;

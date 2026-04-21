@@ -165,12 +165,12 @@ export function GameProvider({ children }) {
     }
     return result
   };
-  const deleteGame = async () => {
-    const result = await fetchData("api/game/remove/" + game.id, null, {
+  const deleteGame = async (id) => {
+    const result = await fetchData("api/game/remove/" + id, null, {
       token: getToken(),
       method: "DELETE",
     });
-    deleteLocalHistory(game.id);
+    deleteLocalHistory(id);
     if (!result) {
       displayError(t("FailedToDeleteGame"));
     }

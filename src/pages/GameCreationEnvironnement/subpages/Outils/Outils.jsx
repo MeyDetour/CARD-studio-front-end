@@ -27,6 +27,11 @@ export default function Outils({ gameData }) {
           description: "visualiseConnexionsBetwwenElements",
           onclickEvent: () => navigate("/game/visualisation/"+gameData.id),
           illustratin : "/src/assets/images/visualisation-illustration.svg"
+        },{
+          name: "documentation",
+          description: "hereWeExplainAllPossibilitesWithExpressionEditor",
+          onclickEvent: () => navigate("/game/expression-documentation/"+gameData.id),
+          illustratin : "/src/assets/images/visualisation-illustration.svg"
         },
       ].map((section, key) => (
         <>
