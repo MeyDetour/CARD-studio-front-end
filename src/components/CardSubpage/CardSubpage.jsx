@@ -9,7 +9,7 @@ export default function CardSubpage({ title,image, icon, description , displayAl
   const { alertList } = useNotificationContext();
   return (
     <div className={"cardSubpage basicContainer " + className} onClick={action} >
-      <img src={image}></img>
+    {image && <img src={image}></img>}
       <TitleContainer
         type="h2"
         icon={icon}
