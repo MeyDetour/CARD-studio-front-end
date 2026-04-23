@@ -2,271 +2,224 @@ export const expressionList = [
   // MATHÉMATIQUES
   {
     nameKey: "addition",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "additionDescription",
-    syntax: "cacl(a+b)",
+    syntax: "calc(a+b)",
     inputs: [
       {
         name: "a",
-        type: "number | string | expressionOfExpressionList",
+        type: "number | string",
         description: "Premier opérande",
         required: true,
       },
       {
         name: "b",
-        type: "number | string | expressionOfExpressionList",
+        type: "number | string",
         description: "Deuxième opérande",
         required: true,
       },
     ],
     returns: {
-      type: "number",
-      description: "Résultat de l'addition ou concaténation",
+      type: "number | string",
+      description: "Résultat de l'addition",
     },
-    examples: [
-      { code: "5 + 3", description: "Addition simple", result: "8" },
-      {
-        code: "pointsVictoire + 10",
-        description: "Ajout de points",
-        result: "pointsVictoire + 10",
-      },
-      {
-        code: '"Bonjour " + "monde"',
-        description: "Concaténation de texte",
-        result: '"Bonjour monde"',
-      },
-    ],
+    examples: ["calc(5+3)", "calc(x+y)", 'calc(10+"abc")'],
+    returnExample: "8",
   },
   {
     nameKey: "soustraction",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "soustractionDescription",
     syntax: "calc(a-b)",
     inputs: [
       {
         name: "a",
-        type: "number",
+        type: "number | string",
         description: "Nombre de départ",
         required: true,
       },
       {
         name: "b",
-        type: "number",
+        type: "number | string",
         description: "Nombre à soustraire",
         required: true,
       },
     ],
-    returns: { type: "number", description: "Résultat de la soustraction" },
-    examples: [
-      { code: "10 - 3", description: "Soustraction simple", result: "7" },
-      {
-        code: "vieJoueur - degats",
-        description: "Réduction de points de vie",
-        result: "vieJoueur - degats",
-      },
-    ],
+    returns: {
+      type: "number | string",
+      description: "Résultat de la soustraction",
+    },
+    examples: ["calc(10-3)", "calc(x-y)", 'calc("abc"-1)', 'calc(5-"a")'],
+    returnExample: "7",
   },
   {
     nameKey: "multiplication",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "multiplicationDescription",
     syntax: "calc(a*b)",
     inputs: [
       {
         name: "a",
-        type: "number",
+        type: "number | string",
         description: "Premier facteur",
         required: true,
       },
       {
         name: "b",
-        type: "number",
+        type: "number | string",
         description: "Deuxième facteur",
         required: true,
       },
     ],
-    returns: { type: "number", description: "Produit de la multiplication" },
-    examples: [
-      { code: "5 * 3", description: "Multiplication simple", result: "15" },
-      {
-        code: "attaqueCarte * 2",
-        description: "Doubler l'attaque",
-        result: "attaqueCarte * 2",
-      },
-    ],
+    returns: {
+      type: "number | string",
+      description: "Produit de la multiplication",
+    },
+    examples: ["calc(5*3)", "calc(x*y)", 'calc(2*"abc")'],
+    returnExample: "15",
   },
   {
     nameKey: "division",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "divisionDescription",
     syntax: "calc(a/b)",
     inputs: [
-      { name: "a", type: "number", description: "Dividende", required: true },
+      {
+        name: "a",
+        type: "number | string",
+        description: "Dividende",
+        required: true,
+      },
       {
         name: "b",
-        type: "number",
+        type: "number | string",
         description: "Diviseur (ne peut pas être 0)",
         required: true,
       },
     ],
-    returns: { type: "number", description: "Quotient de la division" },
-    examples: [
-      { code: "10 / 2", description: "Division simple", result: "5" },
-      {
-        code: "pointsTotal / nombreJoueurs",
-        description: "Calcul de moyenne",
-        result: "pointsTotal / nombreJoueurs",
-      },
-    ],
-    notes: ["Attention: Division par zéro provoquera une erreur"],
+    returns: {
+      type: "number | string",
+      description: "Quotient de la division",
+    },
+    examples: ["calc(10/2)", "calc(x/y)", 'calc("abc"/2)', 'calc(5/"a")'],
+    returnExample: "5",
+    notes: ["becareful:divisionByZero"],
   },
   {
     nameKey: "modulo",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "moduloDescription",
     syntax: "calc(a%b)",
     inputs: [
-      { name: "a", type: "number", description: "Dividende", required: true },
-      { name: "b", type: "number", description: "Diviseur", required: true },
-    ],
-    returns: { type: "number", description: "Reste de la division" },
-    examples: [
-      { code: "10 % 3", description: "Modulo simple", result: "1" },
       {
-        code: "tour % 2 == 0",
-        description: "Vérifier si tour est pair",
-        result: "true/false",
+        name: "a",
+        type: "number | string",
+        description: "Dividende",
+        required: true,
+      },
+      {
+        name: "b",
+        type: "number | string",
+        description: "Diviseur",
+        required: true,
       },
     ],
+    returns: { type: "number | string", description: "Reste de la division" },
+    examples: ["calc(10%3)", "calc(x%y)", 'calc(5%"a")'],
+    returnExample: "1",
   },
   {
     nameKey: "minimum",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "minimumDescription",
-    syntax: "min(a, b, ...)",
+    syntax: "min(a,b,...)",
     inputs: [
       {
         name: "a, b, ...",
-        type: "number",
+        type: "number | string",
         description: "Nombres à comparer",
         required: true,
       },
     ],
-    returns: { type: "number", description: "Plus petite valeur" },
-    examples: [
-      {
-        code: "min(5, 3, 8)",
-        description: "Minimum de trois nombres",
-        result: "3",
-      },
-      {
-        code: "min(vieJoueur, vieMax)",
-        description: "Plafonner la vie",
-        result: "min(vieJoueur, vieMax)",
-      },
-    ],
+    returns: { type: "number | string", description: "Plus petite valeur" },
+    examples: ["min(5,3,8)", "min(x,y,z)"],
+    returnExample: "3",
   },
   {
     nameKey: "maximum",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "maximumDescription",
-    syntax: "max(a, b, ...)",
+    syntax: "max(a,b,...)",
     inputs: [
       {
         name: "a, b, ...",
-        type: "number",
+        type: "number | string",
         description: "Nombres à comparer",
         required: true,
       },
     ],
-    returns: { type: "number", description: "Plus grande valeur" },
-    examples: [
-      {
-        code: "max(5, 3, 8)",
-        description: "Maximum de trois nombres",
-        result: "8",
-      },
-      {
-        code: "max(degats, 0)",
-        description: "Éviter les dégâts négatifs",
-        result: "max(degats, 0)",
-      },
-    ],
+    returns: { type: "number | string", description: "Plus grande valeur" },
+    examples: ["max(5,3,8)", "max(x,y,z)"],
+    returnExample: "8",
   },
   {
     nameKey: "arrondir",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "arrondirDescription",
     syntax: "round(a)",
     inputs: [
       {
         name: "a",
-        type: "number",
+        type: "number | string",
         description: "Nombre à arrondir",
         required: true,
       },
     ],
-    returns: { type: "number", description: "Nombre arrondi" },
-    examples: [
-      { code: "round(3.7)", description: "Arrondir 3.7", result: "4" },
-      {
-        code: "round(attaque * multiplicateur)",
-        description: "Arrondir calcul d'attaque",
-        result: "round(attaque * multiplicateur)",
-      },
-    ],
+    returns: { type: "number | string", description: "Nombre arrondi" },
+    examples: ["round(3.7)", "round(x)", 'round("12.5")'],
+    returnExample: "4",
   },
   {
     nameKey: "arrondirInferieur",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "arrondirInferieurDescription",
     syntax: "floor(a)",
     inputs: [
       {
         name: "a",
-        type: "number",
+        type: "number | string",
         description: "Nombre à arrondir",
         required: true,
       },
     ],
-    returns: { type: "number", description: "Entier inférieur" },
-    examples: [
-      {
-        code: "floor(3.9)",
-        description: "Arrondir 3.9 vers le bas",
-        result: "3",
-      },
-    ],
+    returns: { type: "number | string", description: "Entier inférieur" },
+    examples: ["floor(3.9)", "floor(x)", 'floor("12.5")'],
+    returnExample: "3",
   },
   {
     nameKey: "arrondirSuperieur",
-    categories: ["mathematics"],
+    categories: ["Mathematics"],
     descriptionKey: "arrondirSuperieurDescription",
     syntax: "ceil(a)",
     inputs: [
       {
         name: "a",
-        type: "number",
+        type: "number | string",
         description: "Nombre à arrondir",
         required: true,
       },
     ],
-    returns: { type: "number", description: "Entier supérieur" },
-    examples: [
-      {
-        code: "ceil(3.1)",
-        description: "Arrondir 3.1 vers le haut",
-        result: "4",
-      },
-    ],
+    returns: { type: "number | string", description: "Entier supérieur" },
+    examples: ["ceil(3.1)", "ceil(x)", 'ceil("12.5")'],
+    returnExample: "4",
   },
 
   // COMPARAISON
   {
     nameKey: "egalA",
-    categories: ["comparaison"],
+    categories: ["Comparaison", "Boolean"],
     descriptionKey: "egalADescription",
-    syntax: "a == b",
+    syntax: "comp(a;isEqualNumber;b)",
     inputs: [
       {
         name: "a",
@@ -283,23 +236,17 @@ export const expressionList = [
     ],
     returns: { type: "boolean", description: "true si égaux, false sinon" },
     examples: [
-      {
-        code: "vieJoueur == 0",
-        description: "Vérifier si le joueur est mort",
-        result: "true/false",
-      },
-      {
-        code: "typeCarte == 'Attaque'",
-        description: "Vérifier le type de carte",
-        result: "true/false",
-      },
+      "comp(a;isEqualNumber;b)  ->  true/false",
+      "comp(5;isEqualNumber;5)  ->  true",
+      "comp(5;isEqualNumber;3)  ->  false",
     ],
+    notes: ["becareful:twoVariableMustBeSameType"],
   },
   {
     nameKey: "differentDe",
-    categories: ["comparaison"],
+    categories: ["Comparaison", "Boolean"],
     descriptionKey: "differentDeDescription",
-    syntax: "a != b",
+    syntax: "comp(a;isNotEqualNumber;b)",
     inputs: [
       {
         name: "a",
@@ -319,132 +266,275 @@ export const expressionList = [
       description: "true si différents, false sinon",
     },
     examples: [
-      {
-        code: "joueurActif != null",
-        description: "Vérifier qu'il y a un joueur actif",
-        result: "true/false",
-      },
+      "comp(a;isNotEqualNumber;b)  ->  true/false",
+      "comp(5;isNotEqualNumber;3)  ->  true",
+      "comp(5;isNotEqualNumber;5)  ->  false",
     ],
+    notes: ["becareful:twoVariableMustBeSameType"],
   },
   {
     nameKey: "superieurA",
-    categories: ["comparaison"],
+    categories: ["Comparaison", "Boolean"],
     descriptionKey: "superieurADescription",
-    syntax: "a > b",
+    syntax: "comp(a;isSuperiorNumber;b)",
     inputs: [
       {
         name: "a",
-        type: "number",
+        type: "any",
         description: "Première valeur",
         required: true,
       },
       {
         name: "b",
-        type: "number",
+        type: "any",
         description: "Deuxième valeur",
         required: true,
       },
     ],
     returns: { type: "boolean", description: "true si a > b, false sinon" },
     examples: [
-      {
-        code: "pointsVictoire > 100",
-        description: "Vérifier condition de victoire",
-        result: "true/false",
-      },
+      "comp(a;isSuperiorNumber;b)  ->  true/false",
+      "comp(10;isSuperiorNumber;5)  ->  true",
+      "comp(3;isSuperiorNumber;7)  ->  false",
     ],
+    notes: ["becareful:twoVariableMustBeSameType"],
   },
   {
     nameKey: "inferieurA",
-    categories: ["comparaison"],
+    categories: ["Comparaison", "Boolean"],
     descriptionKey: "inferieurADescription",
-    syntax: "a < b",
+    syntax: "comp(a;isInferiorNumber;b)",
     inputs: [
       {
         name: "a",
-        type: "number",
+        type: "any",
         description: "Première valeur",
         required: true,
       },
       {
         name: "b",
-        type: "number",
+        type: "any",
         description: "Deuxième valeur",
         required: true,
       },
     ],
     returns: { type: "boolean", description: "true si a < b, false sinon" },
     examples: [
-      {
-        code: "vieJoueur < 10",
-        description: "Vérifier vie basse",
-        result: "true/false",
-      },
+      "comp(a;isInferiorNumber;b)  ->  true/false",
+      "comp(3;isInferiorNumber;7)  ->  true",
+      "comp(10;isInferiorNumber;5)  ->  false",
     ],
+    notes: ["becareful:twoVariableMustBeSameType"],
   },
   {
     nameKey: "superieurOuEgal",
-    categories: ["comparaison"],
+    categories: ["Comparaison", "Boolean"],
     descriptionKey: "superieurOuEgalDescription",
-    syntax: "a >= b",
+    syntax: "comp(a;isSuperiorOrEqual;b)",
     inputs: [
       {
         name: "a",
-        type: "number",
+        type: "any",
         description: "Première valeur",
         required: true,
       },
       {
         name: "b",
-        type: "number",
+        type: "any",
         description: "Deuxième valeur",
         required: true,
       },
     ],
     returns: { type: "boolean", description: "true si a ≥ b, false sinon" },
     examples: [
-      {
-        code: "niveau >= 5",
-        description: "Vérifier niveau minimum",
-        result: "true/false",
-      },
+      "comp(a;isSuperiorOrEqual;b)  ->  true/false",
+      "comp(5;isSuperiorOrEqual;5)  ->  true",
+      "comp(7;isSuperiorOrEqual;5)  ->  true",
+      "comp(3;isSuperiorOrEqual;5)  ->  false",
     ],
+    notes: ["becareful:twoVariableMustBeSameType"],
   },
   {
     nameKey: "inferieurOuEgal",
-    categories: ["comparaison"],
+    categories: ["Comparaison", "Boolean"],
     descriptionKey: "inferieurOuEgalDescription",
-    syntax: "a <= b",
+    syntax: "comp(a;isInferiorOrEqual;b)",
     inputs: [
       {
         name: "a",
-        type: "number",
+        type: "any",
         description: "Première valeur",
         required: true,
       },
       {
         name: "b",
-        type: "number",
+        type: "any",
         description: "Deuxième valeur",
         required: true,
       },
     ],
     returns: { type: "boolean", description: "true si a ≤ b, false sinon" },
     examples: [
+      "comp(a;isInferiorOrEqual;b)  ->  true/false",
+      "comp(5;isInferiorOrEqual;5)  ->  true",
+      "comp(3;isInferiorOrEqual;7)  ->  true",
+      "comp(10;isInferiorOrEqual;5)  ->  false",
+    ],
+    notes: ["becareful:twoVariableMustBeSameType"],
+  },
+
+  // Opérateurs supplémentaires
+  {
+    nameKey: "egalAString",
+    categories: ["Comparaison", "Boolean"],
+    descriptionKey: "egalAStringDescription",
+    syntax: "comp(a;isEqualString;b)",
+    inputs: [
       {
-        code: "nombreCartes <= 10",
-        description: "Vérifier limite de cartes",
-        result: "true/false",
+        name: "a",
+        type: "string",
+        description: "Première chaîne",
+        required: true,
+      },
+      {
+        name: "b",
+        type: "string",
+        description: "Deuxième chaîne",
+        required: true,
       },
     ],
+    returns: { type: "boolean", description: "true si égales, false sinon" },
+    examples: [
+      "comp(a;isEqualString;b)  ->  true/false",
+      "comp('abc';isEqualString;'abc')  ->  true",
+      "comp('abc';isEqualString;'def')  ->  false",
+    ],
+    notes: ["becareful:twoVariableMustBeString"],
+  },
+  {
+    nameKey: "differentPlayer",
+    categories: ["Players", "Boolean", "Comparaison"],
+    descriptionKey: "differentPlayerDescription",
+    syntax: "comp(a;differentPlayer;b)",
+    inputs: [
+      {
+        name: "a",
+        type: "Player",
+        description: "Premier joueur",
+        required: true,
+      },
+      {
+        name: "b",
+        type: "Player",
+        description: "Deuxième joueur",
+        required: true,
+      },
+    ],
+    returns: {
+      type: "boolean",
+      description: "true si différents, false sinon",
+    },
+    examples: [
+      "comp(a;differentPlayer;b)  ->  true/false",
+      "comp(joueur1;differentPlayer;joueur2)  ->  true",
+      "comp(joueur1;differentPlayer;joueur1)  ->  false",
+    ],
+    notes: ["becareful:twoVariableMustBePlayer"],
+  },
+  {
+    nameKey: "samePlayer",
+    categories: ["Players", "Boolean", "Comparaison"],
+    descriptionKey: "samePlayerDescription",
+    syntax: "comp(a;samePlayer;b)",
+    inputs: [
+      {
+        name: "a",
+        type: "Player",
+        description: "Premier joueur",
+        required: true,
+      },
+      {
+        name: "b",
+        type: "Player",
+        description: "Deuxième joueur",
+        required: true,
+      },
+    ],
+    returns: {
+      type: "boolean",
+      description: "true si identiques, false sinon",
+    },
+    examples: [
+      "comp(a;samePlayer;b)  ->  true/false",
+      "comp(joueur1;samePlayer;joueur1)  ->  true",
+      "comp(joueur1;samePlayer;joueur2)  ->  false",
+    ],
+    notes: ["becareful:twoVariableMustBePlayer"],
+  },
+  {
+    nameKey: "notContain",
+    categories: ["List", "Boolean", "Comparaison"],
+    descriptionKey: "notContainDescription",
+    syntax: "comp(liste;notContain;element)",
+    inputs: [
+      {
+        name: "liste",
+        type: "array",
+        description: "Liste à vérifier",
+        required: true,
+      },
+      {
+        name: "element",
+        type: "any",
+        description: "Élément à rechercher",
+        required: true,
+      },
+    ],
+    returns: {
+      type: "boolean",
+      description: "true si non contenu, false sinon",
+    },
+    examples: [
+      "comp(liste;notContain;element)  ->  true/false",
+      "comp([1,2,3];notContain;4)  ->  true",
+      "comp([1,2,3];notContain;2)  ->  false",
+    ],
+    notes: ["becareful:arrayAndElementType"],
+  },
+  {
+    nameKey: "contain",
+    categories: ["List", "Boolean", "Comparaison"],
+    descriptionKey: "containDescription",
+    syntax: "comp(liste;contain;element)",
+    inputs: [
+      {
+        name: "liste",
+        type: "array",
+        description: "Liste à vérifier",
+        required: true,
+      },
+      {
+        name: "element",
+        type: "any",
+        description: "Élément à rechercher",
+        required: true,
+      },
+    ],
+    returns: { type: "boolean", description: "true si contenu, false sinon" },
+    examples: [
+      "comp(liste;contain;element)  ->  true/false",
+      "comp([1,2,3];contain;2)  ->  true",
+      "comp([1,2,3];contain;4)  ->  false",
+    ],
+    notes: ["becareful:arrayAndElementType"],
   },
 
   // LOGIQUE
   {
     nameKey: "etLogique",
-    categories: ["logic"],
+    categories: ["Logic", "Boolean"],
     descriptionKey: "etLogiqueDescription",
-    syntax: "a && b",
+    syntax: "exp(a&&b)",
     inputs: [
       {
         name: "a",
@@ -461,18 +551,29 @@ export const expressionList = [
     ],
     returns: { type: "boolean", description: "true si a ET b sont vrais" },
     examples: [
-      {
-        code: "vieJoueur > 0 && cartesMain > 0",
-        description: "Vérifier que le joueur peut jouer",
-        result: "true/false",
-      },
+      "exp(true&&false) -> false",
+      "exp(allPlayersHasPlayed/endOfTour&&true) -> true",
+      "exp(allPlayersHasPlayed/endOfTour&&false) -> false",
+    ],
+  },
+  {
+    nameKey: "allPlayersHasPlayed/endOfTour",
+    categories: ["Logic", "Boolean"],
+    descriptionKey: "thisVariableVerifyIfAllPlayersHasPlayedOrIfItsEndOfTour",
+    syntax: "allPlayersHasPlayed/endOfTour",
+
+    returns: { type: "boolean" },
+    examples: [
+      "exp(true&&false) -> false",
+      "exp(allPlayersHasPlayed/endOfTour&&true) -> true",
+      "exp(allPlayersHasPlayed/endOfTour&&false) -> false",
     ],
   },
   {
     nameKey: "ouLogique",
-    categories: ["logic"],
+    categories: ["Boolean", "Logic"],
     descriptionKey: "ouLogiqueDescription",
-    syntax: "a || b",
+    syntax: "exp(a||b)",
     inputs: [
       {
         name: "a",
@@ -489,16 +590,15 @@ export const expressionList = [
     ],
     returns: { type: "boolean", description: "true si a OU b est vrai" },
     examples: [
-      {
-        code: "estAdmin || estModerator",
-        description: "Vérifier permissions",
-        result: "true/false",
-      },
+      "exp(true||false) -> true",
+      "exp(allPlayersHasPlayed/endOfTour||true) -> true",
+      "exp(allPlayersHasPlayed/endOfTour||false) -> true",
+      "exp(false||false) -> false",
     ],
   },
   {
     nameKey: "nonLogique",
-    categories: ["logic"],
+    categories: ["Logic"],
     descriptionKey: "nonLogiqueDescription",
     syntax: "!a",
     inputs: [
@@ -511,181 +611,38 @@ export const expressionList = [
     ],
     returns: { type: "boolean", description: "Opposé de a" },
     examples: [
-      {
-        code: "!estActif",
-        description: "Vérifier si non actif",
-        result: "true/false",
-      },
+      "!true -> false",
+      "!false -> true",
+      "!allPlayersHasPlayed/endOfTour -> Opposite of allPlayersHasPlayed/endOfTour",
     ],
   },
 
   // TEXTE
   {
     nameKey: "longueurTexte",
-    categories: ["value"],
+    categories: ["Value"],
     descriptionKey: "longueurTexteDescription",
-    syntax: "length(texte)",
+    syntax: "len(texte)",
     inputs: [
       {
         name: "texte",
-        type: "string",
+        type: "string | array",
         description: "Texte à mesurer",
         required: true,
       },
     ],
     returns: { type: "number", description: "Nombre de caractères" },
-    examples: [
-      {
-        code: 'length("Bonjour")',
-        description: "Longueur d'un texte",
-        result: "7",
-      },
-      {
-        code: "length(nomJoueur)",
-        description: "Longueur du nom du joueur",
-        result: "length(nomJoueur)",
-      },
-    ],
-  },
-  {
-    nameKey: "majuscules",
-    categories: ["value"],
-    descriptionKey: "majusculesDescription",
-    syntax: "upper(texte)",
-    inputs: [
-      {
-        name: "texte",
-        type: "string",
-        description: "Texte à convertir",
-        required: true,
-      },
-    ],
-    returns: { type: "string", description: "Texte en majuscules" },
-    examples: [
-      {
-        code: 'upper("bonjour")',
-        description: "Mettre en majuscules",
-        result: '"BONJOUR"',
-      },
-    ],
-  },
-  {
-    nameKey: "minuscules",
-    categories: ["value"],
-    descriptionKey: "minusculesDescription",
-    syntax: "lower(texte)",
-    inputs: [
-      {
-        name: "texte",
-        type: "string",
-        description: "Texte à convertir",
-        required: true,
-      },
-    ],
-    returns: { type: "string", description: "Texte en minuscules" },
-    examples: [
-      {
-        code: 'lower("BONJOUR")',
-        description: "Mettre en minuscules",
-        result: '"bonjour"',
-      },
-    ],
-  },
-  {
-    nameKey: "sousChaine",
-    categories: ["value"],
-    descriptionKey: "sousChaineDescription",
-    syntax: "substring(texte, debut, fin)",
-    inputs: [
-      {
-        name: "texte",
-        type: "string",
-        description: "Texte source",
-        required: true,
-      },
-      {
-        name: "debut",
-        type: "number",
-        description: "Index de début (0-based)",
-        required: true,
-      },
-      {
-        name: "fin",
-        type: "number",
-        description: "Index de fin (exclusif)",
-        required: false,
-      },
-    ],
-    returns: { type: "string", description: "Portion de texte extraite" },
-    examples: [
-      {
-        code: 'substring("Bonjour", 0, 3)',
-        description: "Extraire les 3 premiers caractères",
-        result: '"Bon"',
-      },
-    ],
-  },
-  {
-    nameKey: "contient",
-    categories: ["value"],
-    descriptionKey: "contientDescription",
-    syntax: "contains(texte, recherche)",
-    inputs: [
-      {
-        name: "texte",
-        type: "string",
-        description: "Texte dans lequel chercher",
-        required: true,
-      },
-      {
-        name: "recherche",
-        type: "string",
-        description: "Texte à rechercher",
-        required: true,
-      },
-    ],
-    returns: { type: "boolean", description: "true si trouvé, false sinon" },
-    examples: [
-      {
-        code: 'contains("Bonjour monde", "monde")',
-        description: "Rechercher un mot",
-        result: "true",
-      },
-    ],
+    examples: ['len("Bonjour")  -> 7', 'len("")  -> 0', "len([a,b,c])  -> 3"],
   },
 
-  // LISTES
-  {
-    nameKey: "tailleListe",
-    categories: ["list"],
-    descriptionKey: "tailleListeDescription",
-    syntax: "size(liste)",
-    inputs: [
-      {
-        name: "liste",
-        type: "array",
-        description: "Liste à compter",
-        required: true,
-      },
-    ],
-    returns: { type: "number", description: "Nombre d'éléments" },
-    examples: [
-      {
-        code: "size(cartesMain)",
-        description: "Nombre de cartes en main",
-        result: "5",
-      },
-      { code: "size(joueurs)", description: "Nombre de joueurs", result: "4" },
-    ],
-  },
   {
     nameKey: "premierElement",
-    categories: ["list"],
+    categories: ["List"],
     descriptionKey: "premierElementDescription",
-    syntax: "first(liste)",
+    syntax: "first(a)",
     inputs: [
       {
-        name: "liste",
+        name: "a",
         type: "array",
         description: "Liste source",
         required: true,
@@ -693,16 +650,13 @@ export const expressionList = [
     ],
     returns: { type: "any", description: "Premier élément" },
     examples: [
-      {
-        code: "first(cartesDefausse)",
-        description: "Carte du dessus de la défausse",
-        result: "Carte",
-      },
+      "first({allPlayersInGame}) -> first player",
+      "first([1,2,3]) -> 1",
     ],
   },
   {
     nameKey: "dernierElement",
-    categories: ["list"],
+    categories: ["List"],
     descriptionKey: "dernierElementDescription",
     syntax: "last(liste)",
     inputs: [
@@ -724,7 +678,7 @@ export const expressionList = [
   },
   {
     nameKey: "elementALindex",
-    categories: ["list"],
+    categories: ["List"],
     descriptionKey: "elementALindexDescription",
     syntax: "get(liste, index)",
     inputs: [
@@ -743,16 +697,15 @@ export const expressionList = [
     ],
     returns: { type: "any", description: "Élément à l'index" },
     examples: [
-      {
-        code: "get(joueurs, 0)",
-        description: "Premier joueur",
-        result: "Joueur",
-      },
+      "get([1,2,3], 0) -> 1",
+      "get([1,2,3], 1) -> 2",
+      "get([1,2,3], 2) -> 3",
     ],
+    notes: ["returnTypeDependOfInputType"],
   },
   {
     nameKey: "ajouterAListe",
-    categories: ["list"],
+    categories: ["List"],
     descriptionKey: "ajouterAListeDescription",
     syntax: "push(liste, element)",
     inputs: [
@@ -770,17 +723,11 @@ export const expressionList = [
       },
     ],
     returns: { type: "array", description: "Liste modifiée" },
-    examples: [
-      {
-        code: "push(cartesMain, nouvelleCarte)",
-        description: "Ajouter carte en main",
-        result: "[...cartesMain, nouvelleCarte]",
-      },
-    ],
+    examples: ["push(array,b) -> array", "push([a,b],c) -> [a,b,c]"],
   },
   {
     nameKey: "retirerDeListe",
-    categories: ["list"],
+    categories: ["List"],
     descriptionKey: "retirerDeListeDescription",
     syntax: "pop(liste)",
     inputs: [
@@ -792,285 +739,32 @@ export const expressionList = [
       },
     ],
     returns: { type: "any", description: "Élément retiré" },
-    examples: [
-      {
-        code: "pop(cartesDefausse)",
-        description: "Retirer la dernière carte de la défausse",
-        result: "Carte",
-      },
-    ],
-  },
-  {
-    nameKey: "filtrerListe",
-    categories: ["list"],
-    descriptionKey: "filtrerListeDescription",
-    syntax: "filter(liste, condition)",
-    inputs: [
-      {
-        name: "liste",
-        type: "array",
-        description: "Liste à filtrer",
-        required: true,
-      },
-      {
-        name: "condition",
-        type: "expression",
-        description: "Condition de filtrage",
-        required: true,
-      },
-    ],
-    returns: { type: "array", description: "Liste filtrée" },
-    examples: [
-      {
-        code: "filter(cartes, type == 'Attaque')",
-        description: "Garder seulement les cartes d'attaque",
-        result: "[cartes d'attaque]",
-      },
-    ],
-  },
-  {
-    nameKey: "melangerListe",
-    categories: ["list"],
-    descriptionKey: "melangerListeDescription",
-    syntax: "shuffle(liste)",
-    inputs: [
-      {
-        name: "liste",
-        type: "array",
-        description: "Liste à mélanger",
-        required: true,
-      },
-    ],
-    returns: { type: "array", description: "Liste mélangée" },
-    examples: [
-      {
-        code: "shuffle(pioche)",
-        description: "Mélanger la pioche",
-        result: "[cartes mélangées]",
-      },
-    ],
-  },
-  {
-    nameKey: "sommeListe",
-    categories: ["list"],
-    descriptionKey: "sommeListeDescription",
-    syntax: "sum(liste)",
-    inputs: [
-      {
-        name: "liste",
-        type: "number[]",
-        description: "Liste de nombres",
-        required: true,
-      },
-    ],
-    returns: { type: "number", description: "Somme totale" },
-    examples: [
-      {
-        code: "sum([1, 2, 3, 4])",
-        description: "Somme de nombres",
-        result: "10",
-      },
-      {
-        code: "sum(pointsJoueurs)",
-        description: "Total des points",
-        result: "sum(pointsJoueurs)",
-      },
-    ],
-  },
-
-  // JEU DE CARTES
-  {
-    nameKey: "piocherCarte",
-    categories: ["cards"],
-    descriptionKey: "piocherCarteDescription",
-    syntax: "draw(pioche, destination)",
-    inputs: [
-      {
-        name: "pioche",
-        type: "cardList",
-        description: "Liste de cartes source",
-        required: true,
-      },
-      {
-        name: "destination",
-        type: "cardList",
-        description: "Liste de cartes cible",
-        required: true,
-      },
-    ],
-    returns: { type: "Card", description: "Carte piochée" },
-    examples: [
-      {
-        code: "draw(pioche, mainJoueur)",
-        description: "Piocher dans la main",
-        result: "Carte",
-      },
-    ],
-  },
-  {
-    nameKey: "defausserCarte",
-    categories: ["cards"],
-    descriptionKey: "defausserCarteDescription",
-    syntax: "discard(carte, defausse)",
-    inputs: [
-      {
-        name: "carte",
-        type: "Card",
-        description: "Carte à défausser",
-        required: true,
-      },
-      {
-        name: "defausse",
-        type: "cardList",
-        description: "Pile de défausse",
-        required: true,
-      },
-    ],
-    returns: { type: "void", description: "Aucun retour" },
-    examples: [
-      {
-        code: "discard(carteJouee, defausse)",
-        description: "Défausser une carte jouée",
-        result: "void",
-      },
-    ],
-  },
-  {
-    nameKey: "jouerCarte",
-    categories: ["cards"],
-    descriptionKey: "jouerCarteDescription",
-    syntax: "playCard(carte, joueur)",
-    inputs: [
-      {
-        name: "carte",
-        type: "Card",
-        description: "Carte à jouer",
-        required: true,
-      },
-      {
-        name: "joueur",
-        type: "Player",
-        description: "Joueur qui joue",
-        required: true,
-      },
-    ],
-    returns: { type: "void", description: "Aucun retour" },
-    examples: [
-      {
-        code: "playCard(carteSelectionnee, joueurActif)",
-        description: "Jouer une carte",
-        result: "void",
-      },
-    ],
-  },
-  {
-    nameKey: "chercherCarte",
-    categories: ["cards"],
-    descriptionKey: "chercherCarteDescription",
-    syntax: "findCard(liste, condition)",
-    inputs: [
-      {
-        name: "liste",
-        type: "cardList",
-        description: "Liste de cartes",
-        required: true,
-      },
-      {
-        name: "condition",
-        type: "expression",
-        description: "Condition de recherche",
-        required: true,
-      },
-    ],
-    returns: { type: "Card | null", description: "Carte trouvée ou null" },
-    examples: [
-      {
-        code: "findCard(pioche, nom == 'Dragon')",
-        description: "Chercher une carte Dragon",
-        result: "Card | null",
-      },
-    ],
+    examples: ["pop([a,b,c]) -> c"],
+    notes: ["thisFunctionRemoveTheLastElementOfTheList"],
   },
 
   // JOUEURS
   {
-    nameKey: "joueurActif",
-    categories: ["players"],
-    descriptionKey: "joueurActifDescription",
-    syntax: "currentPlayer()",
-    inputs: [],
-    returns: { type: "Player", description: "Joueur actif" },
-    examples: [
-      {
-        code: "currentPlayer()",
-        description: "Obtenir le joueur actif",
-        result: "Player",
-      },
-    ],
-  },
-  {
-    nameKey: "joueurSuivant",
-    categories: ["players"],
-    descriptionKey: "joueurSuivantDescription",
-    syntax: "nextPlayer()",
-    inputs: [],
-    returns: { type: "Player", description: "Joueur suivant" },
-    examples: [
-      {
-        code: "nextPlayer()",
-        description: "Obtenir le joueur suivant",
-        result: "Player",
-      },
-    ],
-  },
-  {
-    nameKey: "nombreDeJoueurs",
-    categories: ["players"],
-    descriptionKey: "nombreDeJoueursDescription",
-    syntax: "playerCount()",
-    inputs: [],
-    returns: { type: "number", description: "Nombre de joueurs" },
-    examples: [
-      {
-        code: "playerCount()",
-        description: "Compter les joueurs",
-        result: "4",
-      },
-    ],
-  },
-  {
-    nameKey: "gagnerPoints",
-    categories: ["players"],
-    descriptionKey: "gagnerPointsDescription",
-    syntax: "addPoints(joueur, points)",
+    nameKey: "getPlayer",
+    categories: ["Players"],
+    descriptionKey: "getPlayerDescription",
+    syntax: "getPlayer(a)",
     inputs: [
       {
-        name: "joueur",
-        type: "Player",
-        description: "Joueur cible",
-        required: true,
-      },
-      {
-        name: "points",
+        name: "a",
         type: "number",
-        description: "Points à ajouter",
+        description: "Position du joueur",
         required: true,
       },
     ],
-    returns: { type: "void", description: "Aucun retour" },
-    examples: [
-      {
-        code: "addPoints(currentPlayer(), 10)",
-        description: "Ajouter 10 points au joueur actif",
-        result: "void",
-      },
-    ],
-  },
+    returns: { type: "Player", description: "Joueur actif" },
+    examples: ["getPlayer(2) -> player"],
+  },  
 
   // ALÉATOIRE
   {
     nameKey: "nombreAleatoire",
-    categories: ["random"],
+    categories: ["Random","Value"],
     descriptionKey: "nombreAleatoireDescription",
     syntax: "random(min, max)",
     inputs: [
@@ -1088,22 +782,12 @@ export const expressionList = [
       },
     ],
     returns: { type: "number", description: "Nombre aléatoire" },
-    examples: [
-      {
-        code: "random(1, 6)",
-        description: "Lancer un dé à 6 faces",
-        result: "1-6",
-      },
-      {
-        code: "random(1, 100)",
-        description: "Pourcentage aléatoire",
-        result: "1-100",
-      },
+    examples: [ "random(1, 6) -> ex : 4", "random(1, 6) -> ex : 2"
     ],
   },
   {
     nameKey: "choixAleatoire",
-    categories: ["random"],
+    categories: ["Random","Value"],
     descriptionKey: "choixAleatoireDescription",
     syntax: "randomChoice(liste)",
     inputs: [
@@ -1115,26 +799,21 @@ export const expressionList = [
       },
     ],
     returns: { type: "any", description: "Élément choisi" },
-    examples: [
-      {
-        code: "randomChoice(cartesPossibles)",
-        description: "Choisir une carte au hasard",
-        result: "Card",
-      },
+    examples: [ "randomChoice(['pierre', 'feuille', 'ciseaux']) -> ex : 'pierre'", "randomChoice(['pierre', 'feuille', 'ciseaux']) -> ex : 'ciseaux'"
     ],
   },
 
   // CONDITIONS
   {
     nameKey: "siAlorsSinon",
-    categories: ["conditions"],
+    categories: ["Conditions","Value"],
     descriptionKey: "siAlorsSinonDescription",
     syntax: "if(condition, valeurSiVrai, valeurSiFaux)",
     inputs: [
       {
         name: "condition",
         type: "boolean",
-        description: "Condition à évaluer",
+        description: "Condition à éValuer",
         required: true,
       },
       {
@@ -1151,17 +830,7 @@ export const expressionList = [
       },
     ],
     returns: { type: "any", description: "Valeur selon condition" },
-    examples: [
-      {
-        code: "if(vieJoueur > 0, 'Vivant', 'Mort')",
-        description: "Statut du joueur",
-        result: "'Vivant' ou 'Mort'",
-      },
-      {
-        code: "if(tour % 2 == 0, 'Pair', 'Impair')",
-        description: "Tour pair ou impair",
-        result: "'Pair' ou 'Impair'",
-      },
+    examples: [ "if(true, 'gagné', 'perdu') -> 'gagné'", "if(false, 'gagné', 'perdu') -> 'perdu'"
     ],
   },
 ];

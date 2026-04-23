@@ -1,15 +1,12 @@
 .outilsSubpage {
   .wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: stretch;
-    justify-content: start;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 35px;
     height: fit-content;
 
     > div {
-      width: 30% !important; 
+      width: 100% !important; 
       
     }
   }

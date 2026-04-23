@@ -16,7 +16,8 @@
   .cardLibrairy-MultipleActions {
     user-select: none;
   }
-  .cardLibrary {
+  .cardLibrary { 
+    
     .multipleActions {
       user-select: none;
     }

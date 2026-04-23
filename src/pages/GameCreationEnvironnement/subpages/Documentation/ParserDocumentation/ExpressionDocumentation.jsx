@@ -8,7 +8,8 @@ import TitleContainer from "../../../../../components/TitleContainer/TitleContai
 import { expressionList, expressionListTypes } from "./ExpressionList";
 export default function ExpressionDocumentation() {
   const [subpage, setSubpage] = useState("all");
-  const{t} = useTranslation();
+  const [searchTerm, setSearchTerm] = useState("");
+  const { t } = useTranslation();
   return (
     <div className="expressionDocumentationSubpage">
       <TitleContainer
@@ -21,7 +22,7 @@ export default function ExpressionDocumentation() {
           title="categories"
           description="filterByExpressionType"
         ></TitleContainer>
-        <div className="wrapper">
+        <div className="wrapper wrapperCategories">
           {expressionListTypes.map((type, key) => (
             <div
               className={
@@ -37,40 +38,81 @@ export default function ExpressionDocumentation() {
               ></Icon>
               <span>{type.name}</span>
               <span className="value">
-                {
-                  type.name == "all" ? expressionList.length :
-                  expressionList.filter((expr) =>
-                    expr.categories.includes(type.name),
-                  ).length
-                }
+                {type.name == "all"
+                  ? expressionList.length
+                  : expressionList.filter((expr) =>
+                      expr.categories.includes(type.name),
+                    ).length}
               </span>
             </div>
           ))}
         </div>
       </div>
       <SearchBar
-        callback={() => {}}
+        callback={(value) => {
+          setSearchTerm(value);
+        }}
         placeholder={"searchFunction"}
         className="searchBarForm"
       ></SearchBar>
-      <div className="wrapper">
+      <div className="wrapper wrapperDocElt">
         {expressionList
-        .filter((expr) => subpage == "all" || expr.categories.includes(subpage))
-        .map((expression, key) => (
-          <div className="expressionCard basicContainer" key={key}>
-            <TitleContainer
-            type="h3"
-              title={expression.nameKey}
-              description={expression.descriptionKey}
-            ></TitleContainer>
+          .filter(
+            (expr) => (subpage == "all" || expr.categories.includes(subpage)) && (searchTerm === "" || JSON.stringify(expr).toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
+          )
+          .map((expression, key) => (
+            <div className="expressionCard basicContainer" key={key}>
+              <TitleContainer
+                type="h3"
+                title={expression.nameKey}
+                description={expression.descriptionKey}
+              ></TitleContainer>
               <span className="syntax">{expression.syntax}</span>
-          
-            <div>
-              <span className="normalText">{t('syntax')}</span>
-              <span className="syntax">{expression.syntax}</span>
+
+              {expression.inputs && (
+                <div>
+                  <span className="normalText">{t("types")}</span>
+                  {expression.inputs.map((input, key) => (
+                    <p className="input" key={key}>
+                      {input.name} : {input.type}
+                    </p>
+                  ))}
+                </div>
+              )}
+              <div>
+                <span className="normalText">{t("return")}</span>
+                <p className="input" key={key}>
+                  Type : {expression.returns.type}
+                  <br></br>
+                  Description : {expression.returns.description}
+                </p>
+              </div>
+              <div>
+                <span className="normalText">{t("exemples")}</span>
+                {expression.examples.map(
+                  (example, key) =>
+                    typeof example === "string" && (
+                      <p className="input" key={key}>
+                        {example}
+                      </p>
+                    ),
+                )}
+              </div>
+              {expression.notes && (
+                <div>
+                  <span className="normalText">{t("notes")}</span>
+                  {expression.notes.map(
+                    (note, key) =>
+                      typeof note === "string" && (
+                        <p className="input" key={key}>
+                          {t(note)}
+                        </p>
+                      ),
+                  )}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
