@@ -6,11 +6,14 @@ import { formatSmartDate } from "../../helpers/date";
 import Separator from "../Separator/Separator";
 import Button from "../Button/Button";
 import { useGameContext } from "../../context/GameContext.jsx";
+import { sendMessageToCardStudioTester } from "../../helpers/browserMessageWithCardStudioTester.js";
+import { useTokenContext } from "../../context/TokenContext";
 
 export default function GameCard({ game }) {
   const { getGameInStorage } = useGameContext();
 
-  const { t } = useTranslation(); 
+  const { getToken } = useTokenContext();
+  const { t } = useTranslation();
   return (
     <div className="gameCard">
       <div className="cardHeader">
@@ -59,7 +62,7 @@ export default function GameCard({ game }) {
 
       <Separator></Separator>
       {getGameInStorage(game.id) ? (
-        <div className="savedGame">Jeu non sauvegardée</div>
+        <div clacssName="savedGame">Jeu non sauvegardée</div>
       ) : game.editionHistory && game.editionHistory[0] ? (
         <div className="lastEdit">
           <Icon name={"clock-grey"}></Icon>
@@ -77,6 +80,14 @@ export default function GameCard({ game }) {
           type="violetButton"
           text="editGame"
           to={"/game/dashboard/" + game.id}
+        ></Button>
+        <Button
+          type="whiteWithBordure testButton "
+          action={() => {
+            sendMessageToCardStudioTester({ token: getToken(), gameId: game.id });
+          }} 
+          text="testGame"
+          icon="play"
         ></Button>
       </div>
     </div>

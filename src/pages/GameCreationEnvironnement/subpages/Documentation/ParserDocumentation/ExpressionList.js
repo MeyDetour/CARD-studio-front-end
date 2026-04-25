@@ -620,7 +620,7 @@ export const expressionList = [
   // TEXTE
   {
     nameKey: "longueurTexte",
-    categories: ["Value"],
+    categories: ["Value","Function"],
     descriptionKey: "longueurTexteDescription",
     syntax: "len(texte)",
     inputs: [
@@ -746,7 +746,7 @@ export const expressionList = [
   // JOUEURS
   {
     nameKey: "getPlayer",
-    categories: ["Players"],
+    categories: ["Players","Function"],
     descriptionKey: "getPlayerDescription",
     syntax: "getPlayer(a)",
     inputs: [
@@ -764,7 +764,7 @@ export const expressionList = [
   // ALÉATOIRE
   {
     nameKey: "nombreAleatoire",
-    categories: ["Random","Value"],
+    categories: ["Random","Value","Function"],
     descriptionKey: "nombreAleatoireDescription",
     syntax: "random(min, max)",
     inputs: [
@@ -787,7 +787,7 @@ export const expressionList = [
   },
   {
     nameKey: "choixAleatoire",
-    categories: ["Random","Value"],
+    categories: ["Random","Value","Function"],
     descriptionKey: "choixAleatoireDescription",
     syntax: "randomChoice(liste)",
     inputs: [
@@ -806,7 +806,7 @@ export const expressionList = [
   // CONDITIONS
   {
     nameKey: "siAlorsSinon",
-    categories: ["Conditions","Value"],
+    categories: ["Conditions","Value","Function"],
     descriptionKey: "siAlorsSinonDescription",
     syntax: "if(condition, valeurSiVrai, valeurSiFaux)",
     inputs: [
