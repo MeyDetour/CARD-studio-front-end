@@ -253,6 +253,9 @@ export default function EditGame({
           pathInObject="params.globalGame.jeuSolo"
           onChangeFunction={(path, value) => {
             updateGameValue(path, value);
+            if(value){
+            updateGameValue("params.globalGame.maxPlayer", 1);
+            }
             addItem(
               gameData.id,
               createHistoryElement("gameElement", "edit", {
