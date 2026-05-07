@@ -1,15 +1,17 @@
+const targetOrigin = new URL(import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE)
+  .origin;
+
 export function listenToCardStudioTester(navigate) {
   const handleMessageFromTestApp = (event) => {
     // Sécurité origine
-    if (event.origin !== import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE) return;
+    if (event.origin !== targetOrigin) return;
 
     if (event.data === "UNAUTHORIZED") {
       console.log("Le testeur signale un token invalide. Redirection...");
 
-      // On nettoie le localStorage de Studio si nécessaire
-      localStorage.removeItem("votre_cle_token");
+      localStorage.removeItem("token");
 
-       navigate("/login");
+      navigate("/login");
     }
   };
 
@@ -17,23 +19,26 @@ export function listenToCardStudioTester(navigate) {
 }
 
 export function sendMessageToCardStudioTester(data) {
+  const targetOrigin = new URL(import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE)
+    .origin;
+
   // ================= CALL TEST APP =================
 
   // 1- call test app
-  let testApp = window.open(
-    import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE,
-    "_blank",
-  );
+  let testApp = window.open(targetOrigin, "_blank");
 
   // 3- send token and game id to test app when test app is ready to receive it
   const handleReady = (event) => {
-    if (event.origin !== import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE) return;
+    if (event.origin !== targetOrigin) return;
+
     // send main information when test app is ready
     if (event.data === "READY_FOR_TOKEN") {
-      testApp.postMessage(data, import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE);
-      console.log(
-        "send message to " + import.meta.env.VITE_CARD_STUDIO_TEST_URL_BASE,
-      );
+      if (testApp && !testApp.closed) {
+        testApp.postMessage(data, targetOrigin);
+        console.log("Message envoyé avec succès à :", targetOrigin);
+      } else {
+        console.error("La fenêtre de test a été fermée ou est inaccessible.");
+      }
       window.removeEventListener("message", handleReady);
     }
   };
@@ -42,5 +47,5 @@ export function sendMessageToCardStudioTester(data) {
   window.addEventListener("message", handleReady);
 
   // if card studio tester want to communicate
-  // listerner is called globally in GameCreationEnvironnement
+  // listener is called globally in GameCreationEnvironnement
 }

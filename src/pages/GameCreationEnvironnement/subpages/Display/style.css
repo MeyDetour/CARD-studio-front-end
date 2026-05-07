@@ -1,33 +1,72 @@
 .displaySubpage {
   .menu-rendering {
-    width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    > * {
-      width: 32%;
-    }
-    > .basicContainer {
-      position: relative;
-      cursor: pointer;
-      .selectRound {
-        width: 13px;
-        height: 13px;
-        border-radius: 50%;
-        border: 1px solid #80808091;
-        box-shadow: 0 0 5px 0 #80808036;
-        position: relative;
+    flex-direction: column;
+    gap: var(--padding-container);
+    .menu-rendering-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: var(--padding-container);
+      justify-content: space-between;
+      > * {
+        width: 32%;
       }
-      .selected::before {
-        content: "";
-        position: absolute;
-        width: 80%;
-        height: 80%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background-color: var(--violet);
+      > .basicContainer.selectCard {
+        position: relative;
+        cursor: pointer;
+        .selectRound {
+          width: 13px;
+          height: 13px;
+          aspect-ratio: 1/1;
+          border-radius: 50%;
+          border: 1px solid #80808091;
+          box-shadow: 0 0 5px 0 #80808036;
+          position: relative;
+        }
+        .title {
+          display: flex;
+          flex-direction: row;
+          gap: 15px;
+          justify-content: start;
+          width: 100%;
+        }
+        .cardAgencement {
+         
+                    display: flex;
+                    flex-direction: row;
+                    gap: 5px;
+                    justify-content: space-between;
+                    width: 100%;
+                    padding-inline: 25px;
+                    box-sizing: border-box;
+          .row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin-bottom: 10px;
+          }
+          .card {
+            aspect-ratio: 1 / 1.4;
+            background: linear-gradient(45deg, #d3cffe, #969696);
+            border-radius: 5px;
+          }
+
+        }
+        .cardAgencement.cardAgencementGrid {
+          flex-direction: column;
+        }  
+        .selected::before {
+          content: "";
+          position: absolute;
+          width: 80%;
+          height: 80%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 50%;
+          background-color: var(--violet);
+        }
       }
     }
   }

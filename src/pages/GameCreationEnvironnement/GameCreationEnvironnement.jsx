@@ -154,6 +154,7 @@ import i18next from "i18next"; export default function GameCreationEnvironnement
 
   // =========== UPDATE GAME OBJECT ============
   const updateGameValueHandler = (path, value, type) => {
+    console.log("update :",path,value,type);
     setGame((prev) => updateElementValue(path, prev, value, type));
     setPlayerHasEdit(true);
   };
