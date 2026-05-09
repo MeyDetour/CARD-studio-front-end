@@ -1,10 +1,14 @@
+// CSS
 import "./style.css";
 
 // External libraries
-import { createHistoryElement } from "../../../../helpers/historyObject";
-import { useHistoryContext } from "../../../../context/HistoryContext";
 import { useState } from "react";
-import SelectCard from "./SelectCard/SelectCard";
+
+// Contexts
+import { useHistoryContext } from "../../../../context/HistoryContext";
+
+// Helpers
+import { createHistoryElement } from "../../../../helpers/historyObject";
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
@@ -12,6 +16,9 @@ import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigat
 import Input from "../../../../components/input/Input";
 import InputSelect from "../../../../components/InputSelect/InputSelect";
 import TileContainer from "../../../../components/TitleContainer/TitleContainer";
+
+// Subpages
+import SelectCard from "./SelectCard/SelectCard";
 
 export default function DisplayPage({
   gameData, 

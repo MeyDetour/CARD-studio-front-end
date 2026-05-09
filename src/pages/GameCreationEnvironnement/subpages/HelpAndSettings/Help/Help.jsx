@@ -1,8 +1,10 @@
+// External libraries
+import { useTranslation } from "react-i18next";
+
+// Components
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import Separator from "../../../../../components/Separator/Separator";
 import DetailParagraphe from "../../../../../components/DetailParagraphe/DetailParagraphe";
-
-import { useTranslation } from "react-i18next";
 export default function Help() {
   const { t } = useTranslation();
   return (

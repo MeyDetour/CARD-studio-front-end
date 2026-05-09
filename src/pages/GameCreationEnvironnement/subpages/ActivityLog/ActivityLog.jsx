@@ -1,12 +1,19 @@
+// CSS
 import "./style.css";
+
+// External libraries
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistoryContext } from "../../../../context/HistoryContext";
-import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
-import BarChartPage from "./BarChart/BarChart";
-import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
-import EditionLogElement from "./EditionLogElement/EditionLogElement";
+
+// Contexts
 import { useGameContext } from "../../../../context/GameContext";
+import { useHistoryContext } from "../../../../context/HistoryContext";
+
+// Components
+import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
+import BarChartPage from "./BarChart/BarChart";
+import EditionLogElement from "./EditionLogElement/EditionLogElement";
 export default function CardManagement({ game }) {
   const { t } = useTranslation();
   const [subPage, setSubpage] = useState("all");

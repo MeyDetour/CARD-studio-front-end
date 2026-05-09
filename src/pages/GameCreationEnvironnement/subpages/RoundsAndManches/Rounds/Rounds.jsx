@@ -1,25 +1,32 @@
-import { useTranslation } from "react-i18next";
-import { splitText } from "../../../../../helpers/text";
-import Button from "../../../../../components/Button/Button";
-import Icon from "../../../../../components/Icon/Icon";
+// External libraries
 import { useState, useEffect } from "react";
-import Input from "../../../../../components/input/Input";
-import InputRange from "../../../../../components/inputRange/inputRange";
-import InputSelect from "../../../../../components/InputSelect/InputSelect";
-import Alert from "../../../../../components/Alert/Alert";
-import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
+import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
+
+// Contexts
+import { useGameContext } from "../../../../../context/GameContext";
+import { useNotificationContext } from "../../../../../context/NotificationContext";
+import { useHistoryContext } from "../../../../../context/HistoryContext";
+
+// Helpers
 import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../helpers/objectManagement";
-import { useGameContext } from "../../../../../context/GameContext";
-import DetailContainer from "../../../../../components/DetailContainer/DetailContainer";
-import WithValueEventCard from "../../../../../components/Cards/WithValueEventCard/WithValueEventCard";
-import { useNotificationContext } from "../../../../../context/NotificationContext";
-import { useHistoryContext } from "../../../../../context/HistoryContext";
-import { useNavigate } from "react-router";
 import { getDynamicValueForEvent } from "../../../../../helpers/withValueEventManager";
 import { createHistoryElement } from "../../../../../helpers/historyObject";
+import { splitText } from "../../../../../helpers/text";
+
+// Components
+import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
+import Button from "../../../../../components/Button/Button";
+import Icon from "../../../../../components/Icon/Icon";
+import Input from "../../../../../components/input/Input";
+import InputRange from "../../../../../components/inputRange/inputRange";
+import InputSelect from "../../../../../components/InputSelect/InputSelect";
+import Alert from "../../../../../components/Alert/Alert";
+import DetailContainer from "../../../../../components/DetailContainer/DetailContainer";
+import WithValueEventCard from "../../../../../components/Cards/WithValueEventCard/WithValueEventCard";
 
 export default function RoundsPage({
   gameData,

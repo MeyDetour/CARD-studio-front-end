@@ -1,15 +1,16 @@
+// CSS
 import "./style.css";
 
 // External libraries
-import { use, useEffect, useState } from "react"; 
+import { use, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
-// Contexts 
-import CardsLibrairy from "./CardsLibrairy/CardsLibrairy";
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
+
+// Subpages
+import CardsLibrairy from "./CardsLibrairy/CardsLibrairy";
 import CardsManagementSettings from "./CardsManagementSettings/CardsManagementSettings";
 
 export default function CardManagement({

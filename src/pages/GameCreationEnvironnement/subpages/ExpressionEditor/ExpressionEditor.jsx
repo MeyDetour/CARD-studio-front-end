@@ -1,12 +1,19 @@
+// CSS
 import "./style.css";
-import { useState } from "react";
-import Input from "../../../../components/input/Input";
-import { getSugggestionForPlayer } from "../../../../helpers/suggestions";
+
 // External libraries
-import { useNavigate } from "react-router"; 
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+
+// Helpers
+import { getSugggestionForPlayer } from "../../../../helpers/suggestions";
+
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
+import Input from "../../../../components/input/Input";
+
+// Utils
 import {
   parserGetTypeTextual,
   parserGetType,

@@ -1,8 +1,10 @@
+// CSS
+import "./style.css";
+
+// External libraries
 import { useEffect, useRef } from "react";
 import mermaid from "mermaid";
 import svgPanZoom from "svg-pan-zoom";
-
-import "./style.css";
 export function Mermaid({ chart }) {
   const containerRef = useRef(null);
 

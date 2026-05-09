@@ -1,26 +1,37 @@
+// CSS
 import "./style.css";
+
+// External libraries
 import { useState, useEffect } from "react";
-import Button from "../../../../../../components/Button/Button";
-import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
-import WithValueEventCard from "../../../../../../components/Cards/WithValueEventCard/WithValueEventCard.jsx";
 import { useTranslation } from "react-i18next";
-import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer";
-import Input from "../../../../../../components/input/Input.jsx";
+
+// Contexts
 import { useGameContext } from "../../../../../../context/GameContext.jsx";
-import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
+import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
+import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
+
+// Helpers
 import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../../helpers/objectManagement.js";
-import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
+import { getDynamicValueForEvent } from "../../../../../../helpers/withValueEventManager.js";
+import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
+
+// Data
+import { eventActions } from "../../../../../../../data/eventActions.js";
+
+// Components
+import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer";
+import Button from "../../../../../../components/Button/Button";
+import Input from "../../../../../../components/input/Input.jsx";
+import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import Alert from "../../../../../../components/Alert/Alert.jsx";
+import Confirm from "../../../../../../components/Confirm/Confirm.jsx";
+import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
+import WithValueEventCard from "../../../../../../components/Cards/WithValueEventCard/WithValueEventCard.jsx";
 import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
-import { eventActions } from "../../../../../../../data/eventActions.js";
-import { getDynamicValueForEvent } from "../../../../../../helpers/withValueEventManager.js";
-import Confirm from "../../../../../../components/Confirm/Confirm.jsx";
-import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
-import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
 
 export default function EventSubpage({
   events,

@@ -1,15 +1,23 @@
+// CSS
 import "./style.css";
-import { useTranslation } from "react-i18next";
 
 // External libraries
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
-import { updateElementValue } from "../../../../helpers/objectManagement";
 // Contexts
+import { useGameContext } from "../../../../context/GameContext.jsx";
 import { useNotificationContext } from "../../../../context/NotificationContext";
 import { useHistoryContext } from "../../../../context/HistoryContext.jsx";
+import { useTokenContext } from "../../../../context/TokenContext";
+
 // Hooks
+import { useApi } from "../../../../hooks/useApi";
+
+// Helpers
+import { updateElementValue } from "../../../../helpers/objectManagement";
+import { createHistoryElement } from "../../../../helpers/historyObject";
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
@@ -20,12 +28,8 @@ import SearchBar from "../../../../components/SearchBar/SearchBar";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 import GainCard from "../../../../components/Cards/GainCard/GainCard";
 import Alert from "../../../../components/Alert/Alert";
-import { createHistoryElement } from "../../../../helpers/historyObject";
 import Confirm from "../../../../components/Confirm/Confirm";
 import Separator from "../../../../components/Separator/Separator";
-import { useGameContext } from "../../../../context/GameContext.jsx";
-import { useTokenContext } from "../../../../context/TokenContext";
-import { useApi } from "../../../../hooks/useApi";
 
 export default function Gains({
   gameData,

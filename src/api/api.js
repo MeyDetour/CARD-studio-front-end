@@ -22,7 +22,7 @@ export async function apiClient(path, body, customConfig = {},formData=null ) {
     let message = "Erreur API";
     try {
       const data = await response.json();
-      if (data && data.message) message = data.message;
+      if (data &&  (data.message || data.error_message)) message = data.message || data.error_message;
     } catch (e) {
       /* ignore json parse errors and keep generic message */
     }

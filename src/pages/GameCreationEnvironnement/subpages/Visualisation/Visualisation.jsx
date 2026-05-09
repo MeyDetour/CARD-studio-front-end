@@ -1,10 +1,14 @@
+// CSS
 import "./style.css";
 
+// External libraries
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+
+// Components
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 import { Mermaid } from "./Mermaid/Mermaid";
 import { Legend } from "./Legend/Legend";
-import { useState } from "react";
-import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 
 // Composant Mermaid corrigé
 

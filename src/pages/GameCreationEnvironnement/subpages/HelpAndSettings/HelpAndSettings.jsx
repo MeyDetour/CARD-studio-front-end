@@ -4,11 +4,15 @@ import { useEffect, useState } from "react";
 // Contexts
 import { useUserContext } from "../../../../context/UserContext.jsx";
 import { useNotificationContext } from "../../../../context/NotificationContext.jsx";
+
+// Hooks
 import { useApi } from "../../../../hooks/useApi";
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
-import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar"; 
+import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
+
+// Subpages
 import Settings from "./Settings/Settings.jsx";
 import Help from "./Help/Help.jsx";
 

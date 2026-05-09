@@ -1,15 +1,24 @@
+// CSS
 import "./style.css";
+
+// External libraries
 import { useEffect, useState } from "react";
-import Input from "../../../../../../components/input/Input.jsx";
 import { useTranslation } from "react-i18next";
+
+// Contexts
+import { useGameContext } from "../../../../../../context/GameContext.jsx";
+import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
+
+// Helpers
+import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
+
+// Components
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
 import Icon from "../../../../../../components/Icon/Icon.jsx";
-import { useGameContext } from "../../../../../../context/GameContext.jsx";
 import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import SubNavigationBar from "../../../../../../components/SubNavigationBar/SubNavigationBar.jsx";
 import Button from "../../../../../../components/Button/Button.jsx";
-import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
-import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
+import Input from "../../../../../../components/input/Input.jsx";
 export default function VariableSubpage({
   globalValue,
   playerGlobalValue,

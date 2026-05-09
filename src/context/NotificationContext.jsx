@@ -29,8 +29,7 @@ export function NotificationProvider({ children }) {
   function getAlertOfType(type) {
     let result = alertList.filter((alert) => alert.split("|")[1] === type);
     return result;
-  }
- 
+  } 
   return (
     <NotificationContext.Provider
       value={{

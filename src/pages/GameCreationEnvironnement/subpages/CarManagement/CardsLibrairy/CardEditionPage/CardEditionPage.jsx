@@ -1,21 +1,31 @@
+// CSS
 import "./style.css";
+
+// External libraries
 import { useState } from "react";
-import { updateElementValue } from "../../../../../../helpers/objectManagement";
 import { useTranslation } from "react-i18next";
+
 // Contexts
-import Input from "../../../../../../components/input/Input";
-import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer";
-import DefaultCard from "../DefaultCard/DefaultCard";
-import InputSelect from "../../../../../../components/InputSelect/InputSelect";
-import Button from "../../../../../../components/Button/Button";
-import { useApi } from "../../../../../../hooks/useApi";
-import { useTokenContext } from "../../../../../../context/TokenContext";
-import { useHistoryContext } from "../../../../../../context/HistoryContext";
 import { useGameContext } from "../../../../../../context/GameContext";
+import { useNotificationContext } from "../../../../../../context/NotificationContext";
+import { useHistoryContext } from "../../../../../../context/HistoryContext";
+import { useTokenContext } from "../../../../../../context/TokenContext";
+
+// Hooks
+import { useApi } from "../../../../../../hooks/useApi";
+
+// Helpers
+import { updateElementValue } from "../../../../../../helpers/objectManagement";
 import { createHistoryElement } from "../../../../../../helpers/historyObject";
 
+// Components
+import ImageUploadFileContainer from "../../../../../../components/ImageUploadFileContainer/ImageUploadFileContainer";
+import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer";
+import Button from "../../../../../../components/Button/Button";
+import Input from "../../../../../../components/input/Input";
+import InputSelect from "../../../../../../components/InputSelect/InputSelect";
 import Alert from "../../../../../../components/Alert/Alert";
-import { useNotificationContext } from "../../../../../../context/NotificationContext";
+import DefaultCard from "../DefaultCard/DefaultCard";
 
 export default function CardEditionPage({
   currentCard,
@@ -93,29 +103,21 @@ export default function CardEditionPage({
                 id: currentCard.id,
                 gameId: gameData.id,
               }) && (
-                <div className="imageUploadContainer">
-                  <Button
-                    icon="star"
-                    action={() => {}}
-                    type="whiteWithBordure"
-                    text="uploadImage"
-                  />
-                  <input
-                    type="file"
-                    onChange={(e) => {
-                      const selectedFile = e.target.files[0];
-                      if (
-                        selectedFile.type == "image/jpeg" ||
-                        selectedFile.type === "image/png"
-                      ) {
-                        uploadImageOfCard(selectedFile);
-                      } else {
-                        displayError(t("onlyJpgOrPngAllowed"));
-                      }
-                    }}
-                  />
-                </div>
-              )}
+                <ImageUploadFileContainer
+                  buttonText="uploadImage"
+                  actionOnFileChange={(e) => {
+                    const selectedFile = e.target.files[0];
+                    if (
+                      selectedFile.type == "image/jpeg" ||
+                      selectedFile.type === "image/png"
+                    ) {
+                      uploadImageOfCard(selectedFile);
+                    } else {
+                      displayError(t("onlyJpgOrPngAllowed"));
+                    }
+                  }}
+                />
+              )} 
             </>
           )}
         </div>

@@ -1,18 +1,25 @@
+// CSS
 import "./style.css";
 import "../../assets/form.css";
-import Icon from "../../components/Icon/Icon.jsx";
+
+// External libraries
+import { useEffect, useState } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import { useForm, useWatch } from "react-hook-form";
-import { Link } from "react-router";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
+// Contexts
 import { useTokenContext } from "../../context/TokenContext.jsx";
 import { useUserContext } from "../../context/UserContext.jsx";
-import SubNavigationBar from "../../components/SubNavigationBar/SubNavigationBar.jsx";
-import { useTranslation } from "react-i18next";
-import Button from "../../components/Button/Button.jsx";
+
+// Hooks
 import { useApi } from "../../hooks/useApi.js";
+
+// Components
+import Icon from "../../components/Icon/Icon.jsx";
+import SubNavigationBar from "../../components/SubNavigationBar/SubNavigationBar.jsx";
+import Button from "../../components/Button/Button.jsx";
 export default function LoginAndRegisterPage() {
   const {
     register,

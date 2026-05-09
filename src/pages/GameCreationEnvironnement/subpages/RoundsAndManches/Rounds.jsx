@@ -1,4 +1,4 @@
- 
+// CSS
 import "./style.css";
 
 // External libraries

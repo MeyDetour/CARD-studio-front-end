@@ -27,6 +27,7 @@ import InputSelect from "../../../../components/InputSelect/InputSelect.jsx";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 import Alert from "../../../../components/Alert/Alert.jsx";
+import ImageUploadFileContainer from "../../../../components/ImageUploadFileContainer/ImageUploadFileContainer.jsx";
 
 export default function EditGame({
   gameData,
@@ -36,7 +37,7 @@ export default function EditGame({
   uploadFileForGameEditionHandler,
   restoreGameFromDb,
 }) {
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const { deleteGame } = useGameContext();
   const navigate = useNavigate();
   const { alertList } = useNotificationContext();
@@ -52,7 +53,6 @@ export default function EditGame({
           icon="pen-violet-background"
           description="instanceConfiguration"
         />
-        
       </div>
       {/* First section with name */}
       <div className="basicContainer globalSection">
@@ -145,27 +145,20 @@ export default function EditGame({
         {gameData.image && (
           <div className="imageContainer">
             <img src={gameData.image} alt="" />
-            <div className="imageUploadContainer">
-              <Button
-                icon="star"
-                action={() => {}}
-                type="whiteWithBordure"
-                text="uploadImage"
-              />
-              <input
-                type="file"
-                onChange={(e) => {
-                  const selectedFile = e.target.files[0];
-                  if (
-                    selectedFile.type == "image/jpeg" ||
-                    selectedFile.type === "image/png"
-                  ) {
-                    setGameImageUploadedUrl(URL.createObjectURL(selectedFile));
-                    uploadFileForGameEditionHandler(selectedFile);
-                  }
-                }}
-              />
-            </div>
+            <ImageUploadFileContainer
+            buttonText={"uploadImage"}
+              actionOnFileChange={(e) => {
+                const selectedFile = e.target.files[0];
+                if (
+                  selectedFile.type == "image/jpeg" ||
+                  selectedFile.type === "image/png"
+                ) {
+                  setGameImageUploadedUrl(URL.createObjectURL(selectedFile));
+                  uploadFileForGameEditionHandler(selectedFile);
+                }
+              }}
+            ></ImageUploadFileContainer>
+           
           </div>
         )}
       </div>
@@ -224,7 +217,7 @@ export default function EditGame({
             title="maxPlayers"
             defaultValue={gameData.maxPlayer ? gameData.maxPlayer : 0}
             inputType="number"
-            max={8}
+            max={13}
             min={1}
             onChangeFunction={(path, value) => {
               const maxVal = parseInt(value) || 0;
@@ -253,8 +246,8 @@ export default function EditGame({
           pathInObject="params.globalGame.jeuSolo"
           onChangeFunction={(path, value) => {
             updateGameValue(path, value);
-            if(value){
-            updateGameValue("params.globalGame.maxPlayer", 1);
+            if (value) {
+              updateGameValue("params.globalGame.maxPlayer", 1);
             }
             addItem(
               gameData.id,

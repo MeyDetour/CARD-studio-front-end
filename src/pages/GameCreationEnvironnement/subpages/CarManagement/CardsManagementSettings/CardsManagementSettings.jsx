@@ -1,7 +1,14 @@
-import Input  from "../../../../../components/input/Input";
+// External libraries
 import { useTranslation } from "react-i18next";
-import { createHistoryElement } from "../../../../../helpers/historyObject";
+
+// Contexts
 import { useHistoryContext } from "../../../../../context/HistoryContext";
+
+// Helpers
+import { createHistoryElement } from "../../../../../helpers/historyObject";
+
+// Components
+import Input from "../../../../../components/input/Input";
  
 export default function CardsManagementSettings(
   gameData,

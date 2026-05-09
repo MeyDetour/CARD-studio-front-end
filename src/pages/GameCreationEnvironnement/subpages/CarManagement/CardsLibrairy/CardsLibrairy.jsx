@@ -1,30 +1,47 @@
+// External libraries
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Input from "../../../../../components/input/Input";
-import { createHistoryElement } from "../../../../../helpers/historyObject";
+import { SelectionArea } from "@viselect/react";
+
+// Contexts
+import { useGameContext } from "../../../../../context/GameContext";
+import { useNotificationContext } from "../../../../../context/NotificationContext";
 import { useHistoryContext } from "../../../../../context/HistoryContext";
+import { useTokenContext } from "../../../../../context/TokenContext";
+
+// Hooks
+import { useApi } from "../../../../../hooks/useApi";
+
+// Helpers
+import { updateElementValue } from "../../../../../helpers/objectManagement";
+import { createHistoryElement } from "../../../../../helpers/historyObject";
+
+// Components
+import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import Button from "../../../../../components/Button/Button";
+import Input from "../../../../../components/input/Input";
+import InputSelect from "../../../../../components/InputSelect/InputSelect";
+import Alert from "../../../../../components/Alert/Alert";
 import CardEditionPage from "./CardEditionPage/CardEditionPage";
 import DefaultCard from "./DefaultCard/DefaultCard";
-import { SelectionArea } from "@viselect/react";
-import InputSelect from "../../../../../components/InputSelect/InputSelect";
-import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
-import { updateElementValue } from "../../../../../helpers/objectManagement";
-import { useNotificationContext } from "../../../../../context/NotificationContext";
-import Alert from "../../../../../components/Alert/Alert";
-import { useGameContext } from "../../../../../context/GameContext";
+import ImageUploadFileContainer from "../../../../../components/ImageUploadFileContainer/ImageUploadFileContainer";
 
 export default function CardsLibrairy({
   gameData,
   updateGameValue,
-  currentCard,getCardsFromDb,
+  currentCard,
+  getCardsFromDb,
   setCurrentCard,
 }) {
+  const { fetchData } = useApi();
   const { t } = useTranslation();
   const { addItem } = useHistoryContext();
+  const { getToken } = useTokenContext();
   const [selected, setSelected] = useState(new Set());
   const { alertList } = useNotificationContext();
-  const {restoreCards} = useGameContext();
+  const { restoreCards } = useGameContext();
+
+  const { displayError } = useNotificationContext();
   useEffect(() => {
     if (currentCard) {
       updateGameValue("assets.cards." + currentCard.id, currentCard);
@@ -46,6 +63,24 @@ export default function CardsLibrairy({
     );
   }
 
+  async function uploadZipOfCards(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const result = await fetchData(
+      "api/game/" + gameData.id + "/cards/uploadZip",
+      null,
+      {
+        token: getToken(),
+        method: "POST",
+      },
+      formData,
+    );
+    if (!result) {
+      displayError(t("FailedToUploadFileZip"));
+    }
+    updateGameValue("assets.cards", result);
+  }
   return (
     <>
       <div className="cardLibrairy-MultipleActions basicContainer">
@@ -54,6 +89,22 @@ export default function CardsLibrairy({
           type="h1"
           description="hereYouCanSeeAllTheCardsYouHaveCreated"
         ></TitleContainer>
+
+    
+    <div className="rowButtons">
+          <ImageUploadFileContainer
+            buttonText={"uploadZipOfCards"}
+            actionOnFileChange={(e) => {
+              const selectedFile = e.target.files[0];
+              console.log(selectedFile.type);
+              if (selectedFile.type != "application/zip") {
+                displayError(t("onlyZipFileAllowed"));
+                return;
+              } else {
+                uploadZipOfCards(selectedFile);
+              }
+            }}
+          /> 
         <Button
           icon="add-white"
           text="newCard"
@@ -78,6 +129,7 @@ export default function CardsLibrairy({
             );
           }}
         ></Button>
+      </div>
       </div>
       <SelectionArea
         selectionConfig={{
@@ -219,29 +271,28 @@ export default function CardsLibrairy({
               }}
             ></Button>
           </div>
-        
         </div>
       )}
-        <div className="basicContainer basicRedContainer  ">
-            <TitleContainer
-              title={"restoreCards"}
-              type="h2"
-              description={"allYoursCardsWillBeRestoredToDefaultCardsPack"}
-            />
+      <div className="basicContainer basicRedContainer  ">
+        <TitleContainer
+          title={"restoreCards"}
+          type="h2"
+          description={"allYoursCardsWillBeRestoredToDefaultCardsPack"}
+        />
 
-            <Button
-              text={"restoreCards"}
-              type={"redButton"}
-              action={async () => {
-                if (confirm(t("doYouRealyWantToRestore"))) {
-                  let result = await restoreCards(gameData.id);
-                  if (result && result.message === "ok") {
-                    getCardsFromDb()
-                  }
-                }
-              }}
-            ></Button>
-          </div>
+        <Button
+          text={"restoreCards"}
+          type={"redButton"}
+          action={async () => {
+            if (confirm(t("doYouRealyWantToRestore"))) {
+              let result = await restoreCards(gameData.id);
+              if (result && result.message === "ok") {
+                getCardsFromDb();
+              }
+            }
+          }}
+        ></Button>
+      </div>
     </>
   );
 }

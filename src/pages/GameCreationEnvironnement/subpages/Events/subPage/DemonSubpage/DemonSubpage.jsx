@@ -1,22 +1,31 @@
+// CSS
 import "./style.css";
+
+// External libraries
 import { useEffect, useState } from "react";
-import Button from "../../../../../../components/Button/Button.jsx";
-import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
 import { useTranslation } from "react-i18next";
-import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
-import Input from "../../../../../../components/input/Input.jsx";
+
+// Contexts
 import { useGameContext } from "../../../../../../context/GameContext.jsx";
+import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
+import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
+
+// Helpers
 import {
   updateElementValue,
   updateValueArray,
 } from "../../../../../../helpers/objectManagement.js";
-import Alert from "../../../../../../components/Alert/Alert.jsx";
-import { useNotificationContext } from "../../../../../../context/NotificationContext.jsx";
-import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
-import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import { getSugggestionForPlayer } from "../../../../../../helpers/suggestions.js";
-import { useHistoryContext } from "../../../../../../context/HistoryContext.jsx";
 import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
+
+// Components
+import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
+import Button from "../../../../../../components/Button/Button.jsx";
+import Input from "../../../../../../components/input/Input.jsx";
+import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
+import Alert from "../../../../../../components/Alert/Alert.jsx";
+import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
+import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
 export default function DemonSubpage({
   demons,
   events,

@@ -1,10 +1,17 @@
+// CSS
 import "./style.css";
+
+// External libraries
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+
+// Components
+import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import Icon from "../../../../../components/Icon/Icon";
 import Button from "../../../../../components/Button/Button";
 import SearchBar from "../../../../../components/SearchBar/SearchBar";
-import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
+
+// Data
 import { expressionList, expressionListTypes } from "./ExpressionList";
 export default function ExpressionDocumentation() {
   const [subpage, setSubpage] = useState("all");

@@ -1,5 +1,10 @@
+// CSS
 import "./style.css";
+
+// External libraries
 import { useTranslation } from "react-i18next";
+
+// Components
 import Icon from "../../../../../components/Icon/Icon";
 export default function EditionLogElement({ item }) {
   const { t } = useTranslation();

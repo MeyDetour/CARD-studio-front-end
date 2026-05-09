@@ -1,12 +1,17 @@
- 
+// External libraries
 import { useTranslation } from "react-i18next";
- 
+
+// Contexts
+import { useHistoryContext } from "../../../../../context/HistoryContext";
+
+// Helpers
+import { createHistoryElement } from "../../../../../helpers/historyObject";
+
+// Components
+import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import Input from "../../../../../components/input/Input";
 import InputRange from "../../../../../components/inputRange/inputRange";
-import InputSelect from "../../../../../components/InputSelect/InputSelect"; 
-import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
-import { useHistoryContext } from "../../../../../context/HistoryContext";
-import { createHistoryElement } from "../../../../../helpers/historyObject";
+import InputSelect from "../../../../../components/InputSelect/InputSelect";
 
  export default function Manches({
   gameData,

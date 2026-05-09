@@ -1,12 +1,14 @@
-import Input from "../../../../../components/input/Input";
-import InputSelect from "../../../../../components/InputSelect/InputSelect.jsx";
-import TitleContainer from "../../../../../components/TitleContainer/TitleContainer"; 
-
-
 // Contexts
 import { useUserContext } from "../../../../../context/UserContext.jsx";
 import { useNotificationContext } from "../../../../../context/NotificationContext.jsx";
+
+// Hooks
 import { useApi } from "../../../../../hooks/useApi";
+
+// Components
+import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
+import Input from "../../../../../components/input/Input";
+import InputSelect from "../../../../../components/InputSelect/InputSelect.jsx";
 
 
 export default function Settings( {

@@ -1,7 +1,5 @@
+// CSS
 import "./style.css";
-
-//
-import { createHistoryElement } from "../../../../helpers/historyObject.js";
 
 // External libraries
 import { useEffect, useState } from "react";
@@ -16,6 +14,12 @@ import { useHistoryContext } from "../../../../context/HistoryContext.jsx";
 // Hooks
 import { useApi } from "../../../../hooks/useApi";
 
+// Helpers
+import { createHistoryElement } from "../../../../helpers/historyObject.js";
+
+// Data
+import { eventActions } from "../../../../../data/eventActions.js";
+
 // Components
 import CardSubpage from "../../../../components/CardSubpage/CardSubpage";
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
@@ -27,7 +31,6 @@ import EventSubpage from "./subPage/EventSubpage/EventSubpage.jsx";
 import CurrentWithValueEventSubpage from "./subPage/EventWithValueSubpage/EventWithValueSubpage.jsx";
 import VariableSubpage from "./subPage/VariableSubpage/VariableSubpage.jsx";
 import WinSubpage from "./subPage/WinSubpage/WinSubpage.jsx";
-import { eventActions } from "../../../../../data/eventActions.js";
 
 export default function Events({
   gameData,

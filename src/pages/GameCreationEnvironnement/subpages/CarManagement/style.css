@@ -15,6 +15,14 @@
   }
   .cardLibrairy-MultipleActions {
     user-select: none;
+    .rowButtons{
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      >*{
+        width: fit-content;
+      }
+    }
   }
   .cardLibrary { 
     

@@ -1,15 +1,9 @@
+// CSS
 import "./style.css";
 
 // External libraries
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-
-// Contexts
-
-
-// Hooks
-
-
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
