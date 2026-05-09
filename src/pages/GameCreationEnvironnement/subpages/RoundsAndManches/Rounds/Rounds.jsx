@@ -390,7 +390,7 @@ export default function RoundsPage({
                         }
                         inputType="toggle"
                         disabled={
-                          (!!gameData.cardParams?.discard?.activation ?? true) ||
+                          (!gameData.cardParams?.discard?.activation ?? true) ||
                           gameData.actions.some(
                             (action) =>
                               action.actionOnDiscardDeck &&

@@ -154,7 +154,6 @@ import i18next from "i18next"; export default function GameCreationEnvironnement
 
   // =========== UPDATE GAME OBJECT ============
   const updateGameValueHandler = (path, value, type) => {
-    console.log("update :",path,value,type);
     setGame((prev) => updateElementValue(path, prev, value, type));
     setPlayerHasEdit(true);
   };
@@ -451,12 +450,13 @@ import i18next from "i18next"; export default function GameCreationEnvironnement
               return (
                 <CardManagement
                   gameData={{
-                    cards: game.assets.cards,
-
+                    actions: game.params.tours.actions,
+                    cards: game.assets.cards, 
                     id: game.id,
                     cardParams: game.params.cards ? game.params.cards : {},
                   }}
                   getCardsFromDb={getCardsFromDb}
+                  updateGameValueArray={updateGameValueArrayHandler}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
                   setGameImageUploadedUrl={setGameImageUploadedUrl}

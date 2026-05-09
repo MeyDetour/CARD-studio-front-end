@@ -114,7 +114,7 @@ export default function Events({
     return eventActions.find((actionItem) => actionItem.label === action);
   }
   function loadDisabledFields(event) {
-    if (!event.event?.action) return {};
+    if (!event?.event?.action) return {};
 
     let action = getActionObj(event.event.action);
     if (!action) {

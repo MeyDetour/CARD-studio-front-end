@@ -24,7 +24,7 @@ import InputSelect from "../../../../../components/InputSelect/InputSelect";
   return    <>
       <div className="basicContainer">
         <TitleContainer
-          title="roundsManagement"
+          title="mancheManagement"
           description="globalManagementForTours"
         ></TitleContainer>
 

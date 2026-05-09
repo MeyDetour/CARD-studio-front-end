@@ -25,6 +25,7 @@ import Alert from "../../../../../components/Alert/Alert";
 import CardEditionPage from "./CardEditionPage/CardEditionPage";
 import DefaultCard from "./DefaultCard/DefaultCard";
 import ImageUploadFileContainer from "../../../../../components/ImageUploadFileContainer/ImageUploadFileContainer";
+import CustomCard from "./CustomCard/CustomCard";
 
 export default function CardsLibrairy({
   gameData,
@@ -57,7 +58,7 @@ export default function CardsLibrairy({
       <CardEditionPage
         currentCard={currentCard}
         setCurrentCard={setCurrentCard}
-        gameData={{ id: gameData.id }}
+        gameData={{ id: gameData.id, ...gameData }}
         updateGameValue={updateGameValue}
       />
     );
@@ -90,8 +91,7 @@ export default function CardsLibrairy({
           description="hereYouCanSeeAllTheCardsYouHaveCreated"
         ></TitleContainer>
 
-    
-    <div className="rowButtons">
+        <div className="rowButtons">
           <ImageUploadFileContainer
             buttonText={"uploadZipOfCards"}
             actionOnFileChange={(e) => {
@@ -104,32 +104,32 @@ export default function CardsLibrairy({
                 uploadZipOfCards(selectedFile);
               }
             }}
-          /> 
-        <Button
-          icon="add-white"
-          text="newCard"
-          type="violetButton"
-          action={() => {
-            let id = Date.now();
-            let newCard = {
-              id: id,
-              value: 1,
-              name: t("newCard"),
-              type: "french_standard",
-              addedAttributs: {
-                couleur: "pique",
-              },
-            };
+          />
+          <Button
+            icon="add-white"
+            text="newCard"
+            type="violetButton"
+            action={() => {
+              let id = Date.now();
+              let newCard = {
+                id: id,
+                value: 1,
+                name: t("newCard"),
+                type: "french_standard",
+                addedAttributs: {
+                  couleur: "pique",
+                },
+              };
 
-            updateGameValue("assets.cards." + newCard.id, newCard, "new");
-            setCurrentCard(newCard);
-            addItem(
-              gameData.id,
-              createHistoryElement("card", "add", { id: newCard.id }),
-            );
-          }}
-        ></Button>
-      </div>
+              updateGameValue("assets.cards." + newCard.id, newCard, "new");
+              setCurrentCard(newCard);
+              addItem(
+                gameData.id,
+                createHistoryElement("card", "add", { id: newCard.id }),
+              );
+            }}
+          ></Button>
+        </div>
       </div>
       <SelectionArea
         selectionConfig={{
@@ -172,6 +172,7 @@ export default function CardsLibrairy({
           {Object.keys(gameData.cards).map((key) => {
             const card = gameData.cards[key];
             const isSelected = selected.has(String(key));
+            // Pour DefaultCard, data-key est déjà bien passé
             if (card.type == "french_standard") {
               return (
                 <DefaultCard
@@ -189,24 +190,26 @@ export default function CardsLibrairy({
                 </DefaultCard>
               );
             }
+            // resize radius of custom card to fit in the library ( library card are 78px width, but in the edition page they are 200px width, so we need to resize the radius to fit the new size )
             return (
-              <div
+              <CustomCard
+                action={() => {
+                  setCurrentCard(card);
+                }}
                 key={key}
-                data-key={key}
-                className={`cardInLibrary selectable ${isSelected ? "selected" : ""}`}
-                onClick={() => !isSelected && setCurrentCard(card)}
+                card={card}
+                radius={gameData.cardParams.radius*78/200 }
+                hoverable={true}
+                isSelected={isSelected}
+                // On ne passe plus dataKey ici, mais on va le passer dans classAdded pour l'ajouter sur le bon div
+                classAdded={`selectable ${isSelected ? "selected" : ""}`}
+                dataKey={key}
               >
                 <Alert
                   alertList={alertList}
                   displayAlertStartWith={card.id + "|card|"}
                 ></Alert>
-
-                {card.image ? (
-                  <img draggable={false} src={card.image} alt={card.name} />
-                ) : (
-                  <span>{card.name}</span>
-                )}
-              </div>
+              </CustomCard>
             );
           })}
         </div>

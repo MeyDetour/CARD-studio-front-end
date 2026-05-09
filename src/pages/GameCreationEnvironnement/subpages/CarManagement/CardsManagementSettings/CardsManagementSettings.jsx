@@ -9,15 +9,17 @@ import { createHistoryElement } from "../../../../../helpers/historyObject";
 
 // Components
 import Input from "../../../../../components/input/Input";
- 
-export default function CardsManagementSettings(
+import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
+import InputRange from "../../../../../components/inputRange/inputRange";
+import CustomCard from "../CardsLibrairy/CustomCard/CustomCard";
+
+export default function CardsManagementSettings({
   gameData,
   updateGameValueArray,
   updateGameValue,
-) {
+}) {
   const { t } = useTranslation();
   const { addItem } = useHistoryContext();
-
   return (
     <>
       <div className="basicContainer">
@@ -112,6 +114,52 @@ export default function CardsManagementSettings(
           }}
         />
       </div>
+      {Object.keys(gameData.cards).find((key) => {
+        return gameData.cards[key].type === "custom";
+      }) ? (
+        <div className="basicContainer renderingOfCardContainer">
+          <TitleContainer
+            title="renderingOfCard"
+            description="renderingOfCardDescription"
+          ></TitleContainer>
+          <div className="innerContainer">
+            <div className="left">
+              <CustomCard
+                radius={gameData.cardParams.radius}
+                card={
+                  gameData.cards
+                    ? gameData.cards[Object.keys(gameData.cards).find((key) => {
+                        return gameData.cards[key].type === "custom";
+                      })]
+                    : null
+                }
+              ></CustomCard>
+            </div>
+            <div className="right">
+              <span className="normalText">
+                {t("maxNumberOfMance")} : {gameData.cardParams?.radius ?? 0}
+              </span>
+              <InputRange
+                type="range"
+                min={0}
+                max={50}
+                maxValue={gameData.cardParams?.radius ?? 0}
+                setMaxValue={(value) => {
+                  updateGameValue("params.cards.radius", value);
+                  addItem(
+                    gameData.id,
+                    createHistoryElement("gameElement", "edit", {
+                      field: "params.cards.radius",
+                    }),
+                  );
+                }}
+              ></InputRange>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }

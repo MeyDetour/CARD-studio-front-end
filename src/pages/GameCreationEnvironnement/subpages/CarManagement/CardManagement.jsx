@@ -17,13 +17,14 @@ export default function CardManagement({
   gameData, 
   getCardsFromDb,
   updateGameValue,
+  updateGameValueArray,
 }) {
   const { t } = useTranslation();
   const [subpage, setSubpage] = useState("cardManagement");
    const [currentCard, setCurrentCard] = useState(null);
   if (!gameData) return;
   return (
-    <div className={" assetsBookshelfSubpage"}>
+    <div className={" cardManagementSubpage"}>
       <TitleContainer
         title={"cardManagement"}
         type="h1"
@@ -47,6 +48,7 @@ export default function CardManagement({
       {subpage === "cardManagement" && (
         <CardsManagementSettings
           gameData={gameData}
+          updateGameValueArray={updateGameValueArray}
           updateGameValue={updateGameValue}
         />
       )}

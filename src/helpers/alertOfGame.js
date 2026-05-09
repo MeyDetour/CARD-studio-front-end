@@ -220,6 +220,9 @@ export function loadAlertListFormGame(gameData) {
     if (demon.events.some((eventId) => !eventIds.includes(eventId))) {
       alertList.push(demon.id + "|demon|demonCallNonExistingEvent|alert");
     }
+      if (demon.boucle && !demon.condition.includes("Boucle")) {
+      alertList.push(demon.id + "|demon|demonCallBoucleButDontUseIt|alert");
+    }
   });
 
   // ============= Check for cards

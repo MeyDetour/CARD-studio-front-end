@@ -28,7 +28,6 @@ export default function DefaultCard({ card, setCurrentCard  , classAdded , isSel
         return "";
     }
   };
-  let suit = getSuitSymbol(card.addedAttributs?.couleur);
   return (
     <div
       onClick={() => {

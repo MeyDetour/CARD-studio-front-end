@@ -26,6 +26,7 @@ import Input from "../../../../../../components/input/Input";
 import InputSelect from "../../../../../../components/InputSelect/InputSelect";
 import Alert from "../../../../../../components/Alert/Alert";
 import DefaultCard from "../DefaultCard/DefaultCard";
+import CustomCard from "../CustomCard/CustomCard";
 
 export default function CardEditionPage({
   currentCard,
@@ -83,51 +84,50 @@ export default function CardEditionPage({
               {/*=========IF CARD IS CUSTOM======= */}
               {/*User can only add image if card is saved in
              db because request is send when user uplaod image */}
-              <div className="cardInLibrary">
-                {isInHistory({
-                  type: "card",
-                  action: "add",
-                  id: currentCard.id,
-                  gameId: gameData.id,
-                }) ? (
-                  <span className="warningText">
-                    {t("saveTheGameOrSaveCardBeforeUploadingImage")}
-                  </span>
-                ) : (
-                  <img src={currentCard.image}></img>
-                )}
-              </div>
-              {!isInHistory({
+              {isInHistory({
                 type: "card",
                 action: "add",
                 id: currentCard.id,
                 gameId: gameData.id,
-              }) && (
-                <ImageUploadFileContainer
-                  buttonText="uploadImage"
-                  actionOnFileChange={(e) => {
-                    const selectedFile = e.target.files[0];
-                    if (
-                      selectedFile.type == "image/jpeg" ||
-                      selectedFile.type === "image/png"
-                    ) {
-                      uploadImageOfCard(selectedFile);
-                    } else {
-                      displayError(t("onlyJpgOrPngAllowed"));
-                    }
-                  }}
-                />
-              )} 
+              }) ? (
+                <div className="customCard">
+                  <span className="warningText">
+                    {t("saveTheGameOrSaveCardBeforeUploadingImage")}
+                  </span>
+                </div>
+              ) : (
+                <>
+                  <CustomCard
+                    card={currentCard}
+                    radius={gameData.cardParams.radius}
+                    hoverable={true}
+                  /> 
+                  <ImageUploadFileContainer
+                    buttonText="uploadImage"
+                    actionOnFileChange={(e) => {
+                      const selectedFile = e.target.files[0];
+                      if (
+                        selectedFile.type == "image/jpeg" ||
+                        selectedFile.type === "image/png"
+                      ) {
+                        uploadImageOfCard(selectedFile);
+                      } else {
+                        displayError(t("onlyJpgOrPngAllowed"));
+                      }
+                    }}
+                  />
+                </>
+              )}
             </>
           )}
         </div>
 
         {/*=========CARD CONFIGURATION======= */}
         <div className="basicContainer">
-           <Alert
-                alertList={alertList}
-                messages={[currentCard.id + "|card|cardNameMustNotBeEmpty"]}
-              />
+          <Alert
+            alertList={alertList}
+            messages={[currentCard.id + "|card|cardNameMustNotBeEmpty"]}
+          />
           {/* ===========NAME======= */}
           <Input
             title="cardName"

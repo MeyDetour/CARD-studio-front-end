@@ -21,7 +21,7 @@ export default function GainCard({
       {children}
       <div className="visuel">
         {gain.image && (
-          <img src={gain.image} alt="gain" />
+          <img src={gain.url} alt="gain" />
         )}
       </div>
       <h3>{gain.name ? gain.name : "Untitled"}</h3>
