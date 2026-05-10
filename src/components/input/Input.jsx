@@ -3,6 +3,7 @@ import "./style.css";
 import { useRef, useState } from "react";
 import { Link } from "react-router";
 import TitleContainer from "../TitleContainer/TitleContainer";
+ 
 export default function Input({
   title,
   description = "",
@@ -83,7 +84,12 @@ export default function Input({
       style={type == "input" && hint ? { marginBottom: "20px" } : null}
       className={`input ${type} ${disabled ? "disabled" : ""}`}
     >
-      <span className="normalText">{t(title)}</span>
+     <TitleContainer
+          type="normalText"
+          title={title}
+          description={description}
+        />
+
       {(() => {
         switch (inputType) {
           case "input":

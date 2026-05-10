@@ -15,6 +15,7 @@ import ManchesPage from "./Manches/Manches";
 export default function RoundsAndManches({
   gameData,
   updateGameValueArray,
+  suggestions,
   updateGameValue,
   getEventFromIdAndType
 }) {
@@ -37,16 +38,19 @@ export default function RoundsAndManches({
 
       {subpage === "rounds" && (
         <RoundsPage
-          gameData={gameData}
+        suggestions={suggestions}
+          gameData={gameData} 
           updateGameValue={updateGameValue}
           getEventFromIdAndType={getEventFromIdAndType}
           updateGameValueArray={updateGameValueArray}
         />
       )}   {subpage === "manches" && (
         <ManchesPage
+        
           gameData={gameData}
           updateGameValue={updateGameValue}
           updateGameValueArray={updateGameValueArray}
+          suggestions={suggestions} 
         />
       )}
     </div>

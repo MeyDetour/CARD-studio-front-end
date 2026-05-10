@@ -31,6 +31,7 @@ import WithValueEventCard from "../../../../../components/Cards/WithValueEventCa
 export default function RoundsPage({
   gameData,
   updateGameValueArray,
+  suggestions,
   updateGameValue,
   getEventFromIdAndType,
 }) {
@@ -170,7 +171,7 @@ export default function RoundsPage({
         <Input
           title="numberOfStratingTour"
           defaultValue={gameData.tours.startNumber}
-          onChangeFunction={(path,value)=>{
+          onChangeFunction={(path, value) => {
             updateGameValue(path, value);
             addItem(
               gameData.id,
@@ -260,7 +261,7 @@ export default function RoundsPage({
           defaultValue={gameData.tours.actionOnlyAtPlayerTour}
           inputType="toggle"
           pathInObject="params.tours.actionOnlyAtPlayerTour"
-          onChangeFunction={(path,value)=>{
+          onChangeFunction={(path, value) => {
             updateGameValue(path, value);
             addItem(
               gameData.id,
@@ -276,9 +277,10 @@ export default function RoundsPage({
             title={"actions"}
             description={"actionOfPlayerAtTurnDescription"}
           />
+
           <div className="wrapperSelection  wrapperSelectionActions">
             {/*===========EDIT ACTION=========== */}
-
+            <Alert alertList={alertList} messages={["global|action|"]}></Alert>
             {currentElementToEdit !== null &&
               (() => {
                 return (
@@ -329,6 +331,21 @@ export default function RoundsPage({
                         );
                       }}
                     />
+
+                    {/*===========Variables Returned =========== */}
+                    {(currentElementToEdit.actionOnHand ||  currentElementToEdit.askValueToPlayThisAction )&& 
+                      <div class="innerContainer">
+                        <TitleContainer
+                          title="variablesReturnedByThisAction"
+                          description="variablesReturnedByThisActionDescription"
+                          type="normalText"
+                        ></TitleContainer>
+                        <ul>
+                        { currentElementToEdit.actionOnHand && <li><span className="variableName">{"{selectedCards}"}</span> : {t("theCardsOnWhichActionIsApplied")}</li>}
+                          { currentElementToEdit.askValueToPlayThisAction && <li><span className="variableName">{"{insertedValue}"}</span> : {t("theValueAskedToPlayerToPlayThisAction")}</li>}
+                        </ul>
+                      </div>
+                    }
                     <DetailContainer title="advancedSettings">
                       {/*===========APPARITION DE L ACTION=========== */}
 
@@ -348,6 +365,13 @@ export default function RoundsPage({
                         }
                       />
 
+                      {/*===========Position of  action =========== */}
+                      {/* RULES :   */}
+                      {/* can be on deck only if deck is activated */}
+                      {/* or can be on  discard deck only if discard deck is activated */}
+                      {/* or can be on  hand only if hand is activated */}
+                      {/* can have only one between : actionOnDeck, actionOnDiscardDeck, actionOnHand */}
+
                       {/*===========APPLY ACTION ON  DECK =========== */}
                       {/* appear if discard deck is activated */}
                       {/* could be add in max one action */}
@@ -365,7 +389,9 @@ export default function RoundsPage({
                             (action) =>
                               action.actionOnDeck &&
                               action.id != currentElementToEdit.id,
-                          )
+                          ) ||
+                          currentElementToEdit.actionOnHand ||
+                          currentElementToEdit.actionOnDiscardDeck
                         }
                         onChangeFunction={(value) =>
                           setCurrentElementToEdit(
@@ -395,7 +421,9 @@ export default function RoundsPage({
                             (action) =>
                               action.actionOnDiscardDeck &&
                               action.id != currentElementToEdit.id,
-                          )
+                          ) ||
+                          currentElementToEdit.actionOnDeck ||
+                          currentElementToEdit.actionOnHand
                         }
                         onChangeFunction={(value) =>
                           setCurrentElementToEdit(
@@ -407,6 +435,166 @@ export default function RoundsPage({
                           )
                         }
                       />
+                      {/*===========APPLY ACTION ON HAND =========== */}
+                      {/* appear if hand is activated*/}
+                      {/* could be add in max one action */}
+                      <Input
+                        title="attachThisActionOnHand"
+                        description="attachThisActionOnHandDescription"
+                        defaultValue={
+                          currentElementToEdit.actionOnHand ?? false
+                        }
+                        inputType="toggle"
+                        disabled={
+                          (!gameData.cardParams?.hand?.activation ?? true) ||
+                          gameData.actions.some(
+                            (action) =>
+                              action.actionOnHand &&
+                              action.id != currentElementToEdit.id,
+                          ) ||
+                          currentElementToEdit.actionOnDeck ||
+                          currentElementToEdit.actionOnDiscardDeck
+                        }
+                        onChangeFunction={(value) =>
+                          setCurrentElementToEdit(
+                            updateElementValue(
+                              "actionOnHand",
+                              currentElementToEdit,
+                              value,
+                            ),
+                          )
+                        }
+                      />
+                      {currentElementToEdit.actionOnHand && (
+                        <>
+                          <Input
+                            title="conditionOfCardSelection"
+                            suggestions={suggestions.filter(
+                              (s) => !s.label.includes("{playerBoucle"),
+                            )}
+                            description="conditionOfCardSelectionDescription"
+                            defaultValue={
+                              currentElementToEdit.conditionOfCardSelection ??
+                              ""
+                            }
+                            pathInObject="conditionOfCardSelection"
+                            onChangeFunction={(path, value) =>
+                              setCurrentElementToEdit(
+                                updateElementValue(
+                                  "conditionOfCardSelection",
+                                  currentElementToEdit,
+                                  value,
+                                ),
+                              )
+                            }
+                          />
+                          <Input
+                            title="numberOfCardsToSelect"
+                            suggestions={suggestions.filter(
+                              (s) => !s.label.includes("{playerBoucle"),
+                            )}
+                            description="numberOfCardsToSelectDescription"
+                            defaultValue={
+                              currentElementToEdit.numberOfCardsToSelect ?? ""
+                            }
+                            pathInObject="numberOfCardsToSelect"
+                            onChangeFunction={(path, value) =>
+                              setCurrentElementToEdit(
+                                updateElementValue(
+                                  "numberOfCardsToSelect",
+                                  currentElementToEdit,
+                                  value,
+                                ),
+                              )
+                            }
+                          />
+                        </>
+                      )}
+
+                      {/*=========== ASK VALUE TO PLAY =========== */}
+                      <Input
+                        title="askValueToPlayThisAction"
+                        description="askValueToPlayThisActionDescription"
+                        defaultValue={
+                          currentElementToEdit.askValueToPlayThisAction ?? false
+                        }
+                        inputType="toggle"
+                        pathInObject="askValueToPlayThisAction"
+                        disabled={
+                          currentElementToEdit.actionOnDeck ||
+                          currentElementToEdit.actionOnHand ||
+                          currentElementToEdit.actionOnDiscardDeck
+                        }
+                        onChangeFunction={(path,value) =>
+                          setCurrentElementToEdit(
+                            updateElementValue(
+                              path,
+                              currentElementToEdit,
+                              value,
+                            ),
+                          )
+                        }
+                      />
+                      {currentElementToEdit.askValueToPlayThisAction && (
+                        <>
+                          <InputSelect
+                            title="type"
+                            pathObject="askValueType"
+                            items={["number", "text"]}
+                            closeAfterSelect={true}
+                            selected={
+                              currentElementToEdit.askValueType
+                                ? [currentElementToEdit.askValueType]
+                                : []
+                            }
+                            updateValueArray={(path, value) => {
+                              setCurrentElementToEdit(
+                                updateElementValue(
+                                  path,
+                                  currentElementToEdit,
+                                  value,
+                                ),
+                              );
+                            }}
+                          ></InputSelect>
+                          {currentElementToEdit.askValueType === "number" && (
+                            <>
+                              <Input
+                                title="min"
+                                description="min"
+                                defaultValue={currentElementToEdit.askValueMin}
+                                type="input"
+                                pathInObject="askValueMin"
+                                onChangeFunction={(path, value) => {
+                                  setCurrentElementToEdit(
+                                    updateElementValue(
+                                      path,
+                                      currentElementToEdit,
+                                      value,
+                                    ),
+                                  );
+                                }}
+                              />
+                              <Input
+                                title="max"
+                                description="max"
+                                defaultValue={currentElementToEdit.askValueMax}
+                                type="input"
+                                pathInObject="askValueMax"
+                                onChangeFunction={(path, value) => {
+                                  setCurrentElementToEdit(
+                                    updateElementValue(
+                                      path,
+                                      currentElementToEdit,
+                                      value,
+                                    ),
+                                  );
+                                }}
+                              />
+                            </>
+                          )}
+                        </>
+                      )}
                     </DetailContainer>
                     {/*===========WITH VALUE EVENT ASSOCIEES=========== */}
 

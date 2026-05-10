@@ -24,6 +24,7 @@ export default function CardsManagementSettings({
     <>
       <div className="basicContainer">
         {/* ======DECK======= */}
+        <TitleContainer title="deck"></TitleContainer>
         <Input
           title="deck"
           description="deckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings"
@@ -68,7 +69,13 @@ export default function CardsManagementSettings({
             );
           }}
         />
+
+      </div>
+
+      <div className="basicContainer">
         {/* ======DISCARD======= */}
+
+        <TitleContainer title="discardDeck"></TitleContainer>
         <Input
           title="discardDeck"
           description="discardDeckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings"
@@ -103,6 +110,55 @@ export default function CardsManagementSettings({
           inputType="toggle"
           disabled={!(gameData.cardParams?.discard?.activation ?? false)}
           pathInObject="params.cards.discard.renderTheLastDiscardedCard"
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
+        />
+      </div>
+       <div className="basicContainer">
+        {/* ======PLAYER HAND======= */}
+
+        <TitleContainer title="playerHand"></TitleContainer>
+        <Input
+          title="playerHand"
+          description="activatePlayerHandDescription"
+          defaultValue={gameData.cardParams?.hand?.activation ?? false}
+          inputType="toggle"
+          pathInObject="params.cards.hand.activation"
+          onChangeFunction={(path, value) => {
+            for (let a of gameData.actions) {
+              if (a.actionOnHand) {
+                updateGameValueArray("params.tours.actions", {
+                  ...a,
+                  actionOnHand: false,
+                });
+              }
+            }
+
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
+        />
+        <Input
+          title="renderAllHandCards"
+          description="playerHandIfThisSettingsIsTrueAllPlayerCanSeeYouHandCards"
+          defaultValue={
+            gameData.cardParams?.hand?.renderAllHandCards ?? false
+          }
+          inputType="toggle"
+          disabled={!(gameData.cardParams?.hand?.activation ?? false)}
+          pathInObject="params.cards.hand.renderAllHandCards"
           onChangeFunction={(path, value) => {
             updateGameValue(path, value);
             addItem(

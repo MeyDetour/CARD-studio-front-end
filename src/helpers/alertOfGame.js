@@ -65,15 +65,39 @@ export function loadAlertListFormGame(gameData) {
       }
     });
   });
+  if (gameData.params.tours.actions.filter((action) => action.actionOnHand).length > 1) {
+    alertList.push(
+      "global|action|onlyOneActionCanBeOnHand|alert",
+    );
+  } if (gameData.params.tours.actions.filter((action) => action.actionOnDeck).length > 1) {
+    alertList.push(
+      "global|action|onlyOneActionCanBeOnDeck|alert",
+    );
+  } if (gameData.params.tours.actions.filter((action) => action.actionOnDiscardDeck).length > 1) {
+    alertList.push(
+      "global|action|onlyOneActionCanBeOnDiscardDeck|alert",
+    );
+  }
 
   // ============= GAME DATA
   if (!gameData.name.trim(" ")) {
     alertList.push("name|data|missingValue|alert");
   }
 
+  // ============= CARDS PARAMS
+
+  let handActivation = gameData?.params.cards.hand?.activation;
+  let deckActivation = gameData?.params.cards.deck?.activation;
+  let discardActivation = gameData?.params.cards.discard?.activation;
+  // verify if events, with value and demons that use handDeck but hand is not activated
+  // these conditions arent verifies in respective sections because we want to check all
+  // the occurences of handDeck in events, withValueEvent and demons to give all the alerts
+  // at once to the user
+
   // ============= Check events with value
   let eventsWithCurrentValueInput = [];
   gameData.events.withValueEvent.forEach((event) => {
+    let eventString = JSON.stringify(event);
     if (!event.name.trim(" ")) {
       alertList.push(
         event.id + "|eventWithValue|eventWithValueNameCannotBeEmpty|alert",
@@ -103,7 +127,7 @@ export function loadAlertListFormGame(gameData) {
     }
     // si il contient current player
     if (
-      JSON.stringify(event).includes("currentPlayer") &&
+      eventString.includes("currentPlayer") &&
       !event.name.includes("currentPlayer") &&
       !event.loadMessage?.includes("currentPlayer")
     ) {
@@ -123,6 +147,34 @@ export function loadAlertListFormGame(gameData) {
         }
       }
     }
+    if (
+      eventString.includes("handDeck") &&
+      !event.name.includes("handDeck") &&
+      !event.loadMessage?.includes("handDeck") &&
+      !handActivation
+    )
+      alertList.push(
+        event.id + "|eventWithValue|callHandDeckButHandNotActivated|alert",
+      );
+    if (
+      eventString.includes("{deck}") &&
+      !event.name.includes("{deck}") &&
+      !event.loadMessage?.includes("{deck}") &&
+      !deckActivation
+    )
+      alertList.push(
+        event.id + "|eventWithValue|callDeckButDeckNotActivated|alert",
+      );
+    if (
+      eventString.includes("{discardDeck}") &&
+      !event.name.includes("{discardDeck}") &&
+      !event.loadMessage?.includes("{discardDeck}") &&
+      !discardActivation
+    )
+      alertList.push(
+        event.id +
+          "|eventWithValue|callDiscardDeckButDiscardNotActivated|alert",
+      );
     // iterer dans ses with value event
     event.event.withValue?.forEach((wve) => {
       // verifier si ca existe pas
@@ -151,6 +203,7 @@ export function loadAlertListFormGame(gameData) {
 
   // ============= Check for missing event name
   gameData.events.events.forEach((event) => {
+    let eventString = JSON.stringify(event);
     if (!event.name || !event.name.trim(" ")) {
       alertList.push(event.id + "|event|eventNameCannotBeEmpty|alert");
     }
@@ -182,6 +235,34 @@ export function loadAlertListFormGame(gameData) {
           "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert",
       );
     }
+
+    if (
+      eventString.includes("handDeck") &&
+      !event.name.includes("handDeck") &&
+      !event.loadMessage?.includes("handDeck") &&
+      !handActivation
+    ) {
+      alertList.push(event.id + "|event|callHandDeckButHandNotActivated|alert");
+    }
+       if (
+      eventString.includes("{deck}") &&
+      !event.name.includes("{deck}") &&
+      !event.loadMessage?.includes("{deck}") &&
+      !deckActivation
+    )
+      alertList.push(
+        event.id + "|event|callDeckButDeckNotActivated|alert",
+      );
+    if (
+      eventString.includes("{discardDeck}") &&
+      !event.name.includes("{discardDeck}") &&
+      !event.loadMessage?.includes("{discardDeck}") &&
+      !discardActivation
+    )
+      alertList.push(
+        event.id +
+          "|event|callDiscardDeckButDiscardNotActivated|alert",
+      );
     // itreter dans ses with value event
     event.event.withValue?.forEach((wve) => {
       // verifier si ca existe pas
@@ -220,8 +301,17 @@ export function loadAlertListFormGame(gameData) {
     if (demon.events.some((eventId) => !eventIds.includes(eventId))) {
       alertList.push(demon.id + "|demon|demonCallNonExistingEvent|alert");
     }
-      if (demon.boucle && !demon.condition.includes("Boucle")) {
+    if (demon.boucle && !demon.condition.includes("Boucle")) {
       alertList.push(demon.id + "|demon|demonCallBoucleButDontUseIt|alert");
+    }
+    if (JSON.stringify(demon).includes("handDeck") && !handActivation) {
+      alertList.push(demon.id + "|demon|callHandDeckButHandNotActivated|alert");
+    }
+    if (JSON.stringify(demon).includes("{deck}") && !deckActivation) {
+      alertList.push(demon.id + "|demon|callDeckButDeckNotActivated|alert");
+    }
+    if (JSON.stringify(demon).includes("{discardDeck}") && !discardActivation) {
+      alertList.push(demon.id + "|demon|callDiscardDeckButDiscardNotActivated|alert");
     }
   });
 
@@ -247,6 +337,6 @@ export function loadAlertListFormGame(gameData) {
       alertList.push(gain.id + "|gain|gainsCannotHaveSameName|alert");
     }
   });
- 
+console.log(alertList);
   return alertList;
 }

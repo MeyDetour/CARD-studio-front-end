@@ -339,8 +339,7 @@ import i18next from "i18next"; export default function GameCreationEnvironnement
             case "rounds":
               return (
                 <RoundsPage
-                  gameData={{
-                    suggestions: suggestions,
+                  gameData={{ 
                     gameId: game.id,
                     tours: game.params.tours,
                     actions:
@@ -358,6 +357,7 @@ import i18next from "i18next"; export default function GameCreationEnvironnement
                         : [],
                     cardParams: game.params.cards ? game.params.cards : {},
                   }}
+                  suggestions={suggestions}
                   getEventFromIdAndType={getEventFromIdAndType}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
