@@ -333,7 +333,8 @@ export default function RoundsPage({
                     />
 
                     {/*===========Variables Returned =========== */}
-                    {(currentElementToEdit.actionOnHand ||  currentElementToEdit.askValueToPlayThisAction )&& 
+                    {(currentElementToEdit.actionOnHand ||
+                      currentElementToEdit.askValueToPlayThisAction) && (
                       <div class="innerContainer">
                         <TitleContainer
                           title="variablesReturnedByThisAction"
@@ -341,11 +342,25 @@ export default function RoundsPage({
                           type="normalText"
                         ></TitleContainer>
                         <ul>
-                        { currentElementToEdit.actionOnHand && <li><span className="variableName">{"{selectedCards}"}</span> : {t("theCardsOnWhichActionIsApplied")}</li>}
-                          { currentElementToEdit.askValueToPlayThisAction && <li><span className="variableName">{"{insertedValue}"}</span> : {t("theValueAskedToPlayerToPlayThisAction")}</li>}
+                          {currentElementToEdit.actionOnHand && (
+                            <li>
+                              <span className="variableName">
+                                {"{selectedCards}"}
+                              </span>{" "}
+                              : {t("theCardsOnWhichActionIsApplied")}
+                            </li>
+                          )}
+                          {currentElementToEdit.askValueToPlayThisAction && (
+                            <li>
+                              <span className="variableName">
+                                {"{insertedValue}"}
+                              </span>{" "}
+                              : {t("theValueAskedToPlayerToPlayThisAction")}
+                            </li>
+                          )}
                         </ul>
                       </div>
-                    }
+                    )}
                     <DetailContainer title="advancedSettings">
                       {/*===========APPARITION DE L ACTION=========== */}
 
@@ -478,36 +493,79 @@ export default function RoundsPage({
                               ""
                             }
                             pathInObject="conditionOfCardSelection"
-                            onChangeFunction={(path, value) =>
+                            onChangeFunction={(path, value) => {
                               setCurrentElementToEdit(
                                 updateElementValue(
                                   "conditionOfCardSelection",
                                   currentElementToEdit,
                                   value,
                                 ),
-                              )
-                            }
+                              );
+                              if (
+                                currentElementToEdit.numberOfCardToSelectMin ==
+                                  undefined &&
+                                value
+                              ) {
+                                setCurrentElementToEdit(
+                                  updateElementValue(
+                                    "numberOfCardToSelectMin",
+                                    currentElementToEdit,
+                                    1,
+                                  ),
+                                );
+                              } if (
+                                currentElementToEdit.numberOfCardToSelectMax ==
+                                  undefined &&
+                                value
+                              ) {
+                                setCurrentElementToEdit(
+                                  updateElementValue(
+                                    "numberOfCardToSelectMax",
+                                    currentElementToEdit,
+                                    1,
+                                  ),
+                                );
+                              }
+                            }}
                           />
-                          <Input
-                            title="numberOfCardsToSelect"
-                            suggestions={suggestions.filter(
-                              (s) => !s.label.includes("{playerBoucle"),
-                            )}
-                            description="numberOfCardsToSelectDescription"
-                            defaultValue={
-                              currentElementToEdit.numberOfCardsToSelect ?? ""
-                            }
-                            pathInObject="numberOfCardsToSelect"
-                            onChangeFunction={(path, value) =>
-                              setCurrentElementToEdit(
-                                updateElementValue(
-                                  "numberOfCardsToSelect",
-                                  currentElementToEdit,
-                                  value,
-                                ),
-                              )
-                            }
-                          />
+                          <>
+                            <Input
+                              title="min"
+                              description="numberMinOfCardToSelectDescription"
+                              defaultValue={
+                                currentElementToEdit.numberOfCardToSelectMin
+                              }
+                              type="input"
+                              pathInObject="numberOfCardToSelectMin"
+                              onChangeFunction={(path, value) => {
+                                setCurrentElementToEdit(
+                                  updateElementValue(
+                                    path,
+                                    currentElementToEdit,
+                                    value,
+                                  ),
+                                );
+                              }}
+                            />
+                            <Input
+                              title="max"
+                              description="numberMaxOfCardToSelectDescription"
+                              defaultValue={
+                                currentElementToEdit.numberOfCardToSelectMax
+                              }
+                              type="input"
+                              pathInObject="numberOfCardToSelectMax"
+                              onChangeFunction={(path, value) => {
+                                setCurrentElementToEdit(
+                                  updateElementValue(
+                                    path,
+                                    currentElementToEdit,
+                                    value,
+                                  ),
+                                );
+                              }}
+                            />
+                          </>
                         </>
                       )}
 
@@ -525,15 +583,22 @@ export default function RoundsPage({
                           currentElementToEdit.actionOnHand ||
                           currentElementToEdit.actionOnDiscardDeck
                         }
-                        onChangeFunction={(path,value) =>
+                        onChangeFunction={(path, value) =>{
                           setCurrentElementToEdit(
                             updateElementValue(
                               path,
                               currentElementToEdit,
                               value,
                             ),
+                          ) 
+                          setCurrentElementToEdit(
+                            updateElementValue(
+                              "askValueType",
+                              currentElementToEdit,
+                              "number",
+                            ),
                           )
-                        }
+                        }}
                       />
                       {currentElementToEdit.askValueToPlayThisAction && (
                         <>

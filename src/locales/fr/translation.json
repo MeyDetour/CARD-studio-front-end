@@ -296,7 +296,9 @@
    "variablesReturnedByThisAction": "Variables returned by this action",
  "variablesReturnedByThisActionDescription": "When this action is executed, it can return specific variables that can be used in other parts of the game. For example, if you have an action that allows a player to draw a card, it could return the drawn card as a variable that can then be used in subsequent events or actions.",
 
-  "eventsAndTriggersManagementTitle": "Gestion des événements et déclencheurs",
+ "numberMinOfCardToSelectDescription": "Nombre minimum de cartes que le joueur doit sélectionner pour jouer cette action. Si le joueur sélectionne moins que ce nombre, il ne pourra pas jouer l'action.",
+ "numberMaxOfCardToSelectDescription": "Nombre maximum de cartes que le joueur peut sélectionner pour jouer cette action. Si le joueur sélectionne plus que ce nombre, il ne pourra pas jouer l'action.",
+ "eventsAndTriggersManagementTitle": "Gestion des événements et déclencheurs",
   "eventsAndTriggersManagementDescription": "Cette partie permet de gérer tout ce qui est relatif aux actions d'un jeu, que ce soit pour distribuer des cartes, changer des variables ou incrémenter des tours ; c'est le cœur du fonctionnement du jeu.",
   "eventConfigurationTitle": "Configuration de l'événement",
   "eventConfigurationDescription": "Définissez le nom et le type d'événement",

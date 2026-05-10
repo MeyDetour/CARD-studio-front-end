@@ -620,8 +620,9 @@
   "theValueAskedToPlayerToPlayThisAction": "The value asked to the player to play this action",
   "cardPreview": "Card Preview",
   "deleteCard": "Delete Card",
-
-  "saveCard": "Save Card",
+"numberMinOfCardToSelectDescription": "Minimum number of cards that the player must select to play this action. If the player selects fewer than this number, they will not be able to play the action.",
+"numberMaxOfCardToSelectDescription": "Maximum number of cards that the player can select to play this action. If the player selects more than this number, they will not be able to play the action.", 
+"saveCard": "Save Card",
   "youDeleteCardWithoutSave": "By clicking 'Delete' you will delete the card. It will no longer be visible in the card preview. The data will not be recoverable.",
   "doYouReallyWantToDeleteCard": "Do you really want to delete this card?",
   "typeCard": "Card type",
