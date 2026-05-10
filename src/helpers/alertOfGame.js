@@ -337,6 +337,6 @@ export function loadAlertListFormGame(gameData) {
       alertList.push(gain.id + "|gain|gainsCannotHaveSameName|alert");
     }
   });
-console.log(alertList);
+//console.log(alertList);
   return alertList;
 }
