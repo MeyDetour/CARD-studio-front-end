@@ -22,6 +22,8 @@ export const eventActions = [
     tooltip: "changeStartingPlayerDescription",
     necessiteValue: true,
     types: ["action"],
+    valueAvailableInEdition: ["next","previous"],
+    gimmeAClueForValue:"Select a value between 'next' and 'previous'. If you select 'next', the starting player will be the next player in turn order. If you select 'previous', the starting player will be the previous player in turn order.",
   },
   {
     label: "suffle",
@@ -97,14 +99,7 @@ export const eventActions = [
     tooltip: "frenchCardVerifyHighCardDescription",
     necessiteFor: true,
     types: ["action"],
-  },
-  {
-    label: "askPlayer",
-    tooltip: "askPlayerDescription",
-    necessiteRequiresInput: true,
-    onlyOnWithValueEvent: true,
-    types: ["action"],
-  },
+  }, 
   {
     label: "skipPlayerTour",
     tooltip: "skipPlayerTourDescription",

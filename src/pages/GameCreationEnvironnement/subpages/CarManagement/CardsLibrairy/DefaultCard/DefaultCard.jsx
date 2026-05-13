@@ -38,9 +38,9 @@ export default function DefaultCard({ card, setCurrentCard  , classAdded , isSel
     data-key={dataKey}
     >
       <span className="leftValue">{card.value}</span>
-      <span className={`leftSuit ${color}`}>{suit}</span>
-      <span className={`suit ${color}`}>{suit}</span>
-      <span className={`rightSuit ${color}`}>{suit}</span>
+      <span className={`leftSuit ${color}`}>{getSuitSymbol(card.addedAttributs?.couleur)}</span>
+      <span className={`suit ${color}`}>{getSuitSymbol(card.addedAttributs?.couleur)}</span>
+      <span className={`rightSuit ${color}`}>{getSuitSymbol(card.addedAttributs?.couleur)}</span>
 
       <span className="rightValue">{card.value}</span>
       {children}

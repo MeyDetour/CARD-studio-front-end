@@ -591,7 +591,7 @@ export default function CurrentWithValueEventSubpage({
             <DetailContainer
               title={"withValueEvent"}
               description={
-                "withValueEventWichBeExecutedWhenThisEventIsTriggered"
+                "eventsToEXecuteAfter"
               }
               className="demonsAssociatedContainer"
               topAlert={
@@ -599,7 +599,7 @@ export default function CurrentWithValueEventSubpage({
                   <Alert
                     messages={[
                       currentWithValueEvent.id +
-                        "|eventWithValue|callNonExistingWithValueEvent|alert",
+                        "|eventWithValue|callNonExistingEvent|alert",
                       currentWithValueEvent.id +
                         "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotCalledInAction|alert",
                       currentWithValueEvent.id +
@@ -780,7 +780,7 @@ export default function CurrentWithValueEventSubpage({
                   },
                 )
               ) : (
-                <span className="normalText">{t("noWithValueEvent")}</span>
+                <span className="normalText">{t("noEventToCall")}</span>
               )}
             </DetailContainer>
 

@@ -5,7 +5,7 @@
   border: 1px solid #f0f0f0;
   border-radius: 7px;
   box-sizing: border-box;
-position: relative;
+  position: relative;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -35,4 +35,7 @@ position: relative;
 }
 .eventCard.Selected {
   border: 0.8px solid #9359ff;
+}
+.eventCard.exampleEventCard {
+  background: #feddff;
 }

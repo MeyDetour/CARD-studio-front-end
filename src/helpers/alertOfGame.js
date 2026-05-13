@@ -6,17 +6,13 @@ export function loadAlertListFormGame(gameData) {
     !gameData.params.tours ||
     !gameData.params.tours.actions ||
     !gameData.events.events ||
-    !gameData.events.demons ||
-    !gameData.events.withValueEvent
+    !gameData.events.demons 
   ) {
     console.warn("Game data is incomplete, cannot load alerts.");
     return [];
   }
 
-  let alertList = [];
-  let withValueEventIds = gameData.events.withValueEvent.map(
-    (event) => event.id,
-  );
+  let alertList = []; 
   let eventIds = gameData.events.events.map((event) => event.id);
   let withValueEventAllowToUseCurrentPlayer = [];
 
@@ -45,9 +41,9 @@ export function loadAlertListFormGame(gameData) {
     action.withValue?.forEach((event) => {
       // si le withValueEvent n'existe pas
 
-      if (!withValueEventIds.includes(event.id)) {
+      if (!eventIds.includes(event.id)) {
         alertList.push(
-          action.id + "|action|callNonExistingWithValueEvent|alert",
+          action.id + "|action|callNonExistingEvent|alert",
         );
       } else {
         // on verifie si toutes les input valeurs sont remplies
@@ -94,38 +90,23 @@ export function loadAlertListFormGame(gameData) {
   // the occurences of handDeck in events, withValueEvent and demons to give all the alerts
   // at once to the user
 
-  // ============= Check events with value
-  let eventsWithCurrentValueInput = [];
-  gameData.events.withValueEvent.forEach((event) => {
+
+
+  // ============= Check for missing event name
+  gameData.events.events.forEach((event) => {
     let eventString = JSON.stringify(event);
-    if (!event.name.trim(" ")) {
-      alertList.push(
-        event.id + "|eventWithValue|eventWithValueNameCannotBeEmpty|alert",
-      );
+    if (!event.name || !event.name.trim(" ")) {
+      alertList.push(event.id + "|event|eventNameCannotBeEmpty|alert");
     }
     if (event.event.from && !event.event.for) {
-      alertList.push(
-        event.id + "|eventWithValue|eventHaveFromElementButNoFor|warning",
-      );
+      alertList.push(event.id + "|event|eventHaveFromElementButNoFor|warning");
     }
     if (
       event.event.action &&
       !eventActions.some((action) => action.label === event.event.action)
     ) {
-      alertList.push(event.id + "|eventWithValue|invalidAction|warning");
+      alertList.push(event.id + "|event|invalidAction|warning");
     }
-    if (
-      event.event.give &&
-      Object.values(event.event.give).some(
-        (val) => val !== 0 && val !== null && val !== "",
-      ) &&
-      !event.event.for
-    ) {
-      alertList.push(
-        event.id + "|eventWithValue|elementsGivesButNoFor|warning",
-      );
-    }
-    // si il contient current player
     if (
       eventString.includes("currentPlayer") &&
       !event.name.includes("currentPlayer") &&
@@ -148,75 +129,6 @@ export function loadAlertListFormGame(gameData) {
       }
     }
     if (
-      eventString.includes("handDeck") &&
-      !event.name.includes("handDeck") &&
-      !event.loadMessage?.includes("handDeck") &&
-      !handActivation
-    )
-      alertList.push(
-        event.id + "|eventWithValue|callHandDeckButHandNotActivated|alert",
-      );
-    if (
-      eventString.includes("{deck}") &&
-      !event.name.includes("{deck}") &&
-      !event.loadMessage?.includes("{deck}") &&
-      !deckActivation
-    )
-      alertList.push(
-        event.id + "|eventWithValue|callDeckButDeckNotActivated|alert",
-      );
-    if (
-      eventString.includes("{discardDeck}") &&
-      !event.name.includes("{discardDeck}") &&
-      !event.loadMessage?.includes("{discardDeck}") &&
-      !discardActivation
-    )
-      alertList.push(
-        event.id +
-          "|eventWithValue|callDiscardDeckButDiscardNotActivated|alert",
-      );
-    // iterer dans ses with value event
-    event.event.withValue?.forEach((wve) => {
-      // verifier si ca existe pas
-      if (!withValueEventIds.includes(wve.id)) {
-        alertList.push(
-          event.id + "|eventWithValue|callNonExistingWithValueEvent|alert",
-        );
-      } else {
-        // si ca existe
-
-        // verifier les clés
-        for (let key of Object.keys(event)) {
-          if (
-            event[key] == undefined ||
-            event[key] === null ||
-            event[key] === ""
-          ) {
-            alertList.push(
-              event.id + "|eventWithValue|missingValueForKey-" + key + "|alert",
-            );
-          }
-        }
-      }
-    });
-  });
-
-  // ============= Check for missing event name
-  gameData.events.events.forEach((event) => {
-    let eventString = JSON.stringify(event);
-    if (!event.name || !event.name.trim(" ")) {
-      alertList.push(event.id + "|event|eventNameCannotBeEmpty|alert");
-    }
-    if (event.event.from && !event.event.for) {
-      alertList.push(event.id + "|event|eventHaveFromElementButNoFor|warning");
-    }
-    if (
-      event.event.action &&
-      !eventActions.some((action) => action.label === event.event.action)
-    ) {
-      alertList.push(event.id + "|event|invalidAction|warning");
-    }
-    if (
       event.event.give &&
       Object.values(event.event.give).some(
         (val) => val !== 0 && val !== null && val !== "",
@@ -235,6 +147,7 @@ export function loadAlertListFormGame(gameData) {
           "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert",
       );
     }
+
 
     if (
       eventString.includes("handDeck") &&
@@ -266,8 +179,8 @@ export function loadAlertListFormGame(gameData) {
     // itreter dans ses with value event
     event.event.withValue?.forEach((wve) => {
       // verifier si ca existe pas
-      if (!withValueEventIds.includes(wve.id)) {
-        alertList.push(event.id + "|event|callNonExistingWithValueEvent|alert");
+      if (!eventIds.includes(wve.id)) {
+        alertList.push(event.id + "|event|callNonExistingEvent|alert");
       } else {
         // si ca existe
 

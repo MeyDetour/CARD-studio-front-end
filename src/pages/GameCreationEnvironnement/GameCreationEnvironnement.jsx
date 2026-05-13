@@ -35,7 +35,7 @@ import CardManagement from "./subpages/CarManagement/CardManagement.jsx";
 import Dashboard from "./subpages/Dashboard/Dashboard";
 import DisplayPage from "./subpages/Display/Display";
 import EditGame from "./subpages/EditGame/EditGame";
-import Events from "./subpages/Events/Events";
+import Logic from "./subpages/Logic/Logic.jsx";
 import HelpAndSettings from "./subpages/HelpAndSettings/HelpAndSettings";
 import RoundsPage from "./subpages/RoundsAndManches/Rounds";
 import VisualisationPage from "./subpages/Visualisation/Visualisation";
@@ -45,10 +45,10 @@ import Outils from "./subpages/Outils/Outils.jsx";
 import ExpressionEditor from "./subpages/ExpressionEditor/ExpressionEditor.jsx";
 import ExpressionDocumentation from "./subpages/Documentation/ParserDocumentation/ExpressionDocumentation.jsx";
 
-
 // Hooks
 import { useApi } from "../../hooks/useApi";
-import i18next from "i18next"; export default function GameCreationEnvironnement() {
+import i18next from "i18next";
+export default function GameCreationEnvironnement() {
   const navigate = useNavigate();
   const { subpage, id } = useParams();
   const [game, setGame] = useState(null);
@@ -339,7 +339,7 @@ import i18next from "i18next"; export default function GameCreationEnvironnement
             case "rounds":
               return (
                 <RoundsPage
-                  gameData={{ 
+                  gameData={{
                     gameId: game.id,
                     tours: game.params.tours,
                     actions:
@@ -399,13 +399,15 @@ import i18next from "i18next"; export default function GameCreationEnvironnement
                   getEventFromIdAndType={getEventFromIdAndType}
                 />
               );
-            case "events":
+            case "logic":
               return (
-                <Events
+                <Logic
                   gameData={{
                     id: game.id,
                     winParams: game.events.win,
                     suggestions: suggestions,
+                    actions: game.params.tours && game.params.tours.actions,
+
                     events:
                       game.events && game.events.events
                         ? game.events.events.sort((a, b) => {
@@ -451,7 +453,7 @@ import i18next from "i18next"; export default function GameCreationEnvironnement
                 <CardManagement
                   gameData={{
                     actions: game.params.tours.actions,
-                    cards: game.assets.cards, 
+                    cards: game.assets.cards,
                     id: game.id,
                     cardParams: game.params.cards ? game.params.cards : {},
                   }}
@@ -509,16 +511,13 @@ import i18next from "i18next"; export default function GameCreationEnvironnement
               return (
                 <ExpressionEditor
                   gameData={{
-                    suggestions: suggestions, 
+                    suggestions: suggestions,
                     playerGlobalValue: game.playerGlobalValue,
                   }}
                 />
-              );  case "expression-documentation":
-              return (
-                <ExpressionDocumentation
-                  gameData={{   }}
-                />
               );
+            case "expression-documentation":
+              return <ExpressionDocumentation gameData={{}} />;
             default:
               return (
                 <Dashboard

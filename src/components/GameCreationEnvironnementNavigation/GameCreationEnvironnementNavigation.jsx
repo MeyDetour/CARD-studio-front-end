@@ -154,16 +154,16 @@ export default function GameCreationEnvironnementNavigation({
           <li>
             <Alert
               alertList={alertList}
-              displayAlertOfType={"event|withValueEvent|demon"}
+              displayAlertOfType={"event|demon"}
             ></Alert>
             <Button
-              text={t("events")}
+              text={t("logic")}
               action={() => {
-                navigate("/game/events/" + id);
+                navigate("/game/logic/" + id);
                 setCurrentSubpageOfEvents(null);
               }}
-              type={currentPage == "events" ? "navbar active" : "navbar"}
-              icon={currentPage === "events" ? "energy-white" : "energy"}
+              type={currentPage == "logic" ? "navbar active" : "navbar"}
+              icon={currentPage === "logic" ? "energy-white" : "energy"}
             />
           </li>
         </ul>

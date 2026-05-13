@@ -354,7 +354,7 @@ export default function RoundsPage({
                             <li>
                               <span className="variableName">
                                 {"{insertedValue}"}
-                              </span>{" "}
+                              </span>
                               : {t("theValueAskedToPlayerToPlayThisAction")}
                             </li>
                           )}
@@ -470,15 +470,41 @@ export default function RoundsPage({
                           currentElementToEdit.actionOnDeck ||
                           currentElementToEdit.actionOnDiscardDeck
                         }
-                        onChangeFunction={(value) =>
+                        onChangeFunction={(value) => {
                           setCurrentElementToEdit(
                             updateElementValue(
                               "actionOnHand",
                               currentElementToEdit,
                               value,
                             ),
-                          )
-                        }
+                          );
+                          if (
+                            currentElementToEdit.numberOfCardToSelectMin ==
+                              undefined &&
+                            value
+                          ) {
+                            setCurrentElementToEdit(
+                              updateElementValue(
+                                "numberOfCardToSelectMin",
+                                currentElementToEdit,
+                                1,
+                              ),
+                            );
+                          }
+                          if (
+                            currentElementToEdit.numberOfCardToSelectMax ==
+                              undefined &&
+                            value
+                          ) {
+                            setCurrentElementToEdit(
+                              updateElementValue(
+                                "numberOfCardToSelectMax",
+                                currentElementToEdit,
+                                1,
+                              ),
+                            );
+                          }
+                        }}
                       />
                       {currentElementToEdit.actionOnHand && (
                         <>
@@ -501,31 +527,6 @@ export default function RoundsPage({
                                   value,
                                 ),
                               );
-                              if (
-                                currentElementToEdit.numberOfCardToSelectMin ==
-                                  undefined &&
-                                value
-                              ) {
-                                setCurrentElementToEdit(
-                                  updateElementValue(
-                                    "numberOfCardToSelectMin",
-                                    currentElementToEdit,
-                                    1,
-                                  ),
-                                );
-                              } if (
-                                currentElementToEdit.numberOfCardToSelectMax ==
-                                  undefined &&
-                                value
-                              ) {
-                                setCurrentElementToEdit(
-                                  updateElementValue(
-                                    "numberOfCardToSelectMax",
-                                    currentElementToEdit,
-                                    1,
-                                  ),
-                                );
-                              }
                             }}
                           />
                           <>
@@ -583,21 +584,21 @@ export default function RoundsPage({
                           currentElementToEdit.actionOnHand ||
                           currentElementToEdit.actionOnDiscardDeck
                         }
-                        onChangeFunction={(path, value) =>{
+                        onChangeFunction={(path, value) => {
                           setCurrentElementToEdit(
                             updateElementValue(
                               path,
                               currentElementToEdit,
                               value,
                             ),
-                          ) 
+                          );
                           setCurrentElementToEdit(
                             updateElementValue(
                               "askValueType",
                               currentElementToEdit,
                               "number",
                             ),
-                          )
+                          );
                         }}
                       />
                       {currentElementToEdit.askValueToPlayThisAction && (
@@ -661,14 +662,12 @@ export default function RoundsPage({
                         </>
                       )}
                     </DetailContainer>
-                    {/*===========WITH VALUE EVENT ASSOCIEES=========== */}
+                    {/*===========EVENTS ASSOCIEES=========== */}
 
                     <DetailContainer
-                      title={"withValueEvent"}
-                      description={
-                        "withValueEventWichBeExecutedWhenThisEventIsTriggered"
-                      }
-                      className="demonsAssociatedContainer"
+                      title={"events"}
+                      description={"eventsToEXecuteAfter"}
+                      className="eventsAssociatedContainer"
                       topAlert={
                         <Alert
                           alertList={alertList}
@@ -676,7 +675,7 @@ export default function RoundsPage({
                             currentElementToEdit.id +
                               "|action|missingValueForKey",
                             currentElementToEdit.id +
-                              "|action|callNonExistingWithValueEvent|alert",
+                              "|action|callNonExistingEvent|alert",
                             currentElementToEdit.id +
                               "|action|pleaseProvideEventsForAction|warning",
                           ]}
@@ -707,19 +706,19 @@ export default function RoundsPage({
                         }}
                         closeAfterSelect={true}
                         selected={[t("selectWithValueEvent")]}
-                        items={gameData.withValueEvents}
+                        items={gameData.events}
                         itemsDisplayFields={["id", "name"]}
                       />
                       {currentElementToEdit.withValue &&
                       currentElementToEdit.withValue.length > 0 ? (
                         currentElementToEdit.withValue.map(
                           (withValueEventInputs, index) => {
-                            let withValueEvent = getEventFromIdAndType(
+                            let originEvent = getEventFromIdAndType(
                               withValueEventInputs.id,
-                              "withValueEvent",
+                              "event",
                             );
                             let keyInputInwithValueEvent =
-                              getDynamicValueForEvent(withValueEvent);
+                              getDynamicValueForEvent(originEvent);
 
                             function remove() {
                               setCurrentElementToEdit(
@@ -741,16 +740,16 @@ export default function RoundsPage({
                                   }
                                 }}
                                 withValueEvent={
-                                  withValueEvent
-                                    ? withValueEvent
+                                  originEvent
+                                    ? originEvent
                                     : { name: t("withValueEventDoesnotExist") }
                                 }
                                 alertMessages={[
                                   currentElementToEdit.id +
                                     "|action|" +
-                                    "callNonExistingWithValueEvent|alert",
+                                    "callNonExistingEvent|alert",
                                 ]}
-                                className="withValueEventEdition"
+                                className="eventsAssociatedContainer"
                                 withValueEventInputs={withValueEventInputs}
                                 withValueEventKeys={keyInputInwithValueEvent}
                                 modifyKeyValue={(path, value) => {
@@ -773,7 +772,7 @@ export default function RoundsPage({
                         )
                       ) : (
                         <span className="normalText">
-                          {t("noWithValueEvent")}
+                          {t("noEventToCall")}
                           <Button
                             type="grey"
                             action={() => {

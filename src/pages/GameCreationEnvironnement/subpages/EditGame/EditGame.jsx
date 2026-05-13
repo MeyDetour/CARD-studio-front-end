@@ -71,8 +71,7 @@ export default function EditGame({
           <div className="row">
             <Input
               title="gameName"
-              defaultValue={gameData.name}
-              description="gameName"
+              defaultValue={gameData.name} 
               onChangeFunction={(path, value) => {
                 updateGameValue(path, value);
                 addItem(
@@ -122,8 +121,7 @@ export default function EditGame({
             />
           </div>
           <Input
-            title="description"
-            description="description"
+            title="description" 
             pathInObject="description"
             onChangeFunction={(path, value) => {
               updateGameValue(path, value);

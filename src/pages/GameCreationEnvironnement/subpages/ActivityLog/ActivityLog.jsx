@@ -41,7 +41,7 @@ export default function CardManagement({ game }) {
       />
       <div className="basicContainer basicWarningContainer">
         <span>
-          <b>0 {t("xUnsavedChanges")}</b>
+          <b>{data.length} {t("xUnsavedChanges")}</b>
         </span>
         <span>
           {t("lastSaved")} {new Date(game.requestDate).toLocaleString()}

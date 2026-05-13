@@ -25,6 +25,14 @@
       line-height: 1;
       font-size: 16px;
       cursor: pointer;
+            margin: 0;
+            width: 100%;
+            text-align: start;
+            line-height: 1;
+            font-size: 16px;
+            cursor: pointer;
+            overflow: hidden;
+            height: 100%;
     }
     img {
       position: absolute;
