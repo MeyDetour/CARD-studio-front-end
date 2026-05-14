@@ -122,6 +122,10 @@ export const useDynamicEntitySuggestions = (
       label: "{discardDeck}",
       types: ["cardList"],
       return :"array"
+    });    suggestions.push({
+      label: "{topDiscardCard}",
+      types: ["card"],
+      return :"card"
     });
     suggestions.push({
       label: "{allPlayersInGame}",

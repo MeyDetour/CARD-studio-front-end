@@ -1,3 +1,4 @@
+import "./style.css";
 // External libraries
 import { useEffect, useState } from "react";
 
@@ -15,6 +16,7 @@ import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigat
 // Subpages
 import Settings from "./Settings/Settings.jsx";
 import Help from "./Help/Help.jsx";
+import Alerts from "./Alerts/Alerts.jsx";
 
 export default function HelpAndSettings({
   gameData,
@@ -37,12 +39,14 @@ export default function HelpAndSettings({
         buttons={{
           settings: () => setSubpage("settings"),
           help: () => setSubpage("help"),
+          alerts: () => setSubpage("alerts"),
         }}
         page={subPage}
       />
 
       {subPage === "settings" && <Settings user={user} editUserHandler={editUserHandler} />}
       {subPage === "help" && <Help/>}
+      {subPage === "alerts" && <Alerts/>}
 
       
     </div>

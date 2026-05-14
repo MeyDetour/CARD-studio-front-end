@@ -77,18 +77,17 @@
         color: black;
       }
     }
-    .basicGreenContainer{
-
-            border: 0.8px solid #62d76c;
-            background: #84e95a38;
-              p,
+    .basicGreenContainer {
+      border: 0.8px solid #62d76c;
+      background: #84e95a38;
+      p,
       span,
       h1,
       h2 {
         color: black;
       }
     }
-    
+
     .basicWarningContainer {
       border: 0.8px solid #d7a562;
       background: #e9e25a38;

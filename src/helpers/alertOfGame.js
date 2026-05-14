@@ -15,7 +15,7 @@ export function loadAlertListFormGame(gameData) {
   let alertList = []; 
   let eventIds = gameData.events.events.map((event) => event.id);
   let withValueEventAllowToUseCurrentPlayer = [];
-
+let eventsWithCurrentValueInput = [];
   // ========== Check  actions
   gameData.params.tours.actions.forEach((action) => {
     // Check for missing action name

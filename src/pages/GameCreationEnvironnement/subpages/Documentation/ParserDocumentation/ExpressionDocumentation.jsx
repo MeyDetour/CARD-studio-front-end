@@ -4,7 +4,7 @@ import "./style.css";
 // External libraries
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
+import {copy} from "../../../../../helpers/text.js";
 // Components
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import Icon from "../../../../../components/Icon/Icon";
@@ -15,8 +15,11 @@ import SearchBar from "../../../../../components/SearchBar/SearchBar";
 import { expressionList, expressionListTypes } from "./ExpressionList";
 export default function ExpressionDocumentation() {
   const [subpage, setSubpage] = useState("all");
+  const [copiedWord, setCopiedWord] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const { t } = useTranslation();
+
+  
   return (
     <div className="expressionDocumentationSubpage">
       <TitleContainer
@@ -65,7 +68,12 @@ export default function ExpressionDocumentation() {
       <div className="wrapper wrapperDocElt">
         {expressionList
           .filter(
-            (expr) => (subpage == "all" || expr.categories.includes(subpage)) && (searchTerm === "" || JSON.stringify(expr).toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
+            (expr) =>
+              (subpage == "all" || expr.categories.includes(subpage)) &&
+              (searchTerm === "" ||
+                JSON.stringify(expr)
+                  .toLocaleLowerCase()
+                  .includes(searchTerm.toLocaleLowerCase())),
           )
           .map((expression, key) => (
             <div className="expressionCard basicContainer" key={key}>
@@ -74,7 +82,25 @@ export default function ExpressionDocumentation() {
                 title={expression.nameKey}
                 description={expression.descriptionKey}
               ></TitleContainer>
-              <span className="syntax">{expression.syntax}</span>
+
+              <span
+                onClick={() => {
+                  copy(expression.syntax);
+                  setCopiedWord(expression.syntax);
+                  setTimeout(() => {
+                    setCopiedWord("");
+                  }, 2000);
+                }}
+                className="syntax"
+              >
+                {expression.syntax}
+                <Icon
+                  name={copiedWord == expression.syntax ? "copy-success" : "copy"}
+                  className={
+                    "copyIcon " + (copiedWord == expression.syntax ? "copied" : "")
+                  }
+                ></Icon>
+              </span>
 
               {expression.inputs && (
                 <div>

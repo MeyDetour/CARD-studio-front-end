@@ -22,4 +22,8 @@ export function findTextInElt(text, elt) {
   }
   let textSTRING = JSON.stringify(text);
    return textSTRING.includes(elt)
-}
+} 
+
+export function copy(text) {
+  navigator.clipboard.writeText(text) 
+} 

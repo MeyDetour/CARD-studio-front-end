@@ -833,13 +833,65 @@ export const expressionList = [
     examples: [ "if(true, 'gagné', 'perdu') -> 'gagné'", "if(false, 'gagné', 'perdu') -> 'perdu'"
     ],
   },
+  // Variables 
+  {
+    nameKey: "allPlayers",
+    categories: ["Players","Value","Value"],
+    descriptionKey: "allPlayerDescription",
+    syntax: "{allPlayer}",
+    inputs: [],
+    returns: { type: "array", description: "Tous les joueurs" },
+    examples: [ "{allPlayersInGame} -> [player1, player2, player3]" ],
+  } ,
+    // Variables
+  {
+    nameKey: "getTopCardOfDeck",
+    categories: ["Cards","Value"],
+    descriptionKey: "getTopCardOfDeckDescription",
+    syntax: "{getTopCardOfDeck}",
+    inputs: [],
+    returns: { type: "card", description: "Carte du dessus de la pioche" },
+    examples: [ "{getTopCardOfDeck} -> {name:'',id:'',attribute:''}" ],
+  } , {
+    nameKey: "getTopCardOfDiscard",
+    categories: ["Cards","Value"],
+    descriptionKey: "getTopCardOfDiscardDescription",
+    syntax: "{getTopCardOfDiscard}",
+    inputs: [],
+    returns: { type: "card", description: "Carte du dessus de la défausse" },
+    examples: [ "{getTopCardOfDiscard} -> {name:'',id:'',attribute:''}" ],
+  } , {
+    nameKey: "getDeck",
+    categories: ["Cards","Value"],
+    descriptionKey: "getDeckDescription",
+    syntax: "{deck}",
+    inputs: [],
+    returns: { type: "card", description: "Cible la pioche" },
+    examples: [ "{deck} -> [card1, card2, card3]" ],
+  }  , {
+    nameKey: "getDiscard",
+    categories: ["Cards","Value"],
+    descriptionKey: "getDiscardDescription",
+    syntax: "{discardDeck}",
+    inputs: [],
+    returns: { type: "card", description: "Cible la défausse" },
+    examples: [ "{discardDeck} -> [card1, card2, card3]" ],
+  }  , {
+    nameKey: "targetCard",
+    categories: ["Cards","Value"],
+    descriptionKey: "targetCardDescription",
+    syntax: "{cardOfBoucle}",
+    inputs: [],
+    returns: { type: "card", description: "Carte ciblée" },
+    examples: [ "{cardOfBoucle} -> {name:'',id:'',attribute:''}" ],
+  } 
 ];
 export const expressionListTypes = [
   { name: "all", icon: "all" },
   { name: "Mathematics", icon: "maths" },
   { name: "Boolean", icon: "boolean" },
   { name: "Logic", icon: "logic" },
-  { name: "Value", icon: "value" },
+  { name: "Value", icon: "value" }, 
   { name: "List", icon: "list" },
   { name: "Cards", icon: "joker" },
   { name: "Players", icon: "players" },

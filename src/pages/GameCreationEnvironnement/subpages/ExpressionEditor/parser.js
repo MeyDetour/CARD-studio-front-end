@@ -180,3 +180,54 @@ export function parserGetPartsOfVariable(exp) {
 
   return parts;
 }
+
+
+ export function verifyExpressionSyntax(str) {
+    let expression = "";
+    let isInVariable = false;
+    let depth = 0;
+    let lastChar = "";
+    for (let i = 0; i < str.length; i++) {
+      const c = str[i];
+
+      if (c === "{") {
+        depth++;
+        isInVariable = true;
+        lastChar = c;
+        continue;
+      }
+      if (c === "(") {
+        depth++;
+        lastChar = c;
+        continue;
+      }
+      // si on est a la fin d'une variable on va verifier le contenu
+      if (c === "}"&& lastChar === "{") {
+        depth--;
+        lastChar = null;
+        // contenu =  aaa#bbb#ccc
+        // si contenu = a#   ou #b  on aura ["a",""] ou ["","b"] et c'est pas bon
+        if (expression.includes("#")) {
+          const parts = expression.split("#"); 
+          if (parts.length < 2 || parts.some((p) => p.trim() === "")) {
+            return false;
+          }
+        }
+        isInVariable = false;
+        continue;
+      }
+      if (c === ")" && lastChar === "(") {
+        depth--;
+        lastChar = null;
+        continue;
+      }
+      if (isInVariable) {
+        expression += c;
+      }
+    }
+    if (depth !== 0) {
+      return false;
+    }
+
+    return true;
+  }

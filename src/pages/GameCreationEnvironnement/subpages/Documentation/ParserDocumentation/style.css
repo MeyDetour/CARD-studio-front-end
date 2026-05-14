@@ -50,6 +50,10 @@
         background: #f5f6f6;
         padding: 12px;
         border-radius: 7px;
+        display: flex;flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
       }
     }
   }

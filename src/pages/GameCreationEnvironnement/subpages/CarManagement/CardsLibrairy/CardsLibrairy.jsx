@@ -39,6 +39,7 @@ export default function CardsLibrairy({
   const { addItem } = useHistoryContext();
   const { getToken } = useTokenContext();
   const [selected, setSelected] = useState(new Set());
+  const [multipleEdit, setMultipleEdit] = useState({});
   const { alertList } = useNotificationContext();
   const { restoreCards } = useGameContext();
 
@@ -81,7 +82,7 @@ export default function CardsLibrairy({
       displayError(t("FailedToUploadFileZip"));
     }
     updateGameValue("assets.cards", result);
-  }
+  } 
   return (
     <>
       <div className="cardLibrairy-MultipleActions basicContainer">
@@ -198,7 +199,7 @@ export default function CardsLibrairy({
                 }}
                 key={key}
                 card={card}
-                radius={gameData.cardParams.radius*78/200 }
+                radius={(gameData.cardParams.radius * 78) / 200}
                 hoverable={true}
                 isSelected={isSelected}
                 // On ne passe plus dataKey ici, mais on va le passer dans classAdded pour l'ajouter sur le bon div
@@ -217,9 +218,9 @@ export default function CardsLibrairy({
       {selected.size > 1 && (
         <div className="cardLibrairy-MultipleActions basicContainer">
           {/*===== multiple edit couleur si tous les elements sont french_standard =====*/}
-          {!Object.keys(selected).some(
-            (key) => gameData.cards[key].type !== "french_standard",
-          ) && (
+      {!Array.from(selected).some(
+  (key) => gameData.cards[key]?.type !== "french_standard"
+) && (
             <InputSelect
               title="colorOfCard"
               closeAfterSelect={true}
@@ -238,13 +239,42 @@ export default function CardsLibrairy({
                 }
               }}
               pathObject="addedAttributs.couleur"
-              selected={[]}
+              selected={[multipleEdit?.couleur ?? ""]}
               items={["trefle", "coeur", "carreau", "pique"]}
             />
           )}
+          {/* ===========added attributes======= */}
+          {gameData.cardParams.addedAttributs &&
+            Object.keys(gameData.cardParams.addedAttributs).map(
+              (attributKey, key) => (
+                <Input
+                  title={attributKey}
+                  defaultValue={multipleEdit?.[attributKey] ?? ""}
+                  pathInObject={
+                    attributKey ? "addedAttributs." + attributKey : null
+                  }
+                  onChangeFunction={(path, value) => {
+                    for (let key of selected) {
+                      updateGameValue(
+                        "assets.cards." + key,
+                        updateElementValue(path, gameData.cards[key], value),
+                      );
+                      addItem(
+                        gameData.id,
+                        createHistoryElement("cards", "edit", {
+                          id: key,
+                        }),
+                      );
+                    }
+                    setMultipleEdit((prev) => ({ ...prev, [attributKey]: value }));
+                  }}
+                  placeholder="enterValue"
+                />
+              ),
+            )}
           {/*===== multiple delete ================ */}
 
-          <div className="basicContainer basicRedContainer rewardsManagementSection">
+          <div className="basicContainer basicWarningContainer rewardsManagementSection">
             <TitleContainer
               title={"deleteSelection"}
               type="h2"
@@ -253,7 +283,7 @@ export default function CardsLibrairy({
 
             <Button
               text={"deleteSelection"}
-              type="redButton"
+              type="whiteWithBordure"
               action={async () => {
                 if (confirm(t("doYouRealyWantToDeleteTheseCards"))) {
                   for (let key of selected) {

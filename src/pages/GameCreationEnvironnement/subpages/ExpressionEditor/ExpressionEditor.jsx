@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 
 // Helpers
 import { getSugggestionForPlayer } from "../../../../helpers/suggestions";
+import { verifyExpressionSyntax } from "./parser.js";
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
@@ -24,6 +25,7 @@ import {
 } from "./parser.js";
 
 export default function ExpressionEditor({ gameData }) {
+  const {t} = useTranslation();
   const [expression, setExpression] = useState(
     "exp(comp({playerBoucle#attachedEventForTour};notContain;<<skipPlayerTour>>)&&comp({playerBoucle};differentPlayer;{currentPlayer}))",
   );  
@@ -34,6 +36,8 @@ export default function ExpressionEditor({ gameData }) {
           title="expressionEditor"
           description="expressionEditorDescription"
         ></TitleContainer>
+       
+
         <Input
           title="expression"
           defaultValue={expression}
@@ -49,7 +53,14 @@ export default function ExpressionEditor({ gameData }) {
           }}
         />
       </div>
+       {!verifyExpressionSyntax(expression)  && (
+          <div className="basicContainer basicRedContainer"
+          >
+            <p>{t("expressionSyntaxIsNotCorrect")}</p>
+          </div>
+        )}
       <div className="basicContainer">
+        
         <TitleContainer title="decompositionOfExpression"></TitleContainer>
         <div className="decompositionContainer">
           {getDecompositionTree(expression, 0)}
@@ -62,7 +73,7 @@ export default function ExpressionEditor({ gameData }) {
  
 
 function getDecompositionTree(exp, depth = 0) {
-  const { t } = useTranslation();
+  if (!exp) return ""; 
   let returnType = parserGetTypeReturn(exp);
 
   return (
@@ -119,7 +130,7 @@ function getDecompositionTree(exp, depth = 0) {
             return (
               <>
                 <span className="part-label">
-                  <span className="letter">{t("object")} : </span>
+                  <span className="letter">Object : </span>
                   {partsVariable[0]}
                 </span>
                 {partsVariable.map(
@@ -127,7 +138,7 @@ function getDecompositionTree(exp, depth = 0) {
                     index != "0" && (
                       <span className="part-label">
                         <span className="letter">
-                          {t("Attributs")} {index} :{" "}
+                          Attributs {index} :{" "}
                         </span>
                         {attr}
                       </span>

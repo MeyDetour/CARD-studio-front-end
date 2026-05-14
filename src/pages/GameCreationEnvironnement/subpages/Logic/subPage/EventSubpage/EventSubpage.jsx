@@ -457,7 +457,8 @@ export default function EventSubpage({
                 <Alert
                   messages={[
                     currentEvent.id +
-                      "|event|eventHaveFromElementButNoFor|warning",
+                      "|event|eventHaveFromElementButNoFor|warning", currentEvent.id +
+                      "|event|elementsGivesButNoFor",
                   ]}
                   alertList={alertList}
                 ></Alert>

@@ -1,0 +1,19 @@
+.sortableItem {
+    position: relative;
+    overflow: hidden;
+  .index {
+ 
+    background: #ddd8fa;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    position: absolute;
+    text-align: center;
+    vertical-align: baseline;
+    line-height: 51px;
+    left: 0%;
+    border-right: 1px solid #c3c3c3;
+  }
+  .name{
+    margin-left: 9px;
+  }
+}

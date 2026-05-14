@@ -74,8 +74,7 @@ function SortableItem({ id, index, element, removeItem }) {
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
-    padding: "12px",
+    transition,    padding: "12px 12px 12px 64px",
     border: "1px solid #ccc",
     marginBottom: "8px",
     background: "white",
@@ -86,10 +85,10 @@ function SortableItem({ id, index, element, removeItem }) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes}>
-      {/* On met les listeners uniquement sur la zone de texte pour dragger */}
-      <span {...listeners} style={{ cursor: 'grab', flexGrow: 1 }}>
-        {index + 1} | {element.name}
+    <div className="sortableItem" ref={setNodeRef} style={style} {...attributes}>
+      <span className="index">{index + 1}</span>
+      <span className="name" {...listeners} style={{ cursor: 'grab', flexGrow: 1 }}>
+              {element.name}
       </span>
       
       <div onClick={(e) => {
