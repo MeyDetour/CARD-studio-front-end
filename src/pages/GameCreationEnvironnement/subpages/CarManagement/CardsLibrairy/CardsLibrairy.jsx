@@ -1,5 +1,5 @@
 // External libraries
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { SelectionArea } from "@viselect/react";
 
@@ -13,7 +13,10 @@ import { useTokenContext } from "../../../../../context/TokenContext";
 import { useApi } from "../../../../../hooks/useApi";
 
 // Helpers
-import { updateElementValue } from "../../../../../helpers/objectManagement";
+import {
+  updateElementValue,
+  updateValueArray,
+} from "../../../../../helpers/objectManagement";
 import { createHistoryElement } from "../../../../../helpers/historyObject";
 
 // Components
@@ -40,6 +43,7 @@ export default function CardsLibrairy({
   const { getToken } = useTokenContext();
   const [selected, setSelected] = useState(new Set());
   const [multipleEdit, setMultipleEdit] = useState({});
+  const [filters, setFilters] = useState({});
   const { alertList } = useNotificationContext();
   const { restoreCards } = useGameContext();
 
@@ -64,7 +68,20 @@ export default function CardsLibrairy({
       />
     );
   }
+  const suggestionsForAttributs = useMemo(() => {
+    const result = {};
+    Object.keys(gameData.cardParams.addedAttributs || {}).forEach((attrKey) => {
+      const values = new Set();
+      Object.values(gameData.cards).forEach((card) => {
+        const val = card.addedAttributs?.[attrKey];
+        if (val) values.add(val);
+      });
+      values.add("none");
+      result[attrKey] = Array.from(values);
+    });
 
+    return result;
+  }, [gameData.cards, gameData.cardParams.addedAttributs]);
   async function uploadZipOfCards(file) {
     const formData = new FormData();
     formData.append("file", file);
@@ -82,7 +99,8 @@ export default function CardsLibrairy({
       displayError(t("FailedToUploadFileZip"));
     }
     updateGameValue("assets.cards", result);
-  } 
+  }
+  console.log(filters);
   return (
     <>
       <div className="cardLibrairy-MultipleActions basicContainer">
@@ -132,6 +150,9 @@ export default function CardsLibrairy({
           ></Button>
         </div>
       </div>
+      <div className="basicContainer">
+        <TitleContainer title="filterCards" type="h2"></TitleContainer>
+      </div>
       <SelectionArea
         selectionConfig={{
           className: "selection-area", // La classe du rectangle bleu qui va apparaître
@@ -149,6 +170,7 @@ export default function CardsLibrairy({
           if (!event?.ctrlKey && !event?.metaKey) {
             selection.clearSelection();
             setSelected(new Set());
+            setMultipleEdit({});
           }
         }}
         onMove={({
@@ -169,9 +191,95 @@ export default function CardsLibrairy({
           });
         }}
       >
+        <TitleContainer title="filterCards" type="h2"></TitleContainer>
+        <div className="row filterCardsInput">
+          <InputSelect
+            title="type"
+            closeAfterSelect={true}
+            updateValueArray={(path, value) => {
+              setFilters((prev) => updateValueArray(path, prev, value));
+            }}
+            pathObject="type"
+            selected={filters.type ?? []}
+            items={["french_standard", "custom"]}
+          />
+          {gameData.cardParams.addedAttributs &&
+            Object.keys(gameData.cardParams.addedAttributs).map(
+              (attributKey, key) => (
+                <InputSelect
+                  title={attributKey}
+                  closeAfterSelect={true}
+                  updateValueArray={(path, value) => {
+                    setFilters((prev) =>
+                      updateValueArray(path, prev, value, "multiple"),
+                    );
+                  }}
+                  pathObject={"addedAttributs." + attributKey}
+                  selected={
+                    filters.addedAttributs &&
+                    filters.addedAttributs[attributKey]
+                      ? filters.addedAttributs[attributKey]
+                      : []
+                  }
+                  items={
+                    suggestionsForAttributs
+                      ? suggestionsForAttributs[attributKey] || []
+                      : []
+                  }
+                />
+              ),
+            )}
+        </div>
         <div className="cardWrapper">
           {Object.keys(gameData.cards).map((key) => {
             const card = gameData.cards[key];
+            let isHidden = false;
+
+            // verifier les filtres
+            for (let filterKey of Object.keys(filters)) {
+              const activeFilters = filters[filterKey];
+
+              // filtres simple comme type=custom
+              if (
+                !activeFilters ||
+                (Array.isArray(activeFilters) && activeFilters.length === 0)
+              )
+                continue;
+
+              if (filterKey === "type") {
+                if (!activeFilters.includes(card.type)) {
+                  isHidden = true;
+                  break;
+                }
+              }
+
+              //filtres sur les attributs comme addedAttributs.couleur=pique
+              if (filterKey === "addedAttributs") {
+                for (let attrKey of Object.keys(activeFilters)) {
+                  const selectedValues = activeFilters[attrKey];
+
+                  // Si aucun filtre n'est coché pour cet attribut, on ne bloque pas la carte
+                  if (!selectedValues || selectedValues.length === 0) continue;
+
+                  const cardValue = card.addedAttributs?.[attrKey];
+
+                  // On vérifie si la valeur de la carte correspond à une des options sélectionnées
+                  // (Soit la valeur exacte, soit "none" si la carte n'a pas de valeur)
+                  const matchesValue =
+                    cardValue && selectedValues.includes(cardValue);
+                  const matchesNone =
+                    !cardValue && selectedValues.includes("none");
+
+                  // Si la carte ne remplit aucune des deux conditions, on la cache
+                  if (!matchesValue && !matchesNone) {
+                    isHidden = true;
+                    break;
+                  }
+                }
+              }
+            }
+            if (isHidden) return null;
+
             const isSelected = selected.has(String(key));
             // Pour DefaultCard, data-key est déjà bien passé
             if (card.type == "french_standard") {
@@ -218,9 +326,9 @@ export default function CardsLibrairy({
       {selected.size > 1 && (
         <div className="cardLibrairy-MultipleActions basicContainer">
           {/*===== multiple edit couleur si tous les elements sont french_standard =====*/}
-      {!Array.from(selected).some(
-  (key) => gameData.cards[key]?.type !== "french_standard"
-) && (
+          {!Array.from(selected).some(
+            (key) => gameData.cards[key]?.type !== "french_standard",
+          ) && (
             <InputSelect
               title="colorOfCard"
               closeAfterSelect={true}
@@ -266,7 +374,10 @@ export default function CardsLibrairy({
                         }),
                       );
                     }
-                    setMultipleEdit((prev) => ({ ...prev, [attributKey]: value }));
+                    setMultipleEdit((prev) => ({
+                      ...prev,
+                      [attributKey]: value,
+                    }));
                   }}
                   placeholder="enterValue"
                 />

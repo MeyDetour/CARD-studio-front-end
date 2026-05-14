@@ -64,8 +64,7 @@ export default function CardEditionPage({
     const serverImageUrl = result.url;
     setCurrentCard((prev) => updateElementValue("image", prev, serverImageUrl));
     return result;
-  } 
-  console.log(currentCard);
+  }
   return (
     <>
       <div className="row cardEditionPage">
@@ -166,7 +165,7 @@ export default function CardEditionPage({
             type="violetButton"
             action={() => {
               let addedAttributs = gameData.cardParams.addedAttributs ?? {};
-              addedAttributs["Name Of Attribut"] = null;  
+              addedAttributs["Name Of Attribut"] = null;
               updateGameValue("params.cards.addedAttributs", addedAttributs);
               addItem(
                 gameData.id,
@@ -179,50 +178,57 @@ export default function CardEditionPage({
           ></Button>
         </div>
         {gameData.cardParams.addedAttributs &&
-          Object.keys(gameData.cardParams.addedAttributs).map((attributKey, key) => (
-            <div class="row">
-              {/* ===========Clé======= */}
-              <Input
-                title="attributKey"
-                defaultValue={attributKey}
-                pathInObject={
-                  attributKey ? "addedAttributs." + attributKey : null
-                }
-                onChangeFunction={(path, value) => {
-                  const newAttributs = { ...currentCard.addedAttributs };
-                  newAttributs[value] = currentCard.addedAttributs[attributKey];
-                  delete newAttributs[attributKey];
-                  setCurrentCard(
-                    updateElementValue(
-                      "addedAttributs",
-                      currentCard,
-                      newAttributs,
-                    ),
-                  );
-                }}
-              />
-              {/* ===========Valeur======= */}
-              <Input
-                title="attributValue"
-                defaultValue={currentCard.addedAttributs?.[attributKey] ?? gameData.cardParams.addedAttributs[attributKey] ?? ""}
-                pathInObject={
-                  attributKey ? "addedAttributs." + attributKey : null
-                }
-                onChangeFunction={(path, value) => {
-                  const newAttributs = { ...currentCard.addedAttributs };
-                  newAttributs[attributKey] = value;
-                  setCurrentCard(
-                    updateElementValue(
-                      "addedAttributs",
-                      currentCard,
-                      newAttributs,
-                    ),
-                  );
-                }}
-                placeholder="enterValue"
-              />
-            </div>
-          ))}
+          Object.keys(gameData.cardParams.addedAttributs).map(
+            (attributKey, key) => (
+              <div class="row">
+                {/* ===========Clé======= */}
+                <Input
+                  title="attributKey"
+                  defaultValue={attributKey}
+                  pathInObject={
+                    attributKey ? "addedAttributs." + attributKey : null
+                  }
+                  onChangeFunction={(path, value) => {
+                    const newAttributs = { ...currentCard.addedAttributs };
+                    newAttributs[value] =
+                      currentCard.addedAttributs[attributKey];
+                    delete newAttributs[attributKey];
+                    setCurrentCard(
+                      updateElementValue(
+                        "addedAttributs",
+                        currentCard,
+                        newAttributs,
+                      ),
+                    );
+                  }}
+                />
+                {/* ===========Valeur======= */}
+                <Input
+                  title="attributValue"
+                  defaultValue={
+                    currentCard.addedAttributs?.[attributKey] ??
+                    gameData.cardParams.addedAttributs[attributKey] ??
+                    ""
+                  }
+                  pathInObject={
+                    attributKey ? "addedAttributs." + attributKey : null
+                  }
+                  onChangeFunction={(path, value) => {
+                    const newAttributs = { ...currentCard.addedAttributs };
+                    newAttributs[attributKey] = value;
+                    setCurrentCard(
+                      updateElementValue(
+                        "addedAttributs",
+                        currentCard,
+                        newAttributs,
+                      ),
+                    );
+                  }}
+                  placeholder="enterValue"
+                />
+              </div>
+            ),
+          )}
       </div>
 
       <div className="basicContainer">

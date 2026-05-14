@@ -638,6 +638,7 @@
   "callNonExistingEvent": "Cette action tente d'appeler un événement  qui n'existe pas.",
   "elementsGivesButNoFor": "Cette action donne des éléments à une cible, mais aucun destinataire n'est configuré pour recevoir ces éléments.",
   "howToChangeTurn": "Système de tours de jeu",
+  "filterCards": "Filtrer les cartes",
   "enterValue": "Entrez une valeur",
   "howToChangeTurnDescription": "Pour mettre en place un système de tour par tour classique, vous devez faire en sorte que dès qu'un joueur a choisi une action, son statut hasPlayed passe à true. Cela signale au système qu'il a fini de jouer. Le jeu doit ensuite surveiller le moment où tous les joueurs ont terminé pour provoquer le changement de tour. Vous devrez créer un 'démon' (ou un observateur) basé sur la condition 'allPlayersHasPlayed/endOfTour' qui déclenchera la fin du tour actuel.",
  "attributValue": "Valeur de l'attribut",

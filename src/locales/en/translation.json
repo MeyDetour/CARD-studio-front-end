@@ -465,6 +465,8 @@
   "Untitled": "Untitled",
   "attributValue": "Attribute Value",
   "enterValue": "Enter a value",
+  
+  "filterCards": "Filter cards",
   "addedAttributs": "Added Attributes",
   "hereYouCanSeeAllAttributsAddedToThisCard": "Here you can see all the attributes added to this card (such as its strength or health points) that you can use in your formulas by using the # symbol to link the object to its property, for example {card#force}.",
   "addAttribut": "Add an attribute",
