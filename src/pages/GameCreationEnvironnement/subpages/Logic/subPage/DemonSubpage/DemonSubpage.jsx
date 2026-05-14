@@ -19,6 +19,7 @@ import { getSugggestionForPlayer } from "../../../../../../helpers/suggestions.j
 import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
 
 // Components
+import DragAndDropSortList from "../../../../../../components/DragAndDropSortList/DragAndDropSortList.jsx";
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
 import Button from "../../../../../../components/Button/Button.jsx";
 import Input from "../../../../../../components/input/Input.jsx";
@@ -63,14 +64,14 @@ export default function DemonSubpage({
       updateGameValueArray("events.demons", currentDemon);
       addItem(
         gameId,
-        createHistoryElement("demons", "edit",{id: currentDemon.id}),
+        createHistoryElement("demons", "edit", { id: currentDemon.id }),
       );
-      
     }
-    if( firstLoad){
+    if (firstLoad) {
       setFirstLoad(false);
     }
   }, [currentDemon]);
+  console.log(currentDemon?.events);
   return (
     <div className={" demonsubPageOfdemonsAndDeclencheurSubpage"}>
       <div className="left">
@@ -92,7 +93,10 @@ export default function DemonSubpage({
                 },
                 "new",
               );
-              addItem(gameId, createHistoryElement("demons", "add", {id: newId}));
+              addItem(
+                gameId,
+                createHistoryElement("demons", "add", { id: newId }),
+              );
             }}
           />
         </div>
@@ -214,26 +218,36 @@ export default function DemonSubpage({
                 title="events"
                 description="demon-event-description"
               />
-              {events && events.length === 0 && (
-                <span className="normalText">{t("noEventInGame")}</span>
+              <InputSelect
+                title={"useWithValueEvent"}
+                updateValueArray={(value) => {
+                  setCurrentDemon(
+                    updateValueArray("events", currentDemon, value.id,"new"),
+                  );
+                }}
+                closeAfterSelect={true}
+                selected={[t("selectEventToAssociateWithDemon")]}
+                items={events}
+                itemsDisplayFields={["id", "name"]}
+              />
+              {currentDemon.events && (
+                <DragAndDropSortList
+                  removeItem={(position) => { 
+                    let newEvents = [...currentDemon.events];
+                    newEvents.splice(position, 1); 
+                    setCurrentDemon( updateElementValue("events", currentDemon, newEvents,"replace") );
+                  }} 
+                  itemsDefault={currentDemon.events.map((eventId) =>
+                    events.find((e) => e.id === eventId),
+                  )}
+                  onChangeItems={(newItems) => { 
+                    setCurrentDemon(
+                      updateElementValue("events", currentDemon, newItems.map(item => item.id),"replace"),
+                    );
+                  }}
+                  type="Demon"
+                />
               )}
-              <div className="wrapperSelection">
-                {events &&
-                  events.map((event, index) => (
-                    <EventCard
-                      key={index}
-                      action={() => {
-                        setCurrentDemon(
-                          updateValueArray("events", currentDemon, event.id),
-                        );
-                      }}
-                      event={event}
-                      isSelected={
-                        event.id && currentDemon.events.includes(event.id)
-                      }
-                    />
-                  ))}
-              </div>
             </div>
             {/* ========== METADATA ============== */}
             <div className="basicContainer">
@@ -267,8 +281,10 @@ export default function DemonSubpage({
                       "delete",
                     );
                     addItem(
-                     gameId,
-                      createHistoryElement("demons", "delete", {id: currentDemon.id}),
+                      gameId,
+                      createHistoryElement("demons", "delete", {
+                        id: currentDemon.id,
+                      }),
                     );
                     setCurrentDemon(null);
                   }

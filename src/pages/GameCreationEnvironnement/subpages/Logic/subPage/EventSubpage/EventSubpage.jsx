@@ -22,6 +22,7 @@ import { createHistoryElement } from "../../../../../../helpers/historyObject.js
 import { eventActions } from "../../../../../../../data/eventActions.js";
 
 // Components
+import DragAndDropSortList from "../../../../../../components/DragAndDropSortList/DragAndDropSortList.jsx";
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
 import Button from "../../../../../../components/Button/Button.jsx";
 import Input from "../../../../../../components/input/Input.jsx";
@@ -196,7 +197,6 @@ export default function EventSubpage({
   useEffect(() => {
     if (events && !currentEvent) {
       setCurrentEvent(events[0]);
-
       setDisabledFields(loadDisabledFields(events[0]));
     }
   }, []);
@@ -215,40 +215,42 @@ export default function EventSubpage({
         <div className="left">
           <div className="headerEvent">
             <h2>{t("events")}</h2>
-            <Button
-              text={"new"}
-              icon={"add-white"}
-              type="grey"
-              action={() => {
-                let id = Date.now();
-                let newEvent = {
-                  id: id,
-                  name: "Default name",
-                  condition: null,
-                  event: {
-                    for: null,
-                    give: null,
-                    action: null,
-                    value: null,
-                  },
-                };
+            <div className="row">
+              <Button
+                text={"new"}
+                icon={"add-white"}
+                type="grey"
+                action={() => {
+                  let id = Date.now();
+                  let newEvent = {
+                    id: id,
+                    name: "Default name",
+                    condition: null,
+                    event: {
+                      for: null,
+                      give: null,
+                      action: null,
+                      value: null,
+                    },
+                  };
 
-                updateGameValueArray("events.events", newEvent, "new");
-                setCurrentEvent(newEvent);
-                addItem(
-                  gameId,
-                  createHistoryElement("events", "add", { id: id }),
-                );
-                setDisabledFields(loadDisabledFields(newEvent));
-              }}
-            />{" "}
-            <Button
-              text={"examples"}
-              type="grey"
-              action={() => {
-                setDisplayExamplesEvents(!displayExamplesEvents);
-              }}
-            />
+                  updateGameValueArray("events.events", newEvent, "new");
+                  setCurrentEvent(newEvent);
+                  addItem(
+                    gameId,
+                    createHistoryElement("events", "add", { id: id }),
+                  );
+                  setDisabledFields(loadDisabledFields(newEvent));
+                }}
+              />
+              <Button
+                text={"examples"}
+                type={"violetButton"}
+                action={() => {
+                  setDisplayExamplesEvents(!displayExamplesEvents);
+                }}
+              />
+            </div>
           </div>
           <div className="wrapperEvents">
             {displayExamplesEvents &&
@@ -718,6 +720,7 @@ export default function EventSubpage({
                       </span>
                     )}
                   </DetailContainer>
+
 
                   {/* ========== WithValueEvents ============== */}
 

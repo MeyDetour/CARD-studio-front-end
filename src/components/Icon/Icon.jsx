@@ -8,6 +8,6 @@ export default function Icon({
 }) {
   if (!name) return null;
   return (
-    <img onClick={callback}   src={"/src/assets/icon/" + name + ".svg"} className={"icon "+className} alt="" />
+    <img onClick={callback}   src={"/src/assets/icon/" + name + ".svg"} style={{cursor:callback!=null ? "pointer" : "default"}} className={"icon "+className} alt="" />
   );
 }

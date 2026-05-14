@@ -1,11 +1,18 @@
 .eventSubPageOfEventsAndDeclencheurSubpage {
-  .left { 
-    
-      overflow-y: scroll;
-    
+  .left {
+    overflow-y: scroll;
 
-      height: 93.7vh;
-      max-height: 93.7vh;
+    height: 93.7vh;
+    max-height: 93.7vh;
+    .headerEvent {
+      .row {
+        display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+      }
+    }
   }
   .right {
     overflow-y: scroll;
