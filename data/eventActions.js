@@ -26,8 +26,8 @@ export const eventActions = [
     gimmeAClueForValue:"Select a value between 'next' and 'previous'. If you select 'next', the starting player will be the next player in turn order. If you select 'previous', the starting player will be the previous player in turn order.",
   },
   {
-    label: "suffle",
-    tooltip: "suffleDescription",
+    label: "shuffle",
+    tooltip: "shuffleDescription",
     necessiteFor: true,
     types: ["action"],
   },

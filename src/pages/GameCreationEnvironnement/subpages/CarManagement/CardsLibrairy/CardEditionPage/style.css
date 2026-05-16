@@ -1,5 +1,4 @@
-.cardManagementSubpage {
-  user-select: none;
+.cardManagementSubpage { 
   padding-bottom: 50vh !important;
   .cardEditionPage.row {
     display: flex;

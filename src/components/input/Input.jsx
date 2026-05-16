@@ -18,6 +18,7 @@ export default function Input({
   hint,
   onChangeFunction,
   suggestions = [],
+  deactivateTitleTranslation = false,
   searchbar = true,
 }) {
   const { t } = useTranslation();
@@ -31,7 +32,8 @@ export default function Input({
       <div className={`inputRow ${disabled ? "disabled" : ""}`}>
         <TitleContainer
           type="normalText"
-          title={title}
+          title={ title }
+          deactivateTitleTranslation={deactivateTitleTranslation}
           description={description}
         />
 
@@ -88,6 +90,7 @@ export default function Input({
           type="normalText"
           title={title}
           description={description}
+          deactivateTitleTranslation={deactivateTitleTranslation}
         />
 
       {(() => {

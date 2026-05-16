@@ -5,20 +5,28 @@ import Icon from "../Icon/Icon";
 export default function TitleContainer({
   title,
   description,
+  deactivateTitleTranslation = false,
+  deactivateDescriptionTranslation = false,
   icon,
   type = "h1",
-  number =null
+  number = null,
 }) {
   const { t } = useTranslation();
 
   if (type == "h1") {
     return (
-      <div className="titleContainer titleContainer-h1"> 
+      <div className="titleContainer titleContainer-h1">
         <Icon name={icon}></Icon>
         <div>
-          <h1>{ number ? `${number}. ${t(title)}` : t(title)}</h1>
+          <h1>
+            {number
+              ? `${number}. ${deactivateTitleTranslation ? title : t(title)}`
+              : deactivateTitleTranslation
+                ? title
+                : t(title)}
+          </h1>
 
-          <p>{t(description)}</p>
+          <p>{deactivateDescriptionTranslation ? description : t(description)}</p>
         </div>
       </div>
     );
@@ -32,18 +40,22 @@ export default function TitleContainer({
         {(() => {
           switch (type) {
             case "h1":
-              return <h1>{ number ? `${number}. ${t(title)}` : t(title)}</h1>;
+              return <h1>{number ? `${number}. ${deactivateTitleTranslation ? title : t(title)}` : deactivateTitleTranslation ? title : t(title)}</h1>;
             case "h2":
-              return <h2>{ number ? `${number}. ${t(title)}` : t(title)}</h2>;
+              return <h2>{number ? `${number}. ${deactivateTitleTranslation ? title : t(title)}` : deactivateTitleTranslation ? title : t(title)}</h2>;
             case "h3":
-              return <h3>{ number ? `${number}. ${t(title)}` : t(title)}</h3>;
+              return <h3>{number ? `${number}. ${deactivateTitleTranslation ? title : t(title)}` : deactivateTitleTranslation ? title : t(title)}</h3>;
             case "normalText":
-              return <span className="normalText">{ number ? `${number}. ${t(title)}` : t(title)}</span>;
+              return (
+                <span className="normalText">
+                  {number ? `${number}. ${deactivateTitleTranslation ? title : t(title)}` : deactivateTitleTranslation ? title : t(title)}
+                </span>
+              );
           }
         })()}
       </div>
 
-      <p>{t(description)}</p>
+      <p>{deactivateDescriptionTranslation ? description : t(description)}</p>
     </div>
   );
 }

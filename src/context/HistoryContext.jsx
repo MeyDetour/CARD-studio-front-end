@@ -67,23 +67,21 @@ export function HistoryProvider({ children }) {
     }
     storeHistrory(id, history);
   };
-  const isInHistory = (item) => { 
+  const isInHistory = (item) => {
     let history = getHistory(item.gameId) || [];
-    
+
     let result = history.some(
-      (e) =>
-        e.action == item.action && item.type == e.type && item.id == e.id,
-    ); 
+      (e) => e.action == item.action && item.type == e.type && item.id == e.id,
+    );
     return result;
   };
   const deleteItemHistoryRelatedTo = (item) => {
- 
-      let history = getHistory(item.gameId) || [];
- 
-    storeHistrory(item.gameId, history.filter(
-      (e) =>
-        !(e.type == item.type && e.id == item.id),
-    )); 
+    let history = getHistory(item.gameId) || [];
+
+    storeHistrory(
+      item.gameId,
+      history.filter((e) => !(e.type == item.type && e.id == item.id)),
+    );
   };
 
   const getHistory = (id) => {
@@ -105,7 +103,6 @@ export function HistoryProvider({ children }) {
     if (!game) return [];
     const history = getHistory(game.id);
     return history.map((item) => {
-      console.log(item);
       if (item.action === "edit" && item.field == "name") {
         return {
           name: t("changeNameOFGame"),
@@ -128,6 +125,20 @@ export function HistoryProvider({ children }) {
           field: item.field,
         };
       }
+      if (item.type == "cards") {
+        console.log(item);
+        let card = game.assets.cards[item.id];
+        let newCard = currentGame.assets.cards[item.id];
+        console.log(card);
+        return {
+          name: t("editionLogChangecards") + " : " + (card?.name ?? ""),
+          oldValue: card??null,
+          newValue: newCard??null,
+          action: item.action,
+          type: item.type,
+        };
+      }
+
       if (
         item.id != "undefined" &&
         item.id != null &&
@@ -181,6 +192,7 @@ export function HistoryProvider({ children }) {
           type: item.type,
         };
       }
+
       return {
         name: item.type,
         oldValue: null,
@@ -204,7 +216,8 @@ export function HistoryProvider({ children }) {
         getHistory,
         isInHistory,
         storeHistrory,
-        deleteLocalHistory,deleteItemHistoryRelatedTo,
+        deleteLocalHistory,
+        deleteItemHistoryRelatedTo,
         getDetailledHistory,
       }}
     >

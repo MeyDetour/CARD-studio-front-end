@@ -318,7 +318,6 @@ export default function RoundsPage({
 
                     <Input
                       title="condition"
-                      description="condition"
                       defaultValue={currentElementToEdit.condition || ""}
                       inputType="input"
                       onChangeFunction={(value) => {
@@ -346,7 +345,7 @@ export default function RoundsPage({
                             <li>
                               <span className="variableName">
                                 {"{selectedCards}"}
-                              </span>{" "}
+                              </span>
                               : {t("theCardsOnWhichActionIsApplied")}
                             </li>
                           )}
@@ -358,6 +357,12 @@ export default function RoundsPage({
                               : {t("theValueAskedToPlayerToPlayThisAction")}
                             </li>
                           )}
+                          <li>
+                            <span className="variableName">
+                              {"{currentPlayer}"}
+                            </span>
+                            : {t("theCurrentPlayerObject")}
+                          </li>
                         </ul>
                       </div>
                     )}

@@ -59,7 +59,7 @@ export default function EventSubpage({
         from: "{discardDeck}",
         for: "{deck}",
         give: { "{cards}": "*" },
-        action: "suffle",
+        action: "shuffle",
       },
     },
   ]);
@@ -363,7 +363,7 @@ export default function EventSubpage({
                                 <li>
                                   <span className="variableName">
                                     {"{selectedCards}"}
-                                  </span>{" "}
+                                  </span>
                                   : {t("theCardsOnWhichActionIsApplied")}
                                 </li>
                               )}
@@ -375,6 +375,12 @@ export default function EventSubpage({
                                   : {t("theValueAskedToPlayerToPlayThisAction")}
                                 </li>
                               )}
+                                  <li>
+                            <span className="variableName">
+                              {"{currentPlayer}"}
+                            </span>
+                            : {t("theCurrentPlayerObject")}
+                          </li>
                             </ul>
                           </b>
                         </span>
@@ -400,6 +406,7 @@ export default function EventSubpage({
                 {/* ========== MESSAGE DE CHARGEMENT  ============== */}
                 <Input
                   title="loadMessage"
+                  description="loadMessageDescription"
                   defaultValue={currentEvent.loadMessage ?? ""}
                   pathInObject="loadMessage"
                   disabled={isInExampleMode}
@@ -589,7 +596,7 @@ export default function EventSubpage({
                         : ""
                     }
                     placeholder={"e.g. 2, {allPlayersInGame} ,*"}
-                    inputType="number"
+                    inputType="input"
                     suggestions={
                       currentEvent.boucle
                         ? suggestions.filter((s) => s.type === "number")

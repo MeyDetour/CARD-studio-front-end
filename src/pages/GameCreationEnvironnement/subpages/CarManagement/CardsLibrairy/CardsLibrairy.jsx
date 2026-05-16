@@ -58,16 +58,6 @@ export default function CardsLibrairy({
     }
   }, [currentCard]);
 
-  if (currentCard) {
-    return (
-      <CardEditionPage
-        currentCard={currentCard}
-        setCurrentCard={setCurrentCard}
-        gameData={{ id: gameData.id, ...gameData }}
-        updateGameValue={updateGameValue}
-      />
-    );
-  }
   const suggestionsForAttributs = useMemo(() => {
     const result = {};
     Object.keys(gameData.cardParams.addedAttributs || {}).forEach((attrKey) => {
@@ -100,7 +90,17 @@ export default function CardsLibrairy({
     }
     updateGameValue("assets.cards", result);
   }
-  console.log(filters);
+
+  if (currentCard) {
+    return (
+      <CardEditionPage
+        currentCard={currentCard}
+        setCurrentCard={setCurrentCard}
+        gameData={{ id: gameData.id, ...gameData }}
+        updateGameValue={updateGameValue}
+      />
+    );
+  }
   return (
     <>
       <div className="cardLibrairy-MultipleActions basicContainer">
@@ -150,9 +150,7 @@ export default function CardsLibrairy({
           ></Button>
         </div>
       </div>
-      <div className="basicContainer">
-        <TitleContainer title="filterCards" type="h2"></TitleContainer>
-      </div>
+     
       <SelectionArea
         selectionConfig={{
           className: "selection-area", // La classe du rectangle bleu qui va apparaître
@@ -277,6 +275,9 @@ export default function CardsLibrairy({
                   }
                 }
               }
+            }
+            if (selected.size > 0 && selected.has(String(key))) {
+              isHidden = false;
             }
             if (isHidden) return null;
 

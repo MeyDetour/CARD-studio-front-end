@@ -43,8 +43,6 @@ export default function CardEditionPage({
   const [saveDisabled, setSaveDisabled] = useState(true);
   const { alertList, displayError } = useNotificationContext();
 
-  if (!currentCard) return;
-
   async function uploadImageOfCard(file) {
     const formData = new FormData();
     formData.append("file", file);
@@ -99,6 +97,7 @@ export default function CardEditionPage({
                 <>
                   <CustomCard
                     card={currentCard}
+                    uploadImageOfCard
                     radius={gameData.cardParams.radius}
                     hoverable={true}
                   />
@@ -152,62 +151,23 @@ export default function CardEditionPage({
       </div>
 
       {/* ===========ADDED ATTRIBUTS ======= */}
-      <div className="basicContainer">
-        <div className="row">
+      <div className="basicContainer"> 
           <TitleContainer
             title={"addedAttributs"}
             description={"hereYouCanSeeAllAttributsAddedToThisCard"}
             type="h2"
           ></TitleContainer>
-          <Button
-            icon="add-white"
-            text="addAttribut"
-            type="violetButton"
-            action={() => {
-              let addedAttributs = gameData.cardParams.addedAttributs ?? {};
-              addedAttributs["Name Of Attribut"] = null;
-              updateGameValue("params.cards.addedAttributs", addedAttributs);
-              addItem(
-                gameData.id,
-                createHistoryElement("card", "add", {
-                  id: newCard.id,
-                  action: "addAttribut",
-                }),
-              );
-            }}
-          ></Button>
-        </div>
+        
         {gameData.cardParams.addedAttributs &&
           Object.keys(gameData.cardParams.addedAttributs).map(
             (attributKey, key) => (
-              <div class="row">
-                {/* ===========Clé======= */}
+             
                 <Input
-                  title="attributKey"
-                  defaultValue={attributKey}
-                  pathInObject={
-                    attributKey ? "addedAttributs." + attributKey : null
-                  }
-                  onChangeFunction={(path, value) => {
-                    const newAttributs = { ...currentCard.addedAttributs };
-                    newAttributs[value] =
-                      currentCard.addedAttributs[attributKey];
-                    delete newAttributs[attributKey];
-                    setCurrentCard(
-                      updateElementValue(
-                        "addedAttributs",
-                        currentCard,
-                        newAttributs,
-                      ),
-                    );
-                  }}
-                />
-                {/* ===========Valeur======= */}
-                <Input
-                  title="attributValue"
+                  title={attributKey}
+                  deactivateTitleTranslation={true}
                   defaultValue={
                     currentCard.addedAttributs?.[attributKey] ??
-                    gameData.cardParams.addedAttributs[attributKey] ??
+                    gameData.cardParams.addedAttributs?.[attributKey] ??
                     ""
                   }
                   pathInObject={
@@ -226,7 +186,7 @@ export default function CardEditionPage({
                   }}
                   placeholder="enterValue"
                 />
-              </div>
+               
             ),
           )}
       </div>

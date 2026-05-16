@@ -8,10 +8,16 @@ import { useTranslation } from "react-i18next";
 import Icon from "../../../../../components/Icon/Icon";
 export default function EditionLogElement({ item }) {
   const { t } = useTranslation();
-  if (!item) return; 
+  if (!item) return;
   let association = [];
-  getAssociationKey(association, item.oldValue, item.newValue, null,item.action);
- 
+  getAssociationKey(
+    association,
+    item.oldValue,
+    item.newValue,
+    null,
+    item.action,
+  );
+
   return (
     <div className="editionLogElement">
       <div className="left">
@@ -54,9 +60,16 @@ export default function EditionLogElement({ item }) {
     </div>
   );
 }
-function getAssociationKey(association, oldObj = {}, newObj = {}, parentKey = "", action) {
- 
-if (action === "delete") {
+function getAssociationKey(
+  association,
+  oldObj = {},
+  newObj = {},
+  parentKey = "",
+  action,
+) {
+  console.log(oldObj);
+  console.log(newObj);
+  if (action === "delete") {
     if (typeof oldObj !== "object" || oldObj === null) {
       association.push({
         name: parentKey || "valeur",
@@ -83,12 +96,14 @@ if (action === "delete") {
     return;
   }
 
- if (typeof newObj !== "object" || newObj === null) {
+  if (typeof newObj !== "object" || newObj === null) {
     if (oldObj !== newObj) {
       association.push({
         name: parentKey ? parentKey : "value",
-        oldValue: oldObj === undefined || oldObj === null ? null : String(oldObj),
-        newValue: newObj === undefined || newObj === null ? null : String(newObj),
+        oldValue:
+          oldObj === undefined || oldObj === null ? null : String(oldObj),
+        newValue:
+          newObj === undefined || newObj === null ? null : String(newObj),
       });
     }
     return;
@@ -99,15 +114,20 @@ if (action === "delete") {
   ]);
 
   allKeys.forEach((key) => {
-    console.log(key);
     const oldVal = oldObj ? oldObj[key] : undefined;
     const newVal = newObj ? newObj[key] : undefined;
 
     if (typeof newVal === "object" || typeof oldVal === "object") {
-      getAssociationKey(association, oldVal, newVal, key ? key : parentKey, action);
+      getAssociationKey(
+        association,
+        oldVal,
+        newVal,
+        key ? key : parentKey,
+        action,
+      );
     } else {
       association.push({
-        name: key ? key:"value",
+        name: key ? key : "value",
         oldValue: oldVal === undefined ? null : String(oldVal),
         newValue: newVal === undefined ? null : String(newVal),
       });
