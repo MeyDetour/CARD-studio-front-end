@@ -184,13 +184,12 @@ let eventsWithCurrentValueInput = [];
       } else {
         // si ca existe
 
-        // verifier les clés
-        // verifier les clés
-        for (let key of Object.keys(event)) {
+        // verifier les clés 
+        for (let key of Object.keys(wve)) {
           if (
-            event[key] == undefined ||
-            event[key] === null ||
-            event[key] === ""
+            wve[key] == undefined ||
+            wve[key] === null ||
+            wve[key] === ""
           ) {
             alertList.push(
               event.id + "|event|missingValueForKey-" + key + "|alert",

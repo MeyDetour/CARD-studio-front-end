@@ -21,12 +21,13 @@ import {
   parserGetPartsOfExpression,
   parserGetPartsOfComparaison,
   parserGetPartsOfVariable,
+  parserGetPartsOfFunction,
   parserGetTypeReturn
 } from "./parser.js";
 
 export default function ExpressionEditor({ gameData }) {
   const {t} = useTranslation();
-  const [expression, setExpression] = useState(
+  const [expression, setExpression] = useState( localStorage.getItem("expressionEditorCurrentExpression") ||
     "exp(comp({playerBoucle#attachedEventForTour};notContain;<<skipPlayerTour>>)&&comp({playerBoucle};differentPlayer;{currentPlayer}))",
   );  
   return (
@@ -50,6 +51,7 @@ export default function ExpressionEditor({ gameData }) {
           ]}
           onChangeFunction={(value) => {
             setExpression(value);
+            localStorage.setItem("expressionEditorCurrentExpression", value);
           }}
         />
       </div>
@@ -83,7 +85,19 @@ function getDecompositionTree(exp, depth = 0) {
       <span>{parserGetTypeTextual(exp)}</span>
       {(() => {
         switch (parserGetType(exp)) {
-          case "expression":
+          case "function":
+            let innerContent = parserGetPartsOfFunction(exp);
+            return (
+              <>
+                <span className="part-label">
+                  <span className="letter">Argument : </span>
+                  {innerContent}
+                  </span> 
+                   {getDecompositionTree(innerContent, depth + 1)}
+               
+              </>
+            );
+             case "expression":
             let partsExpression = parserGetPartsOfExpression(exp);
             return (
               <>

@@ -29,6 +29,14 @@ export const useDynamicEntitySuggestions = (
       label: "len(a)",
       types: ["number"],
       return :"number"
+    });  suggestions.push({
+      label: "exist(a)",
+      types: ["boolean"],
+      return :"boolean"
+    });  suggestions.push({
+      label: "not(a)",
+      types: ["boolean"],
+      return :"boolean"
     });
     suggestions.push({
       label: "startOfGame",

@@ -232,11 +232,7 @@ export default function DemonSubpage({
               />
               {currentDemon.events && (
                 <DragAndDropSortList
-                  removeItem={(position) => { 
-                    let newEvents = [...currentDemon.events];
-                    newEvents.splice(position, 1); 
-                    setCurrentDemon( updateElementValue("events", currentDemon, newEvents,"replace") );
-                  }} 
+                 
                   itemsDefault={currentDemon.events.map((eventId) =>
                     events.find((e) => e.id === eventId),
                   )}

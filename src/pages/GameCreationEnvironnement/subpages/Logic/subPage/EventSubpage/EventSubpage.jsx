@@ -375,12 +375,12 @@ export default function EventSubpage({
                                   : {t("theValueAskedToPlayerToPlayThisAction")}
                                 </li>
                               )}
-                                  <li>
-                            <span className="variableName">
-                              {"{currentPlayer}"}
-                            </span>
-                            : {t("theCurrentPlayerObject")}
-                          </li>
+                              <li>
+                                <span className="variableName">
+                                  {"{currentPlayer}"}
+                                </span>
+                                : {t("theCurrentPlayerObject")}
+                              </li>
                             </ul>
                           </b>
                         </span>
@@ -464,8 +464,8 @@ export default function EventSubpage({
                 <Alert
                   messages={[
                     currentEvent.id +
-                      "|event|eventHaveFromElementButNoFor|warning", currentEvent.id +
-                      "|event|elementsGivesButNoFor",
+                      "|event|eventHaveFromElementButNoFor|warning",
+                    currentEvent.id + "|event|elementsGivesButNoFor",
                   ]}
                   alertList={alertList}
                 ></Alert>
@@ -729,7 +729,6 @@ export default function EventSubpage({
                     )}
                   </DetailContainer>
 
-
                   {/* ========== WithValueEvents ============== */}
 
                   {/*N'apparait pas si c'event est un exemple */}
@@ -760,79 +759,49 @@ export default function EventSubpage({
                             { id: value.id, componentId: new Date().getTime() },
                             "new",
                           ),
-                        );
+                        ); 
                       }}
                       closeAfterSelect={true}
                       selected={[t("selectWithValueEvent")]}
                       items={events}
                       itemsDisplayFields={["id", "name"]}
                     />
-                    {currentEvent.event.withValue &&
-                    currentEvent.event.withValue.length > 0 ? (
-                      currentEvent.event.withValue.map(
-                        (withValueEventInputs, index) => {
-                          let originEvent = getEventFromIdAndType(
-                            withValueEventInputs.id,
-                            "event",
-                          );
-                          let keyInputInwithValueEvent =
-                            getDynamicValueForEvent(originEvent);
-                          function remove() {
-                            setCurrentEvent(
-                              updateValueArray(
-                                "event.withValue",
-                                currentEvent,
-                                withValueEventInputs,
-                                "delete",
-                                { newIdKey: "componentId" },
-                              ),
+
+                    {currentEvent?.event?.withValue ? (
+                      <DragAndDropSortList
+                        itemsDefault={currentEvent.event.withValue.map(
+                          (withValueEventInputs) => {
+                            const foundEvent = events.find(
+                              (e) => e.id === withValueEventInputs.id,
                             );
-                          }
-                          return (
-                            <WithValueEventCard
-                              key={index}
-                              actionOnRemove={remove}
-                              action={() => {
-                                if (!originEvent) {
-                                  remove();
-                                }
-                              }}
-                              withValueEvent={
-                                originEvent
-                                  ? originEvent
-                                  : { name: t("withValueEventDoesnotExist") }
-                              }
-                              alertMessages={[
-                                withValueEventInputs.id +
-                                  "|withValueEvent|" +
-                                  "withValueEventDoesnotExist|alert",
-                                currentEvent.id +
-                                  "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert",
-                              ]}
-                              className="withValueEventEdition"
-                              withValueEventInputs={withValueEventInputs}
-                              withValueEventKeys={keyInputInwithValueEvent}
-                              modifyKeyValue={(path, value) => {
-                                setCurrentEvent(
-                                  updateValueArray(
-                                    "event.withValue",
-                                    currentEvent,
-                                    updateElementValue(
-                                      path,
-                                      withValueEventInputs,
-                                      value,
-                                    ),
-                                    {
-                                      newIdKey: "componentId",
-                                    },
-                                  ),
-                                );
-                              }}
-                              suggestions={suggestions}
-                            ></WithValueEventCard>
+
+                            return {
+                              ...foundEvent,
+                              originalWithValue: withValueEventInputs,
+                            };
+                          },
+                        )}
+                        onChangeItems={(newItems) => {
+                          const cleanedItems = newItems.map((item) => {
+                            if (item.originalWithValue) {
+                              return item.originalWithValue;
+                            }
+                            return { id: item.id };
+                          });
+
+                          setCurrentEvent(
+                            updateElementValue(
+                              "event.withValue",
+                              currentEvent,
+                              cleanedItems,
+                              {
+                                newIdKey: "componentId",
+                              },
+                            ),
                           );
-                        },
-                      )
+                        }}
+                        type="Demon"
+                      />
                     ) : (
                       <span className="normalText">{t("noEventToCall")}</span>
                     )}

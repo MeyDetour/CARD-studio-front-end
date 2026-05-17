@@ -801,6 +801,38 @@ export const expressionList = [
     returns: { type: "any", description: "Élément choisi" },
     examples: [ "randomChoice(['pierre', 'feuille', 'ciseaux']) -> ex : 'pierre'", "randomChoice(['pierre', 'feuille', 'ciseaux']) -> ex : 'ciseaux'"
     ],
+  }, {
+    nameKey: "ifExist",
+    categories: ["Function","Boolean"],
+    descriptionKey: "returnTrueIfTheTargetExist",
+    syntax: "exist(liste)",
+    inputs: [
+      {
+        name: "liste",
+        type: "array",
+        description: "Liste d'éléments",
+        required: true,
+      },
+    ],
+    returns: { type: "boolean", description: "Retourne true si l'élément existe" },
+    examples: [ "exist({topDiscardDeck}) -> true", "exist(null) -> false"
+    ],
+  },{
+    nameKey: "getOppositeBoolean",
+    categories: ["Function","Boolean"],
+    descriptionKey: "getOppositeBooleanDescription",
+    syntax: "not(boolean)",
+    inputs: [
+      {
+        name: "boolean",
+        type: "boolean",
+        description: "Valeur booléenne",
+        required: true,
+      },
+    ],
+    returns: { type: "boolean", description: "Retourne l'opposé de la valeur booléenne" },
+    examples: [ "not(true) -> false", "not(false) -> true"
+    ],
   },
 
   // CONDITIONS
