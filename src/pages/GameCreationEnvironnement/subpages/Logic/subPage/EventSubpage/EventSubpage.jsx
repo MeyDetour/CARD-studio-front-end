@@ -33,6 +33,7 @@ import EventCard from "../../../../../../components/Cards/EventCard/EventCard.js
 import WithValueEventCard from "../../../../../../components/Cards/WithValueEventCard/WithValueEventCard.jsx";
 import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
+import ExpressionInput from "../../../../../../components/ExpressionInput/ExpressionInput.jsx";
 
 export default function EventSubpage({
   events,
@@ -394,6 +395,22 @@ export default function EventSubpage({
                   defaultValue={currentEvent.condition ?? ""}
                   disabled={isInExampleMode}
                   pathInObject="condition"
+                  isExpression={true}
+                  suggestions={suggestions.filter(
+                    (s) => !s.label.includes("{playerBoucle"),
+                  )}
+                  onChangeFunction={(path, value) => {
+                    setCurrentEvent(
+                      updateElementValue(path, currentEvent, value),
+                    );
+                  }}
+                /> <ExpressionInput
+                  title="activationCondition"
+                  description="activationConditionDescription"
+                  defaultValue={currentEvent.condition ?? ""}
+                  disabled={isInExampleMode}
+                  pathInObject="condition"
+                  isExpression={true}
                   suggestions={suggestions.filter(
                     (s) => !s.label.includes("{playerBoucle"),
                   )}
@@ -410,6 +427,7 @@ export default function EventSubpage({
                   defaultValue={currentEvent.loadMessage ?? ""}
                   pathInObject="loadMessage"
                   disabled={isInExampleMode}
+                  isExpression={true}
                   onChangeFunction={(path, value) => {
                     setCurrentEvent(
                       updateElementValue(path, currentEvent, value),
@@ -477,6 +495,8 @@ export default function EventSubpage({
                   disabled={
                     (disabledFields && disabledFields.from) || isInExampleMode
                   }
+
+                  isExpression={true}
                   suggestions={
                     currentEvent.boucle
                       ? suggestions
@@ -498,6 +518,7 @@ export default function EventSubpage({
                   disabled={
                     (disabledFields && disabledFields.for) || isInExampleMode
                   }
+                  isExpression={true}
                   suggestions={(() => {
                     // on récupere l'element sélectionné et on récupère son type
                     // afin que les deux soient du même type

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 // Helpers
 import { getSugggestionForPlayer } from "../../../../helpers/suggestions";
-import { verifyExpressionSyntax } from "./parser.js";
+import { verifyExpressionSyntax } from "../../../../helpers/parser.js";
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
@@ -23,7 +23,7 @@ import {
   parserGetPartsOfVariable,
   parserGetPartsOfFunction,
   parserGetTypeReturn
-} from "./parser.js";
+} from "../../../../helpers/parser.js";
 
 export default function ExpressionEditor({ gameData }) {
   const {t} = useTranslation();

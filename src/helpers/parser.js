@@ -29,6 +29,31 @@ export function parserGetTypeReturn(exp) {
     return "str";
   }
 }
+export function parserGetColor(type) { 
+  if (type == "bool" || type == "string" || type == "int") {
+    return type;
+  }
+  if (type == "expression") {
+    return "hsla(260, 50%, 60%, 1)";
+  } else if (type == "calcul") {
+    return "magenta";
+  } else if (type == "comparaison") {
+    return "violet";
+  } else if (type == "variable") {
+    return "rgb(168 113 4)"; 
+  } else if (type == "function") {
+    return "hsla(200, 70%, 45%, 1)";
+ 
+  } else if (type == "valeur") {
+    return "hsla(170, 70%, 45%, 1)";
+  } else if (type == "evenement spécial") {
+    return "grey";
+  } else if (type == "boolean") {
+    return "#f6f6f6";
+  } else {
+    return "hsla(130, 70%, 45%, 1)";
+  }
+}
 export function parserGetTypeTextual(exp) {
   let type = parserGetType(exp);
   if (type == "bool" || type == "string" || type == "int") {

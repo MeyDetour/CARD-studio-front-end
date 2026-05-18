@@ -16,6 +16,7 @@ export default function Input({
   max = null,
   min = null,
   hint,
+  isExpression=false,
   onChangeFunction,
   suggestions = [],
   deactivateTitleTranslation = false,

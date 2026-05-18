@@ -187,6 +187,7 @@ export default function DemonSubpage({
               ></Alert>
 
               <Input
+                  isExpression={true}
                 title="condition"
                 suggestions={
                   currentDemon.boucle
@@ -195,6 +196,7 @@ export default function DemonSubpage({
                         (s) => !s.label.includes("{playerBoucle"),
                       )
                 }
+                  isExpression={true}
                 description="condition"
                 defaultValue={currentDemon.condition}
                 pathInObject="condition"
