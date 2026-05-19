@@ -493,7 +493,7 @@ export default function GameCreationEnvironnement() {
                 <ActivityLog
                   game={game}
                   user={user}
-                  editUserHandler={editUserHandler}
+                  editUcardsCountserHandler={editUserHandler}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
                 />

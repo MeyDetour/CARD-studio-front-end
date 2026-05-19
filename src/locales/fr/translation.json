@@ -295,7 +295,12 @@
   "useWithValueEvent": "Utiliser un événement ",
    "variablesReturnedByThisAction": "Variables returned by this action",
  "variablesReturnedByThisActionDescription": "When this action is executed, it can return specific variables that can be used in other parts of the game. For example, if you have an action that allows a player to draw a card, it could return the drawn card as a variable that can then be used in subsequent events or actions.",
-
+"quantity": "Quantité",
+"fixBrokenCards": "Réparer les cartes cassées",
+  "fixYouBrokenCardByDeleteThem": "Réparez votre carte cassée en la supprimant",
+ "fix": "Réparer",
+ "doYouRealyWantToDeleteBrokenCards": "Voulez-vous vraiment supprimer ces cartes cassées ?",
+ "middleCardsRendering": "Affichage des cartes du milieu",
  "numberMinOfCardToSelectDescription": "Nombre minimum de cartes que le joueur doit sélectionner pour jouer cette action. Si le joueur sélectionne moins que ce nombre, il ne pourra pas jouer l'action.",
  "numberMaxOfCardToSelectDescription": "Nombre maximum de cartes que le joueur peut sélectionner pour jouer cette action. Si le joueur sélectionne plus que ce nombre, il ne pourra pas jouer l'action.",
  "eventsAndTriggersManagementTitle": "Gestion des événements et déclencheurs",

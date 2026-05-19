@@ -281,6 +281,7 @@ export default function CardsManagementSettings({
                     attributKey ? "addedAttributs." + attributKey : null
                   }
                   onChangeFunction={(path, value) => {
+                    value = value.replaceAll(" ", "_");
                     const newAttributs = {
                       ...(gameData.cardParams.addedAttributs ?? {}),
                     };

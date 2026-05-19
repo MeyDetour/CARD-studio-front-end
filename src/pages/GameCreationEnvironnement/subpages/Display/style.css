@@ -3,69 +3,170 @@
     display: flex;
     flex-direction: column;
     gap: var(--padding-container);
-    .menu-rendering-wrapper {
+
+    > .basicContainer {
       width: 100%;
       display: flex;
-      flex-direction: row;
-      gap: var(--padding-container);
-      justify-content: space-between;
-      > * {
-        width: 32%;
-      }
-      > .basicContainer.selectCard {
-        position: relative;
-        cursor: pointer;
-        .selectRound {
-          width: 13px;
-          height: 13px;
-          aspect-ratio: 1/1;
-          border-radius: 50%;
-          border: 1px solid #80808091;
-          box-shadow: 0 0 5px 0 #80808036;
-          position: relative;
-        }
-        .title {
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      .col {
+        width: 46%;
+
+        .menu-rendering-wrapper {
           display: flex;
-          flex-direction: row;
-          gap: 15px;
-          justify-content: start;
+          flex-direction: column;
           width: 100%;
-        }
-        .cardAgencement {
-         
-                    display: flex;
-                    flex-direction: row;
-                    gap: 5px;
-                    justify-content: space-between;
-                    width: 100%;
-                    padding-inline: 25px;
-                    box-sizing: border-box;
+
+          gap: var(--padding-container);
+          justify-content: space-between;
           .row {
             display: flex;
             flex-direction: row;
-            gap: 10px;
-            margin-bottom: 10px;
+            justify-content: space-between;
+            gap: var(--padding-container);
           }
-          .card {
-            aspect-ratio: 1 / 1.4;
-            background: linear-gradient(45deg, #d3cffe, #969696);
-            border-radius: 5px;
+          > * {
+            width: 100%;
           }
+          > .basicContainer.selectCard {
+            position: relative;
+            width: 100%;
+            cursor: pointer;
+            padding-left: 60px;
+            .selectRound {
+              position: absolute;
+              left: 24px;
+              width: 13px;
+              height: 13px;
+              aspect-ratio: 1/1;
+              border-radius: 50%;
+              border: 1px solid #80808091;
+              box-shadow: 0 0 5px 0 #80808036;
+            }
+            .title {
+              display: flex;
+              flex-direction: row;
+              gap: 15px;
+              justify-content: start;
+              width: 100%;
+            }
+            .row {
+              > div {
+                width: 60%;
+              }
+            }
+            .cardAgencement {
+              width: 41%;
 
+              display: flex;
+              flex-direction: row;
+              gap: 5px;
+              justify-content: end;
+
+              box-sizing: border-box;
+              .row {
+                width: fit-content;
+                display: flex;
+                flex-direction: row;
+                justify-content: end;
+                gap: 5px;
+                margin-bottom: 5px;
+              }
+              .card {
+                aspect-ratio: 1 / 1.4;
+                background: linear-gradient(45deg, #d3cffe, #969696);
+                border-radius: 5px;
+                width: 32px;
+              }
+            }
+            .cardAgencement.cardAgencementGrid {
+              flex-direction: column;
+              align-items: end;
+              width: fit-content;
+            }
+            .selected::before {
+              content: "";
+              position: absolute;
+              width: 80%;
+              height: 80%;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              border-radius: 50%;
+              background-color: var(--violet);
+            }
+          }
         }
-        .cardAgencement.cardAgencementGrid {
-          flex-direction: column;
-        }  
-        .selected::before {
-          content: "";
+      }
+
+      .gamePlay {
+        width: 50%;
+
+        height: 100%;
+        border-radius: 30px;
+        overflow: hidden;
+        background:
+          linear-gradient(135deg, #006243 0%, #007c52 50%, #00513a 100%), #fff;
+
+        position: relative;
+
+        box-shadow:
+          0 1px 3px 0 rgba(0, 0, 0, 0.1),
+          0 1px 2px -1px rgba(0, 0, 0, 0.1),
+          inset 0 0 21px -6px black;
+        .table {
           position: absolute;
-          width: 80%;
-          height: 80%;
-          top: 50%;
           left: 50%;
+          top: 47%;
           transform: translate(-50%, -50%);
-          border-radius: 50%;
-          background-color: var(--violet);
+          width: 70%;
+          height: 40%;
+          border-radius: 45px;
+          background: #009f72;
+          box-shadow: 0 0 20.271px 0 rgba(0, 0, 0, 0.25);
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          .center {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+            padding-inline: 8%;
+            box-sizing: border-box;
+            z-index: 1;
+  .cardAgencement.cardAgencementGrid {
+              flex-direction: column;
+              align-items: end;
+              width: fit-content;
+            }
+            .cardAgencement {
+              width: 41%;
+
+              display: flex;
+              flex-direction: row;
+              gap: 5px;
+              justify-content: end;
+
+              box-sizing: border-box;
+              .row {
+                width: fit-content;
+                display: flex;
+                flex-direction: row;
+                justify-content: end;
+                gap: 5px;
+                margin-bottom: 5px;
+              }
+              .card {
+                aspect-ratio: 1 / 1.4;
+                background: linear-gradient(45deg, #d3cffe, #969696);
+                border-radius: 5px;
+                width: 32px;
+              }
+            }
+          }
         }
       }
     }

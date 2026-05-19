@@ -834,9 +834,10 @@ export default function RoundsPage({
                   }}
                 >
                   <Alert
-                    messagse={[action.id + "|action"]}
+                    messages={[action.id + "|action"]}
                     alertList={alertList}
                   ></Alert>
+                  
                   <span>{splitText(action.name, 20)}</span>
                 </div>
               );

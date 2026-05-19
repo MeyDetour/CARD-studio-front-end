@@ -21,7 +21,7 @@ export default function AssetsBookshelf({
   updateGameValueArray,
   updateGameValue, 
 }) {  
-  const [subPage, setSubpage] = useState("cardsTab");
+  const [subPage, setSubpage] = useState("palettesTab");
   const [selectedType, setSelectedType] = useState([]);
   const navigate = useNavigate();
 
@@ -37,26 +37,13 @@ export default function AssetsBookshelf({
       <SearchBar placeholder="searchInLibraryPlaceholder" />
 
       <SubNavigationBar
-        buttons={{
-          cardsTab: () => setSubpage("cardsTab"),
+        buttons={{ 
           palettesTab: () => setSubpage("palettesTab"),
           templatesTab: () => setSubpage("templatesTab"),
         }}
         page={subPage}
       />
-      {subPage == "cardsTab" && (
-        <div>
-          {gameData.cards &&
-            Object.keys(gameData.cards).map((id,index) => {
-              let card = gameData.cards[id];
-              return (
-                <div className="card" key={index}>
-                  {card.name && <span>{card.name}</span>}
-                </div>
-              );
-            })}
-        </div>
-      )}
+      n
        {subPage == "palettesTab" && (
         <div className="wrapper">
            {gameData.colors &&

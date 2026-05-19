@@ -3,10 +3,17 @@ export default function DefaultCard({ card, setCurrentCard  , classAdded , isSel
   //  { id: "1", suit: "hearts", value: "9", faceUp: true },
 
   if (!card) {
-    return "PLEASE PROVIDE CARD";
+    return (
+      <div className={`defaultCardOfGame `}>
+       PLEASE PROVIDE CARD
+      </div>
+    );
   }
   if (!card.value || !card.addedAttributs) {
-    return "PLEASE PROVODE SUIT";
+    return (
+      <div className={`defaultCardOfGame `}> PLEASE PROVIDE SUIT
+      </div>
+    );
   }
   const color =
     card.addedAttributs?.couleur === "coeur" ||

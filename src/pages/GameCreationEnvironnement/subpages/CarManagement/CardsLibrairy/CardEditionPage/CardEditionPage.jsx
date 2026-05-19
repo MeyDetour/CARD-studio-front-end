@@ -60,7 +60,7 @@ export default function CardEditionPage({
       displayError(t("FailedToUploadImage"));
     }
     const serverImageUrl = result.url;
-    setCurrentCard((prev) => updateElementValue("image", prev, serverImageUrl));
+    setCurrentCard(result);
     return result;
   }
   return (
@@ -192,16 +192,7 @@ export default function CardEditionPage({
       </div>
 
       <div className="basicContainer">
-        {/* ===========NUMBER======= */}
-        <Input
-          type="number"
-          title="cardValue"
-          defaultValue={currentCard.value ?? ""}
-          pathInObject="value"
-          onChangeFunction={(path, value) => {
-            setCurrentCard(updateElementValue(path, currentCard, value));
-          }}
-        />
+     
         {/* ===========TYPE======= */}
         <InputSelect
           title="typeCard"
@@ -213,8 +204,7 @@ export default function CardEditionPage({
                 "addedAttributs.couleur",
                 newCard,
                 null,
-              );
-              newCard = updateElementValue("value", newCard, null);
+              ); 
             }
             if (
               newCard.type == "french_standard" &&
@@ -224,8 +214,7 @@ export default function CardEditionPage({
                 "addedAttributs.couleur",
                 newCard,
                 "pique",
-              );
-              newCard = updateElementValue("value", newCard, 1);
+              ); 
             }
             setCurrentCard(newCard);
           }}
@@ -250,7 +239,16 @@ export default function CardEditionPage({
             }
             items={["trefle", "coeur", "carreau", "pique"]}
           />
-        )}
+        )}   {/* ===========QUANTITY======= */}
+        <Input
+          type="number"
+          title="quantity"
+          defaultValue={currentCard.quantity ?? ""}
+          pathInObject="quantity"
+          onChangeFunction={(path, value) => {
+            setCurrentCard(updateElementValue(path, currentCard, value));
+          }}
+        />
       </div>
       {/* ========== METADATA ============== */}
       <div className="basicContainer">

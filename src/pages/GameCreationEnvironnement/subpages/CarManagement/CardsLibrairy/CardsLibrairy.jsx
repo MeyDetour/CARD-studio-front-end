@@ -1,5 +1,5 @@
 // External libraries
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, act } from "react";
 import { useTranslation } from "react-i18next";
 import { SelectionArea } from "@viselect/react";
 
@@ -29,6 +29,7 @@ import CardEditionPage from "./CardEditionPage/CardEditionPage";
 import DefaultCard from "./DefaultCard/DefaultCard";
 import ImageUploadFileContainer from "../../../../../components/ImageUploadFileContainer/ImageUploadFileContainer";
 import CustomCard from "./CustomCard/CustomCard";
+import { set } from "react-hook-form";
 
 export default function CardsLibrairy({
   gameData,
@@ -69,7 +70,13 @@ export default function CardsLibrairy({
       values.add("none");
       result[attrKey] = Array.from(values);
     });
-
+    let values = new Set();
+    Object.values(gameData.cards).forEach((card) => {
+      const val = card.quantity;
+      if (val) values.add(val);
+    });
+    values.add("none");
+    result["quantity"] = Array.from(values);
     return result;
   }, [gameData.cards, gameData.cardParams.addedAttributs]);
   async function uploadZipOfCards(file) {
@@ -132,7 +139,7 @@ export default function CardsLibrairy({
               let id = Date.now();
               let newCard = {
                 id: id,
-                value: 1,
+                quantity: 1,
                 name: t("newCard"),
                 type: "french_standard",
                 addedAttributs: {
@@ -150,7 +157,7 @@ export default function CardsLibrairy({
           ></Button>
         </div>
       </div>
-     
+
       <SelectionArea
         selectionConfig={{
           className: "selection-area", // La classe du rectangle bleu qui va apparaître
@@ -201,6 +208,20 @@ export default function CardsLibrairy({
             selected={filters.type ?? []}
             items={["french_standard", "custom"]}
           />
+          <InputSelect
+            title="quantity"
+            closeAfterSelect={true}
+            updateValueArray={(path, value) => {
+              setFilters((prev) => updateValueArray(path, prev, value));
+            }}
+            pathObject="quantity"
+            selected={filters.quantity ?? []}
+            items={
+              suggestionsForAttributs
+                ? suggestionsForAttributs["quantity"] || []
+                : []
+            }
+          />
           {gameData.cardParams.addedAttributs &&
             Object.keys(gameData.cardParams.addedAttributs).map(
               (attributKey, key) => (
@@ -250,9 +271,20 @@ export default function CardsLibrairy({
                   break;
                 }
               }
+              if (filterKey === "quantity" && !isHidden) {
+                // si la quantité n'est pas requise, ou si il y a une correspondance entre la quantité de la carte et les filtres actifs, on ne cache pas la carte
+                if (
+                  (!activeFilters.includes(card.quantity) &&
+                    card.quantity != null) ||
+                  (card.quantity == null && !activeFilters.includes("none"))
+                ) {
+                  isHidden = true;
+                  break;
+                }
+              }
 
               //filtres sur les attributs comme addedAttributs.couleur=pique
-              if (filterKey === "addedAttributs") {
+              if (filterKey === "addedAttributs" && !isHidden) {
                 for (let attrKey of Object.keys(activeFilters)) {
                   const selectedValues = activeFilters[attrKey];
 
@@ -352,6 +384,30 @@ export default function CardsLibrairy({
               items={["trefle", "coeur", "carreau", "pique"]}
             />
           )}
+          <Input
+            type="number"
+            title="quantity"
+            defaultValue={multipleEdit?.quantity ?? ""}
+            pathInObject="quantity"
+            onChangeFunction={(path, value) => {
+              for (let key of selected) {
+                updateGameValue(
+                  "assets.cards." + key,
+                  updateElementValue(path, gameData.cards[key], value),
+                );
+                addItem(
+                  gameData.id,
+                  createHistoryElement("cards", "edit", {
+                    id: key,
+                  }),
+                );
+              }
+              setMultipleEdit((prev) => ({
+                ...prev,
+                quantity: value,
+              }));
+            }}
+          />
           {/* ===========added attributes======= */}
           {gameData.cardParams.addedAttributs &&
             Object.keys(gameData.cardParams.addedAttributs).map(
@@ -418,6 +474,37 @@ export default function CardsLibrairy({
           </div>
         </div>
       )}
+      <div className="basicContainer basicWarningContainer  ">
+        <TitleContainer
+          title={"fixBrokenCards"}
+          type="h2"
+          description={"fixYouBrokenCardByDeleteThem"}
+        />
+
+        <Button
+          text={"fix"}
+          type={"redButton"}
+          action={async () => {
+            if (confirm(t("doYouRealyWantToDeleteBrokenCards"))) {
+              let newCards = { ...gameData.cards };
+              for (let cardId of Object.keys(gameData.cards)) {
+                let card = gameData.cards[cardId];
+                if (!card || !card.id || !card.type||!card.url ) {
+                  delete newCards[cardId];
+                }
+              }
+              console.log(newCards);
+              updateGameValue("assets.cards", newCards);
+              addItem(
+                gameData.id,
+                createHistoryElement("cards", "delete", {
+                  id: Object.keys(newCards).join(","),
+                }),
+              );
+            }
+          }}
+        ></Button>
+      </div>
       <div className="basicContainer basicRedContainer  ">
         <TitleContainer
           title={"restoreCards"}
