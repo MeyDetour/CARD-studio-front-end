@@ -479,6 +479,10 @@
   "getOppositeBooleanDescription": "This function takes a boolean value (true or false) as input and returns the opposite value. For example, if you input true, the function will return false, and vice versa. This can be useful for inverting conditions or states in your game.",
  "fixBrokenCards": "Fix broken cards",
  "fix": "Fix",
+ "display-middleCards": "Display middle cards",
+ "display-middleCards-description": "Enable this option to display the middle cards during the game. Middle cards are typically used in card games to represent elements common to all players, such as a draw pile, a central play area, or action cards available to all participants.",
+ 
+ "middleCards": "Middle cards",
  "middleCardsRendering": "Middle cards rendering",
  "doYouRealyWantToDeleteBrokenCards": "Do you really want to delete broken cards?",
   "fixYouBrokenCardByDeleteThem": "Fix your broken card by deleting it",
