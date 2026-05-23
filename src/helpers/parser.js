@@ -267,3 +267,72 @@ export function verifyExpressionSyntax(str) {
 
   return true;
 }
+
+export function applyColorationParser(){
+   let text = "";
+      let listOfText = [];
+      let listOpen = []; // Stocke directement les chaînes de caractères (ex: "function")
+  
+      for (let i = 0; i < str.length; i++) {
+        let c = str[i];
+        let c1 = str[i + 1];
+        if (
+          (c === "|" && c1 === "|") ||
+          (c === "&" && c1 === "&") ||
+          (c === ">" && c1 === ">")
+        ) {
+          if (text.trim() !== "") {
+            let type = parserGetType(text);
+            listOfText.push({
+              type: type,
+              color: parserGetColor(type),
+              text: text,
+            });
+          }
+  
+          let op = c + c1;
+          let typeOp = c === ">" ? parserGetType(op) : "expression";
+          listOfText.push({
+            type: typeOp,
+            color: parserGetColor(typeOp),
+            text: op,
+          });
+  
+          text = "";
+          i++;
+          continue;
+        }
+  
+        text += c;
+  
+        if (c === "(" || c === ";" || c === ")" || c === "," || c === "}") {
+          let type = parserGetType(text);
+          let color = parserGetColor(type);
+  
+          if (
+            type === "function" ||
+            type === "expression" ||
+            type === "comparaison"
+          ) {
+            listOpen.push(type);
+          }
+  
+          if (c === ")" && listOpen.length > 0) {
+            let elementFermeture = listOpen.pop(); // Récupère la chaîne directement
+            type = elementFermeture; // Plus de ".type" obsolète
+            color = parserGetColor(type);
+          }
+  
+          listOfText.push({ type: type, color: color, text: text });
+          text = "";
+        }
+      }
+  
+      if (text.trim() !== "") {
+        let type = parserGetType(text);
+        listOfText.push({ type: type, color: parserGetColor(type), text: text });
+      }
+  
+      console.log(listOfText);
+      return listOfText;
+}

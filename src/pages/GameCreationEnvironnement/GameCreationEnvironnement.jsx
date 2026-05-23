@@ -44,6 +44,7 @@ import Gains from "./subpages/Gains/Gains.jsx";
 import Outils from "./subpages/Outils/Outils.jsx";
 import ExpressionEditor from "./subpages/ExpressionEditor/ExpressionEditor.jsx";
 import ExpressionDocumentation from "./subpages/Documentation/ParserDocumentation/ExpressionDocumentation.jsx";
+import Roles from "./subpages/Roles/Roles.jsx";
 
 // Hooks
 import { useApi } from "../../hooks/useApi";
@@ -504,6 +505,14 @@ export default function GameCreationEnvironnement() {
                   gameData={{
                     id: game.id,
                     suggestions: suggestions,
+                  }}
+                />
+              );
+            case "roles":
+              return (
+                <Roles
+                  gameData={{ 
+                    roles: game.assets.roles,
                   }}
                 />
               );

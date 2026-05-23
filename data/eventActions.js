@@ -103,7 +103,7 @@ export const eventActions = [
   {
     label: "skipPlayerTour",
     tooltip: "skipPlayerTourDescription",
-    lonelyField: true,
+    necessiteValue: true,
     types: ["action"],
   },
 ];

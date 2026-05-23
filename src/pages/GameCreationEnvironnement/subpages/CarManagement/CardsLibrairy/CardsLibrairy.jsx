@@ -30,6 +30,7 @@ import DefaultCard from "./DefaultCard/DefaultCard";
 import ImageUploadFileContainer from "../../../../../components/ImageUploadFileContainer/ImageUploadFileContainer";
 import CustomCard from "./CustomCard/CustomCard";
 import { set } from "react-hook-form";
+import SearchBar from "../../../../../components/SearchBar/SearchBar";
 
 export default function CardsLibrairy({
   gameData,
@@ -47,6 +48,7 @@ export default function CardsLibrairy({
   const [filters, setFilters] = useState({});
   const { alertList } = useNotificationContext();
   const { restoreCards } = useGameContext();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { displayError } = useNotificationContext();
   useEffect(() => {
@@ -198,6 +200,13 @@ export default function CardsLibrairy({
       >
         <TitleContainer title="filterCards" type="h2"></TitleContainer>
         <div className="row filterCardsInput">
+          <SearchBar
+            callback={(value) => {
+              setSearchTerm(value);
+            }}
+            placeholder="searchInLibraryPlaceholder"
+          />
+
           <InputSelect
             title="type"
             closeAfterSelect={true}
@@ -254,6 +263,9 @@ export default function CardsLibrairy({
             const card = gameData.cards[key];
             let isHidden = false;
 
+            if (searchTerm && !JSON.stringify(card).includes(searchTerm)){
+              isHidden = true
+            }
             // verifier les filtres
             for (let filterKey of Object.keys(filters)) {
               const activeFilters = filters[filterKey];
@@ -489,7 +501,7 @@ export default function CardsLibrairy({
               let newCards = { ...gameData.cards };
               for (let cardId of Object.keys(gameData.cards)) {
                 let card = gameData.cards[cardId];
-                if (!card || !card.id || !card.type||!card.url ) {
+                if (!card || !card.id || !card.type || !card.url) {
                   delete newCards[cardId];
                 }
               }

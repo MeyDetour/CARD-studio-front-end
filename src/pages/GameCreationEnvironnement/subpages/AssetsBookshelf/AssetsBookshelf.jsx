@@ -43,7 +43,7 @@ export default function AssetsBookshelf({
         }}
         page={subPage}
       />
-      n
+      
        {subPage == "palettesTab" && (
         <div className="wrapper">
            {gameData.colors &&

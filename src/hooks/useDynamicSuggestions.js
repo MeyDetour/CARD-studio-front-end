@@ -121,6 +121,10 @@ export const useDynamicEntitySuggestions = (
       label: "{deck}",
       types: ["cardList"],  
       return :"array"
+    });  suggestions.push({
+      label: "{middleDeck}",
+      types: ["cardList"],  
+      return :"array"
     });
     suggestions.push({
       label: "allPlayersHasPlayed/endOfTour",

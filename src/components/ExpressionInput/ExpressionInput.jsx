@@ -52,62 +52,11 @@ export default function ExpressionInput({
     }
     return value;
   };
-  function getColorationList(str) {
-  let text = "";
-  let listOfText = [];
-  let listOpen = []; // Stocke directement les chaînes de caractères (ex: "function")
-
-  for (let i = 0; i < str.length; i++) {
-    let c = str[i];
-    let c1 = str[i + 1]; 
-    if ((c === "|" && c1 === "|") || (c === "&" && c1 === "&") || (c === ">" && c1 === ">")) {
-        if (text.trim() !== "") {
-        let type = parserGetType(text);
-        listOfText.push({ type: type, color: parserGetColor(type), text: text });
-      }
-      
-       let op = c + c1;
-      let typeOp = (c === ">") ? parserGetType(op) : "expression"; 
-      listOfText.push({ type: typeOp, color: parserGetColor(typeOp), text: op });
-      
-      text = "";
-      i++;  
-      continue;
-    }
  
-    text += c;
- 
-    if (c === "(" || c === ";" || c === ")" || c === "," || c === "}") {
-      let type = parserGetType(text);
-      let color = parserGetColor(type);
- 
-      if (type === "function" || type === "expression" || type === "comparaison") {
-        listOpen.push(type);  
-      }
- 
-      if (c === ")" && listOpen.length > 0) { 
-        let elementFermeture = listOpen.pop(); // Récupère la chaîne directement
-         type = elementFermeture; // Plus de ".type" obsolète
-        color = parserGetColor(type);
-      }
- 
-      listOfText.push({ type: type, color: color, text: text });
-      text = "";
-    }
-  }
- 
-  if (text.trim() !== "") {
-    let type = parserGetType(text);
-    listOfText.push({ type: type, color: parserGetColor(type), text: text });
-  }
-
-  console.log(listOfText);
-  return listOfText;
-}
   return (
     <div
       style={type == "input" && hint ? { marginBottom: "20px" } : null}
-      className={`input ${type} ${disabled ? "disabled" : ""}`}
+      className={`input ${type} expressionInput ${disabled ? "disabled" : ""}`}
     >
       <TitleContainer
         type="normalText"
@@ -115,16 +64,22 @@ export default function ExpressionInput({
         description={description}
         deactivateTitleTranslation={deactivateTitleTranslation}
       />
-      <input
+      <textarea
         ref={inputRef}
         disabled={disabled}
         readOnly={disabled}
-        onChange={(e) =>
+        onChange={(e) => {
           !disabled &&
-          (pathInObject
-            ? onChangeFunction(pathInObject, e.target.value)
-            : onChangeFunction(e.target.value))
-        }
+            (pathInObject
+              ? onChangeFunction(pathInObject, e.target.value)
+              : onChangeFunction(e.target.value));
+          let search = e.target.value; 
+          let elts = search.split(" ")
+          if (elts.length > 0) {
+            search = elts[elts.length - 1]
+          setSearchInSuggestion(search);
+          }
+        }}
         onFocus={() => setFocused(true)}
         onBlur={(e) => {
           if (
@@ -136,28 +91,11 @@ export default function ExpressionInput({
           setFocused(false);
         }}
         value={defaultValue ?? ""}
-        type="text"
-        placeholder={t(placeholder)}
-      />
-      <textarea
-        onClick={() => setFocused(true)}
-        onChange={(e) => {
-          let search = e.target.value;
-          console.log("search " + search);
-          setSearchInSuggestion(search);
-        }}
-        type="text"
-        placeholder={t("searchExpression")}
-      />
-      <pre>
-        {getColorationList(defaultValue).map((part, index) => {
-          return (
-            <span style={{ color: part.color }} key={index}>
-              {part.text}
-            </span>
-          );
-        })}
-      </pre>
+        type="text" 
+     >
+
+      </textarea> 
+      
       {hint && <span className="hint">{t(hint)}</span>}
       {(() => {
         let newSuggestions = suggestions.filter(

@@ -193,6 +193,8 @@
   "elementManagement": "ELEMENT MANAGEMENT",
   "cardManagement": "Card management",
   "prizesManagement": "Prizes management",
+  "configureRoles": "Configure roles",
+  "roles": "Roles",
   "roleCreation": "Role creation",
   "rolesCount": "Role count",
   "others": "OTHERS",

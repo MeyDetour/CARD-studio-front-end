@@ -389,22 +389,7 @@ export default function EventSubpage({
                   </div>
                 )}
                 {/* ========== CONDITION ============== */}
-                <Input
-                  title="activationCondition"
-                  description="activationConditionDescription"
-                  defaultValue={currentEvent.condition ?? ""}
-                  disabled={isInExampleMode}
-                  pathInObject="condition"
-                  isExpression={true}
-                  suggestions={suggestions.filter(
-                    (s) => !s.label.includes("{playerBoucle"),
-                  )}
-                  onChangeFunction={(path, value) => {
-                    setCurrentEvent(
-                      updateElementValue(path, currentEvent, value),
-                    );
-                  }}
-                /> <ExpressionInput
+                 <Input
                   title="activationCondition"
                   description="activationConditionDescription"
                   defaultValue={currentEvent.condition ?? ""}

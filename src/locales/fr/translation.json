@@ -301,6 +301,9 @@
  "fix": "Réparer",
  "doYouRealyWantToDeleteBrokenCards": "Voulez-vous vraiment supprimer ces cartes cassées ?",
  "display-middleCards": "Afficher les cartes du milieu",
+
+  "configureRoles": "Configure roles",
+  "roles": "Roles",
  "display-middleCards-description": "Activez cette option pour afficher les cartes du milieu pendant la partie. Les cartes du milieu sont généralement utilisées dans les jeux de cartes pour représenter des éléments communs à tous les joueurs, comme une pile de cartes à piocher, une zone de jeu centrale ou des cartes d'action disponibles pour tous les participants.",
  "middleCardsRendering": "Affichage des cartes du milieu",
  "numberMinOfCardToSelectDescription": "Nombre minimum de cartes que le joueur doit sélectionner pour jouer cette action. Si le joueur sélectionne moins que ce nombre, il ne pourra pas jouer l'action.",
