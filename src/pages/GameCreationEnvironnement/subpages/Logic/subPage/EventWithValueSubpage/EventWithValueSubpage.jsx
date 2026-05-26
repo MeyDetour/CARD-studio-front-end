@@ -34,7 +34,7 @@ import EventCard from "../../../../../../components/Cards/EventCard/EventCard.js
 import WithValueEventCard from "../../../../../../components/Cards/WithValueEventCard/WithValueEventCard.jsx";
 export default function CurrentWithValueEventSubpage({
   withValueEvents,
-  demons,
+  triggers,
   events,
   globalPlayerValue,
   suggestions,
@@ -507,7 +507,7 @@ export default function CurrentWithValueEventSubpage({
                 {/* ========== REQUIRE INPUT ============== */}
                 <TitleContainer
                   title="require-input"
-                  description="hereIsAllDemonWichCallThisEvent"
+                  description="hereIsAllTriggerWichCallThisEvent"
                 />
                 <Input
                   title="label"
@@ -593,7 +593,7 @@ export default function CurrentWithValueEventSubpage({
               description={
                 "eventsToEXecuteAfter"
               }
-              className="demonsAssociatedContainer"
+              className="triggersAssociatedContainer"
               topAlert={
                 <>
                   <Alert

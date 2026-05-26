@@ -9,7 +9,7 @@ const GameContext = createContext();
 export function GameProvider({ children }) {
   const { result, fetchData } = useApi();
   const [currentEvent, setCurrentEvent] = useState(null);
-  const [currentDemon, setCurrentDemon] = useState(null);
+  const [currentTrigger, setCurrentTrigger] = useState(null);
   const [currentWithValueEvent, setCurrentWithValueEvent] = useState(null);
   const [currentSubpageOfEvents, setCurrentSubpageOfEvents] = useState(null);
   const { getToken } = useTokenContext();
@@ -78,9 +78,9 @@ export function GameProvider({ children }) {
   const pushModification = async (game) => { 
 
     let newObj = JSON.parse(JSON.stringify(game)); 
-    newObj.EventDemons = newObj.events.demons;
+    newObj.EventTriggers = newObj.events.triggers;
 
-    delete newObj.events.demons;
+    delete newObj.events.triggers;
 
     newObj.EventEvents = newObj.events.events;
     delete newObj.events.events;
@@ -199,10 +199,10 @@ export function GameProvider({ children }) {
         getGameInStorage,
         setCurrentSubpageOfEvents,
         currentWithValueEvent,
-        currentDemon,
+        currentTrigger,
         getCards,
         currentEvent,
-        setCurrentDemon,
+        setCurrentTrigger,
         setCurrentEvent,pushGainModification,
         getGames,pushCardModification,
         pushModification,restoreCards,

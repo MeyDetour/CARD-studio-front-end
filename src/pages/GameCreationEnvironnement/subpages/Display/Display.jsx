@@ -32,10 +32,10 @@ export default function DisplayPage({ gameData, updateGameValue }) {
       ></TitleContainer>
       <GamePlayTable
         gameData={gameData}
-        getGridDimensions={(type) => getGridDimensions(gameData, type)}
+        getGridDimensions={ getGridDimensions}
       />
       <CardRendering
-        getGridDimensions={(type) => getGridDimensions(gameData, type)}
+        getGridDimensions={ getGridDimensions}
         gameData={gameData}
         updateGameValue={updateGameValue}
       />
@@ -165,6 +165,7 @@ export default function DisplayPage({ gameData, updateGameValue }) {
 }
 
 const getGridDimensions = (gameData, type) => {
+  console.log(type);
   const template = gameData?.rendering?.[type === "playerHandDeckRendering" ? "playerHand" : "middleCards"]?.template;
 
   // Valeurs par défaut
@@ -183,7 +184,7 @@ const getGridDimensions = (gameData, type) => {
   }
 
   return (
-    <div className={`cardAgencementGrid ${type === "playerHandDeckRendering" ? "playerHandDeckRendering" : "middleCardsRendering"}  cardAgencement`}>
+    <div className={`cardAgencementGrid ${type == "playerHandDeckRendering" ? "playerHandDeckRendering" : type == "middleCardsRendering" ? "middleCardsRendering" : "NOTHING"}  cardAgencement`}>
       {[...Array(rows)].map((_, rowIndex) => (
         <div className="row" key={`row-${rowIndex}`}>
           {[...Array(cols)].map((_, colIndex) => (

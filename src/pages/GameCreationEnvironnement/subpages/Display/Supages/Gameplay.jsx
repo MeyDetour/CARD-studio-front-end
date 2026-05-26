@@ -41,25 +41,25 @@ export default function GamePlayTable({ gameData, getGridDimensions }) {
         : null}
       {"linear" === gameData?.rendering?.playerHand?.template &&  gameData.rendering.game.displayHandDeck&&(
         <div className="cardAgencement cardAgencementLinear playerHandDeckRendering">
-          <div className="card" style={{ width: 100 / 6 + "%" }}>
+          <div className="card" style={{ width: 100 / 6 + "%" , marginLeft: gameData.rendering.playerHand.overlapping ? -5 + "%" : 0 }}>
             {" "}
           </div>
-          <div className="card" style={{ width: 100 / 6 + "%" }}>
+          <div className="card" style={{ width: 100 / 6 + "%" , marginLeft: gameData.rendering.playerHand.overlapping ? -5 + "%" : 0 }}>
             {" "}
           </div>
-          <div className="card" style={{ width: 100 / 6 + "%" }}>
+          <div className="card" style={{ width: 100 / 6 + "%" , marginLeft: gameData.rendering.playerHand.overlapping ? -5 + "%" : 0 }}>
             {" "}
           </div>
-          <div className="card" style={{ width: 100 / 6 + "%" }}>
+          <div className="card" style={{ width: 100 / 6 + "%" , marginLeft: gameData.rendering.playerHand.overlapping ? -5 + "%" : 0 }}>
             {" "}
           </div>
-          <div className="card" style={{ width: 100 / 6 + "%" }}>
+          <div className="card" style={{ width: 100 / 6 + "%" , marginLeft: gameData.rendering.playerHand.overlapping ? -5 + "%" : 0 }}>
             {" "}
           </div>
-          <div className="card" style={{ width: 100 / 6 + "%" }}>
+          <div className="card" style={{ width: 100 / 6 + "%" , marginLeft: gameData.rendering.playerHand.overlapping ? -5 + "%" : 0 }}>
             {" "}
           </div>
-          <div className="card" style={{ width: 100 / 6 + "%" }}>
+          <div className="card" style={{ width: 100 / 6 + "%" , marginLeft: gameData.rendering.playerHand.overlapping ? -5 + "%" : 0 }}>
             {" "}
           </div>
         </div>

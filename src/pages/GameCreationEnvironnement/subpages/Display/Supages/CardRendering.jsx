@@ -13,7 +13,7 @@ export default function CardRendering({
   updateGameValue,
   getGridDimensions,
 }) {
-  const [subpage, setSubpage] = useState("middleCardsRendering");
+  const [subpage, setSubpage] = useState("playerHandDeckRendering");
 
 
   const navigationButtons = {  };

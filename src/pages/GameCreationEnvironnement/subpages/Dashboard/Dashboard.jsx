@@ -25,9 +25,8 @@ const navigate = useNavigate();
           icon={"layer-grey-background"}
         />
         <GameCreationEnvironnementStatDashboard
-          number={gameData.demonsCount}
-          text={"demonsCount"}
-          icon={"demon-grey-background"}
+          number={gameData.triggersCount}
+          text={"triggersCount"} 
         />
         <GameCreationEnvironnementStatDashboard
           number={gameData.gainsCount}

@@ -10,6 +10,15 @@ export const eventActions = [
     tooltip: "changeMancheDescription",
     lonelyField: true,
     types: ["action"],
+  },  
+  {
+    label: "reverseGameDirection",
+    tooltip: "reverseGameDirectionDescription",
+    types: ["action"],
+    necessiteValue: true,
+    valueAvailableInEdition: ["incrementation","decrementation"],
+    gimmeAClueForValue:"Select a value between 'incrementation' and 'decrementation'. If you select 'incrementation', the game direction will be reversed in the next turn. If you select 'decrementation', the game direction will be instantly reversed.",
+
   },
   {
     label: "removeAllAtachedEventsForTour",

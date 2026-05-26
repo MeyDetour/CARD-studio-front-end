@@ -30,7 +30,7 @@ export function HistoryProvider({ children }) {
       history.push(item);
     }
 
-    // pour les events et les demons, on regarde si il y a deja une
+    // pour les events et les declencheurs, on regarde si il y a deja une
     // action pour cet id dans la liste, si oui on ne l'ajoute pas
     // (pour éviter les doublons), sauf si c'est une action de
     // suppression, auquel cas on supprime les actions d'ajout

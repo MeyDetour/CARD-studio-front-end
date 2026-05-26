@@ -5,9 +5,9 @@ import { useNotificationContext } from "../../../context/NotificationContext.jsx
 import Alert from "../../Alert/Alert.jsx";
 import { useGameContext } from "../../../context/GameContext.jsx";
 import Icon from "../../Icon/Icon.jsx";
-export default function DemonCard({
+export default function TriggerCard({
   action,
-  demon,
+  trigger,
   isSelected,
   alertMessages,
   displayIcons = false,
@@ -17,20 +17,20 @@ export default function DemonCard({
 }) {
   const { t } = useTranslation();
   const { alertList } = useNotificationContext();
-  const { setCurrentDemon, setCurrentSubpageOfEvents } = useGameContext();
-  if (!demon) return;
+  const { setCurrentTrigger, setCurrentSubpageOfEvents } = useGameContext();
+  if (!trigger) return;
 
   return (
     <div
       onClick={action}
-      className={`demonCard ${isSelected ? "Selected" : ""}`}
+      className={`triggerCard ${isSelected ? "Selected" : ""}`}
     >
          {children}
       {alertMessages && (
         <Alert messages={alertMessages} alertList={alertList} />
       )}
 
-      <h3>{demon.name ? demon.name : "Untitled"}</h3>
+      <h3>{trigger.name ? trigger.name : "Untitled"}</h3>
    
     </div>
   );

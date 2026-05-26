@@ -32,7 +32,7 @@
   }
 
   .eventSubPageOfEventsAndDeclencheurSubpage,
-  .demonsubPageOfdemonsAndDeclencheurSubpage,
+  .triggersubPageOftriggersAndDeclencheurSubpage,
   .currentWithValueEventubPageOfcurrentWithValueEventAndDeclencheurSubpage {
     display: flex;
     flex-direction: row;
@@ -84,7 +84,7 @@
         }
       }
       .wrapperEvents,
-      .wrapperdemons,
+      .wrappertriggers,
       .wrappercurrentWithValueEvent {
         width: 100%;
         display: flex;

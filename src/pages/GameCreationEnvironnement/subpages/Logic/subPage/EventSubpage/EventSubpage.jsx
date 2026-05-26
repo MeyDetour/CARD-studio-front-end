@@ -16,6 +16,7 @@ import {
   updateValueArray,
 } from "../../../../../../helpers/objectManagement.js";
 import { getDynamicValueForEvent } from "../../../../../../helpers/withValueEventManager.js";
+import { getSugggestionForPlayer } from "../../../../../../helpers/suggestions.js";
 import { createHistoryElement } from "../../../../../../helpers/historyObject.js";
 
 // Data
@@ -31,15 +32,16 @@ import Alert from "../../../../../../components/Alert/Alert.jsx";
 import Confirm from "../../../../../../components/Confirm/Confirm.jsx";
 import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
 import WithValueEventCard from "../../../../../../components/Cards/WithValueEventCard/WithValueEventCard.jsx";
-import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
+import TriggerCard from "../../../../../../components/Cards/TriggerCard/TriggerCard.jsx";
 import DetailContainer from "../../../../../../components/DetailContainer/DetailContainer.jsx";
 import ExpressionInput from "../../../../../../components/ExpressionInput/ExpressionInput.jsx";
 
 export default function EventSubpage({
   events,
-  demons,
+  triggers,
   gains,
   actions,
+  globalPlayerValue,
   suggestions,
   updateGameValueArray,
   getEventFromIdAndType,
@@ -132,6 +134,7 @@ export default function EventSubpage({
     }
     let obj = {};
 
+    obj.valueAvailableInEdition = action.valueAvailableInEdition;
     if (action.lonelyField) {
       obj.for = true;
       obj.from = true;
@@ -209,7 +212,8 @@ export default function EventSubpage({
   }, [currentEvent, events]);
 
   if (!events) return;
-
+  console.log(disabledFields);
+  console.log(currentEvent);
   return (
     <>
       <div className={" eventSubPageOfEventsAndDeclencheurSubpage"}>
@@ -312,18 +316,33 @@ export default function EventSubpage({
                     title="eventConfigurationTitle"
                     description="eventConfigurationDescription"
                   />
-                  <Button
-                    text={"utiliser"}
-                    icon={"add-white"}
-                    type="grey"
-                    action={() => {
-                      let newEvent = { ...currentEvent };
-                      newEvent.id = Date.now();
-                      setCurrentEvent(newEvent);
-                      updateGameValueArray("events.events", newEvent);
-                      setIsInExampleMode(false);
-                    }}
-                  />
+                  {isInExampleMode && (
+                    <Button
+                      text={"utiliser"}
+                      icon={"add-white"}
+                      type="grey"
+                      action={() => {
+                        let newEvent = { ...currentEvent };
+                        newEvent.id = Date.now();
+                        setCurrentEvent(newEvent);
+                        updateGameValueArray("events.events", newEvent);
+                        setIsInExampleMode(false);
+                      }}
+                    />
+                  )}{" "}
+                  {!isInExampleMode && (
+                    <Button
+                      text={"duplicate"}
+                      icon={"copy-white"}
+                      type="grey"
+                      action={() => {
+                        let newEvent = { ...currentEvent };
+                        newEvent.id = Date.now();
+                        setCurrentEvent(newEvent);
+                        updateGameValueArray("events.events", newEvent);
+                      }}
+                    />
+                  )}
                 </div>
 
                 {/* ========== NOM ============== */}
@@ -389,7 +408,7 @@ export default function EventSubpage({
                   </div>
                 )}
                 {/* ========== CONDITION ============== */}
-                 <Input
+                <Input
                   title="activationCondition"
                   description="activationConditionDescription"
                   defaultValue={currentEvent.condition ?? ""}
@@ -469,6 +488,8 @@ export default function EventSubpage({
                     currentEvent.id +
                       "|event|eventHaveFromElementButNoFor|warning",
                     currentEvent.id + "|event|elementsGivesButNoFor",
+                     currentEvent.id +
+                      "|event|eventHaveFromElementWithDifferentTypeThanFor",
                   ]}
                   alertList={alertList}
                 ></Alert>
@@ -480,15 +501,18 @@ export default function EventSubpage({
                   disabled={
                     (disabledFields && disabledFields.from) || isInExampleMode
                   }
-
                   isExpression={true}
-                  suggestions={
-                    currentEvent.boucle
+                  suggestions={[
+                    ...(currentEvent.boucle
                       ? suggestions
                       : suggestions.filter(
                           (s) => !s.label.includes("{playerBoucle"),
-                        )
-                  }
+                        )),
+                    ...getSugggestionForPlayer(
+                      "currentPlayer",
+                      globalPlayerValue,
+                    ),
+                  ]}
                   onChangeFunction={(path, value) => {
                     setCurrentEvent(
                       updateElementValue(path, currentEvent, value),
@@ -524,7 +548,13 @@ export default function EventSubpage({
                       );
                     }
 
-                    return filtered;
+                    return [
+                      ...filtered,
+                      ...getSugggestionForPlayer(
+                        "currentPlayer",
+                        globalPlayerValue,
+                      ),
+                    ];
                   })()}
                   pathInObject="event.for"
                   onChangeFunction={(path, value) => {
@@ -541,6 +571,7 @@ export default function EventSubpage({
                   messages={[
                     currentEvent.id +
                       "|event|elementsGivesButNoFromAndFor|warning",
+                   
                   ]}
                   alertList={alertList}
                 ></Alert>
@@ -651,86 +682,93 @@ export default function EventSubpage({
                   description={"eventActionDescription"}
                 ></InputSelect>
 
-                {disabledFields && disabledFields.valueAvailableInEdition && (
+                {disabledFields &&
+                Array.isArray(disabledFields.valueAvailableInEdition) ? (
                   <InputSelect
-                    title="loop"
+                    title="eventValue"
                     pathInObject="event.value"
                     description={
-                      disabledFields.gimmeAClueForValue
-                        ? t("gimmeAClueForValue")
+                      typeof disabledFields.gimmeAClueForValue === "string"
+                        ? disabledFields.gimmeAClueForValue
                         : ""
                     }
                     disabled={
-                      (disabledFields && disabledFields.boucle) ||
-                      isInExampleMode
+                      (disabledFields && disabledFields.value) || isInExampleMode
                     }
-                    items={["{allPlayersInGame}"]}
+                    items={disabledFields.valueAvailableInEdition}
                     closeAfterSelect={true}
-                    selected={currentEvent.boucle ? [currentEvent.boucle] : []}
-                    updateValueArray={(path, value) => {
+                    selected={
+                      currentEvent.event.value ? [currentEvent.event.value] : []
+                    }
+                    updateValueArray={(value) => {
                       setCurrentEvent(
                         updateElementValue(
-                          path,
+                          "event.value",
                           currentEvent,
-                          value === currentEvent.boucle ? null : value,
+                          value === currentEvent.event.value ? null : value,
                         ),
                       );
                     }}
-                  ></InputSelect>
+                  />
+                ) : (
+                  <Input
+                    disabled={
+                      (disabledFields && disabledFields.value) ||
+                      isInExampleMode
+                    }
+                    title="eventValue"
+                    description={
+                      typeof disabledFields?.gimmeAClueForValue === "string"
+                        ? disabledFields.gimmeAClueForValue
+                        : ""
+                    }
+                    defaultValue={currentEvent.event.value ?? ""}
+                    pathInObject="event.value"
+                    onChangeFunction={(path, value) => {
+                      setCurrentEvent(
+                        updateElementValue(path, currentEvent, value),
+                      );
+                    }}
+                  />
                 )}
-
-                <Input
-                  disabled={
-                    (disabledFields && disabledFields.value) || isInExampleMode
-                  }
-                  title="eventValue"
-                  description={disabledFields?.gimmeAClueForValue ?? ""}
-                  defaultValue={currentEvent.event.value ?? ""}
-                  pathInObject="event.value"
-                  onChangeFunction={(path, value) => {
-                    setCurrentEvent(
-                      updateElementValue(path, currentEvent, value),
-                    );
-                  }}
-                />
               </div>
               {/* ========== DEMONS ============== */}
               {/*N'apparait pas si c'event est un exemple */}
               {!isInExampleMode && (
                 <>
                   <DetailContainer
-                    title={"demonsWichExecuteThisEvent"}
-                    className="demonsAssociatedContainer"
-                    description="hereIsAllDemonWichCallThisEvent"
+                    title={"triggersWichExecuteThisEvent"}
+                    className="triggersAssociatedContainer"
+                    description="hereIsAllTriggerWichCallThisEvent"
                   >
                     <div className="wrapperSelection">
-                      {demons &&
-                        demons.map((demon, index) => (
-                          <DemonCard
-                            alertMessage={demon.id + "|demon|"}
+                      {triggers &&
+                        triggers.map((trigger, index) => (
+                          <TriggerCard
+                            alertMessage={trigger.id + "|trigger|"}
                             key={index}
                             action={() => {
                               updateGameValueArray(
-                                "events.demons",
+                                "events.triggers",
                                 updateValueArray(
                                   "events",
-                                  demon,
+                                  trigger,
                                   currentEvent.id,
                                 ),
                               );
                             }}
-                            demon={demon}
+                            trigger={trigger}
                             displayIcons={true}
                             isSelected={
-                              demon.events &&
-                              demon.events.includes(currentEvent.id)
+                              trigger.events &&
+                              trigger.events.includes(currentEvent.id)
                             }
                           />
                         ))}
                     </div>
-                    {demons && demons.length === 0 && (
+                    {triggers && triggers.length === 0 && (
                       <span className="normalText">
-                        {t("noDemonCallThisEvent")}
+                        {t("noTriggerCallThisEvent")}
                       </span>
                     )}
                   </DetailContainer>
@@ -742,7 +780,7 @@ export default function EventSubpage({
                   <DetailContainer
                     title={"withValueEvent"}
                     description={"eventsToEXecuteAfter"}
-                    className="demonsAssociatedContainer"
+                    className="triggersAssociatedContainer"
                     topAlert={
                       <Alert
                         messages={[
@@ -765,7 +803,7 @@ export default function EventSubpage({
                             { id: value.id, componentId: new Date().getTime() },
                             "new",
                           ),
-                        ); 
+                        );
                       }}
                       closeAfterSelect={true}
                       selected={[t("selectWithValueEvent")]}
@@ -806,7 +844,7 @@ export default function EventSubpage({
                             ),
                           );
                         }}
-                        type="Demon"
+                        type="Trigger"
                       />
                     ) : (
                       <span className="normalText">{t("noEventToCall")}</span>
@@ -823,10 +861,10 @@ export default function EventSubpage({
                       {t("uniqueId")} : {currentEvent.id}
                     </span>
                     <span>
-                      {t("demonsWichExecuteThisEvent")} :
+                      {t("triggersWichExecuteThisEvent")} :
                       {
-                        demons.filter((demon) =>
-                          demon.events.includes(currentEvent.id),
+                        triggers.filter((trigger) =>
+                          trigger.events.includes(currentEvent.id),
                         ).length
                       }
                     </span>
@@ -848,8 +886,8 @@ export default function EventSubpage({
                     />
                     {displayDeleteConfirmation &&
                       (() => {
-                        let appearInDemons = demons.filter((demon) =>
-                          demon.events.includes(currentEvent.id),
+                        let appearInTriggers = triggers.filter((trigger) =>
+                          trigger.events.includes(currentEvent.id),
                         );
 
                         return (
@@ -858,20 +896,20 @@ export default function EventSubpage({
                               setDisplayDeleteConfirmation(false);
                             }}
                             actionOnConfirm={() => {
-                              // Supprimer les appels dans les demons
-                              for (let demon of demons) {
+                              // Supprimer les appels dans les triggers
+                              for (let trigger of triggers) {
                                 if (
-                                  demon.events?.some(
+                                  trigger.events?.some(
                                     (id) => id == currentEvent.id,
                                   )
                                 ) {
-                                  let newDemon = structuredClone(demon);
-                                  newDemon.events = newDemon.events.filter(
+                                  let newTrigger = structuredClone(trigger);
+                                  newTrigger.events = newTrigger.events.filter(
                                     (id) => id !== currentEvent.id,
                                   );
                                   updateGameValueArray(
-                                    "events.demons",
-                                    newDemon,
+                                    "events.triggers",
+                                    newTrigger,
                                   );
                                 }
                               }
@@ -920,9 +958,9 @@ export default function EventSubpage({
                             <p>{t("thisActionHasConsequences")}</p>
                             <ul>
                               <li>
-                                {t("demons")} ({appearInDemons.length}){" "}
-                                {appearInDemons.length > 0 &&
-                                  appearInDemons.map((d) => d.name).join(", ")}
+                                {t("triggers")} ({appearInTriggers.length}){" "}
+                                {appearInTriggers.length > 0 &&
+                                  appearInTriggers.map((d) => d.name).join(", ")}
                               </li>
                             </ul>
                           </Confirm>

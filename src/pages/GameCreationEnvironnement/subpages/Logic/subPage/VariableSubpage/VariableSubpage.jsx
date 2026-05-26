@@ -73,7 +73,7 @@ export default function VariableSubpage({
   }, [subPage]);
 
   return (
-    <div className={" globalValuesubPageOfdemonsAndDeclencheurSubpage"}>
+    <div className={" globalValuesubPageOftriggersAndDeclencheurSubpage"}>
       {/* ========== NAVIGATION ENTRE TYPES DE VARIABLES ============== */}
 
       <SubNavigationBar

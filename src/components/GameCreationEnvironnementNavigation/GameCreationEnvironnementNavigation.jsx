@@ -154,7 +154,7 @@ export default function GameCreationEnvironnementNavigation({
           <li>
             <Alert
               alertList={alertList}
-              displayAlertOfType={"event|demon"}
+              displayAlertOfType={"event|trigger"}
             ></Alert>
             <Button
               text={t("logic")}

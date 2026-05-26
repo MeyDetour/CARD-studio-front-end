@@ -26,7 +26,7 @@ import TitleContainer from "../../../../components/TitleContainer/TitleContainer
 import Alert from "../../../../components/Alert/Alert.jsx";
 
 // Subpages
-import DemonSubpage from "./subPage/DemonSubpage/DemonSubpage.jsx";
+import TriggerSubpage from "./subPage/TriggerSubpage/TriggerSubpage.jsx";
 import EventSubpage from "./subPage/EventSubpage/EventSubpage.jsx";
 import CurrentWithValueEventSubpage from "./subPage/EventWithValueSubpage/EventWithValueSubpage.jsx";
 import VariableSubpage from "./subPage/VariableSubpage/VariableSubpage.jsx";
@@ -44,8 +44,8 @@ export default function Logic({
     setCurrentSubpageOfEvents,
     currentEvent,
     setCurrentEvent,
-    currentDemon,
-    setCurrentDemon,
+    currentTrigger,
+    setCurrentTrigger,
     currentWithValueEvent,
     setCurrentWithValueEvent,
   } = useGameContext();   
@@ -69,7 +69,7 @@ export default function Logic({
                 events={gameData.events}
                 actions={gameData.actions}
                 suggestions={gameData.suggestions}
-                demons={gameData.demons}
+                triggers={gameData.triggers}
                 globalValue={gameData.globalValue}
                 globalPlayerValue={gameData.playerGlobalValue}  
                 gains={gameData.gains}
@@ -77,15 +77,15 @@ export default function Logic({
                 getEventFromIdAndType={getEventFromIdAndType}
               />
             );
-          case "demon":
+          case "trigger":
             return (
-              <DemonSubpage
+              <TriggerSubpage
                 globalPlayerValue={gameData.playerGlobalValue}
                 suggestions={gameData.suggestions}
                 updateGameValueArray={updateGameValueArray}
                 updateGameValue={updateGameValue}
                 gameId={gameData.id}
-                demons={gameData.demons} 
+                triggers={gameData.triggers} 
                 events={gameData.events}
                 getEventFromIdAndType={getEventFromIdAndType}
               />
@@ -133,10 +133,9 @@ export default function Logic({
                       onclickEvent: () => setCurrentSubpageOfEvents("event"),
                     },
                     {
-                      name: "demonTitle",
-                      icon: "demon",
-                      description: "demonDescription",
-                      onclickEvent: () => setCurrentSubpageOfEvents("demon"),
+                      name: "triggerTitle", 
+                      description: "triggerDescription",
+                      onclickEvent: () => setCurrentSubpageOfEvents("trigger"),
                     },
                      
                     {
@@ -159,8 +158,8 @@ export default function Logic({
                         displayAlertOfType={
                           section.name === "eventTitle"
                             ? "event"
-                            : section.name === "demonTitle"
-                              ? "demon"
+                            : section.name === "triggerTitle"
+                              ? "trigger"
                               : section.name === "withValueEventTitle"
                                 ? "eventWithValue"
                                 : section.name === "winCondition"
@@ -174,8 +173,8 @@ export default function Logic({
                           if (currentEvent) {
                             setCurrentEvent(null);
                           }
-                          if (currentDemon) {
-                            setCurrentDemon(null);
+                          if (currentTrigger) {
+                            setCurrentTrigger(null);
                           }
                           if (currentWithValueEvent) {
                             setCurrentWithValueEvent(null);

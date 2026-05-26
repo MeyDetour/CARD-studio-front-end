@@ -31,7 +31,7 @@ export default function VariableSubpage({
   const [editedObject, setEditedObject] = useState({});
 
   return (
-    <div className={"winSubPagefdemonsAndDeclencheurSubpage"}>
+    <div className={"winSubPageftriggersAndDeclencheurSubpage"}>
       <TitleContainer
         title={"winCondition"}
         description={"hereYouCanConfigureWhenWinAppendAndVictoryCondition"}

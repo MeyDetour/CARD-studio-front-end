@@ -366,7 +366,7 @@ export default function RoundsPage({
                         </ul>
                       </div>
                     )}
-                    <DetailContainer title="advancedSettings">
+                    <DetailContainer title="advancedSettings" description="actionCallDescription">
                       {/*===========APPARITION DE L ACTION=========== */}
 
                       <Input
@@ -574,7 +574,9 @@ export default function RoundsPage({
                           </>
                         </>
                       )}
-
+                    ON PEUT DEMANDER UNE VALEUR SOUS UNE CONDITION
+                    POUR QUON PUISSE DEMANDER UNE COULEUR  DE CARTES QUAND ON CHOISIS UNE CARTEZ NOIR 
+                    CA UPDATE UNE GLOBAL VALUE
                       {/*=========== ASK VALUE TO PLAY =========== */}
                       <Input
                         title="askValueToPlayThisAction"

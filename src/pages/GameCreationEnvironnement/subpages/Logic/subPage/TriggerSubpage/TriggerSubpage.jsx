@@ -25,10 +25,10 @@ import Button from "../../../../../../components/Button/Button.jsx";
 import Input from "../../../../../../components/input/Input.jsx";
 import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import Alert from "../../../../../../components/Alert/Alert.jsx";
-import DemonCard from "../../../../../../components/Cards/DemonCard/DemonCard.jsx";
+import TriggerCard from "../../../../../../components/Cards/TriggerCard/TriggerCard.jsx";
 import EventCard from "../../../../../../components/Cards/EventCard/EventCard.jsx";
-export default function DemonSubpage({
-  demons,
+export default function TriggerSubpage({
+  triggers,
   events,
   updateGameValue,
   gameId,
@@ -39,8 +39,8 @@ export default function DemonSubpage({
 }) {
   const [playerHasEdit, setPlayerHasEdit] = useState(false);
   const {
-    currentDemon,
-    setCurrentDemon,
+    currentTrigger,
+    setCurrentTrigger,
     setCurrentEvent,
     setCurrentSubpageOfEvents,
   } = useGameContext();
@@ -51,32 +51,32 @@ export default function DemonSubpage({
   const { addItem } = useHistoryContext();
   const [firstLoad, setFirstLoad] = useState(true);
 
-  if (!demons) return;
+  if (!triggers) return;
 
   useEffect(() => {
-    if (demons && !currentDemon && firstLoad) {
-      setCurrentDemon(demons[0]);
+    if (triggers && !currentTrigger && firstLoad) {
+      setCurrentTrigger(triggers[0]);
     }
   }, []);
 
   useEffect(() => {
-    if (currentDemon && !firstLoad) {
-      updateGameValueArray("events.demons", currentDemon);
+    if (currentTrigger && !firstLoad) {
+      updateGameValueArray("events.triggers", currentTrigger);
       addItem(
         gameId,
-        createHistoryElement("demons", "edit", { id: currentDemon.id }),
+        createHistoryElement("triggers", "edit", { id: currentTrigger.id }),
       );
     }
     if (firstLoad) {
       setFirstLoad(false);
     }
-  }, [currentDemon]);
-  console.log(currentDemon?.events);
+  }, [currentTrigger]);
+  console.log(currentTrigger?.events);
   return (
-    <div className={" demonsubPageOfdemonsAndDeclencheurSubpage"}>
+    <div className={" triggersubPageOftriggersAndDeclencheurSubpage"}>
       <div className="left">
         <div className="headerEvent">
-          <h2>{t("demons")}</h2>
+          <h2>{t("triggers")}</h2>
           <Button
             text={"new"}
             icon={"add-white"}
@@ -84,7 +84,7 @@ export default function DemonSubpage({
             action={() => {
               let newId = Date.now();
               updateGameValueArray(
-                "events.demons",
+                "events.triggers",
                 {
                   id: newId,
                   condition: "",
@@ -95,67 +95,67 @@ export default function DemonSubpage({
               );
               addItem(
                 gameId,
-                createHistoryElement("demons", "add", { id: newId }),
+                createHistoryElement("triggers", "add", { id: newId }),
               );
             }}
           />
         </div>
-        <div className="wrapperdemons">
-          {demons &&
-            demons.map((demon, index) => (
-              <DemonCard
+        <div className="wrappertriggers">
+          {triggers &&
+            triggers.map((trigger, index) => (
+              <TriggerCard
                 key={index}
-                action={() => setCurrentDemon(demon)}
-                demon={demon}
-                isSelected={currentDemon && demon == currentDemon}
+                action={() => setCurrentTrigger(trigger)}
+                trigger={trigger}
+                isSelected={currentTrigger && trigger == currentTrigger}
               >
                 <Alert
                   alertList={alertList}
-                  displayAlertStartWith={demon.id + "|demon|"}
+                  displayAlertStartWith={trigger.id + "|trigger|"}
                 ></Alert>
-              </DemonCard>
+              </TriggerCard>
             ))}
         </div>
       </div>
 
       <div className="right">
         <div className="headerRight">
-          <TitleContainer title="demons" description="eventDescription" />
-          {playerHasEdit && currentDemon && (
+          <TitleContainer title="triggers" description="eventDescription" />
+          {playerHasEdit && currentTrigger && (
             <Button
               text="save"
               icon="save-white"
               type="violetButton"
-              action={() => save(currentDemon)}
+              action={() => save(currentTrigger)}
             />
           )}
         </div>
 
-        {currentDemon ? (
+        {currentTrigger ? (
           <>
             {/* ========== NOM ============== */}
             <div className="basicContainer">
               <Alert
                 alertList={alertList}
                 messages={[
-                  currentDemon.id + "|demon|demonNameCannotBeEmpty|alert",
+                  currentTrigger.id + "|trigger|triggerNameCannotBeEmpty|alert",
                 ]}
               ></Alert>
               <TitleContainer
-                title="demonConfigurationTitle"
-                description="demonConfigurationDescription"
+                title="triggerConfigurationTitle"
+                description="triggerConfigurationDescription"
               />
               <Input
-                title="demonNameLabel"
-                defaultValue={currentDemon.name}
+                title="triggerNameLabel"
+                defaultValue={currentTrigger.name}
                 hint={"caractereMax75"}
                 pathInObject="name"
                 onChangeFunction={(path, value) => {
                   if (value.length > 75) {
                     value = value.slice(0, 75);
                   }
-                  setCurrentDemon(
-                    updateElementValue(path, currentDemon, value),
+                  setCurrentTrigger(
+                    updateElementValue(path, currentTrigger, value),
                   );
                 }}
               />
@@ -164,13 +164,13 @@ export default function DemonSubpage({
                 pathObject="boucle"
                 items={["{allPlayersInGame}"]}
                 closeAfterSelect={true}
-                selected={currentDemon.boucle ? [currentDemon.boucle] : []}
+                selected={currentTrigger.boucle ? [currentTrigger.boucle] : []}
                 updateValueArray={(path, value) => {
-                  setCurrentDemon(
+                  setCurrentTrigger(
                     updateElementValue(
                       path,
-                      currentDemon,
-                      value === currentDemon.boucle ? null : value,
+                      currentTrigger,
+                      value === currentTrigger.boucle ? null : value,
                     ),
                   );
                 }}
@@ -182,7 +182,7 @@ export default function DemonSubpage({
               <Alert
                 alertList={alertList}
                 messages={[
-                  currentDemon.id + "|demon|demonConditionMustNotBeEmpty|alert",
+                  currentTrigger.id + "|trigger|triggerConditionMustNotBeEmpty|alert",
                 ]}
               ></Alert>
 
@@ -190,7 +190,7 @@ export default function DemonSubpage({
                   isExpression={true}
                 title="condition"
                 suggestions={
-                  currentDemon.boucle
+                  currentTrigger.boucle
                     ? suggestions
                     : suggestions.filter(
                         (s) => !s.label.includes("{playerBoucle"),
@@ -198,10 +198,10 @@ export default function DemonSubpage({
                 }
                   isExpression={true}
                 description="condition"
-                defaultValue={currentDemon.condition}
+                defaultValue={currentTrigger.condition}
                 pathInObject="condition"
                 onChangeFunction={(path, value) =>
-                  setCurrentDemon(updateElementValue(path, currentDemon, value))
+                  setCurrentTrigger(updateElementValue(path, currentTrigger, value))
                 }
               />
             </div>
@@ -211,39 +211,39 @@ export default function DemonSubpage({
               <Alert
                 alertList={alertList}
                 messages={[
-                  currentDemon.id + "|demon|demonEventsMustNotBeEmpty|warning",
-                  currentDemon.id + "|demon|demonCallNonExistingEvent|alert",
+                  currentTrigger.id + "|trigger|triggerEventsMustNotBeEmpty|warning",
+                  currentTrigger.id + "|trigger|triggerCallNonExistingEvent|alert",
                 ]}
               ></Alert>
 
               <TitleContainer
                 title="events"
-                description="demon-event-description"
+                description="trigger-event-description"
               />
               <InputSelect
                 title={"useWithValueEvent"}
                 updateValueArray={(value) => {
-                  setCurrentDemon(
-                    updateValueArray("events", currentDemon, value.id,"new"),
+                  setCurrentTrigger(
+                    updateValueArray("events", currentTrigger, value.id,"new"),
                   );
                 }}
                 closeAfterSelect={true}
-                selected={[t("selectEventToAssociateWithDemon")]}
+                selected={[t("selectEventToAssociateWithTrigger")]}
                 items={events}
                 itemsDisplayFields={["id", "name"]}
               />
-              {currentDemon.events && (
+              {currentTrigger.events && (
                 <DragAndDropSortList
                  
-                  itemsDefault={currentDemon.events.map((eventId) =>
+                  itemsDefault={currentTrigger.events.map((eventId) =>
                     events.find((e) => e.id === eventId),
                   )}
                   onChangeItems={(newItems) => { 
-                    setCurrentDemon(
-                      updateElementValue("events", currentDemon, newItems.map(item => item.id),"replace"),
+                    setCurrentTrigger(
+                      updateElementValue("events", currentTrigger, newItems.map(item => item.id),"replace"),
                     );
                   }}
-                  type="Demon"
+                  type="Trigger"
                 />
               )}
             </div>
@@ -252,46 +252,46 @@ export default function DemonSubpage({
               <TitleContainer title={"metadata"}></TitleContainer>
 
               <span>
-                {t("uniqueId")} : {currentDemon.id}
+                {t("uniqueId")} : {currentTrigger.id}
               </span>
 
               <span>
                 {t("callTheseEvents")} :
-                {currentDemon.events ? currentDemon.events.length : 0}
+                {currentTrigger.events ? currentTrigger.events.length : 0}
               </span>
             </div>
             <div className="basicContainer basicRedContainer rewardsManagementSection">
               {/* ========== SUPPRESSION ============== */}
               <TitleContainer
-                title={"deleteDemon"}
+                title={"deleteTrigger"}
                 type="h2"
-                description={"youDeleteDemonWithoutSave"}
+                description={"youDeleteTriggerWithoutSave"}
               />
 
               <Button
                 text={"delete"}
                 type="redButton"
                 action={async () => {
-                  if (confirm(t("doYouRealyWantToDeleteDemon"))) {
+                  if (confirm(t("doYouRealyWantToDeleteTrigger"))) {
                     updateGameValueArray(
-                      "events.demons",
-                      currentDemon,
+                      "events.triggers",
+                      currentTrigger,
                       "delete",
                     );
                     addItem(
                       gameId,
-                      createHistoryElement("demons", "delete", {
-                        id: currentDemon.id,
+                      createHistoryElement("triggers", "delete", {
+                        id: currentTrigger.id,
                       }),
                     );
-                    setCurrentDemon(null);
+                    setCurrentTrigger(null);
                   }
                 }}
               ></Button>
             </div>
           </>
         ) : (
-          <span>{t("noDemonSelected")}</span>
+          <span>{t("noTriggerSelected")}</span>
         )}
         {/*Declencheurs : listes les elements qui l'appellent*/}
       </div>

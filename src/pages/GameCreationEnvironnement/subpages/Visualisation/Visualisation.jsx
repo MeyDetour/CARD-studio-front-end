@@ -13,7 +13,7 @@ import { Legend } from "./Legend/Legend";
 // Composant Mermaid corrigé
 
 const colors = {
-  demon: {
+  trigger: {
     fill: "#ffc2c3",
     stroke: "#ff0101",
   },
@@ -33,8 +33,8 @@ const colors = {
 
 // Page principale
 export default function VisualisationPage({ gameData, getEventFromIdAndType }) {
-  const [subpage, setSubpage] = useState("demons");
-  if (!gameData.demons) {
+  const [subpage, setSubpage] = useState("triggers");
+  if (!gameData.triggers) {
     return <p>Démons manquants</p>;
   }
   if (!gameData.events) {
@@ -43,7 +43,7 @@ export default function VisualisationPage({ gameData, getEventFromIdAndType }) {
   if (!gameData.withValueEvents) {
     return <p>Événements avec valeur manquants</p>;
   }
-  let demons = gameData.demons;
+  let triggers = gameData.triggers;
   let events = gameData.events;
   let actions = gameData.actions;
   let withValueEvents = gameData.withValueEvents;
@@ -52,7 +52,7 @@ export default function VisualisationPage({ gameData, getEventFromIdAndType }) {
     graph TD
       %% Section Entrées (Démons)
       
-      ${iterateTrhoughDemons(demons, getEventFromIdAndType)}
+      ${iterateTrhoughTriggers(triggers, getEventFromIdAndType)}
       
  
   `;
@@ -71,11 +71,11 @@ classDiagram
         `;
  
   return (
-    <div className="visualisationsubPageOfdemonsAndDeclencheurSubpage">
+    <div className="visualisationsubPageOftriggersAndDeclencheurSubpage">
       <Legend colors={colors} />
       <SubNavigationBar
         buttons={{
-          demons: () => setSubpage("demons"),
+          triggers: () => setSubpage("triggers"),
           actions: () => setSubpage("actions"),
           variables: () => setSubpage("variables"),
         }}
@@ -83,7 +83,7 @@ classDiagram
       />
       {(() => {
         switch (subpage) {
-          case "demons":
+          case "triggers":
             return <Mermaid chart={chartDefinition} />;
           case "actions":
             return <Mermaid chart={chartDefinition2} />;
@@ -98,27 +98,27 @@ classDiagram
 }
 
 // ===================== DEMONS =========================
-function iterateTrhoughDemons(demons, getEventFromIdAndType) {
-  return `${demons
+function iterateTrhoughTriggers(triggers, getEventFromIdAndType) {
+  return `${triggers
     .map((d) => {
       if (d.events.length === 0) return "";
       return `   %% INITIALIZE DEMON ${d.id} ${d.name}
-            ${getDemonNode(d)} 
-            ${getEventsNode(d.events.map((id) => getEventFromIdAndType(id, "event")), getDemonNode(d), getEventFromIdAndType)}   
-            ${getDemonStyle(d)} `;
+            ${getTriggerNode(d)} 
+            ${getEventsNode(d.events.map((id) => getEventFromIdAndType(id, "event")), getTriggerNode(d), getEventFromIdAndType)}   
+            ${getTriggerStyle(d)} `;
     })
     .join("\n")}
     `;
 }
 
-function getDemonNode(demon) {
-  return `D${demon.id}["${getDemonLabel(demon)}"]`;
+function getTriggerNode(trigger) {
+  return `D${trigger.id}["${getTriggerLabel(trigger)}"]`;
 }
-function getDemonLabel(demon) {
-  return `<span class="demonLabel">${demon.name}</span>`.replace(/\n/g, "");
+function getTriggerLabel(trigger) {
+  return `<span class="triggerLabel">${trigger.name}</span>`.replace(/\n/g, "");
 }
-function getDemonStyle(d) {
-  return `style D${d.id} fill:${colors.demon.fill},stroke:${colors.demon.stroke}`;
+function getTriggerStyle(d) {
+  return `style D${d.id} fill:${colors.trigger.fill},stroke:${colors.trigger.stroke}`;
 }
 // ===================== EVENTS OF DEMON =========================
 function getEventsNode(events, parentNode, getEventFromIdAndType,visited = new Set()) {

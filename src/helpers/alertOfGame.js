@@ -1,4 +1,5 @@
 import { eventActions } from "../../data/eventActions.js";
+import {parserGetType} from "./parser.js";
 export function loadAlertListFormGame(gameData) {
   if (
     !gameData ||
@@ -6,7 +7,7 @@ export function loadAlertListFormGame(gameData) {
     !gameData.params.tours ||
     !gameData.params.tours.actions ||
     !gameData.events.events ||
-    !gameData.events.demons 
+    !gameData.events.triggers 
   ) {
     console.warn("Game data is incomplete, cannot load alerts.");
     return [];
@@ -85,9 +86,9 @@ let eventsWithCurrentValueInput = [];
   let handActivation = gameData?.params.cards.hand?.activation;
   let deckActivation = gameData?.params.cards.deck?.activation;
   let discardActivation = gameData?.params.cards.discard?.activation;
-  // verify if events, with value and demons that use handDeck but hand is not activated
+  // verify if events, with value and triggers that use handDeck but hand is not activated
   // these conditions arent verifies in respective sections because we want to check all
-  // the occurences of handDeck in events, withValueEvent and demons to give all the alerts
+  // the occurences of handDeck in events, withValueEvent and triggers to give all the alerts
   // at once to the user
 
 
@@ -100,6 +101,14 @@ let eventsWithCurrentValueInput = [];
     }
     if (event.event.from && !event.event.for) {
       alertList.push(event.id + "|event|eventHaveFromElementButNoFor|warning");
+    }
+    if (event.event.for && event.event.from ){
+      let typeA = parserGetType(event.event.for);
+      let typeB = parserGetType(event.event.from);
+      if (typeA !== typeB) {
+        alertList.push(event.id + "|event|eventHaveFromElementWithDifferentTypeThanFor|warning");
+      }
+
     }
     if (
       event.event.action &&
@@ -199,31 +208,31 @@ let eventsWithCurrentValueInput = [];
       }
     });
   });
-  // ============= Check for demon
-  gameData.events.demons.forEach((demon) => {
-    if (!demon.name || !demon.name.trim(" ")) {
-      alertList.push(demon.id + "|demon|demonNameCannotBeEmpty|alert");
+  // ============= Check for trigger
+  gameData.events.triggers.forEach((trigger) => {
+    if (!trigger.name || !trigger.name.trim(" ")) {
+      alertList.push(trigger.id + "|trigger|triggerNameCannotBeEmpty|alert");
     }
-    if (!demon.condition.trim(" ")) {
-      alertList.push(demon.id + "|demon|demonConditionMustNotBeEmpty|alert");
+    if (!trigger.condition.trim(" ")) {
+      alertList.push(trigger.id + "|trigger|triggerConditionMustNotBeEmpty|alert");
     }
-    if (demon.events.length === 0) {
-      alertList.push(demon.id + "|demon|demonEventsMustNotBeEmpty|warning");
+    if (trigger.events.length === 0) {
+      alertList.push(trigger.id + "|trigger|triggerEventsMustNotBeEmpty|warning");
     }
-    if (demon.events.some((eventId) => !eventIds.includes(eventId))) {
-      alertList.push(demon.id + "|demon|demonCallNonExistingEvent|alert");
+    if (trigger.events.some((eventId) => !eventIds.includes(eventId))) {
+      alertList.push(trigger.id + "|trigger|triggerCallNonExistingEvent|alert");
     }
-    if (demon.boucle && !demon.condition.includes("Boucle")) {
-      alertList.push(demon.id + "|demon|demonCallBoucleButDontUseIt|alert");
+    if (trigger.boucle && !trigger.condition.includes("Boucle")) {
+      alertList.push(trigger.id + "|trigger|triggerCallBoucleButDontUseIt|alert");
     }
-    if (JSON.stringify(demon).includes("handDeck") && !handActivation) {
-      alertList.push(demon.id + "|demon|callHandDeckButHandNotActivated|alert");
+    if (JSON.stringify(trigger).includes("handDeck") && !handActivation) {
+      alertList.push(trigger.id + "|trigger|callHandDeckButHandNotActivated|alert");
     }
-    if (JSON.stringify(demon).includes("{deck}") && !deckActivation) {
-      alertList.push(demon.id + "|demon|callDeckButDeckNotActivated|alert");
+    if (JSON.stringify(trigger).includes("{deck}") && !deckActivation) {
+      alertList.push(trigger.id + "|trigger|callDeckButDeckNotActivated|alert");
     }
-    if (JSON.stringify(demon).includes("{discardDeck}") && !discardActivation) {
-      alertList.push(demon.id + "|demon|callDiscardDeckButDiscardNotActivated|alert");
+    if (JSON.stringify(trigger).includes("{discardDeck}") && !discardActivation) {
+      alertList.push(trigger.id + "|trigger|callDiscardDeckButDiscardNotActivated|alert");
     }
   });
 

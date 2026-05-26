@@ -3,7 +3,7 @@ export function Legend({colors}) {
     <div className="visualisationLegend">
       <div>
         <span>Démons</span>
-        <div style={{ background: colors.demon.fill }}></div>
+        <div style={{ background: colors.trigger.fill }}></div>
       </div>
       <div>
         <span>Événements</span>

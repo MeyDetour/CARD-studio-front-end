@@ -15,7 +15,7 @@ import {
 } from "recharts";
 
 const colors = {
-  demon: {
+  trigger: {
     fill: "#ffc2c3",
     stroke: "#ff0101",
   },

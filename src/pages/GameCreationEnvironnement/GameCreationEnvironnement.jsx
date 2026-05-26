@@ -64,12 +64,12 @@ export default function GameCreationEnvironnement() {
     getGame,
     uploadFileForGameEdition,
     currentEvent,
-    currentDemon,
+    currentTrigger,
     currentWithValueEvent,
     setCurrentEvent,
     getCards,
     setCurrentWithValueEvent,
-    setCurrentDemon,
+    setCurrentTrigger,
   } = useGameContext();
   const { deleteLocalHistory } = useHistoryContext();
   const { fetchUser, editUser } = useUserContext();
@@ -97,7 +97,7 @@ export default function GameCreationEnvironnement() {
 
           deleteLocalHistory(id);
           setCurrentEvent(null);
-          setCurrentDemon(null);
+          setCurrentTrigger(null);
           setCurrentWithValueEvent(null);
           setCanDisplayError(result.displayErrors);
         }
@@ -202,8 +202,8 @@ export default function GameCreationEnvironnement() {
     switch (type) {
       case "event":
         return game.events.events.find((event) => event.id === id);
-      case "demon":
-        return game.events.demons.find((demon) => demon.id === id);
+      case "trigger":
+        return game.events.triggers.find((trigger) => trigger.id === id);
       case "withValueEvent":
         return game.events.withValueEvent.find(
           (withValueEvent) => withValueEvent.id === id,
@@ -374,9 +374,9 @@ export default function GameCreationEnvironnement() {
                             return Number(a.id) - Number(b.id);
                           })
                         : [],
-                    demons:
-                      game.events && game.events.demons
-                        ? game.events.demons.sort((a, b) => {
+                    triggers:
+                      game.events && game.events.triggers
+                        ? game.events.triggers.sort((a, b) => {
                             return Number(a.id) - Number(b.id);
                           })
                         : [],
@@ -415,9 +415,9 @@ export default function GameCreationEnvironnement() {
                             return Number(a.id) - Number(b.id);
                           })
                         : [],
-                    demons:
-                      game.events && game.events.demons
-                        ? game.events.demons.sort((a, b) => {
+                    triggers:
+                      game.events && game.events.triggers
+                        ? game.events.triggers.sort((a, b) => {
                             return Number(a.id) - Number(b.id);
                           })
                         : [],
@@ -454,6 +454,7 @@ export default function GameCreationEnvironnement() {
                 <CardManagement
                   gameData={{
                     actions: game.params.tours.actions,
+                    rendering: game.params.rendering,
                     cards: game.assets.cards,
                     id: game.id,
                     cardParams: game.params.cards ? game.params.cards : {},
@@ -536,9 +537,9 @@ export default function GameCreationEnvironnement() {
                       game.assets && game.assets.cards
                         ? Object.keys(game.assets.cards).length
                         : [],
-                    demonsCount:
-                      game.events && game.events.demons
-                        ? game.events.demons.length
+                    triggersCount:
+                      game.events && game.events.triggers
+                        ? game.events.triggers.length
                         : 0,
                     gainsCount:
                       game.assets && game.assets.gains

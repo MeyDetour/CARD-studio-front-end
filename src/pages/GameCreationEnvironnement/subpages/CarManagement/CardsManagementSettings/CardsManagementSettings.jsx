@@ -176,7 +176,25 @@ export default function CardsManagementSettings({
           type="h2"
           description="renderingOfCardDescription"
         ></TitleContainer>
+         <Input
+          title="overlappingOfCard"
+          description="overlappingOfCardDescription"
+          defaultValue={gameData.rendering?.playerHand?.overlapping ?? false}
+          inputType="toggle"
+          pathInObject="params.rendering.playerHand.overlapping"
+          onChangeFunction={(path, value) => {
+             
+            updateGameValue(path, value);
+            addItem(
+              gameData.id,
+              createHistoryElement("gameElement", "edit", {
+                field: path,
+              }),
+            );
+          }}
+        />
         <div className="innerContainer">
+          
           <div className="left">
             <CustomCard
               radius={gameData.cardParams.radius}
@@ -191,6 +209,7 @@ export default function CardsManagementSettings({
               }
             ></CustomCard>
           </div>
+           
           <div className="right">
             <span className="normalText">
               {t("maxNumberOfMance")} : {gameData.cardParams?.radius ?? 0}
