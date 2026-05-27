@@ -27,15 +27,15 @@
     align-items: stretch;
     gap: 10px;
     height: 45px;
-  }
-  .statSection {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 18px;
-    width: 100%;
-    > div {
-      width: 25%;
+  } 
+  .sub-navigation-bar{
+    width: 50%;
+    align-self: flex-start;
+    background: white;
+    text-wrap: nowrap;
+    .active{
+            background: #ede5ff;
+
     }
   }
   .gamesWrapper {

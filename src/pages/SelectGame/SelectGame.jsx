@@ -18,52 +18,56 @@ import Button from "../../components/Button/Button.jsx";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import StatElement from "../../components/StatElement/StatElement.jsx";
 import GameCard from "../../components/GameCard/GameCard.jsx";
-export default function SelectGame() { 
-  const {createNewGame , getGames} = useGameContext();
+import SubNavigationBar from "../../components/SubNavigationBar/SubNavigationBar.jsx";
+import DeckCard from "../../components/DeckCard/DeckCard.jsx";
+
+
+
+export default function SelectGame() {
+  const { createNewGame, getGames , getDecks, createNewDeck } = useGameContext();
   const { result, loading, error, fetchData } = useApi();
   const [personalGames, setPersonalGames] = useState([]);
+  const [personalDecks, setPersonalDecks] = useState([]);
+  const [subPage, setSubPage] = useState("myGames");
   const [isNewGameLoading, setIsNewGameLoading] = useState(false);
-  const [otherStat, setOtherStat] = useState({
-    partiesPlayed: 0,
-    playersPlayed: 0,
-    activPlayers: 0,
-  });
+ 
   const { t } = useTranslation();
   const navigate = useNavigate();
   useEffect(() => {
     async function getData() {
-     const resultGames = await  getGames()
-      const finalOBject = {
-        partiesPlayed: 0,
-        playersPlayed: 0,
-        activPlayers: 0,
-      };
-      if (!resultGames) {
+      const resultGames = await getGames();
+      const resultDeck = await getDecks();
+      if (!resultGames || !resultDeck) {
         navigate("/login");
       }
       if (resultGames && Array.isArray(resultGames)) {
-        for (let game of resultGames) {
-          finalOBject.partiesPlayed += game.gameCount;
-          finalOBject.playersPlayed += game.playerCount;
-        }
-        setOtherStat(finalOBject);
         setPersonalGames(resultGames);
+      }
+      if (resultDeck && Array.isArray(resultDeck)) {
+        setPersonalDecks(resultDeck);
       }
     }
 
-  
-      getData();
-    
+    getData();
   }, []);
 
   async function newGame() {
-    setIsNewGameLoading(true); 
+    setIsNewGameLoading(true);
     const resultGames = await createNewGame();
     if (resultGames) {
       navigate("/game/dashboard/" + resultGames.id);
-    }else{}
+    } else {
+    }
   }
- 
+  async function newDeck() {
+    setIsNewGameLoading(true);
+    const resultDeck = await createNewDeck();
+    if (resultDeck) {
+      navigate("/deck/" + resultDeck.id);
+    } else {
+    }
+  }
+
   // return <Loader></Loader>
 
   if (error) return <p>Erreur : {error}</p>;
@@ -78,38 +82,38 @@ export default function SelectGame() {
       <div className="formSection">
         <SearchBar className="searchBar" placeholder="searchGame" />
         <Button
-          text="Créer un nouveau jeu"
+          text="createAGame"
           action={newGame}
           type="violetButton"
           icon="new-white"
+        ></Button>{" "}
+        <Button
+          text="createADeck"
+          action={newDeck}
+          type="grey"
+          icon="new-white"
         ></Button>
       </div>
-      <div className="statSection">
-        <StatElement
-          text={"statCreatedGames"}
-          icon={"game-container"}
-          number={personalGames.length}
-        />
-        <StatElement
-          text={"statActivePlayers"}
-          icon={"game-play"}
-          number={otherStat.activPlayers}
-        />
-        <StatElement
-          text={"playerWichHasPlayed"}
-          icon={"game-players"}
-          number={otherStat.playersPlayed}
-        />
-        <StatElement
-          text={"statGamesPlayed"}
-          icon={"game-stats"}
-          number={otherStat.averageNotes}
-        />
-      </div>
+      <SubNavigationBar
+        page={subPage}
+        buttons={{
+          myGames: () => setSubPage("myGames"),
+          myDecks: () => setSubPage("myDecks"),
+        }}
+      ></SubNavigationBar>
+
       <div className="gamesWrapper">
         {loading && <Loader></Loader>}
         {personalGames &&
-          personalGames.map((game, index) => <GameCard key={index} game={game} />)}
+          subPage == "myGames" &&
+          personalGames.map((game, index) => (
+            <GameCard key={index} game={game} />
+          ))}
+        {personalDecks &&
+          subPage == "myDecks" &&
+          personalDecks.map((deck, index) => (
+            <DeckCard key={index} game={deck} />
+          ))}
       </div>
     </div>
   );

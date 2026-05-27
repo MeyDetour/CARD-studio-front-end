@@ -1,13 +1,13 @@
 import { useTranslation } from "react-i18next";
 import "./style.css";
 import { Link } from "react-router-dom";
-import Icon from "../Icon/Icon";
-import { formatSmartDate } from "../../helpers/date";
-import Separator from "../Separator/Separator";
-import Button from "../Button/Button";
+import Icon from "../Icon/Icon.jsx";
+import { formatSmartDate } from "../../helpers/date.js";
+import Separator from "../Separator/Separator.jsx";
+import Button from "../Button/Button.jsx";
 import { useGameContext } from "../../context/GameContext.jsx";
 import { sendMessageToCardStudioTester } from "../../helpers/browserMessageWithCardStudioTester.js";
-import { useTokenContext } from "../../context/TokenContext";
+import { useTokenContext } from "../../context/TokenContext.jsx";
 
 export default function GameCard({ game }) {
   const { getGameInStorage } = useGameContext();

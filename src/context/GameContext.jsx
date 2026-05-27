@@ -27,13 +27,24 @@ export function GameProvider({ children }) {
   };
   const getGameInStorage = (id) => {  
     try {
-      let raw = localStorage.getItem("gamesSaved" + id);
+      let row = localStorage.getItem("gamesSaved" + id);
 
-      if (!raw) return null;
-      raw = JSON.parse(raw); 
-      return raw;
+      if (!row) return null;
+      row = JSON.parse(row); 
+      return row;
     } catch (e) {
       console.error("Failed to parse gamesSaved from localStorage", e);
+      return null;
+    }
+  }; const getDeckInStorage = (id) => {  
+    try {
+      let row = localStorage.getItem("decksSaved" + id);
+
+      if (!row) return null;
+      row = JSON.parse(row); 
+      return row;
+    } catch (e) {
+      console.error("Failed to parse decksSaved from localStorage", e);
       return null;
     }
   };
@@ -46,6 +57,15 @@ export function GameProvider({ children }) {
     }
     return resultGames;
   };
+  const getDecks = async () => {
+    const resultDecks = await fetchData("api/my/decks", null, {
+      token: getToken(),
+    });
+    if (!resultDecks) {
+      displayError(t("FailedToRetrieveDecks"));
+    }
+    return resultDecks;
+  };
 
   const createNewGame = async () => {
     const resultGame = await fetchData("api/new/game", null, {
@@ -55,6 +75,15 @@ export function GameProvider({ children }) {
       displayError(t("FailedToCreateGame"));
     }
     return resultGame;
+  };
+  const createNewDeck = async () => {
+    const resultDeck = await fetchData("api/new/deck", null, {
+      token: getToken(),
+    });
+    if (!resultDeck) {
+      displayError(t("FailedToCreateDeck"));
+    }
+    return resultDeck;
   };
   const uploadFileForGameEdition = async (file, gameId) => {
     const formData = new FormData();
@@ -196,7 +225,7 @@ export function GameProvider({ children }) {
         saveNewGameInStorage,
         currentSubpageOfEvents,
         setCurrentWithValueEvent,
-        getGameInStorage,
+        getGameInStorage,getDeckInStorage,
         setCurrentSubpageOfEvents,
         currentWithValueEvent,
         currentTrigger,
@@ -204,7 +233,7 @@ export function GameProvider({ children }) {
         currentEvent,
         setCurrentTrigger,
         setCurrentEvent,pushGainModification,
-        getGames,pushCardModification,
+        getGames,createNewDeck,getDecks,pushCardModification,
         pushModification,restoreCards,
         uploadFileForGameEdition,
       }}

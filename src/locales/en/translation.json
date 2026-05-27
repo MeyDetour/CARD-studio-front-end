@@ -474,12 +474,16 @@
   "enterValue": "Enter a value",
    "overlappingOfCard": "Card Overlapping",
   "overlappingOfCardDescription": "Set the overlapping of cards in hand. The overlapping of cards in hand determines whether the cards overlap each other when displayed in the player's hand. If this option is enabled, the cards will overlap. This option is only valid if the player's hand rendering is set to linear.",
-
+"myGames": "My games",
+"myDecks": "My decks",
+"FailedToRetrieveDecks": "An error occurred while retrieving decks",
   "attributsOfCards": "Card attributes",
   "hereThereIsAllAttributsOfCardsYouHaveCreated": "Here are all the attributes you have created along with their default values. If a default value is added or modified, it will affect all cards that do not yet have this attribute filled in. All cards have these attributes in common; if you do not want to apply an attribute to a card, simply leave the field empty.",
   "areYouSureToRemoveThisAttributsToAllCArds": "Are you sure you want to remove this attribute from all cards?",
   "filterCards": "Filter cards",
 
+  "createAGame": "New Game",
+  "createADeck": "New Deck",
   "loadMessageDescription":"Message to display when loading the game. This message can be used to provide instructions, information about the game... You must enclose text strings in \" \", dynamic text will be written as an expression. You can write: \"Updating data..\"; or: {currentPlayer#pseudo}\" drew a card\".",
   "theCurrentPlayerObject":"The current player object. It contains all the properties of the player, such as their name, points, hand, etc. You can access these properties using the notation {player#property}, for example {player#name} to get the player's name.",
   "addedAttributs": "Added Attributes",
