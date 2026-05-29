@@ -22,7 +22,7 @@ import { createHistoryElement } from "../../../../../../helpers/historyObject.js
 import DragAndDropSortList from "../../../../../../components/DragAndDropSortList/DragAndDropSortList.jsx";
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
 import Button from "../../../../../../components/Button/Button.jsx";
-import Input from "../../../../../../components/input/Input.jsx";
+import Input from "../../../../../../components/Input/Input.jsx";
 import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import TriggerCard from "../../../../../../components/Cards/TriggerCard/TriggerCard.jsx";

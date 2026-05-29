@@ -9,7 +9,7 @@ import { createHistoryElement } from "../../../../../helpers/historyObject";
 
 // Components
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
-import Input from "../../../../../components/input/Input";
+import Input from "../../../../../components/Input/Input";
 import InputRange from "../../../../../components/inputRange/inputRange";
 import InputSelect from "../../../../../components/InputSelect/InputSelect";
 

@@ -11,7 +11,7 @@ import GameCreationEnvironnementQuickAction from "../../../../components/GameCre
 import GameCreationEnvironnementStatDashboard from "../../../../components/GameCreationEnvironnementStatDashboard/GameCreationEnvironnementStatDashboard";
 import Separator from "../../../../components/Separator/Separator";
 import Button from "../../../../components/Button/Button";
-import Input from "../../../../components/input/Input";
+import Input from "../../../../components/Input/Input";
 import InputSelect from "../../../../components/InputSelect/InputSelect";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";

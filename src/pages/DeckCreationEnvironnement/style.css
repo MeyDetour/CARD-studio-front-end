@@ -1,0 +1,40 @@
+.deckCreationEnvironnementPage {
+  position: relative;
+  > .content {
+    padding-top: calc(64px + 5%);
+    padding-left: 5%;
+    padding-bottom: 5%;
+    padding-right: 5%;
+    display: flex;
+    height: 100vh;
+    max-height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-y: auto;
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+    .headerRow {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 24px;
+      > .buttonContainer {
+        width: fit-content;
+      }
+    }
+    .renderingOfAttributsContainer {
+      .button {
+        height: fit-content;
+      }
+    }
+  }
+  .cardLibrairy-MultipleActions {
+    .rowButtons {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      width: fit-content;
+    }
+  }
+}

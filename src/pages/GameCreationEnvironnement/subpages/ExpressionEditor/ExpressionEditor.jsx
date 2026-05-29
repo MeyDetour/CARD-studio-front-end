@@ -12,7 +12,7 @@ import { verifyExpressionSyntax } from "../../../../helpers/parser.js";
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
-import Input from "../../../../components/input/Input";
+import Input from "../../../../components/Input/Input.jsx";
 
 // Utils
 import {

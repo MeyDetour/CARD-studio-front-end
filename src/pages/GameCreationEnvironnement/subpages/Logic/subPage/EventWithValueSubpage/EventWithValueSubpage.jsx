@@ -25,7 +25,7 @@ import { eventActions } from "../../../../../../../data/eventActions.js";
 // Components
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer.jsx";
 import Button from "../../../../../../components/Button/Button.jsx";
-import Input from "../../../../../../components/input/Input.jsx";
+import Input from "../../../../../../components/Input/Input.jsx";
 import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import Alert from "../../../../../../components/Alert/Alert.jsx";
 import Confirm from "../../../../../../components/Confirm/Confirm.jsx";

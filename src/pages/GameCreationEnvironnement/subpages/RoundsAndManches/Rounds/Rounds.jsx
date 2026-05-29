@@ -21,7 +21,7 @@ import { splitText } from "../../../../../helpers/text";
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import Button from "../../../../../components/Button/Button";
 import Icon from "../../../../../components/Icon/Icon";
-import Input from "../../../../../components/input/Input";
+import Input from "../../../../../components/Input/Input";
 import InputRange from "../../../../../components/inputRange/inputRange";
 import InputSelect from "../../../../../components/InputSelect/InputSelect";
 import Alert from "../../../../../components/Alert/Alert";

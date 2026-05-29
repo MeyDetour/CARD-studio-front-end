@@ -112,7 +112,7 @@ export default function SelectGame() {
         {personalDecks &&
           subPage == "myDecks" &&
           personalDecks.map((deck, index) => (
-            <DeckCard key={index} game={deck} />
+            <DeckCard key={index} deck={deck} />
           ))}
       </div>
     </div>

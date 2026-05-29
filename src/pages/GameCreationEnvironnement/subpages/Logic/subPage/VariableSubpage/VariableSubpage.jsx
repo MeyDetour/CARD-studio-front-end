@@ -18,7 +18,7 @@ import Icon from "../../../../../../components/Icon/Icon.jsx";
 import InputSelect from "../../../../../../components/InputSelect/InputSelect.jsx";
 import SubNavigationBar from "../../../../../../components/SubNavigationBar/SubNavigationBar.jsx";
 import Button from "../../../../../../components/Button/Button.jsx";
-import Input from "../../../../../../components/input/Input.jsx";
+import Input from "../../../../../../components/Input/Input.jsx";
 export default function VariableSubpage({
   globalValue,
   playerGlobalValue,

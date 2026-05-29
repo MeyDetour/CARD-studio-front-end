@@ -8,10 +8,10 @@ import { useHistoryContext } from "../../../../../context/HistoryContext";
 import { createHistoryElement } from "../../../../../helpers/historyObject";
 
 // Components
-import Input from "../../../../../components/input/Input";
+import Input from "../../../../../components/Input/Input";
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import InputRange from "../../../../../components/inputRange/inputRange";
-import CustomCard from "../CardsLibrairy/CustomCard/CustomCard";
+import CustomCard from "../../../../../components/CustomCard/CustomCard";
 import Button from "../../../../../components/Button/Button";
 import Icon from "../../../../../components/Icon/Icon";
 

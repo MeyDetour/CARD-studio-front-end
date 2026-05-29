@@ -1,0 +1,30 @@
+ 
+  .cardLibrarySelectionArea {
+    .multipleActions {
+      user-select: none;
+    }
+    .filterCardsInput {
+      width: 100%;
+      flex-direction: row;
+      justify-content: start;
+      gap: 10px;
+      flex-wrap: wrap;
+      > .inputSelect {
+        width: 30% !important;
+      }
+    }
+    .cardWrapper {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: start;
+      height: fit-content;
+      user-select: none;
+      user-select: none !important;
+      -webkit-user-select: none;
+      .customCardContainer {
+        width: 78px;
+      }
+    }
+  } 

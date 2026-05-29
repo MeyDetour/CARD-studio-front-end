@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import "./style.css";
-import Input from "../../input/Input.jsx";
+import Input from "../../Input/Input.jsx";
 import { useNotificationContext } from "../../../context/NotificationContext.jsx";
 import Alert from "../../Alert/Alert.jsx";
 import { useGameContext } from "../../../context/GameContext.jsx";

@@ -10,9 +10,10 @@ import { sendMessageToCardStudioTester } from "../../helpers/browserMessageWithC
 import { useTokenContext } from "../../context/TokenContext.jsx";
 
 export default function DeckCard({ deck }) {
-  const { getDeckInStorage } = useGameContext();
-
-  const { getToken } = useTokenContext();
+  if (!deck) {
+    return null;
+  } 
+  console.log(deck);
   const { t } = useTranslation();
   return (
     <div className="gameCard">
@@ -23,15 +24,24 @@ export default function DeckCard({ deck }) {
         </div>
         <Icon></Icon>
       </div>
-      
+       <div className="badgeWrapper">
+        <div className="badge" >
+              { deck.cards? Object.keys(deck.cards).length : 0} {Object.keys(deck.cards).length > 1 ? t("cards") : t("card")}
+            </div>
+
+              <div className="badge" >
+              {deck.isPublished?t("published"):t("unpublished")}
+            </div>
+         
+      </div>
       <Separator></Separator>
  
       <div className="buttonContainer">
         <Button
           icon="settings-white"
           type="violetButton"
-          text="editGame"
-          to={"/game/dashboard/" + game.id}
+          text="editDeck"
+          to={"/deck/" + deck.id}
         ></Button>
       
       </div>

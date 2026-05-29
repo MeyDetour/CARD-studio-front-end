@@ -22,7 +22,7 @@ import { createHistoryElement } from "../../../../helpers/historyObject";
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
 import Button from "../../../../components/Button/Button";
-import Input from "../../../../components/input/Input";
+import Input from "../../../../components/Input/Input.jsx";
 import InputSelect from "../../../../components/InputSelect/InputSelect";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";

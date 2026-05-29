@@ -23,7 +23,8 @@ export function GameProvider({ children }) {
   };
   const saveNewGameInStorage = (newGame) => {  
     localStorage.setItem("gamesSaved" + newGame.id, JSON.stringify(newGame));
-  
+  };  const saveNewDeckInStorage = (newDeck) => {  
+    localStorage.setItem("decksSaved" + newDeck.id, JSON.stringify(newDeck));
   };
   const getGameInStorage = (id) => {  
     try {
@@ -145,6 +146,19 @@ export function GameProvider({ children }) {
     }
     return game
   };
+  const pushDeckModification = async (deck) => { 
+ 
+    const result = await fetchData("api/deck/edit/" + newObj.id, newObj, {
+      token: getToken(),
+    });
+    if (!result) {
+      displayError(t("FailedToUpdateDeck"));
+    } else {
+      deleteDeckSaved(newObj.id);
+      deleteLocalHistory(newObj.id);
+    }
+    return deck
+  };
   const pushCardModification = async (gameId,card) => { 
  
     const result = await fetchData("api/game/"+gameId+"/edit/card/" + card.id, card, {
@@ -213,6 +227,14 @@ export function GameProvider({ children }) {
       displayError(t("FailedToRetrieveGame"));
     }
     return resultGames;
+  };  const getDeck = async (id) => { 
+    const resultDeck = await fetchData("api/deck/" + id, null, {
+      token: getToken(),
+    });
+    if (!resultDeck) {
+      displayError(t("FailedToRetrieveDeck"));
+    }
+    return resultDeck;
   };
 
   return (
@@ -233,8 +255,9 @@ export function GameProvider({ children }) {
         currentEvent,
         setCurrentTrigger,
         setCurrentEvent,pushGainModification,
-        getGames,createNewDeck,getDecks,pushCardModification,
+        getGames,createNewDeck,getDecks,getDeck,pushCardModification,
         pushModification,restoreCards,
+        pushDeckModification,
         uploadFileForGameEdition,
       }}
     >

@@ -22,11 +22,11 @@ import { createHistoryElement } from "../../../../../../helpers/historyObject";
 import ImageUploadFileContainer from "../../../../../../components/ImageUploadFileContainer/ImageUploadFileContainer";
 import TitleContainer from "../../../../../../components/TitleContainer/TitleContainer";
 import Button from "../../../../../../components/Button/Button";
-import Input from "../../../../../../components/input/Input";
+import Input from "../../../../../../components/Input/Input";
 import InputSelect from "../../../../../../components/InputSelect/InputSelect";
 import Alert from "../../../../../../components/Alert/Alert";
-import DefaultCard from "../DefaultCard/DefaultCard";
-import CustomCard from "../CustomCard/CustomCard";
+import DefaultCard from "../../../../../../components/DefaultCard/DefaultCard";
+import CustomCard from "../../../../../../components/CustomCard/CustomCard";
 
 export default function CardEditionPage({
   currentCard,

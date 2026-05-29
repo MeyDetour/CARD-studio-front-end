@@ -10,6 +10,7 @@ import SelectGame from "./pages/SelectGame/SelectGame.jsx";
 import GameCreationEnvironnement from "./pages/GameCreationEnvironnement/GameCreationEnvironnement.jsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
 import { NotificationProvider } from "./context/NotificationContext.jsx";
+import DeckCreation from "./pages/DeckCreationEnvironnement/DeckCreation.jsx";
 import SettingsAndHelp from "./pages/GameCreationEnvironnement/subpages/HelpAndSettings/HelpAndSettings.jsx";
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
                   <Route
                     path={"game/:subpage/:id"}
                     element={<GameCreationEnvironnement />}
+                  />   <Route
+                    path={"deck/:id"}
+                    element={<DeckCreation />}
                   />
                   <Route
                     path={"game/"}
