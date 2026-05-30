@@ -136,7 +136,7 @@ export default function GameCreationEnvironnement() {
   useEffect(() => {
     if (!game || !playerHasEdit) return;
     const delayDebounceFn = setTimeout(() => {
-      console.log("Sauvegarde automatique sur le serveur...");
+      console.log("Sauvegarde automatique dans le stockage local...");
 
       saveNewGameInStorage(game);
       setAlerts(loadAlertListFormGame(game, canDisplayError));

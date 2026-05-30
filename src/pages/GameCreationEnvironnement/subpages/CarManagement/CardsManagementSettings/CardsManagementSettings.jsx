@@ -14,6 +14,7 @@ import InputRange from "../../../../../components/inputRange/inputRange";
 import CustomCard from "../../../../../components/CustomCard/CustomCard";
 import Button from "../../../../../components/Button/Button";
 import Icon from "../../../../../components/Icon/Icon";
+import AttributsManagement from "../../../../../components/AttributsManagement/AttributsManagement";
 
 export default function CardsManagementSettings({
   gameData,
@@ -170,20 +171,20 @@ export default function CardsManagementSettings({
         />
       </div>
 
+      {/* ==========RENDERING OF CARDS======== */}
       <div className="basicContainer renderingOfCardContainer">
         <TitleContainer
           title="renderingOfCard"
           type="h2"
           description="renderingOfCardDescription"
         ></TitleContainer>
-         <Input
+        <Input
           title="overlappingOfCard"
           description="overlappingOfCardDescription"
           defaultValue={gameData.rendering?.playerHand?.overlapping ?? false}
           inputType="toggle"
           pathInObject="params.rendering.playerHand.overlapping"
           onChangeFunction={(path, value) => {
-             
             updateGameValue(path, value);
             addItem(
               gameData.id,
@@ -194,10 +195,14 @@ export default function CardsManagementSettings({
           }}
         />
         <div className="innerContainer">
-          
           <div className="left">
+            {/* ICI : La carte d'exemple fait 200px de large. // Le rayon max
+            pour un cercle est de 100px (200 / 2). // On multiplie ce rayon max
+            par le ratio (0 à 1) pour avoir le rendu exact en pixels.
+             */}
             <CustomCard
-              radius={gameData.cardParams.radius}
+              radius={(gameData.cardParams?.radius ?? 0) * 100}
+                aspectRatio={(gameData.cardParams?.ratio ?? 1)}
               card={
                 gameData.cards
                   ? gameData.cards[
@@ -209,17 +214,21 @@ export default function CardsManagementSettings({
               }
             ></CustomCard>
           </div>
-           
+
           <div className="right">
             <span className="normalText">
-              {t("maxNumberOfMance")} : {gameData.cardParams?.radius ?? 0}
+              {t("maxNumberOfMance")} :
+              {Math.round((gameData.cardParams?.radius ?? 0) * 100)} %
             </span>
             <InputRange
+
               type="range"
               min={0}
-              max={50}
-              maxValue={gameData.cardParams?.radius ?? 0}
+              max={30}
+              maxValue={(gameData.cardParams?.radius ?? 0) * 100}
               setMaxValue={(value) => {
+                value = parseFloat((value / 100).toFixed(2));
+
                 updateGameValue("params.cards.radius", value);
                 addItem(
                   gameData.id,
@@ -229,15 +238,49 @@ export default function CardsManagementSettings({
                 );
               }}
             ></InputRange>
+             <span className="normalText">
+              {t("aspectRatio")} :
+              {gameData.cardParams?.ratio ?? "1/1"}
+            </span>
+            <InputRange
+            
+              type="range"
+              min={20}
+                minValue={20}
+                max={80}
+              maxValue={gameData.cardParams?.ratioValue ?? 0}
+              setMaxValue={(value) => {
+                 console.log( value);
+                  let ratio = "0.62/1"
+                  if (value <= 50){
+                    ratio = "1/" + value/50;
+                  }else{
+
+                    ratio =   (50-(value-50))/50+"/1"
+                  }
+
+
+                updateGameValue("params.cards.ratio", ratio);
+                updateGameValue("params.cards.ratioValue", value);
+                addItem(
+                  gameData.id,
+                  createHistoryElement("gameElement", "edit", {
+                    field: "params.cards.ratio",
+                  }),
+                );
+              }}
+            ></InputRange>
           </div>
         </div>
       </div>
+      {/* ==========END OF RENDERING OF CARDS======== */}
+      {/* ==========ADDED ATTRIBUTS TO CARDS======== */}
       <div className="basicContainer renderingOfAttributsContainer">
         <div className="row rowOfAttributsHeader">
           <TitleContainer
             title="attributsOfCards"
             type="h2"
-            description="renderingOfCardDescription"
+            description="attributsOfCardsDescription"
           ></TitleContainer>
           <Button
             icon="add-white"
@@ -259,97 +302,16 @@ export default function CardsManagementSettings({
             }}
           ></Button>
         </div>
-        {gameData.cardParams.addedAttributs &&
-          Object.keys(gameData.cardParams.addedAttributs).map(
-            (attributKey, key) => (
-              <div className="row">
-                <Icon
-                  name="close"
-                  callback={() => {
-                    if (
-                      window.confirm(
-                        t("areYouSureToRemoveThisAttributsToAllCArds"),
-                      )
-                    ) {
-                      const newAttributs = {
-                        ...(gameData.cardParams.addedAttributs ?? {}),
-                      };  if (attributKey in newAttributs) {
-                        delete newAttributs[attributKey];
-                      }
-                      let newAssetCards = { ...gameData.cards };
-
-                      for (let cardKey of Object.keys(newAssetCards)) {
-                        let card = newAssetCards[cardKey];
-                        if (card && card.addedAttributs && attributKey in card.addedAttributs) {
-                          delete card.addedAttributs[attributKey];
-                        }
-                      }
-                      updateGameValue(
-                        "params.cards.addedAttributs",
-                        newAttributs,
-                      );
-                      updateGameValue("assets.cards", newAssetCards);
-                    }
-                  }}
-                ></Icon>
-                {/* ===========Clé======= */}
-                <Input
-                  title="attributKey"
-                  defaultValue={attributKey}
-                  pathInObject={
-                    attributKey ? "addedAttributs." + attributKey : null
-                  }
-                  onChangeFunction={(path, value) => {
-                    value = value.replaceAll(" ", "_");
-                    const newAttributs = {
-                      ...(gameData.cardParams.addedAttributs ?? {}),
-                    };
-                    const existingValue =
-                      gameData.cardParams.addedAttributs?.[attributKey] ?? "";
-                    newAttributs[value] = existingValue;
-                    if (attributKey in newAttributs) {
-                      delete newAttributs[attributKey];
-                    }
-                    let newAssetCards = { ...gameData.cards };
-
-                    for (let cardKey of Object.keys(newAssetCards)) {
-                      let card = newAssetCards[cardKey];
-                      if (card && card.addedAttributs?.[attributKey]) {
-                        card.addedAttributs[value] = String(
-                          card.addedAttributs[attributKey],
-                        );
-                        delete card.addedAttributs[attributKey];
-                      }
-                    }
-                    updateGameValue(
-                      "params.cards.addedAttributs",
-                      newAttributs,
-                    );
-                    updateGameValue("assets.cards", newAssetCards);
-                  }}
-                />
-                {/* ===========Valeur======= */}
-                <Input
-                  title="attributValue"
-                  defaultValue={
-                    gameData.cardParams.addedAttributs[attributKey] ?? ""
-                  }
-                  pathInObject={
-                    attributKey ? "addedAttributs." + attributKey : null
-                  }
-                  onChangeFunction={(path, value) => {
-                    let newAssetCards = { ...gameData.cards };
-
-                    updateGameValue(
-                      "params.cards.addedAttributs." + attributKey,
-                      value,
-                    );
-                  }}
-                  placeholder="enterValue"
-                />
-              </div>
-            ),
-          )}
+        <AttributsManagement
+          attributs={gameData.cardParams.addedAttributs}
+          updateAttributs={(newAttributs) => {
+            updateGameValue("params.cards.addedAttributs", newAttributs);
+          }}
+          cards={gameData.cards}
+          updateCards={(newCards) => {
+            updateGameValue("assets.cards", newCards);
+          }}
+        ></AttributsManagement>
       </div>
     </>
   );

@@ -23,12 +23,29 @@
         width: fit-content;
       }
     }
-    .renderingOfAttributsContainer {
-      .button {
-        height: fit-content;
+  
+  } .renderingOfAttributsContainer .row {
+    align-items: center;
+  }
+  .renderingOfCardContainer {
+    .innerContainer {
+      display: flex;
+      flex-direction: row;
+      gap: var(--padding-content-page);
+      .left {
+        width: fit-content;
+        .customCardContainer {
+          width: 100px;
+        }
+      }
+      .right {
+        width: calc(100% - 100px);
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
       }
     }
-  }
+  } 
   .cardLibrairy-MultipleActions {
     .rowButtons {
       display: flex;

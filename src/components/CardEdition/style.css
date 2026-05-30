@@ -1,10 +1,13 @@
-.cardManagementSubpage { 
-  padding-bottom: 50vh !important;
+ 
   .cardEditionPage.row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 24px;
+
+    > div {
+        width: 100%;
+    }
     .cardPreview {
       width: fit-content;
       .defaultCardOfGame {
@@ -19,7 +22,7 @@
         }
       }
       .customCardContainer {
-        width: 200px;
+        width: 200px; 
      
       }
      
@@ -42,4 +45,4 @@
       }
     }
   }
-}
+

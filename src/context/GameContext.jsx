@@ -20,10 +20,13 @@ export function GameProvider({ children }) {
   const deleteGameSaved = (id) => {
     deleteLocalHistory(id);
     localStorage.removeItem("gamesSaved" + id);
+  };  const deleteDeckSaved = (id) => { 
+    localStorage.removeItem("decksSaved" + id);
   };
   const saveNewGameInStorage = (newGame) => {  
     localStorage.setItem("gamesSaved" + newGame.id, JSON.stringify(newGame));
-  };  const saveNewDeckInStorage = (newDeck) => {  
+  }; 
+   const saveNewDeckInStorage = (newDeck) => {  
     localStorage.setItem("decksSaved" + newDeck.id, JSON.stringify(newDeck));
   };
   const getGameInStorage = (id) => {  
@@ -148,14 +151,13 @@ export function GameProvider({ children }) {
   };
   const pushDeckModification = async (deck) => { 
  
-    const result = await fetchData("api/deck/edit/" + newObj.id, newObj, {
+    const result = await fetchData("api/deck/edit/" + deck.id, deck, {
       token: getToken(),
     });
     if (!result) {
       displayError(t("FailedToUpdateDeck"));
     } else {
-      deleteDeckSaved(newObj.id);
-      deleteLocalHistory(newObj.id);
+      deleteDeckSaved(deck.id); 
     }
     return deck
   };
@@ -194,6 +196,18 @@ export function GameProvider({ children }) {
       // TODO
     }
     return result
+  };const restoreCardsDeck = async (deckId) => { 
+ 
+    const result = await fetchData(`api/deck/${deckId}/restore/cards`, null, {
+      token: getToken(),
+      method: "PUT",
+    });
+    if (!result) {
+      displayError(t("FailedToUpdateDeck"));
+    } else { 
+      // TODO
+    }
+    return result
   };
   const getCards = async (gameId) => { 
  
@@ -214,8 +228,19 @@ export function GameProvider({ children }) {
       method: "DELETE",
     });
     deleteLocalHistory(id);
+    deleteGameSaved(id);
     if (!result) {
       displayError(t("FailedToDeleteGame"));
+    }
+    return result;
+  };const deleteDeck = async (id) => {
+    const result = await fetchData("api/deck/remove/" + id, null, {
+      token: getToken(),
+      method: "DELETE",
+    });
+    deleteDeckSaved(id);
+    if (!result) {
+      displayError(t("FailedToDeleteDeck"));
     }
     return result;
   };
@@ -242,9 +267,10 @@ export function GameProvider({ children }) {
       value={{
         getGame,
         deleteGameSaved,
+        deleteDeckSaved,
         createNewGame,
-        deleteGame,
-        saveNewGameInStorage,
+        deleteGame,deleteDeck,
+        saveNewGameInStorage,saveNewDeckInStorage,
         currentSubpageOfEvents,
         setCurrentWithValueEvent,
         getGameInStorage,getDeckInStorage,
@@ -256,7 +282,7 @@ export function GameProvider({ children }) {
         setCurrentTrigger,
         setCurrentEvent,pushGainModification,
         getGames,createNewDeck,getDecks,getDeck,pushCardModification,
-        pushModification,restoreCards,
+        pushModification,restoreCards,restoreCardsDeck,
         pushDeckModification,
         uploadFileForGameEdition,
       }}

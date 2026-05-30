@@ -17,35 +17,34 @@ import {
   updateValueArray,
 } from "../../../../../helpers/objectManagement";
 import { createHistoryElement } from "../../../../../helpers/historyObject";
-
+import { useNavigate } from "react-router";
 // Components
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import Button from "../../../../../components/Button/Button";
 import Input from "../../../../../components/Input/Input";
 import InputSelect from "../../../../../components/InputSelect/InputSelect";
 import Alert from "../../../../../components/Alert/Alert";
-import CardEditionPage from "./CardEditionPage/CardEditionPage";
+import CardEdition from "../../../../../components/CardEdition/CardEdition";
 import DefaultCard from "../../../../../components/DefaultCard/DefaultCard";
 import ImageUploadFileContainer from "../../../../../components/ImageUploadFileContainer/ImageUploadFileContainer";
-import CustomCard from "../../../../../components/CustomCard/CustomCard";
+
 import { set } from "react-hook-form";
 import SearchBar from "../../../../../components/SearchBar/SearchBar";
 import CardSelectionArea from "../../../../../components/CardSelectionArea/CardSelectionArea";
+import SelectCard from "../../../../../components/SelectCard/SelectCard";
+import CardListReadOnly from "../../../../../components/CardListReadOnly/CardListReadOnly";
 export default function CardsLibrairy({
   gameData,
   updateGameValue,
   currentCard,
   getCardsFromDb,
   setCurrentCard,
-}) {
-  const { fetchData } = useApi();
-  const { t } = useTranslation();
-  const { addItem } = useHistoryContext();
-  const { getToken } = useTokenContext();
-  const { alertList } = useNotificationContext();
-  const { restoreCards } = useGameContext();
-
+}) { 
+  const { t } = useTranslation(); 
+  const { restoreCards, createNewDeck ,getDecks} = useGameContext(); 
+  const [personalDecks, setPersonalDecks] = useState([]); 
   const { displayError } = useNotificationContext();
+  const {navigate} = useNavigate();
   useEffect(() => {
     if (currentCard) {
       updateGameValue("assets.cards." + currentCard.id, currentCard);
@@ -56,145 +55,65 @@ export default function CardsLibrairy({
     }
   }, [currentCard]);
 
-  async function uploadZipOfCards(file) {
-    const formData = new FormData();
-    formData.append("file", file);
+  useEffect(() => {
+    async function getData() { 
+      const resultDeck = await getDecks();
+      if ( !resultDeck) {
+        navigate("/login");
+      }
 
-    const result = await fetchData(
-      "api/game/" + gameData.id + "/cards/uploadZip",
-      null,
-      {
-        token: getToken(),
-        method: "POST",
-      },
-      formData,
-    );
-    if (!result) {
-      displayError(t("FailedToUploadFileZip"));
+      if (resultDeck && Array.isArray(resultDeck)) {
+        setPersonalDecks(resultDeck);
+      }
     }
-    updateGameValue("assets.cards", result);
-  }
 
-  if (currentCard) {
-    return (
-      <CardEditionPage
-        currentCard={currentCard}
-        setCurrentCard={setCurrentCard}
-        gameData={{ id: gameData.id, ...gameData }}
-        updateGameValue={updateGameValue}
-      />
-    );
+    getData();
+  }, []);
+
+  async function newDeck() {
+    const resultDeck = await createNewDeck();
+    if (resultDeck) {
+      navigate("/deck/" + resultDeck.id);
+    }
   }
+  console.log(gameData.cardParams.assetsCardsTemplate);
   return (
     <>
       <div className="cardLibrairy-MultipleActions basicContainer">
         <TitleContainer
           title="cardLibrary"
           type="h1"
-          description="hereYouCanSeeAllTheCardsYouHaveCreated"
+          description="hereYouCanSeeAllTheCardsYouHaveCreatedAndPublicsDecksCards"
         ></TitleContainer>
 
         <div className="rowButtons">
-          <ImageUploadFileContainer
-            buttonText={"uploadZipOfCards"}
-            actionOnFileChange={(e) => {
-              const selectedFile = e.target.files[0];
-              console.log(selectedFile.type);
-              if (selectedFile.type != "application/zip") {
-                displayError(t("onlyZipFileAllowed"));
-                return;
-              } else {
-                uploadZipOfCards(selectedFile);
-              }
-            }}
-          />
           <Button
-            icon="add-white"
-            text="newCard"
-            type="violetButton"
-            action={() => {
-              let id = Date.now();
-              let newCard = {
-                id: id,
-                quantity: 1,
-                name: t("newCard"),
-                type: "french_standard",
-                addedAttributs: {
-                  couleur: "pique",
-                },
-              };
-
-              updateGameValue("assets.cards." + newCard.id, newCard, "new");
-              setCurrentCard(newCard);
-              addItem(
-                gameData.id,
-                createHistoryElement("card", "add", { id: newCard.id }),
-              );
-            }}
+            text="createADeck"
+            action={newDeck}
+            type="grey"
+            icon="new-white"
           ></Button>
         </div>
       </div>
-      <CardSelectionArea
-        cards={gameData.cards}
-        addedAttributs={gameData.cardParams.addedAttributs}
-        cardParams={gameData.cardParams}
-        addLog={(element)=>addItem(gameData.id, element)}
-        setCurrentCard={setCurrentCard}
-        updateCardsValue={(id, value,type)=>updateGameValue("assets.cards." + id, value,type)}
-        alertList={alertList}
-      />
-
-      <div className="basicContainer basicWarningContainer  ">
-        <TitleContainer
-          title={"fixBrokenCards"}
-          type="h2"
-          description={"fixYouBrokenCardByDeleteThem"}
-        />
-
-        <Button
-          text={"fix"}
-          type={"redButton"}
-          action={async () => {
-            if (confirm(t("doYouRealyWantToDeleteBrokenCards"))) {
-              let newCards = { ...gameData.cards };
-              for (let cardId of Object.keys(gameData.cards)) {
-                let card = gameData.cards[cardId];
-                if (!card || !card.id || !card.type || !card.url) {
-                  delete newCards[cardId];
-                }
-              }
-              console.log(newCards);
-              updateGameValue("assets.cards", newCards);
-              addItem(
-                gameData.id,
-                createHistoryElement("cards", "delete", {
-                  id: Object.keys(newCards).join(","),
-                }),
-              );
-            }
-          }}
-        ></Button>
-      </div>
-      <div className="basicContainer basicRedContainer  ">
-        <TitleContainer
-          title={"restoreCards"}
-          type="h2"
-          description={"allYoursCardsWillBeRestoredToDefaultCardsPack"}
-        />
-
-        <Button
-          text={"restoreCards"}
-          type={"redButton"}
-          action={async () => {
-            if (confirm(t("doYouRealyWantToRestore"))) {
-              let result = await restoreCards(gameData.id);
-              if (result && result.message === "ok") {
-                getCardsFromDb();
-              }
-            }
-          }}
-        ></Button>
-      </div>
+      {personalDecks.length > 0 &&
+        personalDecks.map((deck) => (
+          <SelectCard
+            title={deck.name}
+            description={deck.authorName ? `by ${deck.authorName}` : "noAuthor"}
+            selected={gameData.cardParams.assetsCardsTemplate == deck.uniqueId}
+            action={() => {
+               updateGameValue(
+                  "params.cards.assetsCardsTemplate",
+                  deck.uniqueId
+                ) 
+            }} 
+          >
+            <CardListReadOnly
+              cards={deck.cards}
+              cardParams={deck.params}
+            />
+          </SelectCard>
+        ))}
     </>
   );
 }

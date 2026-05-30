@@ -37,8 +37,8 @@ export default function CardManagement({
             setSubpage("cardManagement"); 
             setCurrentCard(null);
           },
-          cardImported: () => {
-            setSubpage("cardImported"); 
+          cards: () => {
+            setSubpage("cards"); 
             setCurrentCard(null);
           },
         }}
@@ -52,7 +52,7 @@ export default function CardManagement({
           updateGameValue={updateGameValue}
         />
       )}
-      {subpage === "cardImported" && (
+      {subpage === "cards" && (
         <CardsLibrairy
           gameData={gameData}
           getCardsFromDb={getCardsFromDb}

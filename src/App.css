@@ -118,3 +118,46 @@ p {
           width: 50%;
         }
       }
+    .innerContainer {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 8px;
+    }
+    .basicRedContainer {
+      border: 0.8px solid #d76262;
+      background: #e95a5a38;
+      p,
+      span,
+      h1,
+      h2 {
+        color: black;
+      }
+    }
+    .basicGreenContainer {
+      border: 0.8px solid #62d76c;
+      background: #84e95a38;
+      p,
+      span,
+      h1,
+      h2 {
+        color: black;
+      }
+    }
+
+    .basicWarningContainer {
+      border: 0.8px solid #d7a562;
+      background: #e9e25a38;
+      p,
+      span,
+      h1,
+      h2 {
+        color: #0000009e;
+      }
+    }
+    .lightContainer {
+      border-radius: 12px;
+      border-radius: 6px;
+      border: 0.8px solid #e1e8f1;
+      background: white;
+    }

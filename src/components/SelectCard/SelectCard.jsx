@@ -1,3 +1,4 @@
+import './style.css';
 import TitleContainer from "../TitleContainer/TitleContainer";
 
 export default function SelectCard({ selected, action, children, title, description }) {

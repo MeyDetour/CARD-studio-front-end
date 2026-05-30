@@ -50,6 +50,17 @@
     color:black
   }
 }
+.defaultCardOfGame.s40{
+width: 40px;
+.suit{
+
+        font-size: 25px;
+}
+.leftValue,.rightValue{
+
+        font-size: 11px;
+}
+}
 
 .defaultCardOfGame.hoverable:hover{
   cursor: pointer;

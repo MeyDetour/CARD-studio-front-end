@@ -1,0 +1,12 @@
+.attributsManager{
+     .button {
+        height: fit-content;
+      }
+      .titleContainer {
+        width: 80% !important;
+      }
+      .rowAttribut{
+        justify-content: start;
+        align-items: center;
+      }
+}

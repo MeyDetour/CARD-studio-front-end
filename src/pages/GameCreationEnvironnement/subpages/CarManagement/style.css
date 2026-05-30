@@ -24,9 +24,7 @@
       }
     }
   }
-  .renderingOfAttributsContainer .row {
-    align-items: center;
-  }
+ 
   .rowOfAttributsHeader {
     align-items: end;
     .titleContainer {
@@ -35,19 +33,19 @@
     .button {
       height: fit-content;
     }
-  }
+  }  
   .renderingOfCardContainer {
     .innerContainer {
       flex-direction: row;
       gap: var(--padding-content-page);
       .left {
-        width: 20%;
+        width: fit-content;
         .customCardContainer {
-          width: 200px;
+          width: 100px;
         }
       }
       .right {
-        width: 80%;
+        width: calc(100% - 100px);
         display: flex;
         flex-direction: column;
         gap: 7px;

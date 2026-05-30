@@ -97,20 +97,7 @@
         width: 100%;
       }
       > .basicContainer.selectCard {
-        position: relative;
-        width: 100%;
-        cursor: pointer;
-        padding-left: 60px;
-        .selectRound {
-          position: absolute;
-          left: 24px;
-          width: 13px;
-          height: 13px;
-          aspect-ratio: 1/1;
-          border-radius: 50%;
-          border: 1px solid #80808091;
-          box-shadow: 0 0 5px 0 #80808036;
-        }
+      
         .title {
           display: flex;
           flex-direction: row;
@@ -155,17 +142,7 @@
           align-items: end;
           width: fit-content;
         }
-        .selected::before {
-          content: "";
-          position: absolute;
-          width: 80%;
-          height: 80%;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          border-radius: 50%;
-          background-color: var(--violet);
-        }
+      
       }
     }
   }

@@ -4,27 +4,21 @@ export default function CustomCard({
   dataKey,
   radius,
   hoverable = false,
+  aspectRatio="0.67/1",
   isSelected = false,
   children,
   classAdded,
   action,
 }) {
-  if (!card) {
-    console.warn("No card provided to custom card component");
+  if (!card ) {
+     
+
     return (
-      <div className={`customCardContainer `}>
-        <div className="customCard">PLEASE PROVIDE CARD</div>
+      <div className={`customCardContainer `} style={{aspectRatio: aspectRatio, borderRadius: (radius ?? 8) + "px"}}>
+       
       </div>
     );
-  }
-  if (!card.url) {
-    console.warn("No url provided for the card in custom card component");
-    return (
-      <div className={`customCardContainer `}>
-        <div className="customCard">PLEASE PROVIDE URL OF THE CARD</div>
-      </div>
-    );
-  }
+  } 
 
   // le radius est determiné visuelelment par l'utilisateur
   // dans la page management , la carte fait 200px de largeur, avec un radius de 34px
@@ -44,7 +38,7 @@ export default function CustomCard({
     >
       <div
         className={`customCard ${hoverable ? "hoverable" : ""} ${classAdded ?? ""} ${isSelected ? "selected" : ""}`}
-        style={{ borderRadius: (radius ?? 8) + "px" }}
+        style={{ borderRadius: (radius ?? 8) + "px", aspectRatio: aspectRatio }}
         data-key={dataKey ?? null}
       >
         <img draggable={false} alt={card.name ?? ""} src={card.url} />

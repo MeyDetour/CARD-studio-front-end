@@ -1,10 +1,14 @@
 import { SelectionArea } from "@viselect/react";
-import { useState,useMemo } from "react";
-import { updateValueArray,updateElementValue } from "../../helpers/objectManagement";
+import { useState, useMemo } from "react";
+import {
+  updateValueArray,
+  updateElementValue,
+} from "../../helpers/objectManagement";
 import DefaultCard from "../DefaultCard/DefaultCard";
 import CustomCard from "../CustomCard/CustomCard";
 import Alert from "../Alert/Alert";
-import { createHistoryElement } from "../../helpers/historyObject"; 
+import { useTranslation } from "react-i18next";
+import { createHistoryElement } from "../../helpers/historyObject";
 import TitleContainer from "../TitleContainer/TitleContainer";
 import SearchBar from "../SearchBar/SearchBar";
 import InputSelect from "../InputSelect/InputSelect";
@@ -14,12 +18,12 @@ import "./style.css";
 export default function CardSelectionArea({
   addedAttributs,
   // gameData contient les données du jeu
-  cards, 
+  cards,
   // setCurrentCard est la fonction pour définir la carte actuelle
   setCurrentCard,
   // alertList est la liste des alertes
   alertList,
-  // envoie un element d'historique avec le detail de l'action 
+  // envoie un element d'historique avec le detail de l'action
   // pour le journal de modification
   // (elementDetail)=>
   addLog,
@@ -28,9 +32,10 @@ export default function CardSelectionArea({
   // updateGameValue est la fonction pour mettre à jour les données du jeu
   // elle prend en paramètre le chemin de la valeur à mettre à jour, la nouvelle valeur, et le type d'opération (edit, delete, add)
   // (ex: (id,newValue,type)=>updateGameValue("assets.cards." + id, newValue, type))
-  updateCardsValue,
+  updateCardValue,
+// function qui met à jour les cartes dans le composant parent, elle prend en paramètre les nouvelles cartes
+  updateCards,
 }) {
-    console.log(addedAttributs);
   // selected est un Set qui contient les clés des cartes sélectionnées
   const [selected, setSelected] = useState(new Set());
   // filters est un objet qui contient les filtres appliqués, par exemple { type: ["custom"], quantity: [2, 3], addedAttributs: { couleur: ["coeur"] } }
@@ -40,7 +45,8 @@ export default function CardSelectionArea({
   // en même temps, il est défini lorsque l'utilisateur souhaite modifier plusieurs cartes en même temps,
   // et il est réinitialisé lorsque l'utilisateur commence une nouvelle sélection
   const [multipleEdit, setMultipleEdit] = useState({});
-
+  const [displayMultipleEdit, setDisplayMultipleEdit] = useState(false);
+  const { t } = useTranslation();
   // searchTerm est la valeur de l'entrée de recherche, elle est utilisée pour filtrer les cartes dans
   // la bibliothèque
   const [searchTerm, setSearchTerm] = useState("");
@@ -66,7 +72,6 @@ export default function CardSelectionArea({
     result["quantity"] = Array.from(values);
     return result;
   }, [cards, addedAttributs]);
-
   return (
     <>
       <SelectionArea
@@ -85,9 +90,12 @@ export default function CardSelectionArea({
         onStart={({ event, selection }) => {
           if (!event?.ctrlKey && !event?.metaKey) {
             selection.clearSelection();
-            setSelected(new Set());
+            setSelected(new Set()); 
             setMultipleEdit({});
           }
+        }}
+        onStop={() => {
+          setDisplayMultipleEdit(true);
         }}
         onMove={({
           store: {
@@ -260,25 +268,26 @@ export default function CardSelectionArea({
                 }}
                 key={key}
                 card={card}
-                radius={(cardParams.radius * 78) / 200}
+                radius={cardParams.radius * 80}
+                aspectRatio={cardParams.ratio??"0.67/1"}
                 hoverable={true}
                 isSelected={isSelected}
                 // On ne passe plus dataKey ici, mais on va le passer dans classAdded pour l'ajouter sur le bon div
                 classAdded={`selectable ${isSelected ? "selected" : ""}`}
                 dataKey={key}
               >
-                { alertList && (
-                <Alert
-                  alertList={alertList}
-                  displayAlertStartWith={card.id + "|card|"}
-                ></Alert>
+                {alertList && (
+                  <Alert
+                    alertList={alertList}
+                    displayAlertStartWith={card.id + "|card|"}
+                  ></Alert>
                 )}
               </CustomCard>
             );
           })}
         </div>
       </SelectionArea>
-      {selected.size > 1 && (
+      {displayMultipleEdit && (
         <div className="cardLibrairy-MultipleActions basicContainer">
           {/*===== multiple edit couleur si tous les elements sont french_standard =====*/}
           {!Array.from(selected).some(
@@ -289,16 +298,17 @@ export default function CardSelectionArea({
               closeAfterSelect={true}
               updateValueArray={(path, value) => {
                 for (let key of selected) {
-                  updateCardsValue(
-                     key,
+                  updateCardValue(
+                    key,
                     updateElementValue(path, cards[key], value),
                   );
-                  if (addLog){
-                  addLog(
-                    createHistoryElement("cards", "edit", {
-                      id: key,
-                    }),
-                  );}
+                  if (addLog) {
+                    addLog(
+                      createHistoryElement("cards", "edit", {
+                        id: key,
+                      }),
+                    );
+                  }
                 }
               }}
               pathObject="addedAttributs.couleur"
@@ -313,16 +323,17 @@ export default function CardSelectionArea({
             pathInObject="quantity"
             onChangeFunction={(path, value) => {
               for (let key of selected) {
-                updateCardsValue(
-                   key,
+                updateCardValue(
+                  key,
                   updateElementValue(path, cards[key], value),
                 );
-                if (addLog){
-                addLog(
-                  createHistoryElement("cards", "edit", {
-                    id: key,
-                  }),
-                );}
+                if (addLog) {
+                  addLog(
+                    createHistoryElement("cards", "edit", {
+                      id: key,
+                    }),
+                  );
+                }
               }
               setMultipleEdit((prev) => ({
                 ...prev,
@@ -332,36 +343,35 @@ export default function CardSelectionArea({
           />
           {/* ===========added attributes======= */}
           {addedAttributs &&
-            Object.keys(addedAttributs).map(
-              (attributKey, key) => (
-                <Input
-                  title={attributKey}
-                  defaultValue={multipleEdit?.[attributKey] ?? ""}
-                  pathInObject={
-                    attributKey ? "addedAttributs." + attributKey : null
-                  }
-                  onChangeFunction={(path, value) => {
-                    for (let key of selected) {
-                      updateCardsValue(
-                         key,
-                        updateElementValue(path, cards[key], value),
-                      );
-                      if(addLog){
+            Object.keys(addedAttributs).map((attributKey, key) => (
+              <Input
+                title={attributKey}
+                defaultValue={multipleEdit?.[attributKey] ?? ""}
+                pathInObject={
+                  attributKey ? "addedAttributs." + attributKey : null
+                }
+                onChangeFunction={(path, value) => {
+                  for (let key of selected) {
+                    updateCardValue(
+                      key,
+                      updateElementValue(path, cards[key], value),
+                    );
+                    if (addLog) {
                       addLog(
                         createHistoryElement("cards", "edit", {
                           id: key,
                         }),
-                      );}
+                      );
                     }
-                    setMultipleEdit((prev) => ({
-                      ...prev,
-                      [attributKey]: value,
-                    }));
-                  }}
-                  placeholder="enterValue"
-                />
-              ),
-            )}
+                  }
+                  setMultipleEdit((prev) => ({
+                    ...prev,
+                    [attributKey]: value,
+                  }));
+                }}
+                placeholder="enterValue"
+              />
+            ))}
           {/*===== multiple delete ================ */}
 
           <div className="basicContainer basicWarningContainer rewardsManagementSection">
@@ -377,13 +387,9 @@ export default function CardSelectionArea({
               action={async () => {
                 if (confirm(t("doYouRealyWantToDeleteTheseCards"))) {
                   for (let key of selected) {
-                    updateCardsValue(
-                       key,
-                      cards[key],
-                      "delete",
-                    );
+                    updateCardValue(key, cards[key], "delete");
                     if (addLog) {
-                      addLog( 
+                      addLog(
                         createHistoryElement("cards", "delete", {
                           id: key,
                         }),
@@ -391,11 +397,43 @@ export default function CardSelectionArea({
                     }
                   }
                 }
+                setSelected(new Set());
               }}
             ></Button>
           </div>
         </div>
       )}
+       <div className="basicContainer basicWarningContainer  ">
+        <TitleContainer
+          title={"fixBrokenCards"}
+          type="h2"
+          description={"fixYouBrokenCardByDeleteThem"}
+        />
+
+        <Button
+          text={"fix"}
+          type={"warningButton"}
+          action={async () => {
+            if (confirm(t("doYouRealyWantToDeleteBrokenCards"))) {
+              let newCards = { ...cards };
+              for (let cardId of Object.keys(cards)) {
+                let card = cards[cardId];
+                if (!card || !card.id || !card.type || !card.url) {
+                  delete newCards[cardId];
+                }
+              }
+              console.log(newCards);
+
+              updateCards( newCards);
+             if(addLog) addLog(
+                createHistoryElement("cards", "delete", {
+                  id: Object.keys(newCards).join(","),
+                }),
+              );
+            }
+          }}
+        ></Button>
+      </div>
     </>
   );
 }

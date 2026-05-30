@@ -1,3 +1,4 @@
+
 import { useTranslation } from "react-i18next";
 import "./style.css";
 import { useState, useRef, useEffect } from "react";
@@ -5,8 +6,10 @@ import { Link } from "react-router";
 import TitleContainer from "../TitleContainer/TitleContainer";
 export default function InputRange({
   type,
+  // min and max are the limits of the range, while minValue and maxValue are the current values of the cursors
   min = 0,
   max = 100,
+  // setMinValue and setMaxValue are the functions that will update the values of the cursors in the parent component
   minValue = 0,
   maxValue = 50,
   setMinValue,
