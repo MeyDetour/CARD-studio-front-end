@@ -3,12 +3,11 @@ import "./style.css";
 
 // External libraries
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // Contexts
 import { useGameContext } from "../../context/GameContext.jsx";
-
+import { useNavigate } from "react-router";
 // Hooks
 import { useApi } from "../../hooks/useApi.js";
 
@@ -20,17 +19,16 @@ import StatElement from "../../components/StatElement/StatElement.jsx";
 import GameCard from "../../components/GameCard/GameCard.jsx";
 import SubNavigationBar from "../../components/SubNavigationBar/SubNavigationBar.jsx";
 import DeckCard from "../../components/DeckCard/DeckCard.jsx";
-
-
+import Icon from "../../components/Icon/Icon.jsx";
 
 export default function SelectGame() {
-  const { createNewGame, getGames , getDecks, createNewDeck } = useGameContext();
+  const { createNewGame, getGames, getDecks, createNewDeck } = useGameContext();
   const { result, loading, error, fetchData } = useApi();
   const [personalGames, setPersonalGames] = useState([]);
   const [personalDecks, setPersonalDecks] = useState([]);
   const [subPage, setSubPage] = useState("myGames");
   const [isNewGameLoading, setIsNewGameLoading] = useState(false);
- 
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   useEffect(() => {
@@ -74,6 +72,9 @@ export default function SelectGame() {
   if (isNewGameLoading) return <Loader />;
   return (
     <div className="selectGamePage">
+      <div className="settingsIcon" onClick={() => navigate("account")}>
+        <Icon name="settings-white"></Icon>
+      </div>
       <div className="headerSection">
         <img src="/src/assets/CARDStudioLogo.svg" alt="logo" className="logo" />
         <h1>{t("selectGameTitle")}</h1>
@@ -99,6 +100,7 @@ export default function SelectGame() {
         buttons={{
           myGames: () => setSubPage("myGames"),
           myDecks: () => setSubPage("myDecks"),
+          account: () => navigate("account"),
         }}
       ></SubNavigationBar>
 

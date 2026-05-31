@@ -11,6 +11,7 @@ import GameCreationEnvironnement from "./pages/GameCreationEnvironnement/GameCre
 import NotFound from "./pages/NotFound/NotFound.jsx";
 import { NotificationProvider } from "./context/NotificationContext.jsx";
 import DeckCreation from "./pages/DeckCreationEnvironnement/DeckCreation.jsx";
+import Account from "./pages/Account/Account.jsx";
 import SettingsAndHelp from "./pages/GameCreationEnvironnement/subpages/HelpAndSettings/HelpAndSettings.jsx";
 function App() {
   return (
@@ -37,8 +38,8 @@ function App() {
                     element={<GameCreationEnvironnement />}
                   />
                   <Route
-                    path={"help-and-settings"}
-                    element={<SettingsAndHelp />}
+                    path={"account"}
+                    element={<Account />}
                   />
                   <Route path={"/"} element={<SelectGame />} />
 

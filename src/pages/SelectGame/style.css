@@ -9,7 +9,26 @@
   padding: 3% 10%;
 
   gap: 50px;
-
+  .settingsIcon {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    width: fit-content;
+    height: fit-content;
+    background: var(--violet);
+    cursor: pointer;
+    padding: 14px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .settingsIcon{
+    &:hover {
+      background: #b696ff;
+    }
+  }
   .headerSection {
     width: 51%;
     display: flex;
@@ -27,15 +46,14 @@
     align-items: stretch;
     gap: 10px;
     height: 45px;
-  } 
-  .sub-navigation-bar{
+  }
+  .sub-navigation-bar {
     width: 50%;
     align-self: flex-start;
     background: white;
     text-wrap: nowrap;
-    .active{
-            background: #ede5ff;
-
+    .active {
+      background: #ede5ff;
     }
   }
   .gamesWrapper {
@@ -47,7 +65,7 @@
     gap: 27px;
     height: fit-content;
     > .gameCard {
-    width: calc(46% - (27px / 2));
+      width: calc(46% - (27px / 2));
     }
   }
 }

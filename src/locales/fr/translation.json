@@ -602,6 +602,7 @@
   "thisOptionWillOnlyCorrigeOrderOfCardsYouCanAlsoReorderCardsByDragAndDropThemInTheLibrary": "Cette option ne fera que corriger l'ordre des cartes. Vous pouvez également réorganiser les cartes en les faisant glisser et en les déposant dans la bibliothèque.",
   "restoreLastSavedVersion": "Restaurer la dernière version sauvegardée",
   "actionExecuted": "Action exécutée",
+  "backToSelectGame": "Retour à la sélection de jeu",
   "thisOptionWillRestoreTheLastSavedVersionOfYourDeckIfYouHaveMadeChangesSinceTheLastSaveAndYouDontWantToKeepThem": "Cette option restaurera la dernière version sauvegardée de votre deck si vous avez apporté des modifications depuis la dernière sauvegarde et que vous ne souhaitez pas les conserver.",
   "eventsToEXecuteAfter": "Événements  qui seront exécutés lorsque cet événement est déclenché",
   "noEventToCall": "Aucun événement appelé.",
