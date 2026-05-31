@@ -69,6 +69,14 @@ export function GameProvider({ children }) {
       displayError(t("FailedToRetrieveDecks"));
     }
     return resultDecks;
+  };  const getDecksPublic = async () => {
+    const resultDecks = await fetchData("api/get/public/decks", null, {
+      token: getToken(),
+    });
+    if (!resultDecks) {
+      displayError(t("FailedToRetrieveDecks"));
+    }
+    return resultDecks;
   };
 
   const createNewGame = async () => {
@@ -156,7 +164,7 @@ export function GameProvider({ children }) {
     });
     if (!result) {
       displayError(t("FailedToUpdateDeck"));
-    } else {
+    } {
       deleteDeckSaved(deck.id); 
     }
     return deck
@@ -283,7 +291,7 @@ export function GameProvider({ children }) {
         setCurrentEvent,pushGainModification,
         getGames,createNewDeck,getDecks,getDeck,pushCardModification,
         pushModification,restoreCards,restoreCardsDeck,
-        pushDeckModification,
+        pushDeckModification,getDecksPublic,
         uploadFileForGameEdition,
       }}
     >

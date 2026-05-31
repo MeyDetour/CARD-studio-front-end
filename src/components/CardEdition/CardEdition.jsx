@@ -39,6 +39,7 @@ export default function CardEdition({
   addLog,
   // (id,elt)=>
   updateCardValue,
+  reArangeCardOrder
 }) {
   const { fetchData } = useApi();
   const { getToken } = useTokenContext();
@@ -224,7 +225,7 @@ export default function CardEdition({
             }
             items={["trefle", "coeur", "carreau", "pique"]}
           />
-        )}{" "}
+        )}
         {/* ===========QUANTITY======= */}
         <Input
           type="number"
@@ -233,6 +234,17 @@ export default function CardEdition({
           pathInObject="quantity"
           onChangeFunction={(path, value) => {
             setCurrentCard(updateElementValue(path, currentCard, value));
+          }}
+        />{/* ===========ORDER======= */}
+        <Input
+          type="number"
+          title="order"
+          defaultValue={currentCard.order ?? ""}
+          pathInObject="order"
+          onChangeFunction={(path, value) => { 
+            let newValue = value === "" ? "" : parseInt(value);
+            reArangeCardOrder(updateElementValue(path, currentCard, newValue));
+            setCurrentCard(updateElementValue(path, currentCard, newValue));
           }}
         />
       </div>

@@ -14,6 +14,7 @@ import Icon from "../../components/Icon/Icon";
 import { useTokenContext } from "../../context/TokenContext";
 import InputRange from "../../components/inputRange/inputRange";
 import CardSelectionArea from "../../components/CardSelectionArea/CardSelectionArea";
+import DetailContainer from "../../components/DetailContainer/DetailContainer";
 import AttributsManagement from "../../components/AttributsManagement/AttributsManagement";
 import GameCreationEnvironnementHeader from "../../components/GameCreationEnvironnementHeader/GameCreationEnvironnementHeader";
 import {
@@ -24,6 +25,7 @@ import CustomCard from "../../components/CustomCard/CustomCard.jsx";
 import DefaultCard from "../../components/DefaultCard/DefaultCard.jsx";
 import CardEdition from "../../components/CardEdition/CardEdition.jsx";
 import CardEditionPage from "../../components/CardEdition/CardEdition.jsx";
+import { createNewORderForCard } from "../../helpers/cards.js";
 export default function DeckCreation() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -44,35 +46,32 @@ export default function DeckCreation() {
   const [deckInStorage, setDeckInStorage] = useState(getDeckInStorage(id));
   const [playerHasEdit, setPlayerHasEdit] = useState(false);
 
-
-
   useEffect(() => {
     setDeckInStorage(getDeckInStorage(id));
-  }, [deck, id,playerHasEdit]);
-const initGame = async () => {
-      const stored = getDeckInStorage(id);
+  }, [deck, id, playerHasEdit, setDeck]);
+  const initGame = async () => {
+    const stored = getDeckInStorage(id);
 
-      if (stored && String(stored.id) === String(id)) {
-        if (stored && stored.id == id) {
-          setDeck(stored);
-        }
-      } else {
-        const result = await getDeck(id);
-        if (result) {
-          setDeck(result);
-        }
+    if (stored && String(stored.id) === String(id)) {
+      if (stored && stored.id == id) {
+        setDeck(stored);
       }
-    };
+    } else {
+      const result = await getDeck(id);
+      if (result) {
+        setDeck(result);
+      }
+    }
+  };
 
   useEffect(() => {
-    
     if (id && !deck) {
       initGame();
     }
   }, []);
   useEffect(() => {
     if (currentCard) {
-      updateDeckValueHandler("cards." + currentCard.id, currentCard); 
+      updateDeckValueHandler("cards." + currentCard.id, currentCard);
     }
   }, [currentCard]);
   useEffect(() => {
@@ -80,7 +79,7 @@ const initGame = async () => {
     const delayDebounceFn = setTimeout(() => {
       console.log("Sauvegarde automatique dans le stockage local...");
 
-      saveNewDeckInStorage(deck); 
+      saveNewDeckInStorage(deck);
       setPlayerHasEdit(false);
     }, 2000);
 
@@ -89,8 +88,7 @@ const initGame = async () => {
 
   if (loading) return <Loader />;
   if (error) return <p>Erreur : {error}</p>;
-  if (!deck) return <Loader />;
-  console.log(deck);
+  if (!deck) return <Loader />; 
 
   // =========== UPDATE DECK OBJECT ============
   const updateDeckValueHandler = (path, value, type) => {
@@ -104,8 +102,10 @@ const initGame = async () => {
   };
   // =========== DECK SAVES ============
   const saveDeck = async () => {
-    let newDeck = await pushDeckModification(deck); 
+    console.log(deck);
+    let newDeck = await pushDeckModification(deck);
     setDeck(newDeck);
+    setDeckInStorage(getDeckInStorage(id));
   };
   // =========== SAVE DECK IN STORAGE ============
   async function uploadZipOfCards(file) {
@@ -126,7 +126,40 @@ const initGame = async () => {
     }
     updateDeckValueHandler("cards", result);
   }
+  if (currentCard) {
+    return (
+      <div className={" deckCreationEnvironnementPage"}>
+        <GameCreationEnvironnementHeader name={deck.name} />
+        <div className="content">
+          <Button
+            text="seeAllCards"
+            icon="left_arrow"
+            type="whiteWithBordure"
+            action={() => {
+              setCurrentCard(null);
+            }}
+          ></Button>
+          <CardEdition
+            currentCard={currentCard}
+            setCurrentCard={setCurrentCard}
+            linkToUploadImage={"api/deck/" + deck.id + "/card/uploadImage"}
+            cardParams={deck.params}
+            updateElementValue={(id, element) =>
+              updateDeckValueHandler("cards." + id, element)
+            }
+            reArangeCardOrder={(card) => {
+              console.log(card);
+              let newCards = createNewORderForCard(
+                updateElementValue(String(card.id), deck.cards, card),
+              );
 
+              updateDeckValueHandler("cards", newCards);
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={" deckCreationEnvironnementPage"}>
       <GameCreationEnvironnementHeader name={deck.name} />
@@ -188,7 +221,6 @@ const initGame = async () => {
             }}
           />
         </div>
-
         {/* ==========RENDERING OF CARDS======== */}
         {Object.keys(deck.cards).some((key) => {
           return deck.cards[key].type === "custom";
@@ -277,7 +309,6 @@ const initGame = async () => {
             updateDeckValueHandler("cards", newCards);
           }}
         ></AttributsManagement>
-
         {/* END OF ATTRIBUTS */}
         {/* CARDS TITLE */}
         <div className="cardLibrairy-MultipleActions basicContainer">
@@ -315,6 +346,7 @@ const initGame = async () => {
                   addedAttributs: {
                     couleur: "pique",
                   },
+                  order: Object.keys(deck.cards).length + 1,
                 };
 
                 updateDeckValueHandler("cards." + newCard.id, newCard, "new");
@@ -325,39 +357,122 @@ const initGame = async () => {
         </div>
         {/* END OF CARDS TITLE */}
         {/* CARDS LIBRAIRY */}
-        {currentCard ? (
-          <>
+        <CardSelectionArea
+          cards={deck.cards}
+          addedAttributs={deck.params.addedAttributs}
+          cardParams={deck.params}
+          setCurrentCard={setCurrentCard}
+          updateCardValue={(id, value, type) =>
+            updateDeckValueHandler("cards." + id, value, type)
+          }
+          updateCards={(newCards) => updateDeckValueHandler("cards", newCards)}
+        />
+        {/* ADVANCED OPTIONS FOR DECK */}
+        <DetailContainer
+          title={t("advancedOptionForDeck")}
+          description={t("advancedOptionForDeckDescription")}
+        >
+          {" "}
+          <div className="row " style={{ alignItems: "center" }}>
+            <TitleContainer
+              title={"fixBrokenCards"}
+              type="h2"
+              description={"fixYouBrokenCardByDeleteThem"}
+            />
+
             <Button
-              text="seeAllCards"
-              type="whiteWithBordure"
-              action={() => {
-                setCurrentCard(null);
+              text={"fix"}
+              type={"grey  fit-content"}
+              addActionConfirmation={true}
+              action={async () => {
+                if (confirm(t("doYouRealyWantToDeleteBrokenCards"))) {
+                  let newCards = { ...deck.cards };
+                  for (let cardId of Object.keys(deck.cards)) {
+                    let card = deck.cards[cardId];
+                    if (!card || !card.id || !card.type || !card.url) {
+                      delete newCards[cardId];
+                    }
+                  }
+                  console.log(newCards);
+
+                  updateDeckValueHandler("cards", newCards);
+                  if (addLog)
+                    addLog(
+                      createHistoryElement("cards", "delete", {
+                        id: Object.keys(newCards).join(","),
+                      }),
+                    );
+                }
               }}
             ></Button>
-            <CardEdition
-              currentCard={currentCard}
-              setCurrentCard={setCurrentCard}
-              linkToUploadImage={"api/deck/" + deck.id + "/card/uploadImage"}
-              cardParams={deck.params}
-              updateElementValue={(id, element) =>
-                updateDeckValueHandler("cards." + id, element)
+          </div>
+          <div className="row " style={{ alignItems: "center" }}>
+            <TitleContainer
+              title={"restoreCards"}
+              type="h2"
+              description={"allYoursCardsWillBeRestoredToDefaultCardsPack"}
+            />
+
+            <Button
+              text={"restoreCards"}
+              type={"grey fit-content"}
+              addActionConfirmation={true}
+              action={async () => {
+                if (confirm(t("doYouRealyWantToRestore"))) {
+                  let result = await restoreCardsDeck(deck.id);
+                  if (result && result.message === "ok") {
+                    initGame();
+                  }
+                }
+              }}
+            ></Button>
+          </div>
+          <div className="row " style={{ alignItems: "center" }}>
+            <TitleContainer
+              title={"reorderCards"}
+              type="h2"
+              description={
+                "thisOptionWillOnlyCorrigeOrderOfCardsYouCanAlsoReorderCardsByDragAndDropThemInTheLibrary"
               }
             />
-            
-          </>
-        ) : (
-          <>
-          <CardSelectionArea
-            cards={deck.cards}
-            addedAttributs={deck.params.addedAttributs}
-            cardParams={deck.params}
-            setCurrentCard={setCurrentCard}
-            updateCardValue={(id, value, type) =>
-              updateDeckValueHandler("cards." + id, value, type)
-            }  
-            updateCards={(newCards) => updateDeckValueHandler("cards", newCards)}
-          />
 
+            <Button
+              text={"reorderCards"}
+              type={"grey fit-content"}
+              addActionConfirmation={true}
+              action={async () => {
+                updateDeckValueHandler(
+                  "cards",
+                  createNewORderForCard(deck.cards),
+                );
+              }}
+            ></Button>
+          </div>
+          <div className="row " style={{ alignItems: "center" }}>
+            <TitleContainer
+              title={"restoreLastSavedVersion"}
+              type="h2"
+              description={
+                "thisOptionWillRestoreTheLastSavedVersionOfYourDeckIfYouHaveMadeChangesSinceTheLastSaveAndYouDontWantToKeepThem"
+              }
+            />
+
+            <Button
+              text={"restoreLastSavedVersion"}
+              type={"grey fit-content"}
+              addActionConfirmation={true}
+              action={async () => {
+                const result = await getDeck(id);
+                if (result) {
+                  setDeck(result);
+                  saveNewDeckInStorage(result);
+                }
+              }}
+            ></Button>
+          </div>
+        </DetailContainer>
+         {/*END OF ADVANCED OPTIONS CONTAINER */}
+        {/* DELETE DECK */}
         <div className="basicContainer basicRedContainer rewardsManagementSection">
           <TitleContainer
             title={"deleteDeck"}
@@ -378,30 +493,7 @@ const initGame = async () => {
             }}
           ></Button>
         </div>
-          <div className="basicContainer basicRedContainer  ">
-                <TitleContainer
-                  title={"restoreCards"}
-                  type="h2"
-                  description={"allYoursCardsWillBeRestoredToDefaultCardsPack"}
-                />
-        
-                <Button
-                  text={"restoreCards"}
-                  type={"redButton"}
-                  action={async () => {
-                    if (confirm(t("doYouRealyWantToRestore"))) {
-                      let result = await restoreCardsDeck(deck.id);
-                      if (result && result.message === "ok") {
-                        initGame();
-                      }
-                    }
-                  }}
-                ></Button>
-              </div>
-        </>
-        )}
         {/* END OF CARDS LIBRAIRY */}
-
       </div>
     </div>
   );

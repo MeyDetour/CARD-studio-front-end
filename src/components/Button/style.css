@@ -41,6 +41,9 @@
     }
   }
 }
+.button.fit-content {
+  height: fit-content;
+}
 
 .button.withoutBorder:hover {
   color: black;
@@ -63,6 +66,14 @@
    
         background: green;
         color : white;
+        span {
+          color: white !important;
+        }
+      
+}.button.greenButtonConfirm{
+   
+        background: green !important;
+        color : white !important;
         span {
           color: white !important;
         }

@@ -39,12 +39,14 @@ export default function CardsLibrairy({
   currentCard,
   getCardsFromDb,
   setCurrentCard,
-}) { 
-  const { t } = useTranslation(); 
-  const { restoreCards, createNewDeck ,getDecks} = useGameContext(); 
-  const [personalDecks, setPersonalDecks] = useState([]); 
+}) {
+  const { t } = useTranslation();
+  const { restoreCards, createNewDeck, getDecks, getDecksPublic } =
+    useGameContext();
+  const [personalDecks, setPersonalDecks] = useState([]);
+  const [publicDecks, setPublicDecks] = useState([]);
   const { displayError } = useNotificationContext();
-  const {navigate} = useNavigate();
+  const { navigate } = useNavigate();
   useEffect(() => {
     if (currentCard) {
       updateGameValue("assets.cards." + currentCard.id, currentCard);
@@ -56,14 +58,15 @@ export default function CardsLibrairy({
   }, [currentCard]);
 
   useEffect(() => {
-    async function getData() { 
+    async function getData() {
       const resultDeck = await getDecks();
-      if ( !resultDeck) {
-        navigate("/login");
-      }
+      const resultDecksPublic = await getDecksPublic();
 
       if (resultDeck && Array.isArray(resultDeck)) {
         setPersonalDecks(resultDeck);
+      }
+      if (resultDecksPublic && Array.isArray(resultDecksPublic)) {
+        setPublicDecks(resultDecksPublic);
       }
     }
 
@@ -95,25 +98,62 @@ export default function CardsLibrairy({
           ></Button>
         </div>
       </div>
-      {personalDecks.length > 0 &&
-        personalDecks.map((deck) => (
-          <SelectCard
-            title={deck.name}
-            description={deck.authorName ? `by ${deck.authorName}` : "noAuthor"}
-            selected={gameData.cardParams.assetsCardsTemplate == deck.uniqueId}
-            action={() => {
-               updateGameValue(
-                  "params.cards.assetsCardsTemplate",
-                  deck.uniqueId
-                ) 
-            }} 
-          >
-            <CardListReadOnly
-              cards={deck.cards}
-              cardParams={deck.params}
-            />
-          </SelectCard>
-        ))}
+      <div className="wrapperCardsLibrairy">
+        {personalDecks.length > 0 &&
+          personalDecks.map(
+            (deck) =>
+              deck.cards &&
+              Object.keys(deck.cards).length > 0 && (
+                <SelectCard
+                  title={deck.name}
+                  description={
+                    deck.authorName ? `youCreatedThisDeck` : "noAuthor"
+                  }
+                  selected={
+                    gameData.cardParams.assetsCardsTemplate == deck.uniqueId
+                  }
+                  action={() => {
+                    updateGameValue(
+                      "params.cards.assetsCardsTemplate",
+                      deck.uniqueId,
+                    );
+                  }}
+                >
+                  <CardListReadOnly
+                    cards={deck.cards}
+                    cardParams={deck.params}
+                  />
+                </SelectCard>
+              ),
+          )}
+      </div>
+    
+      <div class="wrapper">
+      {publicDecks.length > 0 &&
+        publicDecks.map(
+          (deck) =>
+            deck.cards &&
+            Object.keys(deck.cards).length > 0 && (
+              <SelectCard
+                title={deck.name}
+                description={
+                  deck.authorName ? `by ${deck.authorName}` : "noAuthor"
+                }
+                selected={
+                  gameData.cardParams.assetsCardsTemplate == deck.uniqueId
+                }
+                action={() => {
+                  updateGameValue(
+                    "params.cards.assetsCardsTemplate",
+                    deck.uniqueId,
+                  );
+                }}
+              >
+                <CardListReadOnly cards={deck.cards} cardParams={deck.params} />
+              </SelectCard>
+            ),
+        )}
+      </div>
     </>
   );
 }

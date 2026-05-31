@@ -24,7 +24,16 @@
       }
     }
   }
- 
+ .wrapperCardsLibrairy{
+      display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    width: 100%;
+    gap: 20px;
+    .selectCard{
+      width: calc(33% - 10px);
+    }
+ }
   .rowOfAttributsHeader {
     align-items: end;
     .titleContainer {

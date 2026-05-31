@@ -1,19 +1,20 @@
- 
-  .cardListReadOnly {
-      user-select: none;
-    
-      position: relative;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: start;
-      height: fit-content;
-      user-select: none;
-      user-select: none !important;
-      -webkit-user-select: none;
-      .customCardContainer {
-        width: 40px;
-      }
- 
+.cardListReadOnly {
+  user-select: none;
 
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px;
+  align-items: start;
+  height: fit-content;
+  user-select: none;
+  user-select: none !important;
+  -webkit-user-select: none;
+  .customCardContainer {
+    width: 40px;
+  }
+  .s40,
+  .customCardContainer {
+    margin-left: -11px;
+  }
 }

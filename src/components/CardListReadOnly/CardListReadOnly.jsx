@@ -1,5 +1,6 @@
  
 import DefaultCard from "../DefaultCard/DefaultCard";
+import {sortCardsKeyInOrder} from "../../helpers/cards.js";
 import CustomCard from "../CustomCard/CustomCard"; 
 import "./style.css";
 export default function CardListReadOnly({ 
@@ -7,11 +8,12 @@ export default function CardListReadOnly({
   cardParams,
 }) { 
   if (!cards) return <div>{t("noCardInThisDeck")}</div>;
+
   return (
     <>
      
         <div className="cardListReadOnly">
-          {Object.keys(cards).map((key) => {
+          {sortCardsKeyInOrder(cards).map((key) => {
             const card = cards[key];
            
  
@@ -35,8 +37,8 @@ export default function CardListReadOnly({
                 }}
                 key={key}
                 card={card}
-                radius={cardParams.radius ? cardParams.radius * 40 : 0}
-                aspectRatio={cardParams.ratio??"0.67/1"}
+                radius={cardParams?.radius ? cardParams.radius * 40 : 0}
+                aspectRatio={cardParams?.ratio??"0.67/1"}
                 hoverable={false}   
               > 
               </CustomCard>

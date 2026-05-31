@@ -14,6 +14,8 @@ import SearchBar from "../SearchBar/SearchBar";
 import InputSelect from "../InputSelect/InputSelect";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
+import { sortCardsKeyInOrder } from "../../helpers/cards.js";
+import { createNewORderForCard } from "../../helpers/cards.js";
 import "./style.css";
 export default function CardSelectionArea({
   addedAttributs,
@@ -33,7 +35,7 @@ export default function CardSelectionArea({
   // elle prend en paramètre le chemin de la valeur à mettre à jour, la nouvelle valeur, et le type d'opération (edit, delete, add)
   // (ex: (id,newValue,type)=>updateGameValue("assets.cards." + id, newValue, type))
   updateCardValue,
-// function qui met à jour les cartes dans le composant parent, elle prend en paramètre les nouvelles cartes
+  // function qui met à jour les cartes dans le composant parent, elle prend en paramètre les nouvelles cartes
   updateCards,
 }) {
   // selected est un Set qui contient les clés des cartes sélectionnées
@@ -90,7 +92,7 @@ export default function CardSelectionArea({
         onStart={({ event, selection }) => {
           if (!event?.ctrlKey && !event?.metaKey) {
             selection.clearSelection();
-            setSelected(new Set()); 
+            setSelected(new Set());
             setMultipleEdit({});
           }
         }}
@@ -173,7 +175,7 @@ export default function CardSelectionArea({
             ))}
         </div>
         <div className="cardWrapper">
-          {Object.keys(cards).map((key) => {
+          {sortCardsKeyInOrder(cards).map((key) => {
             const card = cards[key];
             let isHidden = false;
 
@@ -269,7 +271,7 @@ export default function CardSelectionArea({
                 key={key}
                 card={card}
                 radius={cardParams.radius * 80}
-                aspectRatio={cardParams.ratio??"0.67/1"}
+                aspectRatio={cardParams.ratio ?? "0.67/1"}
                 hoverable={true}
                 isSelected={isSelected}
                 // On ne passe plus dataKey ici, mais on va le passer dans classAdded pour l'ajouter sur le bon div
@@ -296,6 +298,7 @@ export default function CardSelectionArea({
             <InputSelect
               title="colorOfCard"
               closeAfterSelect={true}
+              disabled={selected.size === 0}
               updateValueArray={(path, value) => {
                 for (let key of selected) {
                   updateCardValue(
@@ -312,14 +315,60 @@ export default function CardSelectionArea({
                 }
               }}
               pathObject="addedAttributs.couleur"
-              selected={[multipleEdit?.couleur ?? ""]}
+              selected={
+                selected.size == 1
+                  ? [
+                      cards[Array.from(selected)[0]]?.addedAttributs?.couleur ??
+                        "",
+                    ]
+                  : [multipleEdit?.couleur ?? ""]
+              }
               items={["trefle", "coeur", "carreau", "pique"]}
             />
           )}
+          {selected.size == 1 && (
+            <Input
+              type="number"
+              title="order"
+              defaultValue={cards[Array.from(selected)[0]]?.order != null ? cards[Array.from(selected)[0]]?.order : ""}
+              pathInObject="order"
+              onChangeFunction={(path, value) => { 
+                console.log(value);
+                if (value==1 || value=="1"){
+                  value =0
+                }
+                let card = cards[String(Array.from(selected)[0])];
+                let newCard = updateElementValue(path, card, value==="" ? "" : parseInt(value,10));
+                console.log(newCard);
+                if (value==="") {
+                  
+                  updateCardValue(
+                    card.id,
+                   newCard
+                  );
+                } else {
+                  updateCards(
+                    createNewORderForCard(
+                      updateElementValue(
+                        String(card.id),
+                        cards, 
+                        newCard
+                      ),
+                    ),
+                  );
+                }
+              }}
+            />
+          )}{" "}
           <Input
             type="number"
             title="quantity"
-            defaultValue={multipleEdit?.quantity ?? ""}
+            disabled={selected.size === 0}
+            defaultValue={
+              selected.size == 1
+                ? (cards[Array.from(selected)[0]]?.quantity ?? "")
+                : (multipleEdit?.quantity ?? "")
+            }
             pathInObject="quantity"
             onChangeFunction={(path, value) => {
               for (let key of selected) {
@@ -346,7 +395,14 @@ export default function CardSelectionArea({
             Object.keys(addedAttributs).map((attributKey, key) => (
               <Input
                 title={attributKey}
-                defaultValue={multipleEdit?.[attributKey] ?? ""}
+                disabled={selected.size === 0}
+                defaultValue={
+                  selected.size == 1
+                    ? (cards[Array.from(selected)[0]]?.addedAttributs?.[
+                        attributKey
+                      ] ?? "")
+                    : (multipleEdit?.[attributKey] ?? "")
+                }
                 pathInObject={
                   attributKey ? "addedAttributs." + attributKey : null
                 }
@@ -373,7 +429,6 @@ export default function CardSelectionArea({
               />
             ))}
           {/*===== multiple delete ================ */}
-
           <div className="basicContainer basicWarningContainer rewardsManagementSection">
             <TitleContainer
               title={"deleteSelection"}
@@ -403,37 +458,6 @@ export default function CardSelectionArea({
           </div>
         </div>
       )}
-       <div className="basicContainer basicWarningContainer  ">
-        <TitleContainer
-          title={"fixBrokenCards"}
-          type="h2"
-          description={"fixYouBrokenCardByDeleteThem"}
-        />
-
-        <Button
-          text={"fix"}
-          type={"warningButton"}
-          action={async () => {
-            if (confirm(t("doYouRealyWantToDeleteBrokenCards"))) {
-              let newCards = { ...cards };
-              for (let cardId of Object.keys(cards)) {
-                let card = cards[cardId];
-                if (!card || !card.id || !card.type || !card.url) {
-                  delete newCards[cardId];
-                }
-              }
-              console.log(newCards);
-
-              updateCards( newCards);
-             if(addLog) addLog(
-                createHistoryElement("cards", "delete", {
-                  id: Object.keys(newCards).join(","),
-                }),
-              );
-            }
-          }}
-        ></Button>
-      </div>
     </>
   );
 }
