@@ -12,6 +12,16 @@
     border-radius: 50%;
     border: 1px solid #80808091;
     box-shadow: 0 0 5px 0 #80808036;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+         .round { 
+          width: 80%;
+          height: 80%;  
+          border-radius: 50%;
+          background-color: var(--violet);
+        }
   }
   .title {
     display: flex;
@@ -20,15 +30,5 @@
     justify-content: start;
     width: 100%;
   }
-    .selected::before {
-          content: "";
-          position: absolute;
-          width: 80%;
-          height: 80%;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          border-radius: 50%;
-          background-color: var(--violet);
-        }
+   
 }

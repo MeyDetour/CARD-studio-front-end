@@ -6,7 +6,10 @@ export default function SelectCard({ selected, action, children, title, descript
     <div className="basicContainer selectCard" onClick={() => action()}>
        <div
           className={selected ? "selected selectRound" : "selectRound"}
-        ></div>
+        >
+          {selected ? <div className="round"></div> : ""}
+
+        </div>
       <div className="title">
        
         <TitleContainer title={title} description={description} type="h3"></TitleContainer>

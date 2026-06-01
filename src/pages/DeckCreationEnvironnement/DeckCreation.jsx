@@ -3,6 +3,7 @@ import "./style.css";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGameContext } from "../../context/GameContext";
+import { useDeckContext } from "../../context/DeckContext";
 import { useApi } from "../../hooks/useApi";
 import Loader from "../../components/Loader/Loader";
 import TitleContainer from "../../components/TitleContainer/TitleContainer";
@@ -25,7 +26,7 @@ import CustomCard from "../../components/CustomCard/CustomCard.jsx";
 import DefaultCard from "../../components/DefaultCard/DefaultCard.jsx";
 import CardEdition from "../../components/CardEdition/CardEdition.jsx";
 import CardEditionPage from "../../components/CardEdition/CardEdition.jsx";
-import { createNewORderForCard } from "../../helpers/cards.js";
+import { createNewORderForCard } from "../../helpers/cards.js"; 
 export default function DeckCreation() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -41,7 +42,7 @@ export default function DeckCreation() {
     pushDeckModification,
     saveNewDeckInStorage,
     restoreCardsDeck,
-  } = useGameContext();
+  } = useDeckContext();
   const { getToken } = useTokenContext();
   const [deckInStorage, setDeckInStorage] = useState(getDeckInStorage(id));
   const [playerHasEdit, setPlayerHasEdit] = useState(false);

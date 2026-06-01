@@ -1,5 +1,6 @@
 import "./App.css";
 import { GameProvider } from "./context/GameContext.jsx";
+import { DeckProvider } from "./context/DeckContext.jsx";
 import { HistoryProvider } from "./context/HistoryContext.jsx";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import { TokenProvider } from "./context/TokenContext.jsx";
@@ -22,6 +23,7 @@ function App() {
             <UserProvider>
               <HistoryProvider>
               <GameProvider>
+              <DeckProvider>
                 <Header></Header>
                 <Routes>
                   <Route path={"login"} element={<LoginAndRegisterPage />} />
@@ -45,6 +47,7 @@ function App() {
 
                   <Route path="*" element={<NotFound />} />
                 </Routes>
+              </DeckProvider>
               </GameProvider>
               </HistoryProvider>
             </UserProvider>

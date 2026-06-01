@@ -1,7 +1,7 @@
 import "./style.css";
 export default function DefaultCard({
   card,
-  setCurrentCard,
+  setCurrentCard=null,
   classAdded,
   isSelected,
   dataKey,
@@ -39,6 +39,7 @@ export default function DefaultCard({
     <div
       onClick={() => {
         if (isSelected) return;
+        if (setCurrentCard)
         setCurrentCard(card);
       }}
       className={`defaultCardOfGame ${setCurrentCard ? "hoverable" : ""} ${classAdded}`}

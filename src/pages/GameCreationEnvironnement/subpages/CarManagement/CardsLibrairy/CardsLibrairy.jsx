@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 // Contexts
 import { useGameContext } from "../../../../../context/GameContext";
+import { useDeckContext } from "../../../../../context/DeckContext";
 import { useNotificationContext } from "../../../../../context/NotificationContext";
 import { useHistoryContext } from "../../../../../context/HistoryContext";
 import { useTokenContext } from "../../../../../context/TokenContext";
@@ -41,12 +42,12 @@ export default function CardsLibrairy({
   setCurrentCard,
 }) {
   const { t } = useTranslation();
-  const { restoreCards, createNewDeck, getDecks, getDecksPublic } =
-    useGameContext();
+  const {  createNewDeck, getDecks, getDecksPublic ,useDeckWithUniqueId} =
+    useDeckContext();
   const [personalDecks, setPersonalDecks] = useState([]);
   const [publicDecks, setPublicDecks] = useState([]);
   const { displayError } = useNotificationContext();
-  const { navigate } = useNavigate();
+  const  navigate = useNavigate();
   useEffect(() => {
     if (currentCard) {
       updateGameValue("assets.cards." + currentCard.id, currentCard);
@@ -77,6 +78,18 @@ export default function CardsLibrairy({
     const resultDeck = await createNewDeck();
     if (resultDeck) {
       navigate("/deck/" + resultDeck.id);
+    }
+  }
+  async function useDeck(deck) {
+    const resultDeck = await useDeckWithUniqueId(gameData.id, deck.uniqueId);
+    if (resultDeck.message =="ok") { 
+         updateGameValue(
+                      "params.cards.assetsCardsTemplate",
+                      deck.uniqueId,
+                    ); updateGameValue(
+                      "assets.cards" 
+                      ,{}
+                    );
     }
   }
   console.log(gameData.cardParams.assetsCardsTemplate);
@@ -113,10 +126,9 @@ export default function CardsLibrairy({
                     gameData.cardParams.assetsCardsTemplate == deck.uniqueId
                   }
                   action={() => {
-                    updateGameValue(
-                      "params.cards.assetsCardsTemplate",
-                      deck.uniqueId,
-                    );
+                 
+                    useDeck(deck);
+                   
                   }}
                 >
                   <CardListReadOnly
@@ -142,12 +154,11 @@ export default function CardsLibrairy({
                 selected={
                   gameData.cardParams.assetsCardsTemplate == deck.uniqueId
                 }
-                action={() => {
-                  updateGameValue(
-                    "params.cards.assetsCardsTemplate",
-                    deck.uniqueId,
-                  );
-                }}
+                            action={() => {
+                 
+                    useDeck(deck);
+                   
+                  }}
               >
                 <CardListReadOnly cards={deck.cards} cardParams={deck.params} />
               </SelectCard>
