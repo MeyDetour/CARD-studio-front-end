@@ -29,7 +29,7 @@
 "deleteDeck": "Supprimer le paquet de cartes",
   "ifYouPressDeleteYouWillDeleteAllCardsAndDeck": "En appuyant sur 'Supprimer', vous supprimerez l'intégralité du paquet de cartes ainsi que toutes les cartes qu'il contient. Ces éléments ne seront plus visibles parmi la liste de paquets de cartes et de cartes. Les données ne seront pas récupérables.",
   "doYouRealyWantToDeleteDeck": "Voulez-vous vraiment supprimer ce paquet de cartes ?",
-  
+  "game": "Game",
   "usableForOtherPeopleDescription": "If this option is enabled, this deck can be used by other people to create their own games. Otherwise, this deck will only be available to you and cannot be used by other users on the platform.",
   "usableForOtherPeople": "Usable for other people",
   "nameOfAuthorToRenderDescription": "The name of the author to display on the cards created with this deck. If you leave this field empty, no author name will be displayed on the cards created with this deck.",

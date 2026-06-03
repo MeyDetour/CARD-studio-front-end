@@ -28,6 +28,10 @@ export default function GameCreationEnvironnementNavigation({
   return (
     <nav className="gameCreationEnvironnementNavigationSideBar">
       <div className="sidebar-section">
+
+
+        <h4 className="section-title">{t("game")}</h4>
+      
         <ul>
           <li>
             <Button
@@ -58,12 +62,7 @@ export default function GameCreationEnvironnementNavigation({
             />
           </li>
         </ul>
-      </div>
-
-      <div className="sidebar-separator"></div>
-
-      <div className="sidebar-section">
-        <h4 className="section-title">{t("elementManagement")}</h4>
+      
         <ul>
           <li>
             <Alert alertList={alertList} displayAlertOfType="card"></Alert>
@@ -166,23 +165,8 @@ export default function GameCreationEnvironnementNavigation({
               icon={currentPage === "logic" ? "energy-white" : "energy"}
             />
           </li>
-        </ul>
-      </div>
-
-      <div className="sidebar-separator"></div>
-
-      <div className="sidebar-section">
-        <h4 className="section-title">{t("others")}</h4>
-        <ul>
-          <li>
-            <Alert alertList={alertList}></Alert>
-            <Button
-              text={t("gameFlow")}
-              action={() => navigate("/game/flow/" + id)}
-              type={currentPage == "flow" ? "navbar active" : "navbar"}
-              icon={currentPage === "flow" ? "play-white" : "play"}
-            />
-          </li>
+     
+          
           <li>
             <Alert alertList={alertList} displayAlertOfType={"action"}></Alert>
             <Button
@@ -217,7 +201,18 @@ export default function GameCreationEnvironnementNavigation({
               }
             />
           </li>
-         
+             </ul>
+       
+          </div>
+
+      <div className="sidebar-separator"></div>
+
+      <div className="sidebar-section">
+
+   
+
+        <h4 className="section-title">{t("others")}</h4>
+        <ul>
           <li>
             <Button
               text={t("activityLog")}
