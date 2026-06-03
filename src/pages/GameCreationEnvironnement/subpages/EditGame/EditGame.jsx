@@ -181,7 +181,7 @@ export default function EditGame({
               }),
             );
           }}
-          defaultValue={gameData.isPublic}
+          defaultValue={gameData.isPublic??true}
         />
       </div>
       <div className="basicContainer playerConfigurationSection">
@@ -194,7 +194,7 @@ export default function EditGame({
         <div className="row">
           <Input
             title="minPlayers"
-            defaultValue={gameData.minPlayer}
+            defaultValue={gameData.minPlayer??2}
             onChangeFunction={(path, value) => {
               const minVal = parseInt(value) || 0;
               if (minVal >= gameData.maxPlayer) {
@@ -213,7 +213,7 @@ export default function EditGame({
           />
           <Input
             title="maxPlayers"
-            defaultValue={gameData.maxPlayer ? gameData.maxPlayer : 0}
+            defaultValue={gameData.maxPlayer ?? 5}
             inputType="number"
             max={13}
             min={1}
@@ -239,9 +239,9 @@ export default function EditGame({
         <Input
           title="soloMode"
           description="soloMode_description"
-          defaultValue={gameData.jeuSolo}
+          defaultValue={gameData.soloMode?? false}
           inputType="toggle"
-          pathInObject="params.globalGame.jeuSolo"
+          pathInObject="params.globalGame.soloMode"
           onChangeFunction={(path, value) => {
             updateGameValue(path, value);
             if (value) {
@@ -258,7 +258,7 @@ export default function EditGame({
         <Input
           title="playerParticipation"
           description="playerParticipation_description"
-          defaultValue={gameData.playersCanJoin}
+          defaultValue={gameData.playersCanJoin??true}
           inputType="toggle"
           pathInObject="params.globalGame.playersCanJoin"
           onChangeFunction={(path, value) => {
@@ -274,9 +274,9 @@ export default function EditGame({
         <Input
           title="allowSpectators"
           description="allowSpectators_description"
-          defaultValue={gameData.autoriseSpectator}
+          defaultValue={gameData.allowSpectator??true}
           inputType="toggle"
-          pathInObject="params.globalGame.autoriseSpectator"
+          pathInObject="params.globalGame.allowSpectator"
           onChangeFunction={(path, value) => {
             updateGameValue(path, value);
             addItem(
@@ -297,7 +297,7 @@ export default function EditGame({
         />
         <Input
           title="enableTourManagement"
-          defaultValue={gameData.tourActivation}
+          defaultValue={gameData.tourActivation ?? true}
           inputType="toggle"
           pathInObject="params.tours.activation"
           onChangeFunction={(path, value) => {
@@ -320,7 +320,7 @@ export default function EditGame({
         />
         <Input
           title="enableRoleManagement"
-          defaultValue={gameData.roleActivation}
+          defaultValue={gameData.roleActivation ?? true}
           inputType="toggle"
           pathInObject="params.roles.activation"
           onChangeFunction={(path, value) => {
@@ -343,7 +343,7 @@ export default function EditGame({
         />
         <Input
           title="enableRewardsManagement"
-          defaultValue={gameData.gainActivation}
+          defaultValue={gameData.gainActivation ?? true}
           inputType="toggle"
           pathInObject="params.gains.activation"
           onChangeFunction={(path, value) => {

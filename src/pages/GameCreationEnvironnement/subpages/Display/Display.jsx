@@ -12,7 +12,7 @@ import { createHistoryElement } from "../../../../helpers/historyObject";
 
 // Components
 import TitleContainer from "../../../../components/TitleContainer/TitleContainer";
- import Input from "../../../../components/Input/Input";
+import Input from "../../../../components/Input/Input";
 import InputSelect from "../../../../components/InputSelect/InputSelect";
 import TileContainer from "../../../../components/TitleContainer/TitleContainer";
 import CardRendering from "./Supages/CardRendering";
@@ -21,7 +21,7 @@ import GamePlayTable from "./Supages/Gameplay";
 import SelectCard from "../../../../components/SelectCard/SelectCard";
 
 export default function DisplayPage({ gameData, updateGameValue }) {
- const { addItem } = useHistoryContext();
+  const { addItem } = useHistoryContext();
   if (!gameData) return;
 
   return (
@@ -32,10 +32,10 @@ export default function DisplayPage({ gameData, updateGameValue }) {
       ></TitleContainer>
       <GamePlayTable
         gameData={gameData}
-        getGridDimensions={ getGridDimensions}
+        getGridDimensions={getGridDimensions}
       />
       <CardRendering
-        getGridDimensions={ getGridDimensions}
+        getGridDimensions={getGridDimensions}
         gameData={gameData}
         updateGameValue={updateGameValue}
       />
@@ -48,7 +48,7 @@ export default function DisplayPage({ gameData, updateGameValue }) {
         <Input
           title="display-handDeck"
           description="display-handDeck-description"
-          defaultValue={gameData.rendering.game.displayHandDeck ?? false}
+          defaultValue={gameData.rendering.game.displayHandDeck ?? true}
           inputType="toggle"
           pathInObject="params.rendering.game.displayHandDeck"
           onChangeFunction={(path, value) => {
@@ -60,7 +60,8 @@ export default function DisplayPage({ gameData, updateGameValue }) {
               }),
             );
           }}
-        />  <Input
+        />{" "}
+        <Input
           title="display-middleCards"
           description="display-middleCards-description"
           defaultValue={gameData.rendering.game.displayMiddleCards ?? false}
@@ -68,12 +69,27 @@ export default function DisplayPage({ gameData, updateGameValue }) {
           pathInObject="params.rendering.game.displayMiddleCards"
           onChangeFunction={(path, value) => {
             updateGameValue(path, value);
-            addItem(
-              gameData.id,
-              createHistoryElement("gameElement", "edit", {
-                field: path,
-              }),
-            );
+
+            // la défaisse ne peut pas etre au milieu si les cartes du milieu sont activé
+            if (gameData.params.cards.discard.displayInTheMiddle && value) {
+              if (
+                confirm(
+                  t("thisChangeWillResetTheCurrentPositionOfDiscardCards"),
+                )
+              ) {
+                updateGameValue(
+                  "params.cards.discard.displayInTheMiddle",
+                  false,
+                );
+
+                addItem(
+                  gameData.id,
+                  createHistoryElement("gameElement", "edit", {
+                    field: path,
+                  }),
+                );
+              }
+            }
           }}
         />
         <Input
@@ -113,7 +129,7 @@ export default function DisplayPage({ gameData, updateGameValue }) {
         <Input
           title="display-chat"
           description="display-chat-description"
-          defaultValue={gameData.rendering.game.displayChat ?? false}
+          defaultValue={gameData.rendering.game.displayChat ?? true}
           inputType="toggle"
           pathInObject="params.rendering.game.displayChat"
           onChangeFunction={(path, value) => {
@@ -129,7 +145,7 @@ export default function DisplayPage({ gameData, updateGameValue }) {
         <Input
           title="display-history"
           description="display-history-description"
-          defaultValue={gameData.rendering.game.displayHistory ?? false}
+          defaultValue={gameData.rendering.game.displayHistory ?? true}
           inputType="toggle"
           pathInObject="params.rendering.game.displayHistory"
           onChangeFunction={(path, value) => {
@@ -166,7 +182,10 @@ export default function DisplayPage({ gameData, updateGameValue }) {
 
 const getGridDimensions = (gameData, type) => {
   console.log(type);
-  const template = gameData?.rendering?.[type === "playerHandDeckRendering" ? "playerHand" : "middleCards"]?.template;
+  const template =
+    gameData?.rendering?.[
+      type === "playerHandDeckRendering" ? "playerHand" : "middleCards"
+    ]?.template;
 
   // Valeurs par défaut
   let rows = 2;
@@ -184,7 +203,9 @@ const getGridDimensions = (gameData, type) => {
   }
 
   return (
-    <div className={`cardAgencementGrid ${type == "playerHandDeckRendering" ? "playerHandDeckRendering" : type == "middleCardsRendering" ? "middleCardsRendering" : "NOTHING"}  cardAgencement`}>
+    <div
+      className={`cardAgencementGrid ${type == "playerHandDeckRendering" ? "playerHandDeckRendering" : type == "middleCardsRendering" ? "middleCardsRendering" : "NOTHING"}  cardAgencement`}
+    >
       {[...Array(rows)].map((_, rowIndex) => (
         <div className="row" key={`row-${rowIndex}`}>
           {[...Array(cols)].map((_, colIndex) => (

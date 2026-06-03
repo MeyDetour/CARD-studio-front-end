@@ -258,7 +258,7 @@ export default function RoundsPage({
         <Input
           title="actionOfPlayerAtTurn"
           description="playersCanPlayInSameTime"
-          defaultValue={gameData.tours.actionOnlyAtPlayerTour}
+          defaultValue={gameData.tours.actionOnlyAtPlayerTour??false}
           inputType="toggle"
           pathInObject="params.tours.actionOnlyAtPlayerTour"
           onChangeFunction={(path, value) => {

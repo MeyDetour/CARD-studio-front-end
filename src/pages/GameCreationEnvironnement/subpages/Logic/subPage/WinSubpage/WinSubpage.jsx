@@ -126,6 +126,7 @@ export default function VariableSubpage({
             <InputSelect
               title="playerWichWeDisplayPoints"
               description="playerWichWeDisplayPointsDescription"
+              disabled={!winParams?.displayPoints?.activation}
               pathObject="events.win.displayPoints.pointsToDisplayFor"
               items={[
                 "{allPlayersInGame}",

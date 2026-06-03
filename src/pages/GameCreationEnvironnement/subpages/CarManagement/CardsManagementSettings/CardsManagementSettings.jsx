@@ -31,7 +31,7 @@ export default function CardsManagementSettings({
         <Input
           title="deck"
           description="deckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings"
-          defaultValue={gameData.cardParams?.deck?.activation ?? false}
+          defaultValue={gameData.cardParams?.deck?.activation ?? true}
           inputType="toggle"
           pathInObject="params.cards.deck.activation"
           onChangeFunction={(path, value) => {
@@ -76,12 +76,11 @@ export default function CardsManagementSettings({
 
       <div className="basicContainer">
         {/* ======DISCARD======= */}
-
         <TitleContainer title="discardDeck"></TitleContainer>
         <Input
           title="discardDeck"
           description="discardDeckifThisSettingsIsTrueYouCanAccessToMultipleOFSettings"
-          defaultValue={gameData.cardParams?.discard?.activation ?? false}
+          defaultValue={gameData.cardParams?.discard?.activation ?? true}
           inputType="toggle"
           pathInObject="params.cards.discard.activation"
           onChangeFunction={(path, value) => {
@@ -122,6 +121,37 @@ export default function CardsManagementSettings({
             );
           }}
         />
+        <Input
+          title="setTheDiscardOnTheMiddleOfTable"
+          description="setTheDiscardOnTheMiddleOfTableDescription"
+          defaultValue={
+            gameData.cardParams?.discard?.displayInTheMiddle ?? false
+          }
+          disabled={!(gameData.cardParams?.discard?.activation ?? true)}
+          inputType="toggle"
+          pathInObject="params.cards.discard.displayInTheMiddle"
+          onChangeFunction={(path, value) => {
+            updateGameValue(path, value);
+
+            // les cartes du milieu ne peuvent pas etre activé si la défaisse est au milieu
+            if (gameData.rendering.game.displayMiddleCards && value) {
+              if (
+                confirm(t("thisChangeWillResetTheCurrentPositionOfMiddleCards"))
+              ) {
+                updateGameValue(
+                  "params.rendering.game.displayMiddleCards",
+                  false,
+                );
+                addItem(
+                  gameData.id,
+                  createHistoryElement("gameElement", "edit", {
+                    field: path,
+                  }),
+                );
+              }
+            }
+          }}
+        />
       </div>
       <div className="basicContainer">
         {/* ======PLAYER HAND======= */}
@@ -130,7 +160,7 @@ export default function CardsManagementSettings({
         <Input
           title="playerHand"
           description="activatePlayerHandDescription"
-          defaultValue={gameData.cardParams?.hand?.activation ?? false}
+          defaultValue={gameData.cardParams?.hand?.activation ?? true}
           inputType="toggle"
           pathInObject="params.cards.hand.activation"
           onChangeFunction={(path, value) => {
@@ -202,7 +232,7 @@ export default function CardsManagementSettings({
              */}
             <CustomCard
               radius={(gameData.cardParams?.radius ?? 0) * 100}
-                aspectRatio={(gameData.cardParams?.ratio ?? 1)}
+              aspectRatio={gameData.cardParams?.ratio ?? 1}
               card={
                 gameData.cards
                   ? gameData.cards[
@@ -221,7 +251,6 @@ export default function CardsManagementSettings({
               {Math.round((gameData.cardParams?.radius ?? 0) * 100)} %
             </span>
             <InputRange
-
               type="range"
               min={0}
               max={30}
@@ -238,27 +267,23 @@ export default function CardsManagementSettings({
                 );
               }}
             ></InputRange>
-             <span className="normalText">
-              {t("aspectRatio")} :
-              {gameData.cardParams?.ratio ?? "1/1"}
+            <span className="normalText">
+              {t("aspectRatio")} :{gameData.cardParams?.ratio ?? "1/1"}
             </span>
             <InputRange
-            
               type="range"
               min={20}
-                minValue={20}
-                max={80}
+              minValue={20}
+              max={80}
               maxValue={gameData.cardParams?.ratioValue ?? 0}
               setMaxValue={(value) => {
-                 console.log( value);
-                  let ratio = "0.62/1"
-                  if (value <= 50){
-                    ratio = "1/" + value/50;
-                  }else{
-
-                    ratio =   (50-(value-50))/50+"/1"
-                  }
-
+                console.log(value);
+                let ratio = "0.62/1";
+                if (value <= 50) {
+                  ratio = "1/" + value / 50;
+                } else {
+                  ratio = (50 - (value - 50)) / 50 + "/1";
+                }
 
                 updateGameValue("params.cards.ratio", ratio);
                 updateGameValue("params.cards.ratioValue", value);

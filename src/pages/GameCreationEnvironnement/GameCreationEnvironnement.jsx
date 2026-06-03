@@ -270,17 +270,17 @@ export default function GameCreationEnvironnement() {
                       game.params && game.params.globalGame
                         ? game.params.globalGame.maxPlayer
                         : 0,
-                    jeuSolo:
+                    soloMode:
                       game.params && game.params.globalGame
-                        ? game.params.globalGame.jeuSolo
+                        ? game.params.globalGame.soloMode
                         : false,
                     playersCanJoin:
                       game.params && game.params.globalGame
                         ? game.params.globalGame.playersCanJoin
                         : false,
-                    autoriseSpectator:
+                    allowSpectator:
                       game.params && game.params.globalGame
-                        ? game.params.globalGame.autoriseSpectator
+                        ? game.params.globalGame.allowSpectator
                         : false,
                     roleActivation:
                       game.params && game.params.roles
@@ -329,6 +329,7 @@ export default function GameCreationEnvironnement() {
                 <DisplayPage
                   gameData={{
                     id: game.id,
+                    params: game.params,
                     rendering: game.params.rendering,
                     timerActivation: game.params.tours.timerActivation,
                   }}
@@ -455,6 +456,7 @@ export default function GameCreationEnvironnement() {
                   gameData={{
                     actions: game.params.tours.actions,
                     rendering: game.params.rendering,
+                    params: game.params,
                     cards: game.assets.cards,
                     id: game.id,
                     cardParams: game.params.cards ? game.params.cards : {},

@@ -217,7 +217,7 @@ export default function DeckCreation() {
             description="usableForOtherPeopleDescription"
             defaultValue={deck.isPublished}
             inputType="toggle"
-            pathInObject="params.globalGame.jeuSolo"
+            pathInObject="params.globalGame.soloMode"
             onChangeFunction={(path, value) => {
               updateDeckValueHandler(path, value);
             }}
