@@ -193,6 +193,7 @@ export default function DeckCreation() {
           />
         </div>
         {/* IDENTITY */}
+        <div className="row rowIdentity">
         <div className="basicContainer">
           <Input
             title="name"
@@ -298,6 +299,7 @@ export default function DeckCreation() {
             </div>
           </div>
         )}
+        </div>
         {/* ==========END OF RENDERING OF CARDS======== */}
         {/* ATTRIBUTS */}
         <AttributsManagement

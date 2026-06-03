@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 // Contexts
 import { useGameContext } from "../../context/GameContext.jsx";
 import { useNavigate } from "react-router";
+import { useDeckContext } from "../../context/DeckContext.jsx";
 // Hooks
 import { useApi } from "../../hooks/useApi.js";
 
@@ -22,7 +23,9 @@ import DeckCard from "../../components/DeckCard/DeckCard.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
 
 export default function SelectGame() {
-  const { createNewGame, getGames, getDecks, createNewDeck } = useGameContext();
+  const { createNewGame, getGames } = useGameContext();
+  const { createNewDeck, getDecks } = useDeckContext();
+
   const { result, loading, error, fetchData } = useApi();
   const [personalGames, setPersonalGames] = useState([]);
   const [personalDecks, setPersonalDecks] = useState([]);

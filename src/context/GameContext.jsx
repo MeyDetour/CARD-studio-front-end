@@ -47,6 +47,11 @@ export function GameProvider({ children }) {
   };
   
   const createNewGame = async () => {
+    const params = {
+      
+    }
+
+
     const resultGame = await fetchData("api/new/game", null, {
       token: getToken(),
     });

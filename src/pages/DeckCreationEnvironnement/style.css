@@ -24,7 +24,11 @@
       }
     }
   
-  } .renderingOfAttributsContainer .row {
+  }
+  .rowIdentity >div{
+    width: 100%;
+  }
+  .renderingOfAttributsContainer .row {
     align-items: center;
   }
   .renderingOfCardContainer {
