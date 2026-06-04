@@ -35,7 +35,8 @@ export default function EditGame({
   updateGameValue,
   setGameImageUploadedUrl,
   uploadFileForGameEditionHandler,
-  restoreGameFromDb,
+  restoreGameFromDb, 
+  restoreDefaultParamsGame
 }) {
   const { t } = useTranslation();
   const { deleteGame } = useGameContext();
@@ -43,7 +44,8 @@ export default function EditGame({
   const { alertList } = useNotificationContext();
   const { addItem } = useHistoryContext();
   if (!gameData) return;
-
+  
+ 
   return (
     <div className={" editGameSubpage"}>
       <div className="header">
@@ -370,6 +372,23 @@ export default function EditGame({
           action={() => {
             if (confirm(t("doYouRealyWantToRestore"))) {
               restoreGameFromDb();
+            }
+          }}
+        ></Button>
+      </div>
+            <div className="basicContainer rewardsManagementSection">
+        <TitleContainer
+          title={"restoreAllParamsFromDefaultConfig"}
+          type="h2"
+          description={"restoreAllParamsFromDefaultConfigDescription"}
+        />
+
+        <Button
+          text={"restore"}
+          type={"greyButton"}
+          action={() => {
+            if (confirm(t("doYouRealyWantToRestore"))) {
+              restoreDefaultParamsGame();
             }
           }}
         ></Button>

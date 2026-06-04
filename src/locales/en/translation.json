@@ -729,7 +729,8 @@
   "setTheDiscardOnTheMiddleOfTableDescription": "Si cette option est activée, la défausse sera placée au milieu de la table pendant la partie. Cela signifie que les cartes défaussées seront visibles pour tous les joueurs",
  "thisChangeWillResetTheCurrentPositionOfMiddleCards": "This change will remove the middle cards. If you have already configured the position of middle cards, enabling this option will reset their position to the default setting.",
 "thisChangeWillResetTheCurrentPositionOfDiscardCards": "Activating this option will reset the position of the discard cards. If you have already configured the position of the discard cards, enabling this option will reset their position to the default setting.",
- 
+ "restoreAllParamsFromDefaultConfig":"Restore all parameters from the default configuration",
+  "restoreAllParamsFromDefaultConfigDescription": "This action will restore all parameters to their default configuration. This means that any custom settings you have made will be reset to the original default values. This can be useful if you want to start over with the default settings or if you have made changes that you no longer want to keep. However, please note that this action is irreversible, so make sure to save any important information before restoring.",
  "backToSelectGame": "Back to game selection",
   "restoreCards": "Restore cards",
   "actionExecuted": "Executed action",

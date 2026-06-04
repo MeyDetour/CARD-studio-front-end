@@ -596,6 +596,9 @@
  "thisChangeWillResetTheCurrentPositionOfMiddleCards": "This change will remove the middle cards. If you have already configured the position of middle cards, enabling this option will reset their position to the default setting.",
  "thisChangeWillResetTheCurrentPositionOfDiscardCards": "Activer cette fonction réinitialisera la position des cartes de la défausse. Si vous avez déjà configuré la position des cartes de la défausse.",
  "none": "Aucun",
+ "restoreAllParamsFromDefaultConfig":"Restaurer tous les paramètres à la configuration par défaut",
+  "restoreAllParamsFromDefaultConfigDescription": "Cette action restaurera tous les paramètres à leur configuration par défaut. Cela signifie que toutes les personnalisations que vous avez effectuées seront réinitialisées aux valeurs par défaut d'origine. Cela peut être utile si vous souhaitez recommencer avec les paramètres par défaut ou si vous avez apporté des modifications que vous ne souhaitez plus conserver. Cependant, veuillez noter que cette action est irréversible, alors assurez-vous de sauvegarder toutes les informations importantes avant de restaurer.",
+ 
   "thisElementWillBeVisibleInGame": "Cet élément sera visible pendant la partie si cette option est activée. Sinon, il ne sera pas affiché pendant la partie, mais il pourra toujours être utilisé dans les règles et les événements du jeu.",
   "calledInTheseWithValueEvent": "Appelé dans ces événements",
   "calledInTheseActions": "Appelé dans ces actions",

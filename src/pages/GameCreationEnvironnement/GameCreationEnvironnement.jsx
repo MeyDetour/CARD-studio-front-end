@@ -22,6 +22,7 @@ import {
   updateValueArray,
 } from "../../helpers/objectManagement";
 import { listenToCardStudioTester } from "../../helpers/browserMessageWithCardStudioTester.js";
+import { applyDefaultGameSettings } from "../../helpers/game.js";
 
 // Components
 import Loader from "../../components/Loader/Loader";
@@ -231,6 +232,17 @@ export default function GameCreationEnvironnement() {
   // declare globally if card studio is refreshed
   listenToCardStudioTester(navigate);
 
+  // ============ CARD STUDIO TESTER COMMUNICATION ============
+  // declare globally if card studio is refreshed
+  const restoreDefaultParamsGame = () => {
+    console.log("restore game");
+    console.log(game);
+    const game2 = applyDefaultGameSettings(game);
+    console.log(game2);
+    setGame(game2);
+      saveNewGameInStorage(game2);
+  };
+
   // ====================================================
   if (restaurationLoading) {
     return <LoadingRestorGame />;
@@ -308,6 +320,7 @@ export default function GameCreationEnvironnement() {
                   updateGameValueArray={updateGameValueArrayHandler}
                   setGameImageUploadedUrl={setGameImageUploadedUrl}
                   restoreGameFromDb={restoreGameFromDb}
+                  restoreDefaultParamsGame={restoreDefaultParamsGame}
                 />
               );
             case "assets":
@@ -465,7 +478,7 @@ export default function GameCreationEnvironnement() {
                   updateGameValueArray={updateGameValueArrayHandler}
                   updateGameValue={updateGameValueHandler}
                   updateGameValueArray={updateGameValueArrayHandler}
-                  setGameImageUploadedUrl={setGameImageUploadedUrl}
+                  setGameImageUploadedUrl={setGameImageUploadedUrl} 
                 />
               );
             case "prizes":
