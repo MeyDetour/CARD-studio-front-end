@@ -14,6 +14,12 @@ export function applyDefaultGameSettings(game) {
       playersCanJoin: true,
       allowSpectator: true,
     },
+    manches:{
+      activation: true,
+      maxTour: 0,
+      sens: "incrementation",
+
+    },
     tours: {
       activation: true,
       maxTour: 0,
@@ -34,7 +40,7 @@ export function applyDefaultGameSettings(game) {
       activation: true,
     },
     rendering: {
-      game2: {
+      game: {
         displayHandDeck: true,
         displayMiddleCards: false,
         displayCountAdversaryHandDeck: false,

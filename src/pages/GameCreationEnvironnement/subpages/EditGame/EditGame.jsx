@@ -386,6 +386,7 @@ export default function EditGame({
         <Button
           text={"restore"}
           type={"greyButton"}
+          addActionConfirmation={true}
           action={() => {
             if (confirm(t("doYouRealyWantToRestore"))) {
               restoreDefaultParamsGame();

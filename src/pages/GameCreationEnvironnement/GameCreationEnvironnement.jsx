@@ -234,13 +234,15 @@ export default function GameCreationEnvironnement() {
 
   // ============ CARD STUDIO TESTER COMMUNICATION ============
   // declare globally if card studio is refreshed
-  const restoreDefaultParamsGame = () => {
-    console.log("restore game");
-    console.log(game);
-    const game2 = applyDefaultGameSettings(game);
-    console.log(game2);
+  const restoreDefaultParamsGame = () => { 
+    const game2 = applyDefaultGameSettings(game); 
     setGame(game2);
       saveNewGameInStorage(game2);
+       setRestaurationLoading(true);
+      setTimeout(() => {
+        setRestaurationLoading(false);
+        window.location.href = "/game/dashboard/" + game2.id;
+      }, 3000);
   };
 
   // ====================================================
