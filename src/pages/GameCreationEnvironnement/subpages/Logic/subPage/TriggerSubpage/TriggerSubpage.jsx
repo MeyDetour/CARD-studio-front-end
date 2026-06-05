@@ -196,8 +196,7 @@ export default function TriggerSubpage({
                         (s) => !s.label.includes("{playerBoucle"),
                       )
                 }
-                  isExpression={true}
-                description="condition"
+                  isExpression={true} 
                 defaultValue={currentTrigger.condition}
                 pathInObject="condition"
                 onChangeFunction={(path, value) =>

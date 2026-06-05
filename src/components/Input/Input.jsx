@@ -12,6 +12,7 @@ export default function Input({
   inputType = "input",
   defaultValue,
   disabled = false,
+  editable = true,
   pathInObject = "",
   max = null,
   min = null,
@@ -40,7 +41,7 @@ export default function Input({
 
         <label className="switch">
           <input
-            readOnly={disabled}
+            readOnly={disabled || !editable}
             disabled={disabled} // Ajout ici
             onChange={(e) =>
               !disabled &&
@@ -102,7 +103,7 @@ export default function Input({
                 <input
                   ref={inputRef}
                   disabled={disabled}
-                  readOnly={disabled}
+                  readOnly={disabled || !editable}
                   onChange={(e) =>
                     !disabled &&
                     (pathInObject
@@ -195,7 +196,7 @@ export default function Input({
               <input
                 ref={inputNumber}
                 disabled={disabled}
-                readOnly={disabled}
+                readOnly={disabled || !editable}
                 onChange={(e) => {
                   if (disabled) return;
                   let myString = e.target.value;
@@ -230,7 +231,7 @@ export default function Input({
                 rows="5"
                 cols="33"
                 disabled={disabled}
-                readOnly={disabled}
+                readOnly={disabled || !editable}
                 value={defaultValue || ""}
                 placeholder={t(placeholder)}
                 onChange={(e) => {

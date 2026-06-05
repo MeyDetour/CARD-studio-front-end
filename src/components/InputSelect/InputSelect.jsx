@@ -11,6 +11,7 @@ export default function InputSelect({
   placeholder = "",
   selected,
   disabled,
+  editable = true,
   closeAfterSelect = false,
   updateValueArray,
   itemsDisplayFields = [],
@@ -40,7 +41,7 @@ export default function InputSelect({
       <div
         className="itemSelected"
         onClick={() => {
-          if (!disabled) setIsOpen(!isOpen);
+          if (!disabled && editable) setIsOpen(!isOpen);
         }}
       >
         <p>

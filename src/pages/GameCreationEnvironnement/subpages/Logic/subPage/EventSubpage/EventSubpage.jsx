@@ -64,6 +64,16 @@ export default function EventSubpage({
         give: { "{cards}": "*" },
         action: "shuffle",
       },
+    },{
+      id: "example2",
+      name: "Draw cards",
+      condition: null,
+      boucle: "{allPlayersInGame}",
+      event: {
+        from: "{deck}",
+        for: "{player}",
+        give: { "{cards}":7 }, 
+      },
     },
   ]);
   const [displayExamplesEvents, setDisplayExamplesEvents] = useState(false);
@@ -349,7 +359,7 @@ export default function EventSubpage({
                 <Input
                   title="eventNameLabel"
                   defaultValue={currentEvent.name ?? ""}
-                  disabled={isInExampleMode}
+                  editable={!isInExampleMode}
                   pathInObject="name"
                   onChangeFunction={(path, value) => {
                     setCurrentEvent(
@@ -412,7 +422,7 @@ export default function EventSubpage({
                   title="activationCondition"
                   description="activationConditionDescription"
                   defaultValue={currentEvent.condition ?? ""}
-                  disabled={isInExampleMode}
+                  editable={!isInExampleMode}
                   pathInObject="condition"
                   isExpression={true}
                   suggestions={suggestions.filter(
@@ -430,7 +440,7 @@ export default function EventSubpage({
                   description="loadMessageDescription"
                   defaultValue={currentEvent.loadMessage ?? ""}
                   pathInObject="loadMessage"
-                  disabled={isInExampleMode}
+                  editable={!isInExampleMode}
                   isExpression={true}
                   onChangeFunction={(path, value) => {
                     setCurrentEvent(
@@ -447,9 +457,9 @@ export default function EventSubpage({
                   title="loop"
                   pathObject="boucle"
                   description="boucleDescription"
-                  disabled={
-                    (disabledFields && disabledFields.boucle) || isInExampleMode
+                  disabled={ disabledFields && disabledFields.boucle
                   }
+                  editable={!isInExampleMode}
                   items={["{allPlayersInGame}"]}
                   closeAfterSelect={true}
                   selected={currentEvent.boucle ? [currentEvent.boucle] : []}
@@ -466,9 +476,9 @@ export default function EventSubpage({
                 <Input
                   title="condition"
                   disabled={
-                    (disabledFields && disabledFields.condition) ||
-                    isInExampleMode
+                    disabledFields && disabledFields.condition 
                   }
+                  editable={!isInExampleMode}
                   description="condition-in-boucle-description"
                   defaultValue={currentEvent.event.condition ?? ""}
                   pathInObject="event.condition"
@@ -499,8 +509,9 @@ export default function EventSubpage({
                   defaultValue={currentEvent.event.from ?? ""}
                   pathInObject="event.from"
                   disabled={
-                    (disabledFields && disabledFields.from) || isInExampleMode
+                    disabledFields && disabledFields.from
                   }
+                  editable={!isInExampleMode}
                   isExpression={true}
                   suggestions={[
                     ...(currentEvent.boucle
@@ -525,8 +536,9 @@ export default function EventSubpage({
                   description="entity-target-description"
                   defaultValue={currentEvent.event.for ?? ""}
                   disabled={
-                    (disabledFields && disabledFields.for) || isInExampleMode
+                    disabledFields && disabledFields.for
                   }
+                  editable={!isInExampleMode}
                   isExpression={true}
                   suggestions={(() => {
                     // on récupere l'element sélectionné et on récupère son type
@@ -588,9 +600,9 @@ export default function EventSubpage({
                           String(gain.name).slice(1)
                         }
                         disabled={
-                          (disabledFields && disabledFields.give) ||
-                          isInExampleMode
+                          disabledFields && disabledFields.give
                         }
+                        editable={!isInExampleMode}
                         defaultValue={
                           currentEvent.event.give
                             ? currentEvent.event.give["{gain#" + gain.id + "}"]
@@ -623,8 +635,9 @@ export default function EventSubpage({
                   <Input
                     title="cards"
                     disabled={
-                      (disabledFields && disabledFields.give) || isInExampleMode
+                      disabledFields && disabledFields.give
                     }
+                      editable={!isInExampleMode}
                     defaultValue={
                       currentEvent.event.give
                         ? currentEvent.event.give["{cards}"]
@@ -659,7 +672,7 @@ export default function EventSubpage({
                   title="eventAction"
                   items={eventActions.filter((a) => a.label !== "askPlayer")}
                   itemsDisplayFields={["label", "tooltip"]}
-                  disabled={isInExampleMode}
+                  editable={!isInExampleMode}
                   closeAfterSelect={true}
                   selected={
                     currentEvent.event.action ? [currentEvent.event.action] : []
@@ -692,8 +705,9 @@ export default function EventSubpage({
                         ? disabledFields.gimmeAClueForValue
                         : ""
                     }
+                    editable={!isInExampleMode}
                     disabled={
-                      (disabledFields && disabledFields.value) || isInExampleMode
+                      disabledFields && disabledFields.value
                     }
                     items={disabledFields.valueAvailableInEdition}
                     closeAfterSelect={true}
@@ -713,9 +727,9 @@ export default function EventSubpage({
                 ) : (
                   <Input
                     disabled={
-                      (disabledFields && disabledFields.value) ||
-                      isInExampleMode
+                      disabledFields && disabledFields.value 
                     }
+                  editable={!isInExampleMode}
                     title="eventValue"
                     description={
                       typeof disabledFields?.gimmeAClueForValue === "string"
