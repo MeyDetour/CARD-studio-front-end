@@ -374,8 +374,7 @@ export default function DeckCreation() {
         <DetailContainer
           title={t("advancedOptionForDeck")}
           description={t("advancedOptionForDeckDescription")}
-        >
-          {" "}
+        > 
           <div className="row " style={{ alignItems: "center" }}>
             <TitleContainer
               title={"fixBrokenCards"}

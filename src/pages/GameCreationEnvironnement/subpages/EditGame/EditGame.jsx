@@ -28,15 +28,15 @@ import SearchBar from "../../../../components/SearchBar/SearchBar";
 import SubNavigationBar from "../../../../components/SubNavigationBar/SubNavigationBar";
 import Alert from "../../../../components/Alert/Alert.jsx";
 import ImageUploadFileContainer from "../../../../components/ImageUploadFileContainer/ImageUploadFileContainer.jsx";
-
+import InputRange from "../../../../components/inputRange/inputRange.jsx";
 export default function EditGame({
   gameData,
   updateGameValueArray,
   updateGameValue,
   setGameImageUploadedUrl,
   uploadFileForGameEditionHandler,
-  restoreGameFromDb, 
-  restoreDefaultParamsGame
+  restoreGameFromDb,
+  restoreDefaultParamsGame,
 }) {
   const { t } = useTranslation();
   const { deleteGame } = useGameContext();
@@ -44,8 +44,7 @@ export default function EditGame({
   const { alertList } = useNotificationContext();
   const { addItem } = useHistoryContext();
   if (!gameData) return;
-  
- 
+
   return (
     <div className={" editGameSubpage"}>
       <div className="header">
@@ -73,7 +72,7 @@ export default function EditGame({
           <div className="row">
             <Input
               title="gameName"
-              defaultValue={gameData.name} 
+              defaultValue={gameData.name}
               onChangeFunction={(path, value) => {
                 updateGameValue(path, value);
                 addItem(
@@ -123,7 +122,7 @@ export default function EditGame({
             />
           </div>
           <Input
-            title="description" 
+            title="description"
             pathInObject="description"
             onChangeFunction={(path, value) => {
               updateGameValue(path, value);
@@ -146,7 +145,7 @@ export default function EditGame({
           <div className="imageContainer">
             <img src={gameData.image} alt="" />
             <ImageUploadFileContainer
-            buttonText={"uploadImage"}
+              buttonText={"uploadImage"}
               actionOnFileChange={(e) => {
                 const selectedFile = e.target.files[0];
                 if (
@@ -158,7 +157,6 @@ export default function EditGame({
                 }
               }}
             ></ImageUploadFileContainer>
-           
           </div>
         )}
       </div>
@@ -183,7 +181,7 @@ export default function EditGame({
               }),
             );
           }}
-          defaultValue={gameData.isPublic??true}
+          defaultValue={gameData.isPublic ?? true}
         />
       </div>
       <div className="basicContainer playerConfigurationSection">
@@ -193,55 +191,29 @@ export default function EditGame({
           type="h2"
           description={"playerConfiguration_hint"}
         ></TitleContainer>
-        <div className="row">
-          <Input
-            title="minPlayers"
-            defaultValue={gameData.minPlayer??2}
-            onChangeFunction={(path, value) => {
-              const minVal = parseInt(value) || 0;
-              if (minVal >= gameData.maxPlayer) {
-                updateGameValue("params.globalGame.maxPlayer", minVal + 1);
-              }
-              updateGameValue(path, minVal);
-              addItem(
-                gameData.id,
-                createHistoryElement("gameElement", "edit", {
-                  field: path,
-                }),
-              );
-            }}
-            inputType="number"
-            pathInObject={"params.globalGame.minPlayer"}
-          />
-          <Input
-            title="maxPlayers"
-            defaultValue={gameData.maxPlayer ?? 5}
-            inputType="number"
-            max={13}
-            min={1}
-            onChangeFunction={(path, value) => {
-              const maxVal = parseInt(value) || 0;
-              if (maxVal <= gameData.minPlayer) {
-                updateGameValue(
-                  "params.globalGame.minPlayer",
-                  maxVal == 0 ? 0 : maxVal - 1,
-                );
-              }
-              updateGameValue(path, maxVal);
-              addItem(
-                gameData.id,
-                createHistoryElement("gameElement", "edit", {
-                  field: path,
-                }),
-              );
-            }}
-            pathInObject={"params.globalGame.maxPlayer"}
-          />
-        </div>
+        
+        
+        <div>
+           <span className="normalText">
+                  {t("players")} : {gameData.minPlayer ?? 0 } - {gameData.maxPlayer ?? 0}
+                </span>
+          <InputRange
+                          type="double"
+                          min={0}
+                          max={13}
+                          minValue={gameData.minPlayer ?? 0}
+                          maxValue={gameData.maxPlayer ?? 5}
+                          setMaxValue={(value) => { 
+                            updateGameValue("params.globalGame.maxPlayer", value);
+                          }}  setMinValue={(value) => { 
+                            updateGameValue("params.globalGame.minPlayer", value);
+                          }}
+                        ></InputRange>
+                        </div>
         <Input
           title="soloMode"
           description="soloMode_description"
-          defaultValue={gameData.soloMode?? false}
+          defaultValue={gameData.soloMode ?? false}
           inputType="toggle"
           pathInObject="params.globalGame.soloMode"
           onChangeFunction={(path, value) => {
@@ -260,7 +232,7 @@ export default function EditGame({
         <Input
           title="playerParticipation"
           description="playerParticipation_description"
-          defaultValue={gameData.playersCanJoin??true}
+          defaultValue={gameData.playersCanJoin ?? true}
           inputType="toggle"
           pathInObject="params.globalGame.playersCanJoin"
           onChangeFunction={(path, value) => {
@@ -276,7 +248,7 @@ export default function EditGame({
         <Input
           title="allowSpectators"
           description="allowSpectators_description"
-          defaultValue={gameData.allowSpectator??true}
+          defaultValue={gameData.allowSpectator ?? true}
           inputType="toggle"
           pathInObject="params.globalGame.allowSpectator"
           onChangeFunction={(path, value) => {
@@ -376,7 +348,7 @@ export default function EditGame({
           }}
         ></Button>
       </div>
-            <div className="basicContainer rewardsManagementSection">
+      <div className="basicContainer rewardsManagementSection">
         <TitleContainer
           title={"restoreAllParamsFromDefaultConfig"}
           type="h2"

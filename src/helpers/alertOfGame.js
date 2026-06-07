@@ -29,6 +29,12 @@ let eventsWithCurrentValueInput = [];
         action.id + "|action|pleaseProvideEventsForAction|warning",
       );
     }
+
+    if (action.actionOnHanddOtherPlayerCard && !action.playerToTargetWithThisAction){
+         alertList.push(
+        action.id + "|action|pleaseProvidePlayerToTargetWithThisAction|warning",
+      );
+    }
     // collect withValueEvent id called in actions
     // sert à vérifier que les événements à valeur dynamique qui utilisent
     // le joueur actuel comme variable sont bien appelés par une action,
@@ -38,7 +44,7 @@ let eventsWithCurrentValueInput = [];
         action.withValue?.map((event) => event.id),
       );
 
-    // parcourir les événements à valeur dynamique appelés par l'action
+    // parcourir les événements à appelés par l'action
     action.withValue?.forEach((event) => {
       // si le withValueEvent n'existe pas
 
@@ -70,7 +76,8 @@ let eventsWithCurrentValueInput = [];
     alertList.push(
       "global|action|onlyOneActionCanBeOnDeck|alert",
     );
-  } if (gameData.params.tours.actions.filter((action) => action.actionOnDiscardDeck).length > 1) {
+  }
+   if (gameData.params.tours.actions.filter((action) => action.actionOnDiscardDeck).length > 1) {
     alertList.push(
       "global|action|onlyOneActionCanBeOnDiscardDeck|alert",
     );
@@ -91,7 +98,7 @@ let eventsWithCurrentValueInput = [];
   // the occurences of handDeck in events, withValueEvent and triggers to give all the alerts
   // at once to the user
 
-
+ 
 
   // ============= Check for missing event name
   gameData.events.events.forEach((event) => {
@@ -156,7 +163,9 @@ let eventsWithCurrentValueInput = [];
           "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert",
       );
     }
-
+    if (event.boucle && !event.event.for.includes("Boucle") && !event.event.from.includes("Boucle")) {
+      alertList.push(event.id + "|event|eventCallBoucleButDontUseIt|alert");
+    }
 
     if (
       eventString.includes("handDeck") &&

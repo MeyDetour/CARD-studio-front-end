@@ -455,6 +455,47 @@ export default function RoundsPage({
                           )
                         }
                       />
+
+                      {/*===========APPLY ACTION ON DISCARD OTHER PLAYER CARD =========== */}
+                      {/* appear if hand  is activated */} 
+
+                      <Input
+                        title="attachThisActionOnHanddOtherPlayerCard"
+                        description="attachThisActionOnHanddOtherPlayerCardDescription"
+                        defaultValue={
+                          currentElementToEdit.actionOnHanddOtherPlayerCard ?? false
+                        }
+                        inputType="toggle"
+                        disabled={
+                        (!gameData.cardParams?.hand?.activation ?? true) ||
+                           
+                          currentElementToEdit.actionOnDeck ||
+                          currentElementToEdit.actionOnHand ||
+                          currentElementToEdit.actionOnDiscardDeck
+                        }
+                        onChangeFunction={(value) =>
+                          setCurrentElementToEdit(
+                            updateElementValue(
+                              "actionOnHanddOtherPlayerCard",
+                              currentElementToEdit,
+                              value,
+                            ),
+                          )
+                        }
+                      />
+                      { currentElementToEdit.actionOnHanddOtherPlayerCard && (
+                        <InputSelect
+                                 title="playerToTargetWithThisAction"
+                                 closeAfterSelect={true}
+                                 updateValueArray={(path, value) => {
+                                   setCurrentElementToEdit(updateElementValue(path, currentElementToEdit, value));
+                                 }}
+                                 pathObject="playerToTargetWithThisAction"
+                                 selected={ currentElementToEdit.playerToTargetWithThisAction ? [currentElementToEdit.playerToTargetWithThisAction] : []
+                                 }
+                                 items={["previousPlayer", "nextPlayer", "randomPlayer","playerWithTheMostCardInHand","playerWithTheLessCardInHand","selectedPlayer"]}
+                               />
+                      )}
                       {/*===========APPLY ACTION ON HAND =========== */}
                       {/* appear if hand is activated*/}
                       {/* could be add in max one action */}

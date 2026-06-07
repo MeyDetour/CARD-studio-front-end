@@ -62,7 +62,7 @@ export function applyDefaultGameSettings(game) {
       radius: 0,
       ratio: 0,
       ratioValue: 0,
-      assetsCardsTemplate: null,
+      assetsCardsTemplate: "6a1b23321d4b16a1b23321d4b2",
       addedAttributs: {},
       hand: {
         activation: true,

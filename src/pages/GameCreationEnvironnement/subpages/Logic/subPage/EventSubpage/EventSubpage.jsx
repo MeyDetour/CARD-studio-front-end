@@ -71,7 +71,7 @@ export default function EventSubpage({
       boucle: "{allPlayersInGame}",
       event: {
         from: "{deck}",
-        for: "{player}",
+        for: "{player#handDeck}",
         give: { "{cards}":7 }, 
       },
     },
@@ -316,8 +316,7 @@ export default function EventSubpage({
               <div className="basicContainer">
                 <Alert
                   messages={[
-                    currentEvent.id + "|event|invalidAction|warning",
-                    currentEvent.id + "|event|eventNameCannotBeEmpty|alert",
+                    currentEvent.id + "|event"
                   ]}
                   alertList={alertList}
                 ></Alert>

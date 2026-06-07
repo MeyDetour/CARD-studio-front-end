@@ -138,7 +138,7 @@ export default function TriggerSubpage({
               <Alert
                 alertList={alertList}
                 messages={[
-                  currentTrigger.id + "|trigger|triggerNameCannotBeEmpty|alert",
+                  currentTrigger.id + "|trigge",
                 ]}
               ></Alert>
               <TitleContainer
