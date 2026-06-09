@@ -791,8 +791,9 @@
   "saveTheGameOrSaveCardBeforeUploadingImage": "Save the game or the card before uploading an image to avoid losing your changes.",
  "previousPlayer": "Previous player",
 "nextPlayer": "Next player", 
- 
-"eventCallBoucleButDontUseIt":"L'événement appelle une boucle mais ne l'utilise pas dans la condition",
+"appearAsTheFirstAction": "Appear as the first action",
+"appearAsTheFirstActionDescription": "This action will appear as the first action in the player's action bar. This can be useful for highlighting a specific action that you want players to notice and use more frequently. By enabling this option, you can ensure that this action is always visible and easily accessible to players during their turn.",
+  "eventCallBoucleButDontUseIt":"The event calls a loop but does not use it in the condition",
 "pleaseProvidePlayerToTargetWithThisAction": "Please provide a player to target with this action.",
 "playerWithTheMostCardInHand": "Player with the most cards in hand",
 "playerWithTheLessCardInHand": "Player with the least cards in hand",

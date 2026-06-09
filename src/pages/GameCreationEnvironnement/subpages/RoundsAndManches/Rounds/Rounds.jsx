@@ -411,7 +411,8 @@ export default function RoundsPage({
                               action.id != currentElementToEdit.id,
                           ) ||
                           currentElementToEdit.actionOnHand ||
-                          currentElementToEdit.actionOnDiscardDeck
+                          currentElementToEdit.actionOnDiscardDeck|| 
+                          currentElementToEdit.actionOnHanddOtherPlayerCards 
                         }
                         onChangeFunction={(value) =>
                           setCurrentElementToEdit(
@@ -443,7 +444,8 @@ export default function RoundsPage({
                               action.id != currentElementToEdit.id,
                           ) ||
                           currentElementToEdit.actionOnDeck ||
-                          currentElementToEdit.actionOnHand
+                          currentElementToEdit.actionOnHand || 
+                          currentElementToEdit.actionOnHanddOtherPlayerCards 
                         }
                         onChangeFunction={(value) =>
                           setCurrentElementToEdit(
@@ -463,7 +465,7 @@ export default function RoundsPage({
                         title="attachThisActionOnHanddOtherPlayerCard"
                         description="attachThisActionOnHanddOtherPlayerCardDescription"
                         defaultValue={
-                          currentElementToEdit.actionOnHanddOtherPlayerCard ?? false
+                          currentElementToEdit.actionOnHanddOtherPlayerCards ?? false
                         }
                         inputType="toggle"
                         disabled={
@@ -473,18 +475,29 @@ export default function RoundsPage({
                           currentElementToEdit.actionOnHand ||
                           currentElementToEdit.actionOnDiscardDeck
                         }
-                        onChangeFunction={(value) =>
+                        onChangeFunction={(value) =>{
+                          if (value){
+                            setCurrentElementToEdit(
+                              updateElementValue(
+                                "appearAsTheFirstAction",
+                                currentElementToEdit,
+                                true,
+                                1,
+                              ),
+                            );
+                          }
+
                           setCurrentElementToEdit(
                             updateElementValue(
-                              "actionOnHanddOtherPlayerCard",
+                              "actionOnHanddOtherPlayerCards",
                               currentElementToEdit,
                               value,
                             ),
                           )
-                        }
+                          
+                        }}
                       />
-                      { currentElementToEdit.actionOnHanddOtherPlayerCard && (
-                        <InputSelect
+                      { currentElementToEdit.actionOnHanddOtherPlayerCards &&<>   <InputSelect
                                  title="playerToTargetWithThisAction"
                                  closeAfterSelect={true}
                                  updateValueArray={(path, value) => {
@@ -495,6 +508,67 @@ export default function RoundsPage({
                                  }
                                  items={["previousPlayer", "nextPlayer", "randomPlayer","playerWithTheMostCardInHand","playerWithTheLessCardInHand","selectedPlayer"]}
                                />
+                                  <Input
+                            title="appearAsTheFirstAction"
+                            description="appearAsTheFirstActionDescription"
+                            defaultValue={
+                              currentElementToEdit.appearAsTheFirstAction ?? false
+                            }
+                            inputType="toggle"
+                            
+                            onChangeFunction={(value) => {
+                              setCurrentElementToEdit(
+                                updateElementValue(
+                                  "appearAsTheFirstAction",
+                                  currentElementToEdit,
+                                  value,
+                                ),
+                              );
+                              
+                            }}
+                          />
+                      </>
+                      }
+                      {
+                        (currentElementToEdit.actionOnHanddOtherPlayerCards || currentElementToEdit.actionOnHanddOtherPlayerCards) && (
+                     <> 
+                      <Input
+                              title="min"
+                              description="numberMinOfCardToSelectDescription"
+                              defaultValue={
+                                currentElementToEdit.numberOfCardToSelectMin
+                              }
+                              type="input"
+                              pathInObject="numberOfCardToSelectMin"
+                              onChangeFunction={(path, value) => {
+                                setCurrentElementToEdit(
+                                  updateElementValue(
+                                    path,
+                                    currentElementToEdit,
+                                    value,
+                                  ),
+                                );
+                              }}
+                            />
+                            <Input
+                              title="max"
+                              description="numberMaxOfCardToSelectDescription"
+                              defaultValue={
+                                currentElementToEdit.numberOfCardToSelectMax
+                              }
+                              type="input"
+                              pathInObject="numberOfCardToSelectMax"
+                              onChangeFunction={(path, value) => {
+                                setCurrentElementToEdit(
+                                  updateElementValue(
+                                    path,
+                                    currentElementToEdit,
+                                    value,
+                                  ),
+                                );
+                              }}
+                            /></>
+                     
                       )}
                       {/*===========APPLY ACTION ON HAND =========== */}
                       {/* appear if hand is activated*/}
@@ -514,7 +588,8 @@ export default function RoundsPage({
                               action.id != currentElementToEdit.id,
                           ) ||
                           currentElementToEdit.actionOnDeck ||
-                          currentElementToEdit.actionOnDiscardDeck
+                          currentElementToEdit.actionOnDiscardDeck||
+                          currentElementToEdit.actionOnHanddOtherPlayerCards
                         }
                         onChangeFunction={(value) => {
                           setCurrentElementToEdit(
@@ -627,11 +702,7 @@ export default function RoundsPage({
                         }
                         inputType="toggle"
                         pathInObject="askValueToPlayThisAction"
-                        disabled={
-                          currentElementToEdit.actionOnDeck ||
-                          currentElementToEdit.actionOnHand ||
-                          currentElementToEdit.actionOnDiscardDeck
-                        }
+                        
                         onChangeFunction={(path, value) => {
                           setCurrentElementToEdit(
                             updateElementValue(
