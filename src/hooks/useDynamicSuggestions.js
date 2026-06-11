@@ -159,6 +159,7 @@ export const useDynamicEntitySuggestions = (
       "{startPlayer}",
       "getPlayer(<<position>>)",
       "{playerBoucle}",
+      "{selectedPlayer}",
     ];
 
     if (playerGlobalValues) {

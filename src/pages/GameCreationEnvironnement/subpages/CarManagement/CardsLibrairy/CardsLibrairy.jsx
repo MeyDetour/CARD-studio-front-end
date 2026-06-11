@@ -42,12 +42,13 @@ export default function CardsLibrairy({
   setCurrentCard,
 }) {
   const { t } = useTranslation();
-  const {  createNewDeck, getDecks, getDecksPublic ,useDeckWithUniqueId} =
+  const { createNewDeck, getDecks, getDecksPublic, useDeckWithUniqueId } =
     useDeckContext();
   const [personalDecks, setPersonalDecks] = useState([]);
+  const [publicDecksPagination, setPublicDecksPagination] = useState(1)
   const [publicDecks, setPublicDecks] = useState([]);
   const { displayError } = useNotificationContext();
-  const  navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     if (currentCard) {
       updateGameValue("assets.cards." + currentCard.id, currentCard);
@@ -82,17 +83,13 @@ export default function CardsLibrairy({
   }
   async function useDeck(deck) {
     const resultDeck = await useDeckWithUniqueId(gameData.id, deck.uniqueId);
-    if (resultDeck.message =="ok") { 
-         updateGameValue(
-                      "params.cards.assetsCardsTemplate",
-                      deck.uniqueId,
-                    ); updateGameValue(
-                      "assets.cards" 
-                      ,{}
-                    );
+    if (resultDeck.message == "ok") {
+      updateGameValue("params.cards.assetsCardsTemplate", deck.uniqueId);
+      updateGameValue("assets.cards", {});
     }
   }
-  console.log(gameData.cardParams.assetsCardsTemplate);
+  let currentDeck = personalDecks.find(deck => deck.uniqueId == gameData.cardParams.assetsCardsTemplate) || publicDecks.find(deck => deck.uniqueId == gameData.cardParams.assetsCardsTemplate);
+ 
   return (
     <>
       <div className="cardLibrairy-MultipleActions basicContainer">
@@ -111,9 +108,21 @@ export default function CardsLibrairy({
           ></Button>
         </div>
       </div>
+      {currentDeck && (
+        <div className="basicContainer">
+          <p>{t("propertiesOfCurrentDeck")}</p>
+          <ul> 
+            {Object.keys(currentDeck.addedAttributs ?? {}).map((key) => (
+              <li key={key}>
+                 {key}
+              </li>
+            ))}
+          </ul>
+        </div> 
+      )}
       <div className="wrapperCardsLibrairy">
         {personalDecks.length > 0 &&
-          personalDecks.map(
+        personalDecks.map(
             (deck) =>
               deck.cards &&
               Object.keys(deck.cards).length > 0 && (
@@ -126,9 +135,7 @@ export default function CardsLibrairy({
                     gameData.cardParams.assetsCardsTemplate == deck.uniqueId
                   }
                   action={() => {
-                 
                     useDeck(deck);
-                   
                   }}
                 >
                   <CardListReadOnly
@@ -139,31 +146,38 @@ export default function CardsLibrairy({
               ),
           )}
       </div>
-    
+
       <div class="wrapper">
-      {publicDecks.length > 0 &&
-        publicDecks.map(
-          (deck) =>
-            deck.cards &&
-            Object.keys(deck.cards).length > 0 && (
-              <SelectCard
-                title={deck.name}
-                description={
-                  deck.authorName ? `by ${deck.authorName}` : "noAuthor"
-                }
-                selected={
-                  gameData.cardParams.assetsCardsTemplate == deck.uniqueId
-                }
-                            action={() => {
-                 
+        {publicDecks.length > 0 &&
+          [...publicDecks].splice(0, publicDecksPagination).map(
+            (deck) =>
+              deck.cards &&
+              Object.keys(deck.cards).length > 0 && (
+                <SelectCard
+                  title={deck.name}
+                  description={
+                    deck.authorName ? `by ${deck.authorName}` : "noAuthor"
+                  }
+                  selected={
+                    gameData.cardParams.assetsCardsTemplate == deck.uniqueId
+                  }
+                  action={() => {
                     useDeck(deck);
-                   
                   }}
-              >
-                <CardListReadOnly cards={deck.cards} cardParams={deck.params} />
-              </SelectCard>
-            ),
-        )}
+                >
+                  <CardListReadOnly
+                    cards={deck.cards}
+                    cardParams={deck.params}
+                  />
+                </SelectCard>
+              ),
+          )}
+          <Button
+            text="loadMore"
+            action={() => setPublicDecksPagination(publicDecksPagination + 10)}
+            type="withoutBorder"
+            icon="add"
+          ></Button>
       </div>
     </>
   );

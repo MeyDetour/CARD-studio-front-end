@@ -404,6 +404,14 @@ export default function EventSubpage({
                                   : {t("theValueAskedToPlayerToPlayThisAction")}
                                 </li>
                               )}
+                              {a.actionOnHanddOtherPlayerCards && (
+                                <li>
+                                  <span className="variableName">
+                                    {"{selectedPlayer}"}
+                                  </span>
+                                  : {t("theSelectedPlayerObject")}
+                                </li>
+                              )}
                               <li>
                                 <span className="variableName">
                                   {"{currentPlayer}"}
@@ -485,7 +493,17 @@ export default function EventSubpage({
                     setCurrentEvent(
                       updateElementValue(path, currentEvent, value),
                     );
-                  }}
+                  }} suggestions={[
+                    ...(currentEvent.boucle
+                      ? suggestions
+                      : suggestions.filter(
+                          (s) => !s.label.includes("{playerBoucle"),
+                        )),
+                    ...getSugggestionForPlayer(
+                      "currentPlayer",
+                      globalPlayerValue,
+                    ),
+                  ]}
                 />
               </div>
 

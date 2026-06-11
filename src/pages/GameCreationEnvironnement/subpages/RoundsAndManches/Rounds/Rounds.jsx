@@ -18,6 +18,7 @@ import { createHistoryElement } from "../../../../../helpers/historyObject";
 import { splitText } from "../../../../../helpers/text";
 
 // Components
+import DragAndDropSortList from "../../../../../components/DragAndDropSortList/DragAndDropSortList";
 import TitleContainer from "../../../../../components/TitleContainer/TitleContainer";
 import Button from "../../../../../components/Button/Button";
 import Icon from "../../../../../components/Icon/Icon";
@@ -333,8 +334,9 @@ export default function RoundsPage({
 
                     {/*===========Variables Returned =========== */}
                     {(currentElementToEdit.actionOnHand ||
-                      currentElementToEdit.askValueToPlayThisAction) && (
-                      <div class="innerContainer">
+                      currentElementToEdit.askValueToPlayThisAction ||
+                      currentElementToEdit.actionOnHanddOtherPlayerCards) && (
+                      <div className="innerContainer">
                         <TitleContainer
                           title="variablesReturnedByThisAction"
                           description="variablesReturnedByThisActionDescription"
@@ -357,6 +359,14 @@ export default function RoundsPage({
                               : {t("theValueAskedToPlayerToPlayThisAction")}
                             </li>
                           )}
+                            {currentElementToEdit.actionOnHanddOtherPlayerCards && (
+                                <li>
+                                  <span className="variableName">
+                                    {"{selectedPlayer}"}
+                                  </span>
+                                  : {t("theSelectedPlayerObject")}
+                                </li>
+                              )}
                           <li>
                             <span className="variableName">
                               {"{currentPlayer}"}
@@ -366,6 +376,59 @@ export default function RoundsPage({
                         </ul>
                       </div>
                     )}
+
+
+                    {/*===========EVENTS ASSOCIEES=========== */}
+ <div className="basicContainer eventAssociatedSection"> 
+             <Alert
+                          alertList={alertList}
+                          messages={[
+                            currentElementToEdit.id +
+                              "|action|missingValueForKey",
+                            currentElementToEdit.id +
+                              "|action|callNonExistingEvent|alert",
+                            currentElementToEdit.id +
+                              "|action|pleaseProvideEventsForAction|warning",
+                          ]}
+                        ></Alert>
+
+              <TitleContainer
+              title={"events"}
+                      description={"eventsToEXecuteAfter"}
+              />
+              <InputSelect
+                title={"useWithValueEvent"}
+                updateValueArray={(value) => { 
+                   setCurrentElementToEdit(
+                            updateValueArray(
+                              "withValue",
+                              currentElementToEdit,
+                              {id : value.id},
+                              "new",
+                            ),
+                          );
+                }}
+                closeAfterSelect={true}
+                selected={[t("selectEventToAssociateWithTrigger")]}
+                items={gameData.events}
+                itemsDisplayFields={["id", "name"]}
+              />
+              {currentElementToEdit.withValue && (
+                <DragAndDropSortList
+                 
+                  itemsDefault={currentElementToEdit.withValue.map((eventId) =>
+                    gameData.events.find((e) => e.id === eventId.id),
+                  )}
+                  onChangeItems={(newItems) => { 
+                    setCurrentElementToEdit(
+                      updateElementValue("withValue", currentElementToEdit, newItems.map(item=>({id : item.id})),"replace"),
+                    );
+                  }}
+                  type="Trigger"
+                />
+              )}
+            </div>
+
                     <DetailContainer title="advancedSettings" description="actionCallDescription">
                       {/*===========APPARITION DE L ACTION=========== */}
 
@@ -494,6 +557,32 @@ export default function RoundsPage({
                               value,
                             ),
                           )
+                          if (
+                            currentElementToEdit.numberOfCardToSelectMin ==
+                              undefined &&
+                            value
+                          ) {
+                            setCurrentElementToEdit(
+                              updateElementValue(
+                                "numberOfCardToSelectMin",
+                                currentElementToEdit,
+                                1,
+                              ),
+                            );
+                          }
+                          if (
+                            currentElementToEdit.numberOfCardToSelectMax ==
+                              undefined &&
+                            value
+                          ) {
+                            setCurrentElementToEdit(
+                              updateElementValue(
+                                "numberOfCardToSelectMax",
+                                currentElementToEdit,
+                                1,
+                              ),
+                            );
+                          }
                           
                         }}
                       />
@@ -781,128 +870,8 @@ export default function RoundsPage({
                         </>
                       )}
                     </DetailContainer>
-                    {/*===========EVENTS ASSOCIEES=========== */}
 
-                    <DetailContainer
-                      title={"events"}
-                      description={"eventsToEXecuteAfter"}
-                      className="eventsAssociatedContainer"
-                      topAlert={
-                        <Alert
-                          alertList={alertList}
-                          messages={[
-                            currentElementToEdit.id +
-                              "|action|missingValueForKey",
-                            currentElementToEdit.id +
-                              "|action|callNonExistingEvent|alert",
-                            currentElementToEdit.id +
-                              "|action|pleaseProvideEventsForAction|warning",
-                          ]}
-                        ></Alert>
-                      }
-                    >
-                      <InputSelect
-                        title={"useWithValueEvent"}
-                        updateValueArray={(value) => {
-                          let newElt = {
-                            id: value.id,
-                            player: "{currentPlayer}",
-                          };
-                          for (let key of getDynamicValueForEvent(value)) {
-                            newElt[key] = "";
-                          }
-                          if (value.event?.action == "askPlayer") {
-                            newElt["type"] = "askPlayer";
-                          }
-                          setCurrentElementToEdit(
-                            updateValueArray(
-                              "withValue",
-                              currentElementToEdit,
-                              newElt,
-                              "new",
-                            ),
-                          );
-                        }}
-                        closeAfterSelect={true}
-                        selected={[t("selectWithValueEvent")]}
-                        items={gameData.events}
-                        itemsDisplayFields={["id", "name"]}
-                      />
-                      {currentElementToEdit.withValue &&
-                      currentElementToEdit.withValue.length > 0 ? (
-                        currentElementToEdit.withValue.map(
-                          (withValueEventInputs, index) => {
-                            let originEvent = getEventFromIdAndType(
-                              withValueEventInputs.id,
-                              "event",
-                            );
-                            let keyInputInwithValueEvent =
-                              getDynamicValueForEvent(originEvent);
-
-                            function remove() {
-                              setCurrentElementToEdit(
-                                updateValueArray(
-                                  "withValue",
-                                  currentElementToEdit,
-                                  { id: withValueEventInputs.id },
-                                  "delete",
-                                ),
-                              );
-                            }
-                            return (
-                              <WithValueEventCard
-                                key={index}
-                                actionOnRemove={remove}
-                                action={() => {
-                                  if (!withValueEvent) {
-                                    remove();
-                                  }
-                                }}
-                                withValueEvent={
-                                  originEvent
-                                    ? originEvent
-                                    : { name: t("withValueEventDoesnotExist") }
-                                }
-                                alertMessages={[
-                                  currentElementToEdit.id +
-                                    "|action|" +
-                                    "callNonExistingEvent|alert",
-                                ]}
-                                className="eventsAssociatedContainer"
-                                withValueEventInputs={withValueEventInputs}
-                                withValueEventKeys={keyInputInwithValueEvent}
-                                modifyKeyValue={(path, value) => {
-                                  setCurrentElementToEdit(
-                                    updateValueArray(
-                                      "withValue",
-                                      currentElementToEdit,
-                                      updateElementValue(
-                                        path,
-                                        withValueEventInputs,
-                                        value,
-                                      ),
-                                    ),
-                                  );
-                                }}
-                                suggestions={gameData.suggestions}
-                              ></WithValueEventCard>
-                            );
-                          },
-                        )
-                      ) : (
-                        <span className="normalText">
-                          {t("noEventToCall")}
-                          <Button
-                            type="grey"
-                            action={() => {
-                              navigate("/game/events/" + gameData.gameId);
-                              setCurrentSubpageOfEvents("withValueEvent");
-                            }}
-                            text="createWithValueEvent"
-                          ></Button>
-                        </span>
-                      )}
-                    </DetailContainer>
+                   
                     {/*===========SUPPRIMER=========== */}
 
                     <div className="basicContainer basicRedContainer ">

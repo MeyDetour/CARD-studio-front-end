@@ -163,7 +163,7 @@ let eventsWithCurrentValueInput = [];
           "|event|eventCannotCallWithValueEventWithCurrentPlayer|alert",
       );
     }
-    if (event.boucle && !event.event.for.includes("Boucle") && !event.event.from.includes("Boucle")) {
+    if (event.boucle && !event.event.for?.includes("Boucle") && !event.event.from?.includes("Boucle")) {
       alertList.push(event.id + "|event|eventCallBoucleButDontUseIt|alert");
     }
 

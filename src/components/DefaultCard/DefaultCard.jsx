@@ -45,7 +45,7 @@ export default function DefaultCard({
       className={`defaultCardOfGame ${setCurrentCard ? "hoverable" : ""} ${classAdded}`}
       data-key={dataKey}
     >
-      <span className="leftValue">{card.value}</span>
+      <span className="leftValue">{card.addedAttributs?.value}</span>
       <span className={`leftSuit ${color}`}>
         {getSuitSymbol(card.addedAttributs?.couleur)}
       </span>
@@ -56,7 +56,7 @@ export default function DefaultCard({
         {getSuitSymbol(card.addedAttributs?.couleur)}
       </span>
 
-      <span className="rightValue">{card.value}</span>
+      <span className="rightValue">{card.addedAttributs?.value}</span>
       {children}
     </div>
   );
