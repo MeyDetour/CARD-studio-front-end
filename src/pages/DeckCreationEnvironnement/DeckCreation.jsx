@@ -26,7 +26,7 @@ import CustomCard from "../../components/CustomCard/CustomCard.jsx";
 import DefaultCard from "../../components/DefaultCard/DefaultCard.jsx";
 import CardEdition from "../../components/CardEdition/CardEdition.jsx";
 import CardEditionPage from "../../components/CardEdition/CardEdition.jsx";
-import { createNewORderForCard } from "../../helpers/cards.js"; 
+import { createNewORderForCard } from "../../helpers/cards.js";
 export default function DeckCreation() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -89,7 +89,7 @@ export default function DeckCreation() {
 
   if (loading) return <Loader />;
   if (error) return <p>Erreur : {error}</p>;
-  if (!deck) return <Loader />; 
+  if (!deck) return <Loader />;
 
   // =========== UPDATE DECK OBJECT ============
   const updateDeckValueHandler = (path, value, type) => {
@@ -161,6 +161,7 @@ export default function DeckCreation() {
       </div>
     );
   }
+  console.log(deck);
   return (
     <div className={" deckCreationEnvironnementPage"}>
       <GameCreationEnvironnementHeader name={deck.name} />
@@ -194,111 +195,111 @@ export default function DeckCreation() {
         </div>
         {/* IDENTITY */}
         <div className="row rowIdentity">
-        <div className="basicContainer">
-          <Input
-            title="name"
-            pathInObject="name"
-            onChangeFunction={(path, value) => {
-              updateDeckValueHandler(path, value);
-            }}
-            defaultValue={deck.name}
-          />
-          <Input
-            title="nameOfAuthorToRender"
-            description="nameOfAuthorToRenderDescription"
-            pathInObject="authorName"
-            onChangeFunction={(path, value) => {
-              updateDeckValueHandler(path, value);
-            }}
-            defaultValue={deck.authorName}
-          />
-          <Input
-            title="usableForOtherPeople"
-            description="usableForOtherPeopleDescription"
-            defaultValue={deck.isPublished}
-            inputType="toggle"
-            pathInObject="params.globalGame.soloMode"
-            onChangeFunction={(path, value) => {
-              updateDeckValueHandler(path, value);
-            }}
-          />
-        </div>
-        {/* ==========RENDERING OF CARDS======== */}
-        {Object.keys(deck.cards).some((key) => {
-          return deck.cards[key].type === "custom";
-        }) && (
-          <div className="basicContainer renderingOfCardContainer">
-            <TitleContainer
-              title="renderingOfCard"
-              type="h2"
-              description="renderingOfCardDescription"
-            ></TitleContainer>
+          <div className="basicContainer">
+            <Input
+              title="name"
+              pathInObject="name"
+              onChangeFunction={(path, value) => {
+                updateDeckValueHandler(path, value);
+              }}
+              defaultValue={deck.name}
+            />
+            <Input
+              title="nameOfAuthorToRender"
+              description="nameOfAuthorToRenderDescription"
+              pathInObject="authorName"
+              onChangeFunction={(path, value) => {
+                updateDeckValueHandler(path, value);
+              }}
+              defaultValue={deck.authorName}
+            />
+            <Input
+              title="usableForOtherPeople"
+              description="usableForOtherPeopleDescription"
+              defaultValue={deck.isPublished}
+              inputType="toggle"
+              pathInObject="params.globalGame.soloMode"
+              onChangeFunction={(path, value) => {
+                updateDeckValueHandler(path, value);
+              }}
+            />
+          </div>
+          {/* ==========RENDERING OF CARDS======== */}
+          {Object.keys(deck.cards).some((key) => {
+            return deck.cards[key].type === "custom";
+          }) && (
+            <div className="basicContainer renderingOfCardContainer">
+              <TitleContainer
+                title="renderingOfCard"
+                type="h2"
+                description="renderingOfCardDescription"
+              ></TitleContainer>
 
-            <div className="innerContainer">
-              <div className="left">
-                {/* ICI : La carte d'exemple fait 200px de large. // Le rayon max
+              <div className="innerContainer">
+                <div className="left">
+                  {/* ICI : La carte d'exemple fait 200px de large. // Le rayon max
                     pour un cercle est de 100px (200 / 2). // On multiplie ce rayon max
                     par le ratio (0 à 1) pour avoir le rendu exact en pixels.
                      */}
-                <CustomCard
-                  radius={(deck.params?.radius ?? 0) * 100}
-                  aspectRatio={deck.params?.ratio ?? 1}
-                  card={
-                    deck.cards
-                      ? deck.cards[
-                          Object.keys(deck.cards).find((key) => {
-                            return deck.cards[key].type === "custom";
-                          })
-                        ]
-                      : null
-                  }
-                ></CustomCard>
-              </div>
-
-              <div className="right">
-                <span className="normalText">
-                  {t("maxNumberOfMance")} :
-                  {Math.round((deck.params?.radius ?? 0) * 100)} %
-                </span>
-                <InputRange
-                  type="range"
-                  min={0}
-                  max={30}
-                  maxValue={(deck.params?.radius ?? 0) * 100}
-                  setMaxValue={(value) => {
-                    value = parseFloat((value / 100).toFixed(2));
-
-                    updateDeckValueHandler("params.radius", value);
-                  }}
-                ></InputRange>
-                <span className="normalText">
-                  {t("aspectRatio")} :{deck.params?.ratio ?? "1/1"}
-                </span>
-                <InputRange
-                  type="range"
-                  min={20}
-                  max={80}
-                  minValue={20}
-                  maxValue={deck.params?.ratioValue ?? 0}
-                  setMaxValue={(value) => {
-                    console.log(value);
-                    let ratio = "0.62/1";
-                    if (value <= 50) {
-                      ratio = "1/" + value / 50;
-                    } else {
-                      ratio = (50 - (value - 50)) / 50 + "/1";
+                  <CustomCard
+                    radius={(deck.params?.radius ?? 0) * 100}
+                    aspectRatio={deck.params?.ratio ?? 1}
+                    card={
+                      deck.cards
+                        ? deck.cards[
+                            Object.keys(deck.cards).find((key) => {
+                              return deck.cards[key].type === "custom";
+                            })
+                          ]
+                        : null
                     }
+                  ></CustomCard>
+                </div>
 
-                    console.log(ratio);
+                <div className="right">
+                  <span className="normalText">
+                    {t("maxNumberOfMance")} :
+                    {Math.round((deck.params?.radius ?? 0) * 100)} %
+                  </span>
+                  <InputRange
+                    type="range"
+                    min={0}
+                    max={30}
+                    maxValue={(deck.params?.radius ?? 0) * 100}
+                    setMaxValue={(value) => {
+                      value = parseFloat((value / 100).toFixed(2));
 
-                    updateDeckValueHandler("params.ratioValue", value);
-                    updateDeckValueHandler("params.ratio", ratio);
-                  }}
-                ></InputRange>
+                      updateDeckValueHandler("params.radius", value);
+                    }}
+                  ></InputRange>
+                  <span className="normalText">
+                    {t("aspectRatio")} :{deck.params?.ratio ?? "1/1"}
+                  </span>
+                  <InputRange
+                    type="range"
+                    min={20}
+                    max={80}
+                    minValue={20}
+                    maxValue={deck.params?.ratioValue ?? 0}
+                    setMaxValue={(value) => {
+                      console.log(value);
+                      let ratio = "0.62/1";
+                      if (value <= 50) {
+                        ratio = "1/" + value / 50;
+                      } else {
+                        ratio = (50 - (value - 50)) / 50 + "/1";
+                      }
+
+                      console.log(ratio);
+
+                      updateDeckValueHandler("params.ratioValue", value);
+                      updateDeckValueHandler("params.ratio", ratio);
+                    }}
+                  ></InputRange>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
         {/* ==========END OF RENDERING OF CARDS======== */}
         {/* ATTRIBUTS */}
@@ -374,7 +375,7 @@ export default function DeckCreation() {
         <DetailContainer
           title={t("advancedOptionForDeck")}
           description={t("advancedOptionForDeckDescription")}
-        > 
+        >
           <div className="row " style={{ alignItems: "center" }}>
             <TitleContainer
               title={"fixBrokenCards"}
@@ -421,10 +422,13 @@ export default function DeckCreation() {
               addActionConfirmation={true}
               action={async () => {
                 if (confirm(t("doYouRealyWantToRestore"))) {
-                  let result = await restoreCardsDeck(deck.id);
-                  if (result && result.message === "ok") {
-                    initGame();
-                  }
+                  let result = await restoreCardsDeck(deck.id); 
+                  setDeck(prev=> {
+                    return {
+                      ...prev,
+                      cards: result
+                    };
+                  });
                 }
               }}
             ></Button>

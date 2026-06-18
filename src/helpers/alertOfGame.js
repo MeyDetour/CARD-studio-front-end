@@ -123,6 +123,14 @@ let eventsWithCurrentValueInput = [];
     ) {
       alertList.push(event.id + "|event|invalidAction|warning");
     }
+
+
+    if(eventsWithCurrentValueInput.includes(event.id)){
+      for (let eventOfEvent of event.event.withValue || []) {
+      eventsWithCurrentValueInput.push(eventOfEvent.id);
+      }
+    }
+
     if (
       eventString.includes("currentPlayer") &&
       !event.name.includes("currentPlayer") &&
@@ -133,7 +141,7 @@ let eventsWithCurrentValueInput = [];
       if (!withValueEventAllowToUseCurrentPlayer.includes(event.id)) {
         alertList.push(
           event.id +
-            "|eventWithValue|withValueEventCannotUseCurrentPlayerIfItsNotCalledInAction|alert",
+            "|event|withValueEventCannotUseCurrentPlayerIfItsNotCalledInAction|alert",
         );
       } else {
         // si il est appelé dans une action alors tous ses descendants peuvent avoir la variable currentPlayer

@@ -633,7 +633,23 @@ export const expressionList = [
     ],
     returns: { type: "number", description: "Nombre de caractères" },
     examples: ['len("Bonjour")  -> 7', 'len("")  -> 0', "len([a,b,c])  -> 3"],
+  },  {
+    nameKey: "compareDouble",
+    categories: ["Value","Function"],
+    descriptionKey: "compareDoubleDescription",
+    syntax: "getDouble(array,path1,path2,path3,...)",
+    inputs: [
+      {
+        name: "path",
+        type: "number",
+        description: "Premier nombre à comparer",
+        required: true,
+      }, 
+    ],
+    returns: { type: "number", description: "Résultat de la comparaison" },
+    examples: ['getDouble({currentPlayer#handDeck}, "value","couleur")  -> ["5444Ab", "545gb"]', 'getDouble({deck}, "value","couleur")  -> []'],
   },
+
 
   {
     nameKey: "premierElement",

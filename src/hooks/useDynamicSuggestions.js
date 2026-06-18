@@ -134,7 +134,12 @@ export const useDynamicEntitySuggestions = (
       label: "{discardDeck}",
       types: ["cardList"],
       return :"array"
-    });    suggestions.push({
+    });      suggestions.push({
+      label: "getDouble(array,path,path,path,...)",
+      types: ["function"],
+      return :"boolean"
+    });    
+    suggestions.push({
       label: "{topDiscardCard}",
       types: ["card"],
       return :"card"
