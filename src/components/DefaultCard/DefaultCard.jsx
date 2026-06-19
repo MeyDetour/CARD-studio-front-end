@@ -16,8 +16,8 @@ export default function DefaultCard({
     return <div className={`defaultCardOfGame `}> PLEASE PROVIDE SUIT</div>;
   }
   const color =
-    card.addedAttributs?.couleur === "coeur" ||
-    card.addedAttributs?.couleur === "carreau"
+    card.addedAttributs?.symbol === "coeur" ||
+    card.addedAttributs?.symbol === "carreau"
       ? "text-red-600"
       : "text-slate-900";
 
@@ -47,13 +47,13 @@ export default function DefaultCard({
     >
       <span className="leftValue">{card.addedAttributs?.value}</span>
       <span className={`leftSuit ${color}`}>
-        {getSuitSymbol(card.addedAttributs?.couleur)}
+        {getSuitSymbol(card.addedAttributs?.symbol)}
       </span>
       <span className={`suit ${color}`}>
-        {getSuitSymbol(card.addedAttributs?.couleur)}
+        {getSuitSymbol(card.addedAttributs?.symbol)}
       </span>
       <span className={`rightSuit ${color}`}>
-        {getSuitSymbol(card.addedAttributs?.couleur)}
+        {getSuitSymbol(card.addedAttributs?.symbol)}
       </span>
 
       <span className="rightValue">{card.addedAttributs?.value}</span>

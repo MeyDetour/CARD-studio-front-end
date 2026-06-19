@@ -348,7 +348,7 @@ export default function DeckCreation() {
                   name: t("newCard"),
                   type: "french_standard",
                   addedAttributs: {
-                    couleur: "pique",
+                    symbol: "pique",
                   },
                   order: Object.keys(deck.cards).length + 1,
                 };
@@ -423,12 +423,7 @@ export default function DeckCreation() {
               action={async () => {
                 if (confirm(t("doYouRealyWantToRestore"))) {
                   let result = await restoreCardsDeck(deck.id); 
-                  setDeck(prev=> {
-                    return {
-                      ...prev,
-                      cards: result
-                    };
-                  });
+                  setDeck(result);
                 }
               }}
             ></Button>

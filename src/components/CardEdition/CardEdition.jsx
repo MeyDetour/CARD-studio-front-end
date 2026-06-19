@@ -188,17 +188,17 @@ export default function CardEdition({
             let newCard = updateElementValue(path, currentCard, value);
             if (value == "custom") {
               newCard = updateElementValue(
-                "addedAttributs.couleur",
+                "addedAttributs.symbol",
                 newCard,
                 null,
               );
             }
             if (
               newCard.type == "french_standard" &&
-              newCard.addedAttributs?.couleur == null
+              newCard.addedAttributs?.symbol == null
             ) {
               newCard = updateElementValue(
-                "addedAttributs.couleur",
+                "addedAttributs.symbol",
                 newCard,
                 "pique",
               );
@@ -212,15 +212,15 @@ export default function CardEdition({
         {/* ===========Couleur si card basique======= */}
         {currentCard.type === "french_standard" && (
           <InputSelect
-            title="colorOfCard"
+            title="symbolOfCard"
             closeAfterSelect={true}
             updateValueArray={(path, value) => {
               setCurrentCard(updateElementValue(path, currentCard, value));
             }}
-            pathObject="addedAttributs.couleur"
+            pathObject="addedAttributs.symbol"
             selected={
-              currentCard.addedAttributs.couleur
-                ? [currentCard.addedAttributs.couleur]
+              currentCard.addedAttributs.symbol
+                ? [currentCard.addedAttributs.symbol]
                 : []
             }
             items={["trefle", "coeur", "carreau", "pique"]}

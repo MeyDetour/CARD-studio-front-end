@@ -701,6 +701,7 @@
   "doYouReallyWantToDeleteCard": "Do you really want to delete this card?",
   "typeCard": "Card type",
   "colorOfCard": "Card color",
+  "symbolOfCard": "Card symbol",
   "cardName": "Card name",
   "gainsCreated": "Gains created",
   "deleteGain": "Delete gain",

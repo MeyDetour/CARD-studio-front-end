@@ -40,7 +40,7 @@ export default function CardSelectionArea({
 }) {
   // selected est un Set qui contient les clés des cartes sélectionnées
   const [selected, setSelected] = useState(new Set());
-  // filters est un objet qui contient les filtres appliqués, par exemple { type: ["custom"], quantity: [2, 3], addedAttributs: { couleur: ["coeur"] } }
+  // filters est un objet qui contient les filtres appliqués, par exemple { type: ["custom"], quantity: [2, 3], addedAttributs: { symbol: ["coeur"] } }
   const [filters, setFilters] = useState({});
   // Permet de mettre à jour les modifications multiples
   // multipleEdit est un objet qui contient les modifications à appliquer à tous les éléments sélectionnés
@@ -211,7 +211,7 @@ export default function CardSelectionArea({
                 }
               }
 
-              //filtres sur les attributs comme addedAttributs.couleur=pique
+              //filtres sur les attributs comme addedAttributs.symbol=pique
               if (filterKey === "addedAttributs" && !isHidden) {
                 for (let attrKey of Object.keys(activeFilters)) {
                   const selectedValues = activeFilters[attrKey];
@@ -291,12 +291,12 @@ export default function CardSelectionArea({
       </SelectionArea>
       {displayMultipleEdit && (
         <div className="cardLibrairy-MultipleActions basicContainer">
-          {/*===== multiple edit couleur si tous les elements sont french_standard =====*/}
+          {/*===== multiple edit symbol si tous les elements sont french_standard =====*/}
           {!Array.from(selected).some(
             (key) => cards[key]?.type !== "french_standard",
           ) && (
             <InputSelect
-              title="colorOfCard"
+              title="symbolOfCard"
               closeAfterSelect={true}
               disabled={selected.size === 0}
               updateValueArray={(path, value) => {
@@ -314,14 +314,14 @@ export default function CardSelectionArea({
                   }
                 }
               }}
-              pathObject="addedAttributs.couleur"
+              pathObject="addedAttributs.symbol"
               selected={
                 selected.size == 1
                   ? [
-                      cards[Array.from(selected)[0]]?.addedAttributs?.couleur ??
+                      cards[Array.from(selected)[0]]?.addedAttributs?.symbol ??
                         "",
                     ]
-                  : [multipleEdit?.couleur ?? ""]
+                  : [multipleEdit?.symbol ?? ""]
               }
               items={["trefle", "coeur", "carreau", "pique"]}
             />

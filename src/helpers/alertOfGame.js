@@ -274,7 +274,6 @@ let eventsWithCurrentValueInput = [];
     ) {
       alertList.push(gain.id + "|gain|gainsCannotHaveSameName|alert");
     }
-  });
-//console.log(alertList);
+  }); 
   return alertList;
 }

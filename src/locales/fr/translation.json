@@ -762,6 +762,7 @@
   "all": "Tous",
   "typeCard": "Type de carte",
   "colorOfCard": "Couleur de la carte",
+  "symbolOfCard": "Symbole de la carte",
   "pique": "Pique",
   "coeur": "Coeur",
   "gains": "Gestion des gains",

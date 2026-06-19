@@ -36,7 +36,7 @@ export default function AttributsManagement({
         ></Button>
       </div>
       {attributs &&
-        Object.keys(attributs).map((attributKey, key) => (
+        Object.keys(attributs).filter(attributKey => attributKey !== "symbol").map((attributKey, key) => (
           <div className="rowAttribut row">
             <Icon
               name="close"

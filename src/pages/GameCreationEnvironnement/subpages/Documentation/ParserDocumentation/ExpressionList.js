@@ -637,7 +637,7 @@ export const expressionList = [
     nameKey: "compareDouble",
     categories: ["Value","Function"],
     descriptionKey: "compareDoubleDescription",
-    syntax: "getDouble(array,path1,path2,path3,...)",
+    syntax: "getDouble(cardList,path1,path2,path3,...)",
     inputs: [
       {
         name: "path",
@@ -647,7 +647,7 @@ export const expressionList = [
       }, 
     ],
     returns: { type: "number", description: "Résultat de la comparaison" },
-    examples: ['getDouble({currentPlayer#handDeck}, "value","couleur")  -> ["5444Ab", "545gb"]', 'getDouble({deck}, "value","couleur")  -> []'],
+    examples: ['getDouble({currentPlayer#handDeck}, "value","color")  -> ["5444Ab", "545gb"]', 'getDouble({deck}, "value","color")  -> []'],
   },
 
 
