@@ -74,10 +74,10 @@ export default function Alert({
     return (
       <div className="alertContainer">
         {alertTypesToDisplay.alert && (
-          <img src={`/./assets/icon/alert.svg`} alt={`alert Icon`} />
+          <img src={`./assets/icon/alert.svg`} alt={`alert Icon`} />
         )}
         {alertTypesToDisplay.warning && (
-          <img src={`/./assets/icon/warning.svg`} alt={`warning Icon`} />
+          <img src={`./assets/icon/warning.svg`} alt={`warning Icon`} />
         )}
       </div>
     );
@@ -94,7 +94,7 @@ export default function Alert({
         return (
           <div key={index} className={`alertItem ${severity}Case`}>
             <img
-              src={`/./assets/icon/${severity === "alert" ? "alert.svg" : "warning.svg"}`}
+              src={`./assets/icon/${severity === "alert" ? "alert.svg" : "warning.svg"}`}
               alt={`${severity} Icon`}
             />
             {translationKey && <p>{t(translationKey)}</p>}

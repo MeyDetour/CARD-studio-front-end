@@ -7,7 +7,7 @@ export default function GameCreationEnvironnementHeader({name}) {
   return (
     <header className="gameCreationEnvironnementHeader">
       <div>
-        <img src={"/./assets/icon/CARDStudioCréationLogo.svg"} alt="" />
+        <img src={"./assets/icon/CARDStudioCréationLogo.svg"} alt="" />
         <span className="firstPart">CARD Studio</span>
         <span>•</span>
         <span>{name}</span>

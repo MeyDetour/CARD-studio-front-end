@@ -21,17 +21,17 @@ export default function Outils({ gameData }) {
           name: "expressionEditor",
           description: "expressionEditorDescription",
           onclickEvent: () => navigate("/game/expressionEditor/"+gameData.id),
-          illustratin : "/./assets/images/expression-editor-illustration.svg"
+          illustratin : "./assets/images/expression-editor-illustration.svg"
         },{
           name: "visualisation",
           description: "visualiseConnexionsBetwwenElements",
           onclickEvent: () => navigate("/game/visualisation/"+gameData.id),
-          illustratin : "/./assets/images/visualisation-illustration.svg"
+          illustratin : "./assets/images/visualisation-illustration.svg"
         },{
           name: "documentation",
           description: "hereWeExplainAllPossibilitesWithExpressionEditor",
           onclickEvent: () => navigate("/game/expression-documentation/"+gameData.id),
-          illustratin : "/./assets/images/visualisation-illustration.svg"
+          illustratin : "./assets/images/visualisation-illustration.svg"
         },
       ].map((section, key) => (
         <>
