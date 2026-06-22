@@ -312,7 +312,7 @@ export default function GameCreationEnvironnement() {
                       ? gameImageUploadedUrl
                       : game.image
                         ? game.image
-                        : "/src/assets/images/template-game.png",
+                        : "/./assets/images/template-game.png",
                     isPublic: game.isPublic,
                   }}
                   uploadFileForGameEditionHandler={

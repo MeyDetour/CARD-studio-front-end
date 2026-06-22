@@ -79,7 +79,7 @@ export default function SelectGame() {
         <Icon name="settings-white"></Icon>
       </div>
       <div className="headerSection">
-        <img src="/src/assets/CARDStudioLogo.svg" alt="logo" className="logo" />
+        <img src="/./assets/CARDStudioLogo.svg" alt="logo" className="logo" />
         <h1>{t("selectGameTitle")}</h1>
         <p>{t("selectGameSubtitle")} </p>
       </div>
