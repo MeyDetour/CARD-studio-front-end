@@ -1,6 +1,6 @@
 // CSS
 import "./style.css";
-import "../../assets/form.css";
+import "/assets/form.css";
 
 // External libraries
 import { useEffect, useState } from "react";

@@ -1,5 +1,5 @@
 import "./style.css";
-import "../../assets/text.css";
+import "/assets/text.css";
 
 // External libraries
 import { use, useEffect, useState } from "react";
