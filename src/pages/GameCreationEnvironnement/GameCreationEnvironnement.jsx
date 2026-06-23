@@ -1,5 +1,5 @@
 import "./style.css";
-import "/assets/text.css";
+import "../../../public/assets/text.css";
 
 // External libraries
 import { use, useEffect, useState } from "react";
@@ -312,7 +312,7 @@ export default function GameCreationEnvironnement() {
                       ? gameImageUploadedUrl
                       : game.image
                         ? game.image
-                        : "./assets/images/template-game.png",
+                        : "/assets/images/template-game.png",
                     isPublic: game.isPublic,
                   }}
                   uploadFileForGameEditionHandler={

@@ -48,6 +48,7 @@ export default function CardsLibrairy({
   const [publicDecksPagination, setPublicDecksPagination] = useState(1)
   const [publicDecks, setPublicDecks] = useState([]);
   const { displayError } = useNotificationContext();
+  const [currentDeck, setCurrentDeck] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     if (currentCard) {
@@ -74,6 +75,11 @@ export default function CardsLibrairy({
 
     getData();
   }, []);
+  useEffect(() => {
+    setCurrentDeck(
+      personalDecks.find(deck => deck.uniqueId == gameData.cardParams.assetsCardsTemplate) || publicDecks.find(deck => deck.uniqueId == gameData.cardParams.assetsCardsTemplate)
+    );
+  }, [publicDecks, personalDecks,currentDeck]);
 
   async function newDeck() {
     const resultDeck = await createNewDeck();
@@ -86,10 +92,10 @@ export default function CardsLibrairy({
     if (resultDeck.message == "ok") {
       updateGameValue("params.cards.assetsCardsTemplate", deck.uniqueId);
       updateGameValue("assets.cards", {});
+      setCurrentDeck(null);
     }
   }
-  let currentDeck = personalDecks.find(deck => deck.uniqueId == gameData.cardParams.assetsCardsTemplate) || publicDecks.find(deck => deck.uniqueId == gameData.cardParams.assetsCardsTemplate);
- 
+    console.log(currentDeck);
   return (
     <>
       <div className="cardLibrairy-MultipleActions basicContainer">
@@ -108,18 +114,36 @@ export default function CardsLibrairy({
           ></Button>
         </div>
       </div>
-      {currentDeck && (
-        <div className="basicContainer">
-          <p>{t("propertiesOfCurrentDeck")}</p>
-          <ul> 
-            {Object.keys(currentDeck.addedAttributs ?? {}).map((key) => (
-              <li key={key}>
-                 {key}
-              </li>
-            ))}
-          </ul>
-        </div> 
-      )}
+    
+           {currentDeck && (
+              <div className="basicContainer">
+                <p>{t("propertiesOfCurrentDeck")}</p>
+                <ul> 
+                  {(() => {
+                     let attributs = {}
+                    for (let cardKey of Object.keys(currentDeck.cards ?? {})) {
+                      let card = currentDeck.cards[cardKey];
+                      if (card && card.addedAttributs) {
+                        for (let attributKey of Object.keys(card.addedAttributs)) {
+                          attributs[attributKey] =   attributs[attributKey] || [];
+                          if (!attributs[attributKey].includes(card.addedAttributs[attributKey])) {
+                            attributs[attributKey].push(card.addedAttributs[attributKey]);
+                          }
+                         }
+                      }
+                    }
+                    
+                    return Object.keys(attributs).map((key) => (
+                      <li key={key}>
+                      <strong>{key}:</strong>  {attributs[key]?attributs[key].join(', '):''}
+                      </li>
+                      ))
+
+                    })()}
+                </ul>
+              </div> 
+                 ) }
+            
       <div className="wrapperCardsLibrairy">
         {personalDecks.length > 0 &&
         personalDecks.map(
