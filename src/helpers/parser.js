@@ -17,6 +17,10 @@ export function parserGetTypeReturn(exp) {
     return "number";
   } else if (exp.startsWith("not(")) {
     return "boolean";
+  } else if (exp.startsWith("firstElement(")) {
+    return "any";
+  } else if (exp.startsWith("getDouble(")) {
+    return "array";
   } else if (exp.startsWith("exist(")) {
     return "boolean";
   } else if (type == "valeur") {
@@ -75,6 +79,10 @@ export function parserGetTypeTextual(exp) {
     return "Fonction : len(Argument)";
   } else if (exp.startsWith("not(")) {
     return "Fonction : not(Argument)";
+  } else if (exp.startsWith("firstElement(")) {
+    return "Fonction : firstElement(Argument)";
+  } else if (exp.startsWith("getDouble(")) {
+    return "Fonction : getDouble(Argument)";
   } else if (exp.startsWith("exist(")) {
     return "Fonction : exist(Argument)";
   } else if (type == "valeur") {
@@ -111,6 +119,8 @@ export function parserGetType(exp) {
     exp.startsWith("getPlayer(") ||
     exp.startsWith("len(") ||
     exp.startsWith("not(") ||
+    exp.startsWith("firstElement(") ||
+    exp.startsWith("getDouble(") ||
     exp.startsWith("exist(")
   ) {
     return "function";

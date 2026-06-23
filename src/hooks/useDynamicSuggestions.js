@@ -112,7 +112,7 @@ export const useDynamicEntitySuggestions = (
       return :"boolean"
     });
     suggestions.push({
-      label: "exp(a;operation;b)",
+      label: "exp(a&&b)",
       tooltip: "compareTwoValue",
       types: ["boolean"],
       return :"boolean"
@@ -146,6 +146,10 @@ export const useDynamicEntitySuggestions = (
     });
     suggestions.push({
       label: "{allPlayersInGame}",
+      types: ["playerList"],
+      return : "array"
+    });suggestions.push({
+      label: "firstElement()",
       types: ["playerList"],
       return : "array"
     });

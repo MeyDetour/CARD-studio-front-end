@@ -146,6 +146,7 @@ function getDecompositionTree(exp, depth = 0) {
                 <span className="part-label">
                   <span className="letter">Object : </span>
                   {partsVariable[0]}
+                  {getDecompositionTree(partsVariable[0], depth + 1)}
                 </span>
                 {partsVariable.map(
                   (attr, index) =>
