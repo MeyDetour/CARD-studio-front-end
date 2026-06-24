@@ -73,6 +73,7 @@ export function DeckProvider({ children }) {
  
     const result = await fetchData("api/deck/edit/" + deck.id, deck, {
       token: getToken(),
+      method: "PUT",
     });
     if (!result) {
       displayError(t("FailedToUpdateDeck"));

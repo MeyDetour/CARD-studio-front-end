@@ -11,7 +11,7 @@ export default function NotFound() {
   
   return (
     <div className="notFoundPage"> 
-      <img src="/assets/images/spooky-404.png"></img>
+      <img src="./assets/images/spooky-404.png"></img>
       <p>{ t("pageNotFound")}</p>
       <Button to="/" type="violetButton" text={"backToHome"}></Button>
     </div>
