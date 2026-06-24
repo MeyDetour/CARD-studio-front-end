@@ -31,7 +31,7 @@ import EventSubpage from "./subPage/EventSubpage/EventSubpage.jsx";
 import CurrentWithValueEventSubpage from "./subPage/EventWithValueSubpage/EventWithValueSubpage.jsx";
 import VariableSubpage from "./subPage/VariableSubpage/VariableSubpage.jsx";
 import WinSubpage from "./subPage/WinSubpage/WinSubpage.jsx";
-
+import LooseSubpage from "./subPage/LooseSubpage copy/LooseSubpage.jsx";
 export default function Logic({
   gameData,
   updateGameValueArray,
@@ -116,6 +116,19 @@ export default function Logic({
                 playerGlobalValue={gameData.playerGlobalValue}
                 getEventFromIdAndType={getEventFromIdAndType}
               />
+            );case "looseCondition":
+            return (
+              <LooseSubpage
+                suggestions={gameData.suggestions}
+                looseParams={gameData.looseParams}
+                updateGameValueArray={updateGameValueArray}
+                updateGameValue={updateGameValue}
+                globalValue={gameData.globalValue}
+                gameId={gameData.id}
+                globalValueStatic={gameData.globalValueStatic}
+                playerGlobalValue={gameData.playerGlobalValue}
+                getEventFromIdAndType={getEventFromIdAndType}
+              />
             );
 
           default:
@@ -151,6 +164,13 @@ export default function Logic({
                       onclickEvent: () =>
                         setCurrentSubpageOfEvents("winCondition"),
                     },
+                    {
+                      name: "looseCondition",
+                      description:
+                        "hereYouCanConfigureWhenLooseAppendAndDefeatCondition",
+                      onclickEvent: () =>
+                        setCurrentSubpageOfEvents("looseCondition"),
+                    },
                   ].map((section, key) => (
                     <>
                       <CardSubpage
@@ -164,7 +184,9 @@ export default function Logic({
                                 ? "eventWithValue"
                                 : section.name === "winCondition"
                                   ? "winCondition"
-                                  : "globalValue"
+                                  : section.name === "looseCondition"
+                                    ? "looseCondition"
+                                    : "globalValue"
                         }
                         className={"cardSubpage" + key}
                         title={section.name}

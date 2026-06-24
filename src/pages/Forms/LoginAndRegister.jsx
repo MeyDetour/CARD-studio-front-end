@@ -79,7 +79,7 @@ export default function LoginAndRegisterPage() {
     <div className={" formPage"}>
       {/* HEADER WITH LOGO */}
       <div className={"headerContainer"}>
-        <img src="./assets/CARDStudioLogo.svg" alt="" />
+        <img src="/assets/CARDStudioLogo.svg" alt="" />
         <h1>{t("appName")}</h1>
         <p>Creation Assistant for Rendering & Design</p>
         <p>{t("appTagline")}</p>
@@ -164,7 +164,7 @@ export default function LoginAndRegisterPage() {
             
             <ErrorMessage errors={errors} name="email" />
           </span>
-          <img src="./assets/icon/mail.svg" alt="" />
+          <img src="/assets/icon/mail.svg" alt="" />
           <input
             {...register("email", {
               required: t("errorEnterUsername"),

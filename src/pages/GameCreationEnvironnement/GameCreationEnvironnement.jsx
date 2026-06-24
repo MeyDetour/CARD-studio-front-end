@@ -312,7 +312,7 @@ export default function GameCreationEnvironnement() {
                       ? gameImageUploadedUrl
                       : game.image
                         ? game.image
-                        : "./assets/images/template-game.png",
+                        : "/assets/images/template-game.png",
                     isPublic: game.isPublic,
                   }}
                   uploadFileForGameEditionHandler={
@@ -422,6 +422,7 @@ export default function GameCreationEnvironnement() {
                   gameData={{
                     id: game.id,
                     winParams: game.events.win,
+                    looseParams: game.events.loose??{},
                     suggestions: suggestions,
                     actions: game.params.tours && game.params.tours.actions,
 
