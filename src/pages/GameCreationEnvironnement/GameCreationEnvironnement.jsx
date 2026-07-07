@@ -136,6 +136,9 @@ export default function GameCreationEnvironnement() {
   // =========== DETECTION DE MODIFICATION ET SAUVEGARDE AUTOMATIQUE============
   useEffect(() => {
     if (!game || !playerHasEdit) return;
+
+ 
+
     const delayDebounceFn = setTimeout(() => {
       console.log("Sauvegarde automatique dans le stockage local...");
 

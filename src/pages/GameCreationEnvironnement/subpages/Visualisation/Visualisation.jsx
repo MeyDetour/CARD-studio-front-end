@@ -102,9 +102,10 @@ function iterateTrhoughTriggers(triggers, getEventFromIdAndType) {
   return `${triggers
     .map((d) => {
       if (d.events.length === 0) return "";
+      let node = getTriggerNode(d);
       return `   %% INITIALIZE DEMON ${d.id} ${d.name}
-            ${getTriggerNode(d)} 
-            ${getEventsNode(d.events.map((id) => getEventFromIdAndType(id, "event")), getTriggerNode(d), getEventFromIdAndType)}   
+            ${node} 
+            ${getEventsNode(d.events.map((id) => getEventFromIdAndType(id, "event")), node, getEventFromIdAndType)}   
             ${getTriggerStyle(d)} `;
     })
     .join("\n")}
@@ -121,16 +122,17 @@ function getTriggerStyle(d) {
   return `style D${d.id} fill:${colors.trigger.fill},stroke:${colors.trigger.stroke}`;
 }
 // ===================== EVENTS OF DEMON =========================
-function getEventsNode(events, parentNode, getEventFromIdAndType,visited = new Set()) {
-  if (!events || events.length === 0) return "";
-  if (visited.has(currentNode.id)) return "";
-  const newVisited = new Set(visited);
-  newVisited.add(currentNode.id);
+function getEventsNode(events, parentNode, getEventFromIdAndType,visited = {}) {
+  if (!events || events.length === 0) {
+    console.warn("No events found for parent node:", parentNode);
+    return ""; 
+  }
+  const newVisited = { ...visited }; 
   return `${events
-    .map((id) => {
-      let event = getEventFromIdAndType(id, "event");
-      if (!event) return "";
+    .map((event) => {
+         if (!event) return "";
 
+     newVisited[event.id] = true;
       // on donne un identifiant unique à chaque evenement pour que
       // les démons appellent chacun leur evenement sans avoir de fleche croisé
       // Certains evenements apparaitront plusieurs fois si ils sont appellé
@@ -146,7 +148,7 @@ function getEventsNode(events, parentNode, getEventFromIdAndType,visited = new S
             ${getEventNode(eventNodeID, event)} 
             ${parentNode} --> ${eventNodeID} 
             ${getEventStyle(eventNodeID)} 
-            ${getEventsNode(event.event?.withValue.map((obj) => getEventFromIdAndType(obj.id, "event")), eventNodeID, getEventFromIdAndType, newVisited)})}
+            ${event.event?.withValue ? getEventsNode(event.event?.withValue.map((obj) => getEventFromIdAndType(obj.id, "event")), eventNodeID, getEventFromIdAndType, newVisited) : ""}
         `;
     })
     .join("\n")}
