@@ -48,8 +48,56 @@ sequenceDiagram
 
 
 
-https://labex.io/fr/tutorials/git-how-to-address-fatal-bad-object-head-error-417639
 
 
 
-https://www.swyx.io/solve-git-bad-object-head
+
+# 🛠️ Commandes pour Lancer le Projet
+
+*   **Démarrer l'application (et forcer la construction) :**
+    ```bash
+    docker compose up --build -d
+    ```
+    *(L'option `--build` est obligatoire la première fois ou dès que vous ajoutez un nouveau package avec `npm install`).*
+
+*   **Arrêter l'application :**
+    ```bash
+    docker compose down
+    ```
+
+*   **Consulter les logs en direct (utile en cas de bug) :**
+    ```bash
+    docker compose logs -f
+    ```
+
+---
+
+## 🔍 Guide de Dépannage (Troubleshooting)
+
+### 1. Erreur : "Ce site est inaccessible" / Connexion refusée
+*   **Pourquoi ?** Par défaut, les serveurs de développement (comme Vite ou CRA) écoutent uniquement sur `localhost` (127.0.0.1) *à l'intérieur* de leur conteneur. Docker ne peut donc pas transférer le flux vers votre machine externe.
+*   **Solution pour Vite :** Ouvrez votre fichier `package.json` et ajoutez le drapeau `--host` au script de démarrage :
+    ```json
+    "scripts": {
+      "dev": "vite --host"
+    }
+    ```
+*   **Solution pour Create React App (CRA) :** Ajoutez la variable d'environnement `HOST=0.0.0.0` dans votre fichier `docker-compose.yml` :
+    ```yaml
+    environment:
+      - HOST=0.0.0.0
+      - WATCHPACK_POLLING=true
+    ```
+    *Après cette modification, relancez avec `docker compose up --build -d`.*
+
+### 2. Les modifications de code ne se rechargent pas en direct (Pas de Live Reload)
+*   **Pourquoi ?** Le système de détection des changements de fichiers (fs.watch) a parfois du mal à traverser les volumes Docker sous Linux ou Windows WSL.
+*   **Solution :** Assurez-vous d'avoir la variable `- WATCHPACK_POLLING=true` dans la section `environment` de votre `docker-compose.yml`. Elle force un rafraîchissement régulier basé sur le temps.
+
+### 3. Erreurs de modules introuvables (`Error: Cannot find module...`)
+*   **Pourquoi ?** Vous avez installé une bibliothèque sur votre machine physique (ex: `npm install axios`), mais le conteneur Docker ne la connaît pas car son dossier `node_modules` est isolé.
+*   **Solution :** À chaque modification du fichier `package.json`, vous devez forcer Docker à réinstaller les dépendances en reconstruisant l'image :
+    ```bash
+    docker compose up --build -d
+    ```
+
