@@ -1,0 +1,16 @@
+services:
+  card-studio:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "5173:5173"
+    volumes:
+      # Synchronise ton code local avec le conteneur pour le Live Reload
+      - .:/app
+      # Évite que ton dossier node_modules local n'écrase celui du conteneur (très important !)
+      - /app/node_modules
+    environment:
+      # Optionnel : Force React/Vite à détecter correctement les changements de fichiers sous Linux
+      - WATCHPACK_POLLING=true
+ 
