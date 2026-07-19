@@ -1,10 +1,14 @@
 services:
   card-studio:
+    image: card-studio-frontend:latest # <--- Doit être identique au nom après le "-t" au-dessus
+    container_name: card-studio-front-prod
+
+    restart: always
     build:
       context: .
       target: dev
     ports:
-      - "5173:5173"
+      - "8080:80"  
     volumes:
       # Synchronise ton code local avec le conteneur pour le Live Reload
       - .:/app
@@ -13,4 +17,5 @@ services:
     environment:
       # Optionnel : Force React/Vite à détecter correctement les changements de fichiers sous Linux
       - WATCHPACK_POLLING=true
+ 
  
