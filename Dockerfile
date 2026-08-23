@@ -12,7 +12,7 @@ COPY . .
 # ==========================================
 FROM base AS dev
 EXPOSE 5173
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--", "--host"]
 
 # ==========================================
 # CIBLE 2 : Compilation pour la PROD
