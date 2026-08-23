@@ -21,6 +21,7 @@
   "division": "Division",
   "modulo": "Modulo",
   "minimum": "Minimum",
+  "informationAboutUser":"Informations sur l'utilisateur",
   "testGame": "Tester le jeu",
   "looseCondition": "Condition de défaite",  "looseApplyOnAllPlayers": "Défaite globale ou asynchrone",
   "looseApplyOnAllPlayersDescription": "Si activé, la défaite d'un joueur met fin à la partie pour tout le monde. Si désactivé, le joueur est éliminé et la partie continue.",
@@ -31,6 +32,9 @@
   "maximum": "Maximum",
   "arrondir": "Arrondir",
   "game": "Jeu",
+  "Disconnect":"Déconnexion", "signoutDescription":"En cliquant sur ce bouton, vous serez automatiquement déconnecté de votre session.",
+ 
+  "beCarefulYouWillBeDisconnected":"Attention : cette action entraînera votre déconnexion.",
   "arrondirInferieur": "Arrondir inférieur",
   "arrondirSuperieur": "Arrondir supérieur",
   "egalA": "Égal à",

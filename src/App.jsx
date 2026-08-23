@@ -27,7 +27,10 @@ function App() {
                 <Header></Header>
                 <Routes>
                   <Route path={"login"} element={<LoginAndRegisterPage />} />
-
+                  <Route
+                    path={"account"}
+                    element={<Account />}
+                  />
                   <Route
                     path={"game/:subpage/:id"}
                     element={<GameCreationEnvironnement />}
@@ -39,10 +42,7 @@ function App() {
                     path={"game/"}
                     element={<GameCreationEnvironnement />}
                   />
-                  <Route
-                    path={"account"}
-                    element={<Account />}
-                  />
+                 
                   <Route path={"/"} element={<SelectGame />} />
 
                   <Route path="*" element={<NotFound />} />
