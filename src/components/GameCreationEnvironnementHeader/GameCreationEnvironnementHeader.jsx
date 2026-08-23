@@ -14,7 +14,7 @@ export default function GameCreationEnvironnementHeader({name}) {
       </div>
       <div>
         <Button type="whiteWithBordure" to="/" text="changeSelectedGame" icon="back"></Button>
-      <Button type="whiteWithBordure" to="account" text="account" icon="profile"></Button>
+      <Button type="whiteWithBordure" to="/account" text="account" icon="profile"></Button>
       </div>
     </header>
   );
