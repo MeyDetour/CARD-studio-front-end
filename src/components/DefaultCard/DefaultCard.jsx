@@ -34,6 +34,17 @@ export default function DefaultCard({
       default:
         return "";
     }
+  };  const getValueSymbol = (value) => {
+    switch (value) {
+      case 11:
+        return "V";
+      case 12:
+        return "D";
+      case 13:
+        return "R"; 
+      default:
+        return value
+    }
   };
   return (
     <div
@@ -45,7 +56,7 @@ export default function DefaultCard({
       className={`defaultCardOfGame ${setCurrentCard ? "hoverable" : ""} ${classAdded}`}
       data-key={dataKey}
     >
-      <span className="leftValue">{card.addedAttributs?.value}</span>
+      <span className="leftValue">{getValueSymbol(card.addedAttributs?.value)}</span>
       <span className={`leftSuit ${color}`}>
         {getSuitSymbol(card.addedAttributs?.symbol)}
       </span>
@@ -56,7 +67,7 @@ export default function DefaultCard({
         {getSuitSymbol(card.addedAttributs?.symbol)}
       </span>
 
-      <span className="rightValue">{card.addedAttributs?.value}</span>
+      <span className="rightValue">{getValueSymbol(card.addedAttributs?.value)}</span>
       {children}
     </div>
   );
