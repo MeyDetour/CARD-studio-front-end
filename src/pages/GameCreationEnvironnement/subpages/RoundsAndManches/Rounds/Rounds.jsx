@@ -259,7 +259,7 @@ export default function RoundsPage({
         <Input
           title="actionOfPlayerAtTurn"
           description="playersCanPlayInSameTime"
-          defaultValue={gameData.tours.actionOnlyAtPlayerTour??false}
+          defaultValue={gameData.tours.actionOnlyAtPlayerTour ?? false}
           inputType="toggle"
           pathInObject="params.tours.actionOnlyAtPlayerTour"
           onChangeFunction={(path, value) => {
@@ -272,6 +272,29 @@ export default function RoundsPage({
             );
           }}
         />
+          <div className="row " style={{ alignItems: "center" }}>
+              <TitleContainer title={"fixBrokenActions"} type="normalText" />
+
+              <Button
+                text={"fix"}
+                type={"grey  fit-content"}
+                addActionConfirmation={true}
+                action={async () => {
+                  let newactions = [];
+                  for (let action in gameData.actions) {
+                    let newAction = { ...action };
+                    newAction.withValue = [];
+                    for (let id of currentElementToEdit.withValue) {
+                      if (getEventFromIdAndType(id, "event")) {
+                        newAction.withValue.push(id);
+                      }
+                    }
+                    newactions.push(action);
+                  } 
+                  updateGameValue("params.tours.actions", newactions);
+                }}
+              ></Button>
+            </div>
         <div className="innerContainer">
           <TitleContainer
             type="normalText"
@@ -359,14 +382,14 @@ export default function RoundsPage({
                               : {t("theValueAskedToPlayerToPlayThisAction")}
                             </li>
                           )}
-                            {currentElementToEdit.actionOnHanddOtherPlayerCards && (
-                                <li>
-                                  <span className="variableName">
-                                    {"{selectedPlayer}"}
-                                  </span>
-                                  : {t("theSelectedPlayerObject")}
-                                </li>
-                              )}
+                          {currentElementToEdit.actionOnHanddOtherPlayerCards && (
+                            <li>
+                              <span className="variableName">
+                                {"{selectedPlayer}"}
+                              </span>
+                              : {t("theSelectedPlayerObject")}
+                            </li>
+                          )}
                           <li>
                             <span className="variableName">
                               {"{currentPlayer}"}
@@ -377,61 +400,67 @@ export default function RoundsPage({
                       </div>
                     )}
 
-
                     {/*===========EVENTS ASSOCIEES=========== */}
- <div className="basicContainer eventAssociatedSection"> 
-             <Alert
-                          alertList={alertList}
-                          messages={[
-                            currentElementToEdit.id +
-                              "|action|missingValueForKey",
-                            currentElementToEdit.id +
-                              "|action|callNonExistingEvent|alert",
-                            currentElementToEdit.id +
-                              "|action|pleaseProvideEventsForAction|warning",
-                          ]}
-                        ></Alert>
+                    <div className="basicContainer eventAssociatedSection">
+                      <Alert
+                        alertList={alertList}
+                        messages={[
+                          currentElementToEdit.id +
+                            "|action|missingValueForKey",
+                          currentElementToEdit.id +
+                            "|action|callNonExistingEvent|alert",
+                          currentElementToEdit.id +
+                            "|action|pleaseProvideEventsForAction|warning",
+                        ]}
+                      ></Alert>
 
-              <TitleContainer
-              title={"events"}
-                      description={"eventsToEXecuteAfter"}
-              />
-              <InputSelect
-                title={"useWithValueEvent"}
-                updateValueArray={(value) => { 
-                   setCurrentElementToEdit(
+                      <TitleContainer
+                        title={"events"}
+                        description={"eventsToEXecuteAfter"}
+                      />
+                      <InputSelect
+                        title={"useWithValueEvent"}
+                        updateValueArray={(value) => {
+                          setCurrentElementToEdit(
                             updateValueArray(
                               "withValue",
                               currentElementToEdit,
-                              {id : value.id},
+                              { id: value.id },
                               "new",
                             ),
                           );
-                }}
-                closeAfterSelect={true}
-                selected={[t("selectEventToAssociateWithTrigger")]}
-                items={gameData.events}
-                itemsDisplayFields={["id", "name"]}
-              />
-              {currentElementToEdit.withValue && (
-                <DragAndDropSortList
-                 
-                  itemsDefault={currentElementToEdit.withValue.map((eventId) =>
-                    gameData.events.find((e) => e.id === eventId.id),
-                  )}
-                  onChangeItems={(newItems) => { 
-                    setCurrentElementToEdit(
-                      updateElementValue("withValue", currentElementToEdit, newItems.map(item=>({id : item.id})),"replace"),
-                    );
-                  }}
-                  type="Trigger"
-                />
-              )}
-            </div>
+                        }}
+                        closeAfterSelect={true}
+                        selected={[t("selectEventToAssociateWithTrigger")]}
+                        items={gameData.events}
+                        itemsDisplayFields={["id", "name"]}
+                      />
+                      {currentElementToEdit.withValue && (
+                        <DragAndDropSortList
+                          itemsDefault={currentElementToEdit.withValue.map(
+                            (eventId) =>
+                              gameData.events.find((e) => e.id === eventId.id),
+                          )}
+                          onChangeItems={(newItems) => {
+                            setCurrentElementToEdit(
+                              updateElementValue(
+                                "withValue",
+                                currentElementToEdit,
+                                newItems.map((item) => ({ id: item.id })),
+                                "replace",
+                              ),
+                            );
+                          }}
+                          type="Trigger"
+                        />
+                      )}
+                    </div>
 
-                    <DetailContainer title="advancedSettings" description="actionCallDescription">
+                    <DetailContainer
+                      title="advancedSettings"
+                      description="actionCallDescription"
+                    >
                       {/*===========APPARITION DE L ACTION=========== */}
-
                       <Input
                         title="actionAppearAtPlayerTurn"
                         description="ifTrueActionWillAppearAtPlayerTurn"
@@ -447,18 +476,15 @@ export default function RoundsPage({
                           )
                         }
                       />
-
                       {/*===========Position of  action =========== */}
                       {/* RULES :   */}
                       {/* can be on deck only if deck is activated */}
                       {/* or can be on  discard deck only if discard deck is activated */}
                       {/* or can be on  hand only if hand is activated */}
                       {/* can have only one between : actionOnDeck, actionOnDiscardDeck, actionOnHand */}
-
                       {/*===========APPLY ACTION ON  DECK =========== */}
                       {/* appear if discard deck is activated */}
                       {/* could be add in max one action */}
-
                       <Input
                         title="attachThisActionOnDeck"
                         description="attachThisActionOnDeckDescription"
@@ -474,8 +500,8 @@ export default function RoundsPage({
                               action.id != currentElementToEdit.id,
                           ) ||
                           currentElementToEdit.actionOnHand ||
-                          currentElementToEdit.actionOnDiscardDeck|| 
-                          currentElementToEdit.actionOnHanddOtherPlayerCards 
+                          currentElementToEdit.actionOnDiscardDeck ||
+                          currentElementToEdit.actionOnHanddOtherPlayerCards
                         }
                         onChangeFunction={(value) =>
                           setCurrentElementToEdit(
@@ -487,11 +513,9 @@ export default function RoundsPage({
                           )
                         }
                       />
-
                       {/*===========APPLY ACTION ON DISCARD DECK =========== */}
                       {/* appear if discard deck is activated */}
                       {/* could be add in max one action */}
-
                       <Input
                         title="attachThisActionOnDiscardDeck"
                         description="attachThisActionOnDiscardDeckDescription"
@@ -507,8 +531,8 @@ export default function RoundsPage({
                               action.id != currentElementToEdit.id,
                           ) ||
                           currentElementToEdit.actionOnDeck ||
-                          currentElementToEdit.actionOnHand || 
-                          currentElementToEdit.actionOnHanddOtherPlayerCards 
+                          currentElementToEdit.actionOnHand ||
+                          currentElementToEdit.actionOnHanddOtherPlayerCards
                         }
                         onChangeFunction={(value) =>
                           setCurrentElementToEdit(
@@ -520,26 +544,24 @@ export default function RoundsPage({
                           )
                         }
                       />
-
                       {/*===========APPLY ACTION ON DISCARD OTHER PLAYER CARD =========== */}
-                      {/* appear if hand  is activated */} 
-
+                      {/* appear if hand  is activated */}
                       <Input
                         title="attachThisActionOnHanddOtherPlayerCard"
                         description="attachThisActionOnHanddOtherPlayerCardDescription"
                         defaultValue={
-                          currentElementToEdit.actionOnHanddOtherPlayerCards ?? false
+                          currentElementToEdit.actionOnHanddOtherPlayerCards ??
+                          false
                         }
                         inputType="toggle"
                         disabled={
-                        (!gameData.cardParams?.hand?.activation ?? true) ||
-                           
+                          (!gameData.cardParams?.hand?.activation ?? true) ||
                           currentElementToEdit.actionOnDeck ||
                           currentElementToEdit.actionOnHand ||
                           currentElementToEdit.actionOnDiscardDeck
                         }
-                        onChangeFunction={(value) =>{
-                          if (value){
+                        onChangeFunction={(value) => {
+                          if (value) {
                             setCurrentElementToEdit(
                               updateElementValue(
                                 "appearAsTheFirstAction",
@@ -556,7 +578,7 @@ export default function RoundsPage({
                               currentElementToEdit,
                               value,
                             ),
-                          )
+                          );
                           if (
                             currentElementToEdit.numberOfCardToSelectMin ==
                               undefined &&
@@ -583,28 +605,48 @@ export default function RoundsPage({
                               ),
                             );
                           }
-                          
                         }}
                       />
-                      { currentElementToEdit.actionOnHanddOtherPlayerCards &&<>   <InputSelect
-                                 title="playerToTargetWithThisAction"
-                                 closeAfterSelect={true}
-                                 updateValueArray={(path, value) => {
-                                   setCurrentElementToEdit(updateElementValue(path, currentElementToEdit, value));
-                                 }}
-                                 pathObject="playerToTargetWithThisAction"
-                                 selected={ currentElementToEdit.playerToTargetWithThisAction ? [currentElementToEdit.playerToTargetWithThisAction] : []
-                                 }
-                                 items={["previousPlayer", "nextPlayer", "randomPlayer","playerWithTheMostCardInHand","playerWithTheLessCardInHand","selectedPlayer"]}
-                               />
-                                  <Input
+                      {currentElementToEdit.actionOnHanddOtherPlayerCards && (
+                        <>
+                          {" "}
+                          <InputSelect
+                            title="playerToTargetWithThisAction"
+                            closeAfterSelect={true}
+                            updateValueArray={(path, value) => {
+                              setCurrentElementToEdit(
+                                updateElementValue(
+                                  path,
+                                  currentElementToEdit,
+                                  value,
+                                ),
+                              );
+                            }}
+                            pathObject="playerToTargetWithThisAction"
+                            selected={
+                              currentElementToEdit.playerToTargetWithThisAction
+                                ? [
+                                    currentElementToEdit.playerToTargetWithThisAction,
+                                  ]
+                                : []
+                            }
+                            items={[
+                              "previousPlayer",
+                              "nextPlayer",
+                              "randomPlayer",
+                              "playerWithTheMostCardInHand",
+                              "playerWithTheLessCardInHand",
+                              "selectedPlayer",
+                            ]}
+                          />
+                          <Input
                             title="appearAsTheFirstAction"
                             description="appearAsTheFirstActionDescription"
                             defaultValue={
-                              currentElementToEdit.appearAsTheFirstAction ?? false
+                              currentElementToEdit.appearAsTheFirstAction ??
+                              false
                             }
                             inputType="toggle"
-                            
                             onChangeFunction={(value) => {
                               setCurrentElementToEdit(
                                 updateElementValue(
@@ -613,51 +655,50 @@ export default function RoundsPage({
                                   value,
                                 ),
                               );
-                              
                             }}
                           />
-                      </>
-                      }
-                      {
-                        (currentElementToEdit.actionOnHanddOtherPlayerCards || currentElementToEdit.actionOnHanddOtherPlayerCards) && (
-                     <> 
-                      <Input
-                              title="min"
-                              description="numberMinOfCardToSelectDescription"
-                              defaultValue={
-                                currentElementToEdit.numberOfCardToSelectMin
-                              }
-                              type="input"
-                              pathInObject="numberOfCardToSelectMin"
-                              onChangeFunction={(path, value) => {
-                                setCurrentElementToEdit(
-                                  updateElementValue(
-                                    path,
-                                    currentElementToEdit,
-                                    value,
-                                  ),
-                                );
-                              }}
-                            />
-                            <Input
-                              title="max"
-                              description="numberMaxOfCardToSelectDescription"
-                              defaultValue={
-                                currentElementToEdit.numberOfCardToSelectMax
-                              }
-                              type="input"
-                              pathInObject="numberOfCardToSelectMax"
-                              onChangeFunction={(path, value) => {
-                                setCurrentElementToEdit(
-                                  updateElementValue(
-                                    path,
-                                    currentElementToEdit,
-                                    value,
-                                  ),
-                                );
-                              }}
-                            /></>
-                     
+                        </>
+                      )}
+                      {(currentElementToEdit.actionOnHanddOtherPlayerCards ||
+                        currentElementToEdit.actionOnHanddOtherPlayerCards) && (
+                        <>
+                          <Input
+                            title="min"
+                            description="numberMinOfCardToSelectDescription"
+                            defaultValue={
+                              currentElementToEdit.numberOfCardToSelectMin
+                            }
+                            type="input"
+                            pathInObject="numberOfCardToSelectMin"
+                            onChangeFunction={(path, value) => {
+                              setCurrentElementToEdit(
+                                updateElementValue(
+                                  path,
+                                  currentElementToEdit,
+                                  value,
+                                ),
+                              );
+                            }}
+                          />
+                          <Input
+                            title="max"
+                            description="numberMaxOfCardToSelectDescription"
+                            defaultValue={
+                              currentElementToEdit.numberOfCardToSelectMax
+                            }
+                            type="input"
+                            pathInObject="numberOfCardToSelectMax"
+                            onChangeFunction={(path, value) => {
+                              setCurrentElementToEdit(
+                                updateElementValue(
+                                  path,
+                                  currentElementToEdit,
+                                  value,
+                                ),
+                              );
+                            }}
+                          />
+                        </>
                       )}
                       {/*===========APPLY ACTION ON HAND =========== */}
                       {/* appear if hand is activated*/}
@@ -677,7 +718,7 @@ export default function RoundsPage({
                               action.id != currentElementToEdit.id,
                           ) ||
                           currentElementToEdit.actionOnDeck ||
-                          currentElementToEdit.actionOnDiscardDeck||
+                          currentElementToEdit.actionOnDiscardDeck ||
                           currentElementToEdit.actionOnHanddOtherPlayerCards
                         }
                         onChangeFunction={(value) => {
@@ -779,9 +820,9 @@ export default function RoundsPage({
                           </>
                         </>
                       )}
-                    ON PEUT DEMANDER UNE VALEUR SOUS UNE CONDITION
-                    POUR QUON PUISSE DEMANDER UNE COULEUR  DE CARTES QUAND ON CHOISIS UNE CARTEZ NOIR 
-                    CA UPDATE UNE GLOBAL VALUE
+                      ON PEUT DEMANDER UNE VALEUR SOUS UNE CONDITION POUR QUON
+                      PUISSE DEMANDER UNE COULEUR DE CARTES QUAND ON CHOISIS UNE
+                      CARTEZ NOIR CA UPDATE UNE GLOBAL VALUE
                       {/*=========== ASK VALUE TO PLAY =========== */}
                       <Input
                         title="askValueToPlayThisAction"
@@ -791,7 +832,6 @@ export default function RoundsPage({
                         }
                         inputType="toggle"
                         pathInObject="askValueToPlayThisAction"
-                        
                         onChangeFunction={(path, value) => {
                           setCurrentElementToEdit(
                             updateElementValue(
@@ -871,7 +911,6 @@ export default function RoundsPage({
                       )}
                     </DetailContainer>
 
-                   
                     {/*===========SUPPRIMER=========== */}
 
                     <div className="basicContainer basicRedContainer ">
@@ -920,7 +959,7 @@ export default function RoundsPage({
                     messages={[action.id + "|action"]}
                     alertList={alertList}
                   ></Alert>
-                  
+
                   <span>{splitText(action.name, 20)}</span>
                 </div>
               );
@@ -958,7 +997,9 @@ export default function RoundsPage({
               <Icon name="add"></Icon>
               <span>{t("addAction")}</span>
             </div>
+           
           </div>
+         
         </div>
       </div>
     </>
