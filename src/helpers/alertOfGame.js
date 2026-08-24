@@ -97,7 +97,11 @@ let eventsWithCurrentValueInput = [];
   // these conditions arent verifies in respective sections because we want to check all
   // the occurences of handDeck in events, withValueEvent and triggers to give all the alerts
   // at once to the user
-
+  if (!gameData.params.cards.assetsCardsTemplate){
+     alertList.push(
+      "global|cards|noDeckSelected|alert",
+    );
+  }
  
 
   // ============= Check for missing event name
