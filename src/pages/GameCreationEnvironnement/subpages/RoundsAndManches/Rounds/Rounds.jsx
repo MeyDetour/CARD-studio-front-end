@@ -284,7 +284,7 @@ export default function RoundsPage({
                   for (let action in gameData.actions) {
                     let newAction = { ...action };
                     newAction.withValue = [];
-                    for (let id of currentElementToEdit.withValue) {
+                    for (let id in currentElementToEdit.withValue ?? []) {
                       if (getEventFromIdAndType(id, "event")) {
                         newAction.withValue.push(id);
                       }
