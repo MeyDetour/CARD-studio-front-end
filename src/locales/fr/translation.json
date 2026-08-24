@@ -32,8 +32,10 @@
   "maximum": "Maximum",
   "arrondir": "Arrondir",
   "game": "Jeu",
+  "noDeckSelected":"Aucun paquet de carte sélectionné",
   "Disconnect":"Déconnexion", "signoutDescription":"En cliquant sur ce bouton, vous serez automatiquement déconnecté de votre session.",
  
+ "fixBrokenActions": "Réparer les actions",
   "beCarefulYouWillBeDisconnected":"Attention : cette action entraînera votre déconnexion.",
   "arrondirInferieur": "Arrondir inférieur",
   "arrondirSuperieur": "Arrondir supérieur",
