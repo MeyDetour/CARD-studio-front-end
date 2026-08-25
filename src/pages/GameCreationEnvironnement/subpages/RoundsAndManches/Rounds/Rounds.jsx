@@ -272,29 +272,36 @@ export default function RoundsPage({
             );
           }}
         />
-          <div className="row " style={{ alignItems: "center" }}>
-              <TitleContainer title={"fixBrokenActions"} type="normalText" />
+        <div className="row " style={{ alignItems: "center" }}>
+          <TitleContainer title={"fixBrokenActions"} type="normalText" />
 
-              <Button
-                text={"fix"}
-                type={"grey  fit-content"}
-                addActionConfirmation={true}
-                action={async () => {
-                  let newactions = [];
-                  for (let action in gameData.actions) {
-                    let newAction = { ...action };
-                    newAction.withValue = [];
-                    for (let id in action.withValue ?? []) {
-                      if (getEventFromIdAndType(id, "event")) {
-                        newAction.withValue.push(id);
-                      }
-                    }
-                    newactions.push(action);
-                  } 
-                  updateGameValue("params.tours.actions", newactions);
-                }}
-              ></Button>
-            </div>
+          <Button
+            text={"fix"}
+            type={"grey fit-content"}
+            addActionConfirmation={true}
+            action={async () => {
+              const newActions = (gameData.actions ?? []).map((action) => {
+                // Filtre les événements valides dans withValue
+                const validWithValue = (action.withValue ?? []).filter(
+                  (item) => {
+                    const eventId =
+                      typeof item === "object" && item !== null
+                        ? item.id
+                        : item;
+                    return Boolean(getEventFromIdAndType(eventId, "event"));
+                  },
+                );
+
+                return {
+                  ...action,
+                  withValue: validWithValue,
+                };
+              });
+
+              updateGameValue("params.tours.actions", newActions);
+            }}
+          />
+        </div>
         <div className="innerContainer">
           <TitleContainer
             type="normalText"
@@ -969,7 +976,7 @@ export default function RoundsPage({
               className="action"
               onClick={() => {
                 let name = "Name of action";
-                for (let i = 0; i < gameData.actions??[].length; i++) {
+                for (let i = 0; i < gameData.actions ?? [].length; i++) {
                   if (gameData.tours.actions[i].name === name) {
                     name = `Name of action (${i + 1})`;
                   }
@@ -997,9 +1004,7 @@ export default function RoundsPage({
               <Icon name="add"></Icon>
               <span>{t("addAction")}</span>
             </div>
-           
           </div>
-         
         </div>
       </div>
     </>
