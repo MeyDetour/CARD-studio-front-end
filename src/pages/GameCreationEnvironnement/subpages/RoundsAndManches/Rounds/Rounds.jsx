@@ -969,7 +969,7 @@ export default function RoundsPage({
               className="action"
               onClick={() => {
                 let name = "Name of action";
-                for (let i = 0; i < gameData.actions.length; i++) {
+                for (let i = 0; i < gameData.actions??[].length; i++) {
                   if (gameData.tours.actions[i].name === name) {
                     name = `Name of action (${i + 1})`;
                   }
